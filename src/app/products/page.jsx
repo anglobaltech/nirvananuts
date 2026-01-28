@@ -1,0 +1,151 @@
+import React from 'react'
+import Image from 'next/image';
+
+const products = [
+  {
+    name: "Roasted & Salted Makhana – The Classic Snack",
+    description: "Crunchy Roasted & Salted Makhana, lightly tossed in ghee or olive oil with Sendha Namak. A protein‑rich, gluten‑free superfood, perfect for fasting (Vrat) and healthy everyday snacking.",
+    image: "/product-05.png",
+  },
+  {
+    name: "Modern Savory Makhana Flavors – Peri‑Peri, Cheese, Tomato & Mint",
+    description: "Enjoy Savory Makhana in exciting flavors – Peri‑Peri chili, Cheese/White Cheddar, Tangy Tomato, and Mint Pudina. High‑protein, gluten‑free, antioxidant‑rich fox nuts, a healthy alternative to chips and popcorn.",
+    image: "/product-03.png",
+  },
+  {
+    name: "Sweet & Gourmet Makhana – Premium Healthy Snack",
+    description: "Crunchy Sweet & Gourmet Makhana, coated with caramel, chocolate, jaggery, or honey. A protein‑rich, gluten‑free superfood, perfect for festive gifting, healthy desserts, and guilt‑free snacking.",
+    image: "/product-04.png",
+  },
+    {
+    name: "Fusion & Spicy Makhana – Bold & Flavorful Healthy Snack",
+    description: "Experience the fiery taste of Fusion & Spicy Makhana, roasted fox nuts seasoned with exotic spices. High in protein, gluten‑free, and rich in antioxidants, this crunchy snack is a guilt‑free alternative to chips, perfect for fitness lovers and spice enthusiasts",
+    image: "/about-image-04.jpeg",
+  },
+    {
+    name: "Whey Protein – The Muscle Builder",
+    description: "Boost strength and recovery with premium whey protein powder, rich in all 9 essential amino acids. Fast‑absorbing, highly digestible, perfect for athletes, gym enthusiasts, and fitness lovers",
+    image: "/whey-protein-01.png",
+  },
+];
+
+const page = () => {
+  return (
+    <section className="min-h-screen bg-white mt-20 to-amber-100 py-12 px-6 md:px-12">
+      {/* about nirvana nuts */}
+      <h1 className='text-5xl font-bold text-amber-600 text-center md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
+
+      <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white p-10 rounded-xl shadow-md">
+        <div className="text-black text-lg md:text-xl md:w-1/2 space-y-6 md:pr-8">
+          <h1 className='text-4xl text-amber-700 '>About Nirvana Nuts</h1>
+          <p>
+            At Nirvana Nuts, we believe snacking should be both delightful and
+            nourishing. That's why our Makhana is carefully sourced from the best
+            farms, ensuring superior quality and purity.
+          </p>
+          <p>
+            Our Makhana is roasted to perfection, offering a crunchy, delicious snack
+            that's as good for your body as it is for your taste buds. Our variety of
+            flavors, from classic salted to exotic spice blends, caters to every
+            palate, ensuring that every bite is a step towards snack enlightenment.
+          </p>
+          <p>
+            Discover the ultimate in healthy, delicious snacking with Nirvana Nuts
+            today!
+          </p>
+        </div>
+        <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
+          <Image
+            src="/product-welcome.png"
+            alt="Nirvana Nuts Makhana"
+            width={500}
+            height={500}
+            className="object-contain rounded-lg shadow-lg"
+            priority
+          />
+        </div>
+      </div>
+
+      <h1 className="text-center text-3xl md:text-4xl font-bold text-amber-900  mb-10">
+        Our Products
+      </h1>
+      {/* Product Grid */}
+      <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {products.map((product, index) => (
+          <div
+            key={index}
+            className=" h-138 bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            {/* Product Image */}
+<div className="relative w-full aspect-4/3 sm:aspect-3/2 lg:aspect-4/3">
+  <Image
+    src={product.image}
+    alt={product.name}
+    fill
+    sizes="(max-width: 640px) 100vw,
+          (max-width: 1024px) 50vw,
+          33vw"
+    className="object-fill rounded-t-xl"
+    priority
+  />
+</div>
+            {/* Product Info */}
+            <div className="p-5 flex flex-col justify-between h-49">
+              <div>
+                <h3 className="text-lg font-semibold text-amber-900">
+                  {product.name}
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  {product.description}
+                </p>
+                <p className="text-md font-bold text-amber-700 mt-2">
+                  {product.price}
+                </p>
+              </div>
+
+              {/* Add to Cart Button */}
+              {/* <button className="mt-4 bg-amber-700 text-white py-2 px-4 rounded-lg hover:bg-amber-800 transition duration-300">
+                button
+              </button> */}
+
+          {product.name.includes("Whey Protein") && (
+          <a href="/whey-protein">
+          <button className="mt-6 bg-amber-700 text-white p-4 rounded-lg hover:bg-amber-800 transition duration-300">
+            View More
+          </button>
+          </a>
+        )}
+
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Floating Contact Bar */}
+      {/* <div className="fixed bottom-4 right-4 bg-amber-700 text-white px-6 py-3 rounded-full shadow-lg hover:bg-amber-800 transition duration-300 cursor-pointer">
+        Contact Us
+      </div> */}
+
+      {/* contact us */}
+
+      <section className="bg-white py-16 px-6 text-center rounded-xl shadow-md mt-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
+        <p className="text-gray-600 mb-6 max-w-xl mx-auto">
+          Have questions about our products? We’d love to hear from you!
+        </p>
+
+        <a href="/contact">
+          <button
+            className="bg-amber-600 text-white  px-8 py-3 rounded-lg shadow-md hover:bg-amber-800 transition"
+          >
+            Contact Us
+          </button>
+        </a>
+      </section>
+
+
+    </section>
+  );
+}
+
+export default page;
