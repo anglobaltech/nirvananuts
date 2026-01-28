@@ -44,10 +44,10 @@ const page = () => {
       }
 
       await emailjs.sendForm(
-        "service_lmzcqo8",
-        "template_de9x3aw",
-        form.current,
-        "umJ95Yvy1wxcOO8xG"
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+      form.current,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
       );
 
       form.current.reset();
