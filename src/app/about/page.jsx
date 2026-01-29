@@ -3,26 +3,21 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="min-h-screen bg-linear-to-r from-white via-gray-100 to-white  mt-0">
-      <section className='mt-10 h-72 w-full bg-amber-100'>
-        <div >
-          <h1 className='text-amber-600 text-bolt text-center p-35 items-center text-5xl'>About Nirvana Nuts</h1>
+    <div className="min-h-screen w-full bg-linear-to-r from-white via-gray-100 to-white  ">
+      <section >
+        <div className='mt- h-50   w-full ' >
+          <h1 className='text-amber-600  bg-gray-100 font-bold  p-35 h-70  text-center text-5xl'>About Nirvana Nuts</h1>
         </div>
       </section>
 
       {/* Hero Section */}
-      <section className="max-w-5xl mx-auto  space-y-6  mb-16">
+      <section className="md:w-7xl mt-5 items-center p-8 mx-auto space-y-6  mb-16">
         <div className="flex justify-center mt-10">
-          <img
-            src="/nirvana-logo.png"
-            alt="Nirvana Nuts Logo"
-            className="w-24 h-24 object-contain "
-          />
         </div>
         <h1 className="text-4xl font-bold text-center text-yellow-900 ">
           Welcome to Nirvana Nuts
         </h1>
-        <div className="text-lg text-black  text-left leading-relaxed max-w-8xl mx-auto ">
+        <div className="text-lg text-black items-center text-left leading-relaxed max-w-8xl mx-auto ">
           <p className="mb-2">
             At Nirvana Nuts, we craft healthy, flavorful snacks using premium handpicked makhana (fox nuts).
             Our mission is to bring joy to snacking without compromising on health, ensuring every bite
@@ -45,8 +40,10 @@ const page = () => {
           <h1 className='text-4xl font-bold text-center text-blue-600 mb-8 '>An Global Services </h1>
           <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">At Nirvana Nuts, We also deliver trusted global certification and compliance solutions to help businesses meet international standards. Our services include ISI Mark Certification, FMCS, CRS, hallmarking of precious metals and jewellery, BEE Registration, EPR Authorization for e‑waste, WPC Approval, TEC Certification, NSIC, WMI, NABL Accreditation, and more. With our expertise, brands can achieve seamless market entry, regulatory compliance, and global recognition </p>
           <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">View our website for more details</p>
-          <a href="https://www.anglobalservices.com/" target='blank'>
-            <button className='bg-amber-600 p-4 rounded-2xl mt-6 text-center cursor-pointer text-black text-2xl text-bolt  hover:bg-amber-800'>CLick Here</button>
+          <a href="https://www.anglobalservices.com/" target='blank' >
+          <div className='text-center'>
+            <button className='bg-black border-amber-400 border-3 text-shadow-white transition-shadow p-2 rounded-2xl mt-6  cursor-pointer  text-2xl font-bold  hover:bg-amber-600 shadow-2xl'>Visit Our Website</button>
+            </div>
           </a>
         </div>
 
@@ -104,7 +101,7 @@ const page = () => {
         </section>
 
         {/* Cultural Origin Section */}
-        <section className="max-w-6xl mx-auto mb-16 text-center space-y-6">
+        <section className="max-w-6xl  mx-auto mb-16 text-center space-y-6">
           <h2 className="text-2xl font-semibold text-yellow-900">Cultural Heritage of Makhana</h2>
           <p className="text-yellow-700 max-w-3xl mx-auto">
             Makhana, also known as fox nuts, originates from the Mithila region of Bihar.

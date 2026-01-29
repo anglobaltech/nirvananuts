@@ -3,7 +3,8 @@ import React from "react";
 
 const page = () => {
   return (
-    <section className="bg-gray-50 min-h-screen   ">
+    <main className="bg-gray-50 min-h-screen   ">
+    <section className="p-8   ">
       <div >
         <h1 className="text-4xl mt-20 p-10 font-bold text-center text-gray-800 mb-12">
           🥛 Lactose – Dairy Ingredient
@@ -299,6 +300,7 @@ const page = () => {
         </a>
       </section>
     </section>
+    </main>
   );
 }
 

@@ -118,13 +118,13 @@ const page = () => {
             We do love to hear from you—questions, collaborations, or feedback. Drop us a message and we will get back soon.
           </p>
         </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10  ">
           <div
             ref={(el) => setRef(el, 1)}
-            className="relative opacity-0 translate-y-6 transition-all duration-700 ease-out"
+            className="relative     translate-y-6  transition-all duration-700 ease-out"
           >
-            <div className="rounded-2xl bg-white/60 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
+            <div className="rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
               <form
                 ref={form}
                 onSubmit={sendEmail}

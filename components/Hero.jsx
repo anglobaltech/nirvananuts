@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 
+
 // image
 const images = [
   "/new-image-01.png",
@@ -53,7 +54,7 @@ const Hero = () => {
     if (isHover) return;
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 1000);
+    }, 6000);
     return () => clearInterval(intervalRef.current);
   }, [isHover, images.length]);
 
@@ -160,12 +161,15 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [reviews]);
 
+    if (reviews.length === 0) return null;
+
+
   return (
     <div>
 
       {/* home slider */}
     <section
-      className="relative h-200 min-h-screen  bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden"
+      className="relative  min-h-screen w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen  bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onTouchStart={onTouchStart}
@@ -176,15 +180,15 @@ const Hero = () => {
 
         <div
           className="flex transition-transform duration-700 ease-in-out h-full "
-          style={{ transform: `translateX(-${index * 100}%)` }}
+          style={{ transform: `translateX(-${index * 100}%)`,  backgroundSize: "cover", backgroundPosition: "center" }}
         >
           {images.map((src, i) => (
             <div key={src} className="min-w-full h-full  relative">
               <img
                 src={src}
                 alt={`Slide ${i + 1}`}
-                className="absolute inset-0 w-full h-full  object-center"
-                loading="fast"
+                className="absolute inset-0 w-full h-full background-size-cover object-center"
+                loading="lazy"
               />
               <div className="absolute inset-0  opacity-70 mix-blend-multiply" />
             </div>
@@ -234,7 +238,7 @@ const Hero = () => {
           {/* Intro Section */}
           <section >
             <h1 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h1>
-            <div className="max-w-6xl mx-auto text-left space-y-6 mb-12">
+            <div className="max-w-6xl p-5 mx-auto text-left space-y-6 mb-12">
               <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">
                 Welcome to Nirvana Nuts — Where Flavor Meets Wholesome Goodness! We are passionate about crafting snacks that delight your taste buds and nourish your body. Every nut is handpicked for peak freshness, ensuring quality you can trust and taste you’ll love.
               </p>
@@ -302,7 +306,7 @@ const Hero = () => {
         </section>
 
         {/* Quality & Value Section */}
-        <section className="grid md:grid-cols-2 gap-8 px-6 py-16 max-w-6xl mx-auto">
+        <section className="grid md:grid-cols-2 gap-8 p-5 px-6 py-16 max-w-6xl mx-auto">
           <div className="animate-fadeInUp">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-amber-700">OUR QUALITY</h2>
             <p className="text-gray-800 text-base md:text-lg leading-relaxed">
@@ -315,7 +319,7 @@ const Hero = () => {
           </div>
           <div className="animate-fadeInUp delay-200">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-amber-700">OUR VALUE</h2>
-            <ul className="list-disc list-inside space-y-2 text-gray-800 text-base md:text-lg">
+            <ul className="list-disc p-2 space-y-2 text-gray-800 text-base md:text-lg ">
               <li>Leadership: The courage to shape a better future.</li>
               <li>Integrity: Be real.</li>
               <li>Passion: Committed in heart and mind.</li>
@@ -364,95 +368,94 @@ const Hero = () => {
       </section>
 
       {/* customer feedback */}
-      <section className="bg-amber-700  py-12 h-120 text-center px-4">
+      <section className="bg-amber-700  py-12 h-80 text-center px-4">
 
       {/* contact us */}
-        <div className=" py-12 px-6 mt-20 text-center   ">
+        <div className=" py-8 px-6  text-center   ">
           <h2 className="text-3xl font-bold text-amber-400 "> For any query click here </h2>
           <p className="text-gray-100 mb- max-w-xl mx-auto">
             Have questions about our products? We’d love to hear from you!
           </p>
 
           <a href="/contact">
-            <button className="bg-amber-600 text-white mt-8  px-8 py-3 rounded-lg shadow-md hover:bg-amber-600 transition cursor-pointer">Contact Us</button>
+            <button className="bg-amber-500 text-white mt-8  px-8 py-3 rounded-lg shadow-md hover:bg-amber-600 transition cursor-pointer">Contact Us</button>
           </a>
         </div>
       </section>
 
       {/* review section */}
-      <section
-        className="min-h-screen bg-gray-100 flex flex-col items-center p-6"
-        aria-label="Customer Reviews and Testimonials"
-      >
-        <h1 className="text-4xl font-bold m-20 mb-30 text-amber-800 text-center">
-          Customer Reviews & Testimonials  Nirvana Nuts
-        </h1>
+<section className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+  <h1 className="text-3xl font-bold my-20 text-amber-800 text-center">
+    Customer Reviews & Testimonials Nirvana Nuts
+  </h1>
 
-        <div className="w-full max-w-6xl relative overflow-hidden">
-          {/* Sliding container */}
-          <div
-            className="flex gap-6 transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateX(-${current * (100 / 3 + 2)}%)`, // adjust for spacing
-            }}
-          >
-            {reviews.map((rev) => (
-              <article
-                key={rev.id}
-                className="w-full sm:w-1/2 lg:w-1/3 shrink-0 bg-white shadow-lg rounded-xl p-6 min-h-70 flex flex-col justify-between transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-xl">
-                <header className="mb-2">
-                  <h2 className="text-xl font-semibold text-gray-800">{rev.name}</h2>
-                  <p className="text-sm text-gray-500">{rev.location}</p>
-                  {rev.date && (
-                    <time
-                      dateTime={new Date(rev.date).toISOString()}
-                      className="text-xs text-gray-400"
-                    >
-                      {rev.date}
-                    </time>
-                  )}
-                </header>
-                <div
-                  className="flex text-yellow-500 my-2"
-                  aria-label={`Rating: ${rev.rating} out of 5`}
-                >
-                  {"★".repeat(rev.rating)}
-                  {"☆".repeat(5 - rev.rating)}
-                </div>
-                <p className="text-gray-700">{rev.text}</p>
-              </article>
-            ))}
+  <div className="w-full max-w-xl relative overflow-hidden">
+    {/* Sliding container */}
+    <div
+      className="flex transition-transform duration-700 ease-in-out"
+      style={{
+        transform: `translateX(-${current * 100}%)`,
+      }}
+    >
+      {reviews.map((rev) => (
+        <article
+          key={rev.id}
+          className="w-full shrink-0 bg-white shadow-lg rounded-xl p-6 min-h-70
+                     flex flex-col justify-between"
+        >
+          <header className="mb-2">
+            <h2 className="text-xl font-semibold text-gray-800">
+              {rev.name}
+            </h2>
+            <p className="text-sm text-gray-500">{rev.location}</p>
+          </header>
+
+          <div className="flex text-yellow-500 my-2">
+            {"★".repeat(rev.rating)}
+            {"☆".repeat(5 - rev.rating)}
           </div>
 
-          {/* Navigation Arrows */}
-          <button
-            onClick={() =>
-              setCurrent((prev) => (prev === 0 ? reviews.length - 1 : prev - 1))
-            }
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-full"
-          >
-            {"<"}
-          </button>
-          <button
-            onClick={() => setCurrent((prev) => (prev + 1) % reviews.length)}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-full"
-          >
-            {">"}
-          </button>
-        </div>
+          <p className="text-gray-700">{rev.text}</p>
+        </article>
+      ))}
+    </div>
 
-        {/* Dots indicator */}
-        <div className="flex space-x-2 mt-4">
-          {reviews.map((_, index) => (
-            <span
-              key={index}
-              onClick={() => setCurrent(index)}
-              className={`w-3 h-3 rounded-full cursor-pointer ${current === index ? "bg-black" : "bg-gray-400"
-                }`}
-            ></span>
-          ))}
-        </div>
-      </section>
+    {/* Left Arrow */}
+    <button
+      onClick={() =>
+        setCurrent((prev) =>
+          prev === 0 ? reviews.length - 1 : prev - 1
+        )
+      }
+      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow p-3 rounded-full"
+    >
+      ❮
+    </button>
+
+    {/* Right Arrow */}
+    <button
+      onClick={() =>
+        setCurrent((prev) => (prev + 1) % reviews.length)
+      }
+      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow p-3 rounded-full"
+    >
+      ❯
+    </button>
+  </div>
+
+  {/* Dots */}
+  <div className="flex gap-2 mt-6">
+    {reviews.map((_, index) => (
+      <span
+        key={index}
+        onClick={() => setCurrent(index)}
+        className={`w-3 h-3 rounded-full cursor-pointer
+          ${current === index ? "bg-amber-600" : "bg-gray-400"}`}
+      />
+    ))}
+  </div>
+</section>
+
     </div>
   )
 }
