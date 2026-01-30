@@ -293,7 +293,7 @@ const page = () => {
 
         <a href="/contact">
           <button
-            className="bg-amber-600 text-white cursor-pointer px-8 py-3 rounded-lg shadow-md hover:bg-amber-800 transition"
+            className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 text-white cursor-pointer px-6 py-2 rounded-lg shadow-md  transition"
           >
             Contact Us
           </button>

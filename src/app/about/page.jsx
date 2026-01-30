@@ -3,15 +3,9 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="min-h-screen w-full bg-linear-to-r from-white via-gray-100 to-white  ">
-      <section >
-        <div className='mt- h-50   w-full ' >
-          <h1 className='text-amber-600  bg-gray-100 font-bold  p-35 h-70  text-center text-5xl'>About Nirvana Nuts</h1>
-        </div>
-      </section>
-
-      {/* Hero Section */}
-      <section className="md:w-7xl mt-5 items-center p-8 mx-auto space-y-6  mb-16">
+    <main className="min-h-screen  bg-linear-to-r  from-white via-gray-100 to-white  ">
+      <div>
+      <section className="md:w-8xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  mb-16">
         <div className="flex justify-center mt-10">
         </div>
         <h1 className="text-4xl font-bold text-center text-yellow-900 ">
@@ -49,37 +43,37 @@ const page = () => {
 
         {/* Production Timeline Section */}
         <section>
-          <div className=''>
-            <h1 className='text-center items-center text-amber-800 text-3xl font-bold'>Premium Nut Production</h1>
+          <div >
+            <h1 className='text-center  py-6 items-center text-amber-800 text-4xl font-bold'>Premium Nut Production</h1>
             <ul>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Premium Raw Nut Sourcing :</span> Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention.</li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Precision Nut Calibration :</span>Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Hygienic Nut Cleaning :</span> Foreign matter removed with sieves and manual sorting to ensure purity and safe processing.</li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Flavorful Nut Roasting :</span>Heat‑treated to enhance taste, brittle shells ease extraction, and natural oils are preserved. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Natural Nut Cooling :</span>Roasted nuts cooled gradually to maintain texture, prevent scorching, and prepare for shelling. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Efficient Nut Shelling :</span>Kernels extracted manually or mechanically for clean, whole cashew kernels. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Pure Kernel Separation :</span>Advanced blowers and shakers ensure maximum yield and shell‑free kernels. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Smart Kernel Pre‑grading :</span>Initial sorting improves efficiency and reduces grading workload. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Moisture‑Controlled Drying :</span>Kernels dried to safe levels (3–6%) for longer shelf life and pest resistance. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Smooth Kernel Peeling :</span>Testa removed for blanched, premium‑quality kernels with improved appearance. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>International Kernel Grading :</span>Kernels sorted by W180, W240, splits, and other global export standards. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Kernel Rehumidification :</span>Moisture adjusted to reduce breakage during transport and maintain quality. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Gourmet Nut Flavoring :</span>Salted, spiced, honey‑coated, or chocolate‑dipped for diverse consumer preferences. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Rigorous Quality Testing :</span>Chemical, hardness, and dimensional checks ensure safety and consistency. </li>
-              <li className="text-lg text-black   m-5  text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-xl font-bold  text-center text-yellow-900 '>Freshness‑Preserving Packaging :</span>Sealed in pouches, jars, or tins to retain flavor, protect from contaminants, and inform consumers. </li>
+              <li className="text-lg text-black mt-4 text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Premium Raw Nut Sourcing :</span> Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention.</li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Precision Nut Calibration :</span>Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Hygienic Nut Cleaning :</span> Foreign matter removed with sieves and manual sorting to ensure purity and safe processing.</li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Flavorful Nut Roasting :</span>Heat‑treated to enhance taste, brittle shells ease extraction, and natural oils are preserved. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Natural Nut Cooling :</span>Roasted nuts cooled gradually to maintain texture, prevent scorching, and prepare for shelling. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Efficient Nut Shelling :</span>Kernels extracted manually or mechanically for clean, whole cashew kernels. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Pure Kernel Separation :</span>Advanced blowers and shakers ensure maximum yield and shell‑free kernels. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Smart Kernel Pre‑grading :</span>Initial sorting improves efficiency and reduces grading workload. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Moisture‑Controlled Drying :</span>Kernels dried to safe levels (3–6%) for longer shelf life and pest resistance. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Smooth Kernel Peeling :</span>Testa removed for blanched, premium‑quality kernels with improved appearance. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>International Kernel Grading :</span>Kernels sorted by W180, W240, splits, and other global export standards. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Kernel Rehumidification :</span>Moisture adjusted to reduce breakage during transport and maintain quality. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Gourmet Nut Flavoring :</span>Salted, spiced, honey‑coated, or chocolate‑dipped for diverse consumer preferences. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Rigorous Quality Testing :</span>Chemical, hardness, and dimensional checks ensure safety and consistency. </li>
+              <li className="text-lg text-black text-left leading-relaxed max-w-8xl mx-auto "> <span className=' text-2xl font-medium  text-center text-yellow-900 '>Freshness‑Preserving Packaging :</span>Sealed in pouches, jars, or tins to retain flavor, protect from contaminants, and inform consumers. </li>
             </ul>
           </div>
         </section>
 
         {/* Health Benefits Section */}
         <section className="max-w-6xl mx-auto mb-16">
-          <h2 className="text-2xl font-semibold text-yellow-900 mb-6 text-center">Health Benefits of Nirvana Nuts Makhana</h2>
+          <h2 className="text-4xl py-5 font-semibold text-yellow-900 mb-6 text-center">Health Benefits of Nirvana Nuts Makhana</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-yellow-700 text-sm">
-            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition">🌱 <strong>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
-            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition">⚡ <strong>Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
-            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition">🛡️ <strong>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
-            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition">❤️ <strong>Heart Health:</strong> High in magnesium and low in sodium.</li>
-            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition">🍃 <strong>Digestive Aid:</strong> Promotes healthy digestion and prevents constipation.</li>
+            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
+            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
+            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
+            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Heart Health:</strong> High in magnesium and low in sodium.</li>
+            <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Digestive Aid:</strong> Promotes healthy digestion and prevents constipation.</li>
           </ul>
         </section>
 
@@ -119,14 +113,15 @@ const page = () => {
           </p>
           <a href="/contact" >
             <button
-              className="bg-amber-600 text-white  px-8 py-3 rounded-lg shadow-md hover:bg-amber-800 transition cursor-pointer"
+              className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 hover:scale-112 text-white  px-6 py-2 rounded-lg shadow-md hover:bg-amber-800 transition cursor-pointer"
             >
               Contact Us
             </button>
           </a>
         </section>
       </section>
-    </div>
+      </div>
+    </main>
 
   );
 }

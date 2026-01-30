@@ -100,14 +100,14 @@ const Hero = () => {
       name: "Priya Mehta",
       location: "Noida, India",
       rating: 5,
-      text: "Cashews were fresh and crunchy. Nirvana Nuts never disappoints!",
+      text: "Fusion Spicy makhana were fresh and crunchy. Nirvana Nuts never disappoints!",
     },
     {
       id: 5,
       name: "Arjun Malhotra",
       location: "Bengaluru, India",
       rating: 5,
-      text: "The roasted almonds were perfectly crunchy and fresh. Nirvana Nuts is my trusted brand for healthy office snacks.",
+      text: "The Modern Flavors makhana were perfectly crunchy and fresh. Nirvana Nuts is my trusted brand for healthy office snacks.",
     },
     {
       id: 6,
@@ -121,7 +121,7 @@ const Hero = () => {
       name: "Rohit Agarwal",
       location: "Jaipur, India",
       rating: 5,
-      text: "Premium cashews with amazing taste and quality. Nirvana Nuts delivers farm-fresh products every single time.",
+      text: "Premium makhana with amazing taste and quality. Nirvana Nuts delivers farm-fresh products every single time.",
     },
     {
       id: 8,
@@ -142,26 +142,42 @@ const Hero = () => {
       name: "Ananya Desai",
       location: "Ahmedabad, India",
       rating: 5,
-      text: "I ordered pistachios and they were simply amazing. Healthy, tasty, and delivered on time — highly recommended!",
+      text: "I ordered salt makhana and they were simply amazing. Healthy, tasty, and delivered on time — highly recommended!",
     },
   ];
 
-  const [reviews, setReviews] = useState([]);
-  const [current, setCurrent] = useState(0);
+const [reviews, setReviews] = useState([]);
+const [current, setCurrent] = useState(0);
+const [cardsPerView, setCardsPerView] = useState(1);
 
-  useEffect(() => {
-    setReviews(initialReviews);
-  }, []);
+useEffect(() => {
+  setReviews(initialReviews);
+}, []);
 
-  useEffect(() => {
-    if (reviews.length === 0) return;
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % reviews.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [reviews]);
+useEffect(() => {
+  const updateCards = () => {
+    if (window.innerWidth >= 1024) setCardsPerView(3);
+    else if (window.innerWidth >= 768) setCardsPerView(2);
+    else setCardsPerView(1);
+  };
 
-    if (reviews.length === 0) return null;
+  updateCards();
+  window.addEventListener("resize", updateCards);
+  return () => window.removeEventListener("resize", updateCards);
+}, []);
+
+const maxIndex = reviews.length - cardsPerView;
+const slidePercentage = 100 / cardsPerView;
+
+useEffect(() => {
+  if (reviews.length === 0) return;
+  const interval = setInterval(() => {
+    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  }, 4000);
+  return () => clearInterval(interval);
+}, [reviews, cardsPerView]);
+
+if (reviews.length === 0) return null;
 
 
   return (
@@ -169,7 +185,7 @@ const Hero = () => {
 
       {/* home slider */}
     <section
-      className="relative  min-h-screen w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen  bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden"
+      className="relative   w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen  bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onTouchStart={onTouchStart}
@@ -333,7 +349,7 @@ const Hero = () => {
       </main>
 
       {/* our products */}
-      <section className="relative py-20 px-6 text-center text-gray-900 bg-white">
+      <section className="relative py-14 px-6 text-center text-gray-900 bg-white">
         <h2 className={'text-4xl md:text-5xl font-extrabold mb-12'}>Our Products</h2>
 
         {/* Product Grid */}
@@ -356,7 +372,7 @@ const Hero = () => {
                     {product.price}
                   </span>
                   <a href="/products"  >
-                    <button className=" group bg-amber-600 text-white px-4 py-2 rounded hover:scale-105 active:scale-95 hover:bg-amber-800 transition-transform cursor-pointer"  >
+                    <button className=" group bg-linear-to-b from-amber-500 to-amber-600 text-white px-4 py-2 rounded-lg hover:scale-105 active:scale-95 hover:text-amber-700  transition-transform cursor-pointer"  >
                       View More
                     </button>
                   </a>
@@ -372,45 +388,41 @@ const Hero = () => {
 
       {/* contact us */}
         <div className=" py-8 px-6  text-center   ">
-          <h2 className="text-3xl font-bold text-amber-400 "> For any query click here </h2>
+          <h2 className="text-3xl font-bold text-amber-400 "> For Any Query, Get in Touch with Nirvana Nuts </h2>
           <p className="text-gray-100 mb- max-w-xl mx-auto">
             Have questions about our products? We’d love to hear from you!
           </p>
 
           <a href="/contact">
-            <button className="bg-amber-500 text-white mt-8  px-8 py-3 rounded-lg shadow-md hover:bg-amber-600 transition cursor-pointer">Contact Us</button>
+            <button className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 hover:scale-112 text-white mt-8  px-6 py-2 rounded-lg shadow-md  transition cursor-pointer">Contact Us</button>
           </a>
         </div>
       </section>
 
       {/* review section */}
-<section className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+<section className="min-h-screen bg-linear-to-r from-amber-200 to-red-100 flex flex-col items-center p-6 ">
   <h1 className="text-3xl font-bold my-20 text-amber-800 text-center">
     Customer Reviews & Testimonials Nirvana Nuts
   </h1>
 
-  <div className="w-full max-w-xl relative overflow-hidden">
-    {/* Sliding container */}
+  <div className="w-full max-w-6xl p-2  relative overflow-hidden">
     <div
-      className="flex transition-transform duration-700 ease-in-out"
-      style={{
-        transform: `translateX(-${current * 100}%)`,
-      }}
+      className="flex   transition-transform duration-700 ease-in-out"
+      style={{ transform: `translateX(-${current * slidePercentage}%)` }}
     >
       {reviews.map((rev) => (
         <article
           key={rev.id}
-          className="w-full shrink-0 bg-white shadow-lg rounded-xl p-6 min-h-70
-                     flex flex-col justify-between"
+          className="shrink-0 w-full  md:w-1/2 lg:w-1/3
+                    bg-linear-to-r from-gray-200 to-amber-50 shadow-lg rounded-xl p-6 px-3 mr-1
+                    flex flex-col justify-between"
         >
-          <header className="mb-2">
-            <h2 className="text-xl font-semibold text-gray-800">
-              {rev.name}
-            </h2>
-            <p className="text-sm text-gray-500">{rev.location}</p>
+          <header>
+            <h2 className="text-xl text-black font-semibold">{rev.name}</h2>
+            <p className="text-sm text-black">{rev.location}</p>
           </header>
 
-          <div className="flex text-yellow-500 my-2">
+          <div className="text-yellow-500 my-2">
             {"★".repeat(rev.rating)}
             {"☆".repeat(5 - rev.rating)}
           </div>
@@ -420,24 +432,21 @@ const Hero = () => {
       ))}
     </div>
 
-    {/* Left Arrow */}
+    {/* Arrows */}
     <button
       onClick={() =>
-        setCurrent((prev) =>
-          prev === 0 ? reviews.length - 1 : prev - 1
-        )
+        setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))
       }
-      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow p-3 rounded-full"
+      className="absolute left-2 bg-white hover:scale-110 top-1/2 -translate-y-1/2  text-gray-800 shadow p-1 rounded-full"
     >
       ❮
     </button>
 
-    {/* Right Arrow */}
     <button
       onClick={() =>
-        setCurrent((prev) => (prev + 1) % reviews.length)
+        setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1))
       }
-      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow p-3 rounded-full"
+      className="absolute  right-2 top-1/2 -translate-y-1/2 bg-white shadow p-1 text-gray-800 hover:scale-110 rounded-full"
     >
       ❯
     </button>
@@ -445,7 +454,7 @@ const Hero = () => {
 
   {/* Dots */}
   <div className="flex gap-2 mt-6">
-    {reviews.map((_, index) => (
+    {Array.from({ length: maxIndex + 1 }).map((_, index) => (
       <span
         key={index}
         onClick={() => setCurrent(index)}
@@ -455,6 +464,7 @@ const Hero = () => {
     ))}
   </div>
 </section>
+
 
     </div>
   )

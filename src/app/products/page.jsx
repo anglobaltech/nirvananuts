@@ -33,10 +33,10 @@ const page = () => {
   return (
     <section className="min-h-screen bg-white mt-20 to-amber-100 py-12 px-6 md:px-12">
       {/* about nirvana nuts */}
-      <h1 className='text-5xl font-bold text-amber-600 text-center md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
+      <h1 className='text-4xl font-bold text-amber-600 text-center md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
 
       <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white p-10 rounded-xl shadow-md">
-        <div className="text-black text-lg md:text-xl md:w-1/2 space-y-6 md:pr-8">
+        <div className="text-black text-sm md:text-xl md:w-1/2 space-y-6 md:pr-8">
           <h1 className='text-4xl text-amber-700 '>About Nirvana Nuts</h1>
           <p>
             At Nirvana Nuts, we believe snacking should be both delightful and
@@ -110,7 +110,7 @@ const page = () => {
 
           {product.name.includes("Whey Protein") && (
           <a href="/whey-protein">
-          <button className="mt-6 bg-amber-700 text-white p-4 rounded-lg hover:bg-amber-800 transition duration-300">
+          <button className="mt-6 bg-radial from-amber-600 border-2   to-amber-700 cursor-pointer border-amber-900 outline-2 outline-offset-2 text-white p-2 rounded-lg hover:text-amber-300 transition duration-300">
             View More
           </button>
           </a>
@@ -121,14 +121,10 @@ const page = () => {
         ))}
       </div>
 
-      {/* Floating Contact Bar */}
-      {/* <div className="fixed bottom-4 right-4 bg-amber-700 text-white px-6 py-3 rounded-full shadow-lg hover:bg-amber-800 transition duration-300 cursor-pointer">
-        Contact Us
-      </div> */}
 
       {/* contact us */}
 
-      <section className="bg-white py-16 px-6 text-center rounded-xl shadow-md mt-8">
+      <section className="bg-white py-16 px-6 text-center rounded-xl  mt-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
         <p className="text-gray-600 mb-6 max-w-xl mx-auto">
           Have questions about our products? We’d love to hear from you!
@@ -136,7 +132,7 @@ const page = () => {
 
         <a href="/contact">
           <button
-            className="bg-amber-600 text-white  px-8 py-3 rounded-lg shadow-md hover:bg-amber-800 transition"
+            className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 hover:scale-112 text-white cursor-pointer px-6 py-2 rounded-lg shadow-md  transition"
           >
             Contact Us
           </button>

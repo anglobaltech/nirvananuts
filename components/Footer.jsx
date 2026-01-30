@@ -2,7 +2,7 @@
 const Footer = () => {
 
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8 px-6 fadeInUp">
+    <footer className="bg-gray-900  text-white pt-16 pb-8 px-6 fadeInUp">
       <div className="h-20 w-20 ml-25">
         <img src="./nirvana-logo.png" alt="logo" />
       </div>
