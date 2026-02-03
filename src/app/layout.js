@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Whatsapp from "../../components/Whatsapp";
+import Popup from "../../components/Popup";
 
 
 
@@ -28,8 +29,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
+        <Popup/>
         <Header />
+
+
 
       <main>{children} </main> 
 

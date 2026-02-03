@@ -31,11 +31,11 @@ const products = [
 
 const page = () => {
   return (
-    <section className="min-h-screen bg-white mt-20 to-amber-100 py-12 px-6 md:px-12">
+    <section className="min-h-screen  bg-white mt-20 to-amber-100 py-12 px-6 md:px-12">
       {/* about nirvana nuts */}
       <h1 className='text-4xl font-bold text-amber-600 text-center md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
 
-      <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white p-10 rounded-xl shadow-md">
+      <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white p-2 mt-4 rounded-xl shadow-md">
         <div className="text-black text-sm md:text-xl md:w-1/2 space-y-6 md:pr-8">
           <h1 className='text-4xl text-amber-700 '>About Nirvana Nuts</h1>
           <p>

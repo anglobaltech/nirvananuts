@@ -8,7 +8,7 @@ const Whatsapp = () => {
       {/* WhatsApp */}
       <a href="https://wa.me/+917782069184" target="_blank" rel="noopener noreferrer"
         className="group flex items-center justify-center w-12 h-12 rounded-full bg-green-600 hover:bg-green-500 transition">
-        <img src="/whatsapp.png" alt=""
+        <img src="/whatsapp.png" alt="Whatsapp"
           className="w-6 h-6 text-white"
           viewBox="0 0 24 24" fill="currentColor">
         </img>

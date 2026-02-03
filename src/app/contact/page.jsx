@@ -111,7 +111,7 @@ const page = () => {
       >
         {/* Header */}
         <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-stone-800">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-amber-900">
             Contact Us
           </h1>
           <p className="mt-3 text-stone-600 max-w-2xl mx-auto">
@@ -186,22 +186,6 @@ const page = () => {
                   </p>
                 </div>
 
-                {/* Subject */}
-                <div className="group">
-                  <label htmlFor="subject" className="block text-sm font-medium text-stone-700">
-                    Subject
-                  </label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    required
-                    placeholder="What’s this about?"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                              focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                              group-focus-within:scale-[1.01] hover:border-stone-400"
-                  />
-                </div>
 
                 {/* Message */}
                 <div className="group">
