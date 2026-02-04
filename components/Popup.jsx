@@ -52,37 +52,38 @@ const Popup = () => {
     return (
         <main role="dialog" aria-modal="true" className="fixed   inset-0 z-50 flex items-center justify-center bg-black/10 ">
             <ToastContainer />
-            <section className="bg-amber-50 shadow-xl p-6 h-160 w-90 md:w-190 md:h-125  rounded-lg   relative">
-                <button
+            <section className="bg-amber-50 shadow-xl mx-auto sm:h-130 sm:mt-9 overflow-hidden h-128 mt-6 w-80 md:w-190 md:h-100  rounded-lg   relative">
+
+                <div className="md:flex">
+                    <div className=" md:shrink-0">
+                    <Image src="/product-07.png" alt="nirvana nuts image" priority  height={300} width={400} className="h-40 w-full   md:h-100 md:mt-0  md:p-0  md:w-90 md:ml-0 object-fill  " />
+                    </div>
+                    <div >
+                    <button
                     onClick={() => setShow(false)}
                     className="absolute top-2 right-3 text-black cursor-pointer text-xl">✕
-                </button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto items-start">
-                    <div className=" overflow-hidden">
-                    <Image src="/product-07.png" alt="nirvana nuts image" priority height={500} width={500} className="h-40 w-40 ml-21 md:h-full md:mt-5 md:w-full md:ml-0 object-contain rounded-2xl " />
-                    </div>
-                    <div>
-                        <h1 className="text-2xl  text-amber-800 md:m-4 font-bold  text-center">Nirvana Nuts</h1>
-                        <h2 className="text-amber-600 text-sm  text-center  mb-4">Get Premium Makhana, Whey Protein at Wholesale Prices</h2>
+                    </button>
+                        <h1 className="md:text-2xl text-lg  text-amber-800 md:mt-4 font-bold  text-center">Nirvana Nuts</h1>
+                        <h2 className="text-amber-600 md:text-sm text-sm text-center mt-0.5 mb-2">Get Premium Makhana, Whey Protein at Wholesale Prices</h2>
 
-                        <div className="w-100">
+                        <div className="w-100 ">
                             <form ref={form} onSubmit={popUpForm} >
-                                <div className="text-black m-3 ">
-                                    <div className="grid  grid-rows-3">
+                                <div className="text-black  ">
+                                    <div className="grid  grid-rows-3 md:justify-center md:items-center md:gap-0.5 text-sm md:text-base ml-4">
                                         <label htmlFor="name">Name</label>
-                                        <input type="text" placeholder=" Enter your name " name="name" required className="border-gray-700 border-2  w-70 px-4 rounded-sm " />
+                                        <input type="text" placeholder=" Enter your name "  name="name" required className="border-gray-700 border-2  w-66 px-4 rounded-sm " />
 
                                         <label htmlFor="phone">Phone No</label>
-                                        <input type="text" placeholder=" Enter your phone no " name="phone" required className="border-gray-800  border-2 w-70 px-4 rounded-sm " />
+                                        <input type="text" placeholder=" Enter your phone no " name="phone" required className="border-gray-800  border-2 w-66 px-4 rounded-sm " />
 
                                         <label htmlFor="email">Email </label>
-                                        <input type="text" placeholder=" you@example.com " name="email" required className="border-gray-700  border-2 rounded-sm w-70 px-4 " />
+                                        <input type="text" placeholder=" you@example.com " name="email" required className="border-gray-700  border-2 rounded-sm w-66 px-4 " />
 
                                         <label htmlFor="message">Requirement</label>
-                                        <textarea type="text" placeholder=" Type your message here... " rows={4} cols={5} name="message" required className="border-gray-700 w-70 px-4  border-2 rounded-sm " />
+                                        <textarea type="text" placeholder=" Type your message here... " rows={3} cols={5} name="message" required className="border-gray-700 w-66 px-4  border-2 rounded-sm " />
 
                                     </div>
-                                    <button type="submit" className="h-8 mt-5 ml-56 md:ml-61 w-22 cursor-pointer  text-center block  items-center bg-linear-to-r from-amber-500 to-amber-700 hover:scale-110 transition text-white rounded-md">Submit</button>
+                                    <button type="submit" className="md:h-8 px-1.5 h-8 mt-3 md:mt-2   md:w-22 cursor-pointer   md:ml-40 ml-32  bg-linear-to-r from-amber-500 to-amber-700 hover:scale-110 transition text-white rounded-md">Submit</button>
                                 </div>
                             </form>
                         </div>
