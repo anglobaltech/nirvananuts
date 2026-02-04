@@ -155,6 +155,7 @@ const page = () => {
                     id="phone"
                     name="phone"
                     type="phone"
+                    pattern="[0-9] {10}"
                     required
                     placeholder="Enter your phone number"
                     className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200

@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react'
 
 
@@ -16,30 +17,35 @@ const products = [
     description: "Lightly roasted with rock salt",
 //    price: "₹199",
     image: "/image-quality-01.png",
+    link: "/products"
   },
   {
     name: "Modern Savory Flavors makhana",
     description: "Bold, tangy, cheesy, spicy",
 //    price: "₹249",
     image: "/product-03.png",
+    link: "/products"
   },
   {
     name: "Sweet Gourmet Flavors makhana",
     description: "Rich, indulgent, dessert-style crunch",
 //    price: "₹299",
     image: "/product-04.png",
+    link: "/products"
   },
   {
     name: "Fusion Spicy makhana",
     description: "A healthy mix of nuts for every mood.",
 //    price: "₹349",
     image: "/about-image-04.jpeg",
+    link: "/products"
   },
   {
     name: "Whey Protein",
     description: "High-quality protein for muscle support",
 //    price: "₹399",
     image: "/whey-protein-01.png",
+    link:"/whey-protein"
   },
 ];
 
@@ -371,7 +377,7 @@ if (reviews.length === 0) return null;
                   <span className="text-lg font-bold text-amber-700">
                     {product.price}
                   </span>
-                  <a href="/products"  >
+                  <a href={product.link}  >
                     <button className=" group bg-linear-to-b from-amber-500 to-amber-600 text-white px-4 py-2 rounded-lg hover:scale-105 active:scale-95   transition-transform cursor-pointer"  >
                       View More
                     </button>
@@ -384,10 +390,15 @@ if (reviews.length === 0) return null;
       </section>
 
       {/* customer feedback */}
-      <section className="bg-amber-700  py-12 h-80 text-center px-4">
+      <section className=" relative h-[60vh] overflow-hidden  md:h-80 text-center ">
+          <div className='absolute inset-0 z-0'>
+          <Image src="/paralax.png" alt='background image' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
+          </div>
+          <div className="absolute inset-0 bg-black/50 "></div>
+
 
       {/* contact us */}
-        <div className=" py-8 px-6  text-center   ">
+        <div className="relative z-10 py-8 px-6 m-15  text-center   ">
           <h2 className="text-3xl font-bold text-amber-400 "> For Any Query, Get in Touch with Nirvana Nuts </h2>
           <p className="text-gray-100 mb- max-w-xl mx-auto">
             Have questions about our products? We’d love to hear from you!
@@ -400,7 +411,7 @@ if (reviews.length === 0) return null;
       </section>
 
       {/* review section */}
-<section className="min-h-screen bg-linear-to-r from-amber-200 to-red-100 flex flex-col items-center p-6 ">
+<section className="min-h-screen bg-linear-to-r from-blue-100 to-grey-100 flex flex-col items-center p-6 ">
   <h1 className="text-3xl font-bold my-20 text-amber-800 text-center">
     Customer Reviews & Testimonials Nirvana Nuts
   </h1>
@@ -414,7 +425,7 @@ if (reviews.length === 0) return null;
         <article
           key={rev.id}
           className="shrink-0 w-full  md:w-1/2 lg:w-1/3
-                   bg-white shadow-lg rounded-xl p-6 px-3 mr-1
+                  bg-white shadow-lg rounded-xl p-6 px-3 mr-1
                     flex flex-col justify-between"
         >
           <header>
