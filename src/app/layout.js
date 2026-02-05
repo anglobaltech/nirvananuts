@@ -3,11 +3,7 @@ import "./globals.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Whatsapp from "../../components/Whatsapp";
-import Popup from "../../components/Popup";
-import { ToastContainer } from "react-toastify";
-
-
-
+import ClientOnly from "../../components/ClientOnly";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,23 +23,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ToastContainer/>
-        <Popup/>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header />
 
+        <main>{children}</main>
 
+        {/* Client-side UI */}
+        <ClientOnly />
 
-      <main>{children} </main> 
-
-
-      <Whatsapp/>
+        <Whatsapp />
         <Footer />
-
-
       </body>
     </html>
   );

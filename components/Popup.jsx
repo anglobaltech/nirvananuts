@@ -14,7 +14,7 @@ const Popup = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShow(true);
-        }, 3000);
+        }, 4000);
         return () => clearTimeout(timer);
     }, [])
     if (!show) return null;
