@@ -75,7 +75,7 @@ const Popup = () => {
                                         <input type="text" placeholder=" Enter your name "  name="name" required className="border-gray-700 border-2  w-66 px-4 rounded-sm " />
 
                                         <label htmlFor="phone">Phone No</label>
-                                        <input type="phone" pattern="[0-9]{11}" title="Enter 10 digit mobile number" placeholder=" Enter your phone no " name="phone" required className="border-gray-800  border-2 w-66 px-4 rounded-sm " />
+                                        <input type="phone" pattern="[0-9]{10}" title="Enter 10 digit mobile number" placeholder=" Enter your phone no " name="phone" required className="border-gray-800  border-2 w-66 px-4 rounded-sm " />
 
                                         <label htmlFor="email">Email </label>
                                         <input type="email" placeholder=" you@example.com "  name="email" required className="border-gray-700  border-2 rounded-sm w-66 px-4 " />
