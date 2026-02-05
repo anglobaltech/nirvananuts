@@ -20,10 +20,6 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-    verification: {
-    google: "uGPlYvViGd8_AVx5hdx-rtVDe1RpiIUVF2VtOBHVAWg",
-    
-  },
   title: "Nirvana Nuts",
   description: "Nirvana Nuts provide best quality Makhana, Almonds and Mixed Nuts",
 };
