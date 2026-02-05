@@ -5,10 +5,10 @@ import React, { useEffect, useRef, useState } from 'react'
 
 // image
 const images = [
-  "/new-image-01.png",
-  "/new-image-02.png",
-  "/new-image-03.png",
-  "/new-image-04.png",
+  "/new-image-01.avif",
+  "/new-image-02.avif",
+  "/new-image-03.avif",
+  "/new-image-04.avif",
 ];
 // our products
 const products = [
@@ -16,35 +16,35 @@ const products = [
     name: "Classic Salted Makhana",
     description: "Lightly roasted with rock salt",
 //    price: "₹199",
-    image: "/image-quality-01.png",
+    image: "/image-quality-01.avif",
     link: "/products"
   },
   {
     name: "Modern Savory Flavors makhana",
     description: "Bold, tangy, cheesy, spicy",
 //    price: "₹249",
-    image: "/product-03.png",
+    image: "/product-03.avif",
     link: "/products"
   },
   {
     name: "Sweet Gourmet Flavors makhana",
     description: "Rich, indulgent, dessert-style crunch",
 //    price: "₹299",
-    image: "/product-04.png",
+    image: "/product-04.avif",
     link: "/products"
   },
   {
     name: "Fusion Spicy makhana",
     description: "A healthy mix of nuts for every mood.",
 //    price: "₹349",
-    image: "/about-image-04.jpeg",
+    image: "/about-image-04.webp",
     link: "/products"
   },
   {
     name: "Whey Protein",
     description: "High-quality protein for muscle support",
 //    price: "₹399",
-    image: "/whey-protein-01.png",
+    image: "/whey-protein-01.avif",
     link:"/whey-protein"
   },
 ];
@@ -206,10 +206,12 @@ if (reviews.length === 0) return null;
         >
           {images.map((src, i) => (
             <div key={src} className="min-w-full h-full  relative">
-              <img
+              <Image
                 src={src}
                 alt={`Slide ${i + 1}`}
                 className="absolute inset-0 w-full h-full background-size-cover object-center"
+                width={400}
+                height={400}
                 loading="lazy"
               />
               <div className="absolute inset-0  opacity-70 mix-blend-multiply" />
@@ -285,9 +287,9 @@ if (reviews.length === 0) return null;
           {/* Image Section */}
           <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-12 max-w-6xl mx-auto">
             {[
-              { src: "/about-image-04.jpeg", alt: "Makhana Bowl" },
-              { src: "/about-image-05.jpeg", alt: "Nirvana Nuts Packet" },
-              { src: "/about-image-01.jpeg", alt: "Roasted Almonds" },
+              { src: "/about-image-04.webp", alt: "Makhana Bowl" },
+              { src: "/about-image-05.webp", alt: "Nirvana Nuts Packet" },
+              { src: "/about-image-01.webp", alt: "Roasted Almonds" },
 
             ].map((img, i) => (
               <img
@@ -392,7 +394,7 @@ if (reviews.length === 0) return null;
       {/* customer feedback */}
       <section className=" relative h-[60vh] overflow-hidden  md:h-80 text-center ">
           <div className='absolute inset-0 z-0'>
-          <Image src="/paralax.png" alt='background image' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
+          <Image src="/image-slider-07.avif" alt='background image' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
           </div>
           <div className="absolute inset-0 bg-black/50 "></div>
 

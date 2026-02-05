@@ -80,9 +80,9 @@ const page = () => {
         {/* image  */}
         <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-12 max-w-6xl mx-auto">
           {[
-            { src: "/about-image-04.jpeg", alt: "Makhana Bowl" },
-            { src: "/about-image-05.jpeg", alt: "Nirvana Nuts Packet" },
-            { src: "/about-image-06.png", alt: "Roasted Almonds" },
+            { src: "/about-image-04.webp", alt: "Makhana Bowl" },
+            { src: "/about-image-05.webp", alt: "Nirvana Nuts Packet" },
+            { src: "/about-image-06.avif", alt: "Roasted Almonds" },
 
           ].map((img, i) => (
             <img

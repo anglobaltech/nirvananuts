@@ -22,7 +22,7 @@ const Header = () => {
           <a href="/">
             <div className="  ml-15 relative">
               <Image
-                src="/nirvana-logo.png"
+                src="/nirvana-logo.avif"
                 alt="logo"
                 width={65}
                 height={70}

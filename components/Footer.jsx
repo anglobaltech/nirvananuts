@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900  text-white pt-16 pb-8 px-6 fadeInUp">
       <div className="h-20 w-20 ml-25">
-        <img src="./nirvana-logo.png" alt="logo" />
+        <img src="./nirvana-logo.avif" alt="logo" />
       </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* WHO ARE WE */}

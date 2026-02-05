@@ -5,27 +5,27 @@ const products = [
   {
     name: "Roasted & Salted Makhana – The Classic Snack",
     description: "Crunchy Roasted & Salted Makhana, lightly tossed in ghee or olive oil with Sendha Namak. A protein‑rich, gluten‑free superfood, perfect for fasting (Vrat) and healthy everyday snacking.",
-    image: "/product-05.png",
+    image: "/product-05.avif",
   },
   {
     name: "Modern Savory Makhana Flavors – Peri‑Peri, Cheese, Tomato & Mint",
     description: "Enjoy Savory Makhana in exciting flavors – Peri‑Peri chili, Cheese/White Cheddar, Tangy Tomato, and Mint Pudina. High‑protein, gluten‑free, antioxidant‑rich fox nuts, a healthy alternative to chips and popcorn.",
-    image: "/product-03.png",
+    image: "/product-03.avif",
   },
   {
     name: "Sweet & Gourmet Makhana – Premium Healthy Snack",
     description: "Crunchy Sweet & Gourmet Makhana, coated with caramel, chocolate, jaggery, or honey. A protein‑rich, gluten‑free superfood, perfect for festive gifting, healthy desserts, and guilt‑free snacking.",
-    image: "/product-04.png",
+    image: "/product-04.avif",
   },
     {
     name: "Fusion & Spicy Makhana – Bold & Flavorful Healthy Snack",
     description: "Experience the fiery taste of Fusion & Spicy Makhana, roasted fox nuts seasoned with exotic spices. High in protein, gluten‑free, and rich in antioxidants, this crunchy snack is a guilt‑free alternative to chips, perfect for fitness lovers and spice enthusiasts",
-    image: "/about-image-04.jpeg",
+    image: "/about-image-04.webp",
   },
     {
     name: "Whey Protein – The Muscle Builder",
     description: "Boost strength and recovery with premium whey protein powder, rich in all 9 essential amino acids. Fast‑absorbing, highly digestible, perfect for athletes, gym enthusiasts, and fitness lovers",
-    image: "/whey-protein-01.png",
+    image: "/whey-protein-01.avif",
   },
 ];
 
@@ -56,7 +56,7 @@ const page = () => {
         </div>
         <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
           <Image
-            src="/product-welcome.png"
+            src="/product-welcome.avif"
             alt="Nirvana Nuts Makhana"
             width={500}
             height={500}

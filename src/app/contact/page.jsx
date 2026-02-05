@@ -155,7 +155,7 @@ const page = () => {
                     id="phone"
                     name="phone"
                     type="phone"
-                    pattern="[0-9] {10}"
+                    pattern="[0-9]{11}"
                     required
                     placeholder="Enter your phone number"
                     className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
@@ -242,7 +242,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="tel:917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 ">
-                      <img src="/dialer-icon.png" alt="dialer" />
+                      <img src="/dialer-icon.webp" alt="dialer" />
                     </div>
                   </a>
                   <div>
@@ -256,7 +256,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="https://wa.me/+917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12  ">
-                      <img src="/whatsapp.png" alt="whatsapp" />
+                      <img src="/whatsapp.avif" alt="whatsapp" />
 
                     </div>
                   </a>
@@ -271,7 +271,7 @@ const page = () => {
                 <div className="flex items-start gap-3">
                   <a href="mailto:info.nirvananuts@gmail.com">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 cursor-pointer ">
-                      <img src="email-icon.png" alt="email" />
+                      <img src="email-icon.webp" alt="email" />
                     </div>
                   </a>
                   <div>
@@ -285,7 +285,7 @@ const page = () => {
                 <div className="flex items-start gap-3">
                   <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12">
-                      <img src="location-01.png" alt="location" />
+                      <img src="location-01.avif" alt="location" />
                     </div>
                   </a>
 
@@ -305,21 +305,21 @@ const page = () => {
                     aria-label="Visit Instagram"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <img src="/instagram-icon.jpg" alt="instagram" />
+                    <img src="/instagram-icon.avif" alt="instagram" />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit Facebook"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <img src="/facebook-icon.png" alt="Facebook" />
+                    <img src="/facebook-icon.avif" alt="Facebook" />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit LinkedIn"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <img src="/linkedin-icon.png" alt="Linkedin" />
+                    <img src="/linkedin-icon.avif" alt="Linkedin" />
                   </a>
                 </div>
               </div>
