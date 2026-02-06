@@ -44,7 +44,7 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">GET IN TOUCH</h3>
           <ul className="space-y-3 text-sm text-gray-300">
-            <li> <a href="https:/maps.app.goo.gl/fCnvbW9fFsHGkm2d6" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition" >📍 S-63, 7th floor, Urbtech NPX, Noida Sector 153, Uttar Pradesh, INDIA Pin-201310 </a></li>
+            <li> <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition" >📍 S-63, 7th floor, Urbtech NPX, Noida Sector 153, Uttar Pradesh, INDIA Pin-201310 </a></li>
             <li><a href="https://wa.me/+917782069184" target="_blank" className="hover:text-blue-700 transition"> 📞 (+91) 778 206 9184 </a></li>
             <li>✉️ <a href="mailto:info.nirvananuts@gmail.com" target="_blank" className="hover:text-blue-700 transition">info.nirvananuts@gmail.com</a></li>
           </ul>
