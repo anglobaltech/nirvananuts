@@ -86,7 +86,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="mt-12 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
-        <p>© 2026 Nirvana Nuts | Powered by AN Global Services</p>
+        <p>© 2026 Nirvana Nuts |  Powered by <a href="http://www.anglobalservices.com/" target="_blank" rel="noopener noreferrer" className=" hover:text-blue-700 text-white"> AN Global Services </a></p>
       </div>
     </footer>
 

@@ -257,7 +257,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="https://wa.me/+917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12  ">
-                      <img src="/whatsapp.avif" alt="whatsapp" />
+                      <img src="/whatsapp.png" alt="whatsapp" />
 
                     </div>
                   </a>

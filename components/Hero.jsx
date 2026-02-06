@@ -357,8 +357,8 @@ if (reviews.length === 0) return null;
       </main>
 
       {/* our products */}
-      <section className="relative py-14 px-6 text-center text-gray-900 bg-white">
-        <h2 className={'text-4xl md:text-5xl font-extrabold mb-12'}>Our Products</h2>
+      <section className="relative pb-14 px-6 text-center text-gray-900 bg-white">
+        <h2 className='text-4xl md:text-4xl font-bold text-amber-900 mb-12'>Our Products</h2>
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
