@@ -70,7 +70,7 @@ const Popup = () => {
 
                 <div className="md:flex">
                     <div className=" md:shrink-0">
-                    <Image src="/popup-image-03.png" alt="nirvana nuts image" priority  height={300} width={400} className="h-40 w-full   md:h-120 md:mt-0  md:p-0  md:w-105 md:ml-0 object-fill  " />
+                    <Image src="/popup-image-03.avif" alt="nirvana nuts image" priority  height={300} width={400} className="h-40 w-full   md:h-120 md:mt-0  md:p-0  md:w-105 md:ml-0 object-fill  " />
                     </div>
                     <div >
                     <button
@@ -83,18 +83,18 @@ const Popup = () => {
                         <div className="w-100 ">
                             <form ref={form} onSubmit={popUpForm} >
                                 <div className="text-black  ">
-                                    <div className="grid  grid-rows-3  md:ml-10 md:gap-0.5 text-sm md:text-lg ml-4">
+                                    <div className="grid  grid-rows-3  md:ml-10 md:gap-1 text-sm md:text-lg ml-4">
                                         <label htmlFor="name">Name</label>
-                                        <input type="text" placeholder=" Enter your name "  name="name" required className="border-gray-500 border-2  w-66 px-1 rounded-sm " />
+                                        <input type="text" placeholder=" Enter your name "  name="name" required className="border-gray-500 border-2 text-base w-66 px-1 rounded-sm " />
 
                                         <label htmlFor="phone">Phone No</label>
-                                        <input type="phone" pattern="[0-9]{10}" title="Enter 10 digit mobile number" placeholder=" Enter your phone no " name="phone" required className="border-gray-500  border-2 w-66 px-1 rounded-sm " />
+                                        <input type="phone" pattern="[0-9]{10}" title="Enter 10 digit mobile number" placeholder=" Enter your phone no " name="phone" required className="border-gray-500 text-base border-2 w-66 px-1 rounded-sm " />
 
                                         <label htmlFor="email">Email </label>
-                                        <input type="email" placeholder=" you@example.com "  name="email" required className="border-gray-500  border-2 rounded-sm w-66 px-1 " />
+                                        <input type="email" placeholder=" you@example.com "  name="email" required className="border-gray-500 text-base  border-2 rounded-sm w-66 px-1 " />
 
                                         <label htmlFor="message">Requirement</label>
-                                        <textarea type="text" placeholder=" Type your message here... "  cols={5} name="message" required className="border-gray-500 w-66 px-1 h-20 border-2 rounded-sm " />
+                                        <textarea type="text" placeholder=" Type your message here... "  cols={5} name="message" required className="border-gray-500 w-66 text-base px-1 h-20 border-2 rounded-sm " />
 
                                     </div>
                                     <button type="submit" className="md:h-8 px-1.5 h-8 mt-3 md:mt-5  md:w-22 cursor-pointer   md:ml-30 ml-32  bg-linear-to-r from-amber-500 to-amber-700 hover:scale-110 transition text-white rounded-md">Submit</button>

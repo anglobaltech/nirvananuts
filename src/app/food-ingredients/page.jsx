@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image";
 import React from "react";
 
 const page = () => {
@@ -11,10 +12,12 @@ const page = () => {
         </h1>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
           <div className="rounded-xl overflow-hidden shadow-lg">
-            <img
+            <Image
               src="/food-ingredient.webp"
               alt="Lactose Powder and Milk"
+              width={200} height={200}
               className=" w-full h-full object-cover"
+
             />
           </div>
           <div >
@@ -87,9 +90,10 @@ const page = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 mt-15 items-start">
 
         <div className="rounded-xl overflow-hidden  shadow-lg">
-          <img
+          <Image
             src="/food-ingredient-02.webp"
             alt="Lactose Powder and Milk"
+            width={200} height={200}
             className=" w-full h-full  object-cover"
           />
         </div>
@@ -159,9 +163,10 @@ const page = () => {
       {/* third ingredient */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 items-start">
         <div className="rounded-xl overflow-hidden shadow-lg">
-          <img
+          <Image
             src="/food-ingredient-03.webp"
             alt="Lactose Powder and Milk"
+            height={200} width={200}
             className=" w-full h-full object-cover"
           />
         </div>
@@ -217,9 +222,10 @@ const page = () => {
       {/* forth ingredient */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 mt-15 gap-10 items-start">
         <div className="rounded-xl overflow-hidden shadow-lg">
-          <img
+          <Image
             src="/food-ingredient-04.webp"
             alt="Lactose Powder and Milk"
+            width={200} height={200}
             className=" w-full h-full object-cover"
           />
         </div>

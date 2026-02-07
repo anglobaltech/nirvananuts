@@ -1,45 +1,7 @@
-// import React from 'react'
-
-// const page = () => {
-//   return (
-//     <div className='min-h-screen bg-white'>
-//     <div className='p-8 h-600 w-600 items-center'>
-//       <h1 className='text-black mt-20 m-30' >Whey Protein – The Muscle Builder</h1>
-//       <p className="mt-4 text-gray-700 text-lg leading-relaxed">
-//       Whey is a high-quality protein derived from milk during the
-//       cheese-making process. It contains all 9 essential amino acids and
-//       is highly digestible.
-//       </p>
-//       </div>
-      
-//     </div>
-//   )
-// }
-
-// export default page
-
-
 import React from "react";
 
 const Page = () => {
   return (
-    // <div className="min-h-screen bg-white flex justify-baseline">
-    //   <div className="max-w-3xl px-8 py-20 ">
-    //     <h1 className="text-3xl font-semibold m-40 text-black mb-6">
-    //       Whey Protein – The Muscle Builder
-    //     </h1>
-
-    //     <p className="text-gray-700 text-lg leading-relaxed">
-    //       Whey is a high-quality protein derived from milk during the
-    //       cheese-making process. It contains all 9 essential amino acids and
-    //       is highly digestible.
-    //     </p>
-    //   </div>
-    // </div>
-
-
-
-
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-[#fbf7ef] py-16 px-6">

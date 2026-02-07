@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image';
 import React from 'react'
 
 const page = () => {
@@ -31,8 +32,8 @@ const page = () => {
         <div >
         </div>
         <div>
-          <h1 className='text-4xl font-bold text-center text-blue-600 mb-8 '>An Global Services </h1>
-          <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">At Nirvana Nuts, We also deliver trusted global certification and compliance solutions to help businesses meet international standards. Our services include ISI Mark Certification, FMCS, CRS, hallmarking of precious metals and jewellery, BEE Registration, EPR Authorization for e‑waste, WPC Approval, TEC Certification, NSIC, WMI, NABL Accreditation, and more. With our expertise, brands can achieve seamless market entry, regulatory compliance, and global recognition </p>
+          <a href="http://www.anglobalservices.com/" target="_blank" rel="noopener noreferrer"> <h2  className='text-4xl font-bold text-center text-blue-600 mb-8 '>An Global Services </h2></a>
+          <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">At Nirvana Nuts, We also deliver trusted global certification and compliance solutions to help businesses meet international standards. Our services include (ISI mark), Foreign Manufactures Certification Scheme (FMCS), Compulsory Registration Scheme (CRS) for Electronics & IT Goods, BIS hallmarking of precious For metals/jewellery, BEE Registration Services, Trademark Registration Services, CE Certification Services, EPR Authorization (for e-waste), Solar Panel BIS Registration Services, WPC Approval and TEC Certification, MSME & NSIC Certification, WMI Certification, NABL Accreditation Consultancy, WPC License and many more. With our expertise, brands can achieve seamless market entry, regulatory compliance, and global recognition </p>
           <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">View our website for more details</p>
           <a href="https://www.anglobalservices.com/" target='blank' >
           <div className='text-center'>
@@ -85,10 +86,12 @@ const page = () => {
             { src: "/about-image-06.avif", alt: "Roasted Almonds" },
 
           ].map((img, i) => (
-            <img
+            <Image
               key={i}
               src={img.src}
               alt={img.alt}
+              height={200}
+              width={200}
               className={`rounded-lg shadow-lg hover:scale-105 transition-transform duration-500  delay-${i * 100} w-full h-auto object-cover`}
             />
           ))}

@@ -5,6 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import emailjs from "@emailjs/browser"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 
 const page = () => {
@@ -119,12 +120,12 @@ const page = () => {
           </p>
         </header>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10  ">
+        <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-9 gap-10 md:max-w-8xl  ">
           <div
             ref={(el) => setRef(el, 1)}
             className="relative     translate-y-6  transition-all duration-700 ease-out"
           >
-            <div className="rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
+            <div className="md:w-180 md:ml-7 rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
               <form
                 ref={form}
                 onSubmit={sendEmail}
@@ -133,7 +134,7 @@ const page = () => {
               >
                 {/* Name */}
                 <div className="group">
-                  <label htmlFor="name" className="block text-sm font-medium text-stone-700">Name</label>
+                  <label htmlFor="name" className="block text-lg font-medium text-stone-900">Name</label>
                   <input
                     id="name"
                     name="name"
@@ -148,7 +149,7 @@ const page = () => {
 
                 {/* phone */}
                 <div className="group">
-                  <label htmlFor="phone" className="block text-sm font-medium text-stone-700">
+                  <label htmlFor="phone" className="block text-lg font-medium text-stone-900">
                     Phone Number
                   </label>
                   <input
@@ -169,7 +170,7 @@ const page = () => {
 
                 {/* Email */}
                 <div className="group">
-                  <label htmlFor="email" className="block text-sm font-medium text-stone-700">
+                  <label htmlFor="email" className="block text-lg font-medium text-stone-900">
                     Email
                   </label>
                   <input
@@ -191,14 +192,14 @@ const page = () => {
 
                 {/* Message */}
                 <div className="group">
-                  <label htmlFor="message" className="block text-sm font-medium text-stone-700">
+                  <label htmlFor="message" className="block text-lg font-medium text-stone-900">
                     Message
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     required
-                    rows={5}
+                    rows={3}
                     placeholder="Tell us more…"
                     className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
                               focus:ring-2 focus:ring-amber-500 focus:border-amber-500
@@ -232,11 +233,11 @@ const page = () => {
           {/* Floating contact info + social bar */}
           <aside
             ref={(el) => setRef(el, 2)}
-            className="relative opacity-0 translate-y-6 transition-all duration-700 ease-out"
+            className="relative opacity-0  translate-y-6 transition-all duration-700 ease-out"
           >
-            <div className="rounded-2xl bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8 h-full flex flex-col justify-between">
+            <div className="rounded-2xl md:w-150 md:ml-20  bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8  md:h-120 flex flex-col justify-between">
               {/* Contact info */}
-              <div className="space-y-6">
+              <div className="space-y-2">
                 <h2 className="text-xl font-semibold text-stone-800">Reach us directly</h2>
 
                 {/* Phone */}
@@ -257,7 +258,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="https://wa.me/+917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12  ">
-                      <img src="/whatsapp.png" alt="whatsapp" />
+                      <Image src="/whatsapp.png" alt="whatsapp" width={200} height={200} />
 
                     </div>
                   </a>
@@ -272,7 +273,7 @@ const page = () => {
                 <div className="flex items-start gap-3">
                   <a href="mailto:info.nirvananuts@gmail.com">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 cursor-pointer ">
-                      <img src="email-icon.webp" alt="email" />
+                      <Image src="/email-icon.webp" alt="email" width={200} height={200} />
                     </div>
                   </a>
                   <div>
@@ -286,7 +287,7 @@ const page = () => {
                 <div className="flex items-start gap-3">
                   <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12">
-                      <img src="location-01.avif" alt="location" />
+                      <Image src="/location-01.avif" alt="location" height={200} width={200} />
                     </div>
                   </a>
 
@@ -306,21 +307,21 @@ const page = () => {
                     aria-label="Visit Instagram"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <img src="/instagram-icon.avif" alt="instagram" />
+                    <Image src="/instagram-icon.avif" alt="instagram" width={200} height={200} />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit Facebook"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <img src="/facebook-icon.avif" alt="Facebook" />
+                    <Image src="/facebook-icon.avif" alt="Facebook" height={200} width={200} />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit LinkedIn"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <img src="/linkedin-icon.avif" alt="Linkedin" />
+                    <Image src="/linkedin-icon.avif" alt="Linkedin" height={200} width={200} />
                   </a>
                 </div>
               </div>

@@ -60,7 +60,7 @@ const Hero = () => {
     if (isHover) return;
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 6000);
+    }, 4000);
     return () => clearInterval(intervalRef.current);
   }, [isHover, images.length]);
 
@@ -153,7 +153,7 @@ const Hero = () => {
   ];
 
 const [reviews, setReviews] = useState([]);
-const [current, setCurrent] = useState(0);
+const [current, setCurrent] = useState(1);
 const [cardsPerView, setCardsPerView] = useState(1);
 
 useEffect(() => {
@@ -173,13 +173,14 @@ useEffect(() => {
 }, []);
 
 const maxIndex = reviews.length - cardsPerView;
+const totalDots = Math.ceil(reviews.length/cardsPerView)
 const slidePercentage = 100 / cardsPerView;
 
 useEffect(() => {
   if (reviews.length === 0) return;
   const interval = setInterval(() => {
     setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, 4000);
+  }, 5000);
   return () => clearInterval(interval);
 }, [reviews, cardsPerView]);
 
@@ -268,7 +269,7 @@ if (reviews.length === 0) return null;
               </p>
               <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">NIRVANA NUTS, identified by its online presence at nirvananuts.in, is presented as a customer-focused brand in the rapidly growing dry fruit and nut industry. The brand aims to transform the snacking experience by offering products that are not only delicious but also contribute to overall well-being.</p>
 
-              <h2 className="text-lg font-bold  text-yellow-900">Benefits of Makhana</h2>
+              <h2 className="text-xl font-bold  text-yellow-900">Benefits of Makhana</h2>
               <ul className="list-disc list-inside text-yellow-700 text-lg space-y-1">
                 <li><strong>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
                 <li><strong>Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
@@ -413,44 +414,58 @@ if (reviews.length === 0) return null;
       </section>
 
       {/* review section */}
-<section className="min-h-screen bg-linear-to-r from-blue-100 to-grey-100 flex flex-col items-center p-6 ">
-  <h1 className="text-3xl font-bold my-20 text-amber-800 text-center">
+<section className="mb-20 bg-linear-to-r from-blue-50 to-grey-50 flex flex-col items-center  ">
+  <h2 className="text-3xl font-bold my-20 text-amber-800 text-center">
     Customer Reviews & Testimonials Nirvana Nuts
-  </h1>
+  </h2>
 
-  <div className="w-full max-w-6xl p-2  relative overflow-hidden">
-    <div
-      className="flex   transition-transform duration-700 ease-in-out"
-      style={{ transform: `translateX(-${current * slidePercentage}%)` }}
-    >
-      {reviews.map((rev) => (
-        <article
-          key={rev.id}
-          className="shrink-0 w-full  md:w-1/2 lg:w-1/3
-                  bg-white shadow-lg rounded-xl p-6 px-3 mr-1
-                    flex flex-col justify-between"
-        >
-          <header>
-            <h2 className="text-xl text-black font-semibold">{rev.name}</h2>
-            <p className="text-sm text-black">{rev.location}</p>
-          </header>
+  <div className="w-full max-w-7xl  mt-1 relative overflow-hidden perspective-distant">
+<div className="relative h-70 flex  justify-center items-center">
+  {reviews.map((rev, index) => {
+    let position =index - current;
 
-          <div className="text-yellow-500 my-2">
-            {"★".repeat(rev.rating)}
-            {"☆".repeat(5 - rev.rating)}
-          </div>
+if (position < -1 || position > 1) return null
 
-          <p className="text-gray-700">{rev.text}</p>
-        </article>
-      ))}
-    </div>
+    return (
+      <article
+        key={rev.id}
+        className="absolute w-75 md:w-1/2 lg:w-1/3 h-70
+          bg-white shadow-xl rounded-xl p-6
+          transition-all duration-700 ease-in-out "
+        style={{
+          transform: `
+            translateX(${position * 320}px)
+            scale(${position === 0 ? 1 : 0.85})
+            rotateY(${position * -25}deg)
+            
+          `,
+          
+          zIndex: position === 0 ? 20 : 10,
+          opacity: position === 0 ? 1 : 0.7,
+        }}
+      >
+        <header >
+          <h2 className="text-2xl text-black font-semibold">{rev.name}</h2>
+          <p className="text-base text-black">{rev.location}</p>
+        </header>
+
+        <div className="text-yellow-500 my-2">
+          {"★".repeat(rev.rating)}
+          {"☆".repeat(5 - rev.rating)}
+        </div>
+
+        <p className="text-gray-700 text-xl">{rev.text}</p>
+      </article>
+    );
+  })}
+</div>
 
     {/* Arrows */}
     <button
       onClick={() =>
         setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))
       }
-      className="absolute left-2 bg-white hover:scale-110 top-1/2 -translate-y-1/2  text-gray-800 shadow p-1 rounded-full"
+      className="absolute left-2  bg-white hover:scale-110 top-1/2 -translate-y-1/2  text-gray-900 shadow p-1 rounded-full"
     >
       ❮
     </button>
@@ -459,7 +474,7 @@ if (reviews.length === 0) return null;
       onClick={() =>
         setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1))
       }
-      className="absolute  right-2 top-1/2 -translate-y-1/2 bg-white shadow p-1 text-gray-800 hover:scale-110 rounded-full"
+      className="absolute  right-2 top-1/2 -translate-y-1/2 bg-white shadow p-1 text-gray-900 hover:scale-110 rounded-full"
     >
       ❯
     </button>
@@ -467,12 +482,14 @@ if (reviews.length === 0) return null;
 
   {/* Dots */}
   <div className="flex gap-2 mt-6">
-    {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+    
+    {Array.from({ length: totalDots }).map((_, index) => (
       <span
         key={index}
-        onClick={() => setCurrent(index)}
-        className={`w-3 h-3 rounded-full cursor-pointer
-          ${current === index ? "bg-amber-600" : "bg-gray-400"}`}
+        onClick={() => setCurrent(index * cardsPerView)}
+        className={`w-3 h-3 rounded-full cursor-pointer transition
+          ${current >= index *cardsPerView && 
+            current < (index + 1) * cardsPerView ?"bg-amber-600" : "bg-gray-400"}`}
       />
     ))}
   </div>

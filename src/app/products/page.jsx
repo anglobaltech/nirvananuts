@@ -37,7 +37,7 @@ const page = () => {
 
       <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white p-2 mt-4 rounded-xl shadow-md">
         <div className="text-black text-sm md:text-xl md:w-1/2 space-y-6 md:pr-8">
-          <h1 className='text-4xl text-amber-700 '>About Nirvana Nuts</h1>
+          <h2 className='text-4xl text-amber-700 '>About Nirvana Nuts</h2>
           <p>
             At Nirvana Nuts, we believe snacking should be both delightful and
             nourishing. That's why our Makhana is carefully sourced from the best
@@ -66,9 +66,9 @@ const page = () => {
         </div>
       </div>
 
-      <h1 className="text-center text-3xl md:text-4xl font-bold text-amber-900  mb-10">
+      <h2 className="text-center text-3xl md:text-4xl font-bold text-amber-900  mb-10">
         Our Products
-      </h1>
+      </h2>
       {/* Product Grid */}
       <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product, index) => (

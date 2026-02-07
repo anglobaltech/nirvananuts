@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Nirvana Nuts",
-  description: "Nirvana Nuts provide best quality Makhana, Almonds and Mixed Nuts",
+  description: "Shop premium makhana (fox nuts) and high-quality whey protein at Nirvana Nuts. Healthy snacks, clean nutrition & fast delivery across India.",
 };
 
 export default function RootLayout({ children }) {
