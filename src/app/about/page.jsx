@@ -12,7 +12,7 @@ const page = () => {
         <h1 className="text-4xl font-bold text-center text-yellow-900 ">
           About Nirvana Nuts – Pure Nutrition You Can Trust
         </h1>
-        <div className="text-lg text-black items-center text-left leading-relaxed max-w-8xl mx-auto ">
+        <div className="text-lg text-gray-900 items-center text-left leading-relaxed max-w-8xl mx-auto ">
           <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Purpose</h2>
           <p className='mb-2'>At Nirvana Nuts, we believe healthy eating should be simple, honest, and accessible. Our journey began with the aim to replace overly processed snacks with natural, nutrient-rich alternatives that suit Indian tastes and lifestyles.</p>
           <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Expertise</h2>
@@ -38,7 +38,7 @@ const page = () => {
           </p>
           <p className="mb-2">From the popular Makhana varieties like Plain, Cheese Masti, and Especially for Fast to premium crunchy almonds and mixed nut blends, Nirvana Nuts provides snacks that are fresh, nutritious, and delivered straight to your door.
           </p> */}
-          <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">Nirvana Nuts is proudly maintained by <span className='text-lg text-black font-bold'>"An global Services"</span> ensuring that every customer enjoys premium dry fruits and healthy snacks with world‑class standards. By combining local trust with international reach, we deliver makhana, almonds, and mixed nut blends that are fresh, nutritious, and accessible worldwide.</p>
+          <p className="text-lg text-gray-900 mb-2  text-left leading-relaxed max-w-8xl mx-auto ">Nirvana Nuts is proudly maintained by <span className='text-lg text-black font-bold'>"An global Services"</span> ensuring that every customer enjoys premium dry fruits and healthy snacks with world‑class standards. By combining local trust with international reach, we deliver makhana, almonds, and mixed nut blends that are fresh, nutritious, and accessible worldwide.</p>
           <p className="text-lg text-black  mb-2 text-left leading-relaxed max-w-8xl mx-auto ">Our commitment to quality, integrity, and customer satisfaction is supported by seamless logistics and responsive support, making Nirvana Nuts not just a brand, but a global partner in healthy snacking.</p>
 
         </div>
@@ -46,8 +46,8 @@ const page = () => {
         </div>
         <div>
           <a href="http://www.anglobalservices.com/" target="_blank" rel="noopener noreferrer"> <h2  className='text-4xl font-bold text-center text-blue-600 mb-8 '>An Global Services </h2></a>
-          <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">At Nirvana Nuts, We also deliver trusted global certification and compliance solutions to help businesses meet international standards. Our services include (ISI mark), Foreign Manufactures Certification Scheme (FMCS), Compulsory Registration Scheme (CRS) for Electronics & IT Goods, BIS hallmarking of precious For metals/jewellery, BEE Registration Services, Trademark Registration Services, CE Certification Services, EPR Authorization (for e-waste), Solar Panel BIS Registration Services, WPC Approval and TEC Certification, MSME & NSIC Certification, WMI Certification, NABL Accreditation Consultancy, WPC License and many more. With our expertise, brands can achieve seamless market entry, regulatory compliance, and global recognition </p>
-          <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">View our website for more details</p>
+          <p className="text-lg text-gray-900 mb-2  text-left leading-relaxed max-w-8xl mx-auto ">At Nirvana Nuts, We also deliver trusted global certification and compliance solutions to help businesses meet international standards. Our services include (ISI mark), Foreign Manufactures Certification Scheme (FMCS), Compulsory Registration Scheme (CRS) for Electronics & IT Goods, BIS hallmarking of precious For metals/jewellery, BEE Registration Services, Trademark Registration Services, CE Certification Services, EPR Authorization (for e-waste), Solar Panel BIS Registration Services, WPC Approval and TEC Certification, MSME & NSIC Certification, WMI Certification, NABL Accreditation Consultancy, WPC License and many more. With our expertise, brands can achieve seamless market entry, regulatory compliance, and global recognition </p>
+          <p className="text-lg text-gray-900 mb-2  text-left leading-relaxed max-w-8xl mx-auto ">View our website for more details</p>
           <a href="https://www.anglobalservices.com/" target='blank' >
           <div className='text-center'>
             <button className='bg-linear-to-r from-amber-500 to-amber-700 hover:scale-110 text-shadow-white transition-shadow p-2 rounded-2xl mt-6  cursor-pointer  text-2xl font-bold  hover:bg-amber-600 shadow-2xl'>Visit Our Website</button>
@@ -59,7 +59,7 @@ const page = () => {
         <section>
           <div >
             <h1 className='text-center  py-6 items-center text-amber-800 text-4xl font-bold'>Premium Nut Production</h1>
-            <ul className='text-base text-black mt-4 text-left leading-relaxed max-w-8xl mx-auto '>
+            <ul className='text-base text-gray-900 mt-4 text-left leading-relaxed max-w-8xl mx-auto '>
               <li > <span className=' text-base  font-bold  text-center text-yellow-900 '>Premium Raw Nut Sourcing :</span> Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention.</li>
               <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Precision Nut Calibration :</span>Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage. </li>
               <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Hygienic Nut Cleaning :</span> Foreign matter removed with sieves and manual sorting to ensure purity and safe processing.</li>
@@ -82,7 +82,7 @@ const page = () => {
         {/* Health Benefits Section */}
         <section className="max-w-6xl mx-auto mb-16">
           <h2 className="text-4xl py-5 font-semibold text-yellow-900 mb-6 text-center">Health Benefits of Nirvana Nuts Makhana</h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-yellow-700 text-sm">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-900 text-sm">
             <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
             <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
             <li className="bg-white rounded-lg shadow-md p-4 hover:scale-105 transition"> <strong>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
@@ -113,7 +113,7 @@ const page = () => {
         {/* Cultural Origin Section */}
         <section className="max-w-6xl  mx-auto mb-16 text-center space-y-6">
           <h2 className="text-2xl font-semibold text-yellow-900">Cultural Heritage of Makhana</h2>
-          <p className="text-yellow-700 max-w-3xl mx-auto">
+          <p className="text-gray-900 max-w-3xl mx-auto">
             Makhana, also known as fox nuts, originates from the Mithila region of Bihar.
             It has been part of traditional Indian medicine for centuries, used in Ayurveda
             for its health benefits. Rich in nutrients, makhana is a staple in Indian households
@@ -124,7 +124,7 @@ const page = () => {
         {/* contact us */}
         <section className="bg-white py-16 px-6 text-center rounded-xl shadow-md mt-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
-          <p className="text-gray-600 mb-6 max-w-xl mx-auto">
+          <p className="text-gray-900 mb-6 max-w-xl mx-auto">
             Have questions about our products? We’d love to hear from you!
           </p>
           <a href="/contact" >

@@ -36,7 +36,7 @@ const page = () => {
       <h1 className='text-4xl font-bold  text-amber-600 text-center md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
 
       <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white  p-2 mt-4 rounded-xl shadow-md">
-        <div className="text-gray-600 text-sm md:text-xl md:w-1/2 ml-20 space-y-6 md:pr-8">
+        <div className="text-gray-900 text-sm md:text-xl md:w-1/2 ml-20 space-y-6 md:pr-8">
           <h2 className='text-4xl text-amber-700 '>About Nirvana Nuts</h2>
           <p>
             At Nirvana Nuts, we believe snacking should be both delightful and
@@ -66,7 +66,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className='text-gray-600 ml-20 max-w-7xl '>
+      <div className='text-gray-900 ml-20 max-w-7xl '>
       <h2 className="text-center  text-3xl md:text-4xl font-bold text-amber-900  mb-10">
         Our Products
       </h2>
@@ -75,9 +75,9 @@ const page = () => {
         <h2 className='text-xl '>1. Premium Makhana (Fox Nuts) – Light, Crunchy & Healthy</h2>
         <h3 className='text-base ml-5 '>(India’s Favourite Guilt-Free Snack)</h3>
         </div>
-        <p className='text-gray-600 py-4 text-lg'>Nirvana Nuts premium makhana is naturally low in calories and high in plant-based protein. Carefully roasted and packed, our fox nuts retain their crunch, taste, and nutritional value.</p>
+        <p className='text-gray-900 py-4 text-lg'>Nirvana Nuts premium makhana is naturally low in calories and high in plant-based protein. Carefully roasted and packed, our fox nuts retain their crunch, taste, and nutritional value.</p>
         <h3 className='text-yellow-700 text-lg'>Health Benefits of Makhana</h3>
-        <ul className='list-disc list-inside text-gray-600'>
+        <ul className='list-disc list-inside text-gray-900'>
           <li>High in protein & antioxidants</li>
           <li>Low fat & low calorie</li>
           <li>Supports weight management</li>
@@ -85,7 +85,7 @@ const page = () => {
           <li>Ideal for fasting & mindful snacking</li>
         </ul>
         <h3 className='text-yellow-700 text-lg' >Best for</h3>
-        <ul className='list-disc list-inside text-gray-600 '>
+        <ul className='list-disc list-inside text-gray-900 '>
           <li>Office & evening snacks</li>
           <li>Fitness & weight-loss diets</li>
           <li>Kids, adults & seniors</li>

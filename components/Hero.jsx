@@ -268,13 +268,13 @@ if (reviews.length === 0) return null;
               <h2>Premium Makhana, Healthy Nuts & Protein-Rich Nutrition</h2>
               <h3 className='text-base'>(Natural Nutrition for a Healthier India)</h3>
               </div>
-              <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">
+              <p className="text-lg text-gray-900 leading-relaxed animate-fadeIn">
                 Nirvana Nuts is an Indian wellness brand offering premium makhana (fox nuts), healthy nuts, dry fruits, and protein-rich nutrition for everyday lifestyles. Our products are carefully sourced, quality tested, and hygienically packed to deliver freshness, purity, and taste in every bite.
               </p>
-              <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
+              <p className="text-lg text-gray-900 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
 
               <h2 className="text-xl font-bold  text-yellow-900">Benefits of Makhana</h2>
-              <ul className="list-disc list-inside text-yellow-700 text-lg space-y-1">
+              <ul className="list-disc list-inside text-gray-900 text-lg space-y-1">
                 <li><strong>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
                 <li><strong>Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
                 <li><strong>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
@@ -283,7 +283,7 @@ if (reviews.length === 0) return null;
               </ul>
 
               <h2 className="text-xl font-bold  text-yellow-900">Origin of Makhana</h2>
-              <p className="text-yellow-700 text-lg">
+              <p className="text-gray-900 text-lg">
                 Makhana, also known as fox nuts or lotus seeds, has been cultivated in the Mithila region of Bihar for centuries. This superfood is deeply rooted in the cultural and agricultural heritage of the region, making it a symbol of tradition and nutritional excellence.
               </p>
             </div>
