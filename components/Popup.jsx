@@ -11,23 +11,21 @@ const Popup = () => {
     const [show, setShow] = useState(false);
     const [hasShownOnce, setHasShownOnce] = useState(false);
     const form = useRef(null);
+    const timeRef= useRef(false)
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        timeRef.current = setTimeout(() => {
             setShow(true);
-            setHasShownOnce(true);
         }, 4000);
-        return () => clearTimeout(timer);
+        return () => clearTimeout(timeRef.current);
     }, [])
 
     const closePopup = ()=>{
         setShow(false);
-
-        if(hasShownOnce){
-            setTimeout(() => {
-                setShow (true);
-            },60000)
-        }
+        clearTimeout(timeRef.current);
+        timeRef.current=setTimeout(()=>{
+            setShow(true);
+        },60000)
     }
 
     if (!show) return null;

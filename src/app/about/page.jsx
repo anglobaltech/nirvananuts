@@ -105,6 +105,7 @@ const page = () => {
               alt={img.alt}
               height={200}
               width={200}
+              priority
               className={`rounded-lg shadow-lg hover:scale-105 transition-transform duration-500  delay-${i * 100} w-full h-auto object-cover`}
             />
           ))}

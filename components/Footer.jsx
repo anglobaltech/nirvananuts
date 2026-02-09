@@ -11,7 +11,7 @@ const Footer = () => {
         {/* WHO ARE WE */}
         <div>
         <div className="h-20  w-20  ">
-        <Image  src="/nirvana-logo.avif" alt="logo" width={200} height={200} />
+        <Image  src="/nirvana-logo.avif" alt="logo" priority width={200} height={200} />
       </div>
           <h3 className="text-xl font-semibold mb-4">WHO ARE WE?</h3>
           <p className="text-sm text-gray-300">

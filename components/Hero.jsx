@@ -213,7 +213,8 @@ if (reviews.length === 0) return null;
                 className="absolute inset-0 w-full h-full background-size-cover object-center"
                 width={400}
                 height={400}
-                loading="lazy"
+              
+                priority
               />
               <div className="absolute inset-0  opacity-70 mix-blend-multiply" />
             </div>
@@ -297,10 +298,11 @@ if (reviews.length === 0) return null;
               { src: "/about-image-01.webp", alt: "Roasted Almonds" },
 
             ].map((img, i) => (
-              <img
+              <Image
                 key={i}
                 src={img.src}
                 alt={img.alt}
+                height={200} width={200} priority
                 className={`rounded-lg shadow-lg hover:scale-105 transition-transform duration-500 animate-fadeInUp delay-${i * 100} w-full h-auto object-cover`}
               />
             ))}
@@ -382,9 +384,12 @@ if (reviews.length === 0) return null;
               key={i}
               className={'bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 '}
             >
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
+                height={200} 
+                width={200}
+                priority
                 className="w-full h-64 object-fill"
               />
               <div className="p-6 text-left">

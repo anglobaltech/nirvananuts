@@ -16,6 +16,7 @@ const page = () => {
               src="/food-ingredient.webp"
               alt="Lactose Powder and Milk"
               width={200} height={200}
+              priority
               className=" w-full h-full object-cover"
 
             />
@@ -94,6 +95,7 @@ const page = () => {
             src="/food-ingredient-02.webp"
             alt="Lactose Powder and Milk"
             width={200} height={200}
+            priority
             className=" w-full h-full  object-cover"
           />
         </div>
@@ -167,6 +169,7 @@ const page = () => {
             src="/food-ingredient-03.webp"
             alt="Lactose Powder and Milk"
             height={200} width={200}
+            priority
             className=" w-full h-full object-cover"
           />
         </div>
@@ -226,6 +229,7 @@ const page = () => {
             src="/food-ingredient-04.webp"
             alt="Lactose Powder and Milk"
             width={200} height={200}
+            priority
             className=" w-full h-full object-cover"
           />
         </div>
