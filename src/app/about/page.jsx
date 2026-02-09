@@ -10,10 +10,23 @@ const page = () => {
         <div className="flex justify-center mt-10">
         </div>
         <h1 className="text-4xl font-bold text-center text-yellow-900 ">
-          Welcome to Nirvana Nuts
+          About Nirvana Nuts – Pure Nutrition You Can Trust
         </h1>
         <div className="text-lg text-black items-center text-left leading-relaxed max-w-8xl mx-auto ">
-          <p className="mb-2">
+          <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Purpose</h2>
+          <p className='mb-2'>At Nirvana Nuts, we believe healthy eating should be simple, honest, and accessible. Our journey began with the aim to replace overly processed snacks with natural, nutrient-rich alternatives that suit Indian tastes and lifestyles.</p>
+          <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Expertise</h2>
+          <p className=' mb-2'>Backed by research-driven sourcing and strict quality standards, Nirvana Nuts focuses on delivering clean-label nutrition through makhana, nuts, dry fruits, and protein supplements. Our team prioritizes ingredient integrity, freshness, and transparency.</p>
+          <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Commitment</h2>
+          <ul className='mb-6 list-disc list-inside'>
+            <li>Quality-checked sourcing</li>
+              <li>Nutrition-first product development</li>
+              <li>Clear labeling & honest communication</li>
+              <li>Customer trust above everything else</li>
+          </ul>
+
+
+          {/* <p className="mb-2">
             At Nirvana Nuts, we craft healthy, flavorful snacks using premium handpicked makhana (fox nuts).
             Our mission is to bring joy to snacking without compromising on health, ensuring every bite
             is packed with nutrition and taste.
@@ -24,7 +37,7 @@ const page = () => {
           <p className="mb-2">Guided by core values of quality, integrity, leadership, collaboration, and customer satisfaction, Nirvana Nuts ensures every product supports wellness while offering convenience through its direct‑to‑consumer e‑commerce model
           </p>
           <p className="mb-2">From the popular Makhana varieties like Plain, Cheese Masti, and Especially for Fast to premium crunchy almonds and mixed nut blends, Nirvana Nuts provides snacks that are fresh, nutritious, and delivered straight to your door.
-          </p>
+          </p> */}
           <p className="text-lg text-black mb-2  text-left leading-relaxed max-w-8xl mx-auto ">Nirvana Nuts is proudly maintained by <span className='text-lg text-black font-bold'>"An global Services"</span> ensuring that every customer enjoys premium dry fruits and healthy snacks with world‑class standards. By combining local trust with international reach, we deliver makhana, almonds, and mixed nut blends that are fresh, nutritious, and accessible worldwide.</p>
           <p className="text-lg text-black  mb-2 text-left leading-relaxed max-w-8xl mx-auto ">Our commitment to quality, integrity, and customer satisfaction is supported by seamless logistics and responsive support, making Nirvana Nuts not just a brand, but a global partner in healthy snacking.</p>
 

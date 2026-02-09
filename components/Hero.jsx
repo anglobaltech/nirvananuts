@@ -264,10 +264,14 @@ if (reviews.length === 0) return null;
           <section >
             <h1 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h1>
             <div className="max-w-6xl p-5 mx-auto text-left space-y-6 mb-12">
+              <div className='text-yellow-900 text-xl font-bold '>
+              <h2>Premium Makhana, Healthy Nuts & Protein-Rich Nutrition</h2>
+              <h3 className='text-base'>(Natural Nutrition for a Healthier India)</h3>
+              </div>
               <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">
-                Welcome to Nirvana Nuts — Where Flavor Meets Wholesome Goodness! We are passionate about crafting snacks that delight your taste buds and nourish your body. Every nut is handpicked for peak freshness, ensuring quality you can trust and taste you’ll love.
+                Nirvana Nuts is an Indian wellness brand offering premium makhana (fox nuts), healthy nuts, dry fruits, and protein-rich nutrition for everyday lifestyles. Our products are carefully sourced, quality tested, and hygienically packed to deliver freshness, purity, and taste in every bite.
               </p>
-              <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">NIRVANA NUTS, identified by its online presence at nirvananuts.in, is presented as a customer-focused brand in the rapidly growing dry fruit and nut industry. The brand aims to transform the snacking experience by offering products that are not only delicious but also contribute to overall well-being.</p>
+              <p className="text-lg text-yellow-700 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
 
               <h2 className="text-xl font-bold  text-yellow-900">Benefits of Makhana</h2>
               <ul className="list-disc list-inside text-yellow-700 text-lg space-y-1">
@@ -315,6 +319,16 @@ if (reviews.length === 0) return null;
           <p className="text-gray-700 text-lg mb-12 animate-fadeInUp delay-200">
             We are committed to delivering the finest quality nuts with unmatched freshness and exceptional taste.
           </p>
+            <div className=" text-left py-2 pb-20">
+            <h2 className="text-2xl md:text-xl font-bold  text-amber-700">Why Nirvana Nuts?</h2>
+            <ul className="list-disc p-2 space-y-2 text-gray-800 text-base md:text-lg ">
+              <li>Premium quality makhana & dry fruits</li>
+              <li>Rich in protein, fiber & essential nutrients</li>
+              <li>No artificial colors or preservatives</li>
+              <li>Trusted sourcing & hygienic processing</li>
+              <li>Suitable for fitness, weight management & daily wellness</li>
+            </ul>
+          </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { title: "100% Organic", desc: "Naturally grown without pesticides or chemicals" },
