@@ -33,7 +33,7 @@ const page = () => {
   return (
     <section className="min-h-screen  bg-white mt-20 to-amber-100 py-12  md:px-12">
       {/* about nirvana nuts */}
-      <h1 className='text-4xl font-bold  text-amber-600 text-center px-6 md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
+      <h1 className='text-4xl font-bold  text-amber-600 text-center px-6 p-10 md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
 
       <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white  p-2 mt-4 rounded-xl shadow-md">
         <div className="text-gray-900 text-sm md:text-xl md:w-1/2 ml-7 space-y-6 md:pr-8">

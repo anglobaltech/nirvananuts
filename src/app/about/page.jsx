@@ -9,7 +9,7 @@ const page = () => {
       <section className="md:w-8xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  mb-16">
         <div className="flex justify-center mt-10">
         </div>
-        <h1 className="text-4xl font-bold text-center text-yellow-900 ">
+        <h1 className="text-4xl font-bold p-10 text-center text-yellow-900 ">
           About Nirvana Nuts – Pure Nutrition You Can Trust
         </h1>
         <div className="text-lg text-gray-900 items-center text-left leading-relaxed max-w-8xl mx-auto ">

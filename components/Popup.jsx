@@ -7,6 +7,7 @@ import emailjs from "@emailjs/browser";
 import "react-toastify/dist/ReactToastify.css";
 
 
+
 const Popup = () => {
     const [show, setShow] = useState(false);
     const [hasShownOnce, setHasShownOnce] = useState(false);
@@ -72,7 +73,7 @@ const Popup = () => {
                     </div>
                     <div >
                     <button
-                    onClick={() => setShow(false)}
+                    onClick={closePopup}
                     className="absolute top-3 right-4 font-extrabold  hover:text-red-600 text-black cursor-pointer text-xl">✕
                     </button>
                         <h1 className=" md:text-3xl text-lg  text-amber-800 md:mt-5 font-bold md:text-left md:ml-20  text-center">Nirvana Nuts</h1>

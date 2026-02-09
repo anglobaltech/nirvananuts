@@ -112,7 +112,7 @@ const page = () => {
       >
         {/* Header */}
         <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-amber-900">
+          <h1 className="text-3xl sm:text-4xl font-semibold p-10 tracking-tight text-amber-900">
             Contact Us
           </h1>
           <p className="mt-3 text-stone-600 max-w-2xl mx-auto">
