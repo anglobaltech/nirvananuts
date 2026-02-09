@@ -31,12 +31,12 @@ const products = [
 
 const page = () => {
   return (
-    <section className="min-h-screen  bg-white mt-20 to-amber-100 py-12 px-6 md:px-12">
+    <section className="min-h-screen  bg-white mt-20 to-amber-100 py-12  md:px-12">
       {/* about nirvana nuts */}
-      <h1 className='text-4xl font-bold  text-amber-600 text-center md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
+      <h1 className='text-4xl font-bold  text-amber-600 text-center px-6 md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
 
       <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white  p-2 mt-4 rounded-xl shadow-md">
-        <div className="text-gray-900 text-sm md:text-xl md:w-1/2 ml-20 space-y-6 md:pr-8">
+        <div className="text-gray-900 text-sm md:text-xl md:w-1/2 ml-7 space-y-6 md:pr-8">
           <h2 className='text-4xl text-amber-700 '>About Nirvana Nuts</h2>
           <p>
             At Nirvana Nuts, we believe snacking should be both delightful and
@@ -66,7 +66,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className='text-gray-900 ml-20 max-w-7xl '>
+      <div className='text-gray-900 ml-7 text-sm md:text-xl md:ml-20 max-w-7xl '>
       <h2 className="text-center  text-3xl md:text-4xl font-bold text-amber-900  mb-10">
         Our Products
       </h2>
@@ -75,7 +75,7 @@ const page = () => {
         <h2 className='text-xl '>1. Premium Makhana (Fox Nuts) – Light, Crunchy & Healthy</h2>
         <h3 className='text-base ml-5 '>(India’s Favourite Guilt-Free Snack)</h3>
         </div>
-        <p className='text-gray-900 py-4 text-lg'>Nirvana Nuts premium makhana is naturally low in calories and high in plant-based protein. Carefully roasted and packed, our fox nuts retain their crunch, taste, and nutritional value.</p>
+        <p className='text-gray-900 py-4  '>Nirvana Nuts premium makhana is naturally low in calories and high in plant-based protein. Carefully roasted and packed, our fox nuts retain their crunch, taste, and nutritional value.</p>
         <h3 className='text-yellow-700 text-lg'>Health Benefits of Makhana</h3>
         <ul className='list-disc list-inside text-gray-900'>
           <li>High in protein & antioxidants</li>
@@ -94,7 +94,7 @@ const page = () => {
         <h2 className='text-xl '>2. Whey Protein – Clean Muscle-Building Nutrition</h2>
         <h2 className='text-base ml-5 '>(High-Quality Protein for Strength & Recovery)</h2>
         </div>
-        <p className=' py-2 text-lg'>Nirvana Nuts whey protein is derived from milk and contains all 9 essential amino acids, making it a complete and highly digestible protein source.</p>
+        <p className=' py-2 '>Nirvana Nuts whey protein is derived from milk and contains all 9 essential amino acids, making it a complete and highly digestible protein source.</p>
         <h3 className='text-yellow-700 text-lg font-semibold py-1'>Types of Whey Protein:-</h3>
         <h4 className='text-yellow-700 text-base py-1.5' >Whey Protein Concentrate (WPC)</h4>
         <ul className='list-disc list-inside'>
@@ -116,7 +116,7 @@ const page = () => {
         </ul>
       </div>
       {/* Product Grid */}
-      <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:max-w-7xl ml-7 m-10 md:m-0 md:ml-20 lg:grid-cols-3 gap-8">
         {products.map((product, index) => (
           <div
             key={index}

@@ -66,7 +66,7 @@ const Popup = () => {
         <main role="dialog" aria-modal="true" className="fixed   inset-0 z-50 flex items-center justify-center bg-black/10 ">
         
         
-            <section className="bg-amber-50  shadow-xl mx-auto sm:h-130 sm:mt-9 overflow-hidden h-128 mt-6 w-80 md:w-190 md:h-120  rounded-lg   relative">
+            <section className="bg-amber-50  shadow-xl mx-auto sm:h-130 sm:mt-9 overflow-hidden h-132 mt-6 w-80 md:w-190 md:h-120  rounded-lg   relative">
 
                 <div className="md:flex">
                     <div className=" md:shrink-0">
