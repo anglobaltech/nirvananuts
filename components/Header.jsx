@@ -26,6 +26,8 @@ const Header = () => {
                 alt="logo"
                 width={65}
                 height={70}
+                fetchPriority='high'
+                sizes='100vw'
                 className="object-contain "
                 // style={{ width: , height: "auto" }}
                 priority

@@ -244,7 +244,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="tel:917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 ">
-                      <Image src="/dialer-icon.webp" alt="dialer" width={200} height={200} priority />
+                      <Image src="/dialer-icon.webp" alt="dialer" width={200} height={200} priority fetchPriority='high'sizes='100vw' />
                     </div>
                   </a>
                   <div>
@@ -258,7 +258,8 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="https://wa.me/+917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12  ">
-                      <Image src="/whatsapp.png" alt="whatsapp" width={200} height={200} priority />
+                      <Image src="/whatsapp.png" alt="whatsapp" width={200} height={200} priority fetchPriority='high' sizes='100vw' 
+                />
 
                     </div>
                   </a>
@@ -273,7 +274,7 @@ const page = () => {
                 <div className="flex items-start gap-3">
                   <a href="mailto:info.nirvananuts@gmail.com">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 cursor-pointer ">
-                      <Image src="/email-icon.webp" alt="email" width={200} height={200} priority />
+                      <Image src="/email-icon.webp" alt="email" width={200} height={200} priority fetchPriority='high' sizes='100vw'/>
                     </div>
                   </a>
                   <div>
@@ -287,7 +288,7 @@ const page = () => {
                 <div className="flex items-start gap-3">
                   <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12">
-                      <Image src="/location-01.avif" alt="location" height={200} width={200}  priority/>
+                      <Image src="/location-01.avif" alt="location" height={200} width={200}  priority fetchPriority='high' sizes='100vw'/>
                     </div>
                   </a>
 
@@ -307,21 +308,21 @@ const page = () => {
                     aria-label="Visit Instagram"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <Image src="/instagram-icon.avif" alt="instagram" width={200} height={200} priority />
+                    <Image src="/instagram-icon.avif" alt="instagram" width={200} height={200} priority fetchPriority='high' sizes='100vw' />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit Facebook"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <Image src="/facebook-icon.avif" alt="Facebook" height={200} width={200} priority />
+                    <Image src="/facebook-icon.avif" alt="Facebook" height={200} width={200} priority fetchPriority='high' sizes='100vw' />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit LinkedIn"
                     className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
                   >
-                    <Image src="/linkedin-icon.avif" alt="Linkedin" height={200} width={200} priority />
+                    <Image src="/linkedin-icon.avif" alt="Linkedin" height={200} width={200} priority fetchPriority='high' sizes='100vw' />
                   </a>
                 </div>
               </div>
