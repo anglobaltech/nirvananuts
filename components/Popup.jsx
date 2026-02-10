@@ -69,7 +69,7 @@ const Popup = () => {
 
                 <div className="md:flex">
                     <div className=" md:shrink-0">
-                    <Image src="/popup-image-03.avif" alt="nirvana nuts image" priority fetchPriority='high'sizes='100vw'  height={300} width={400} className="h-40 w-full   md:h-120 md:mt-0  md:p-0  md:w-105 md:ml-0 object-fill  " />
+                    <Image src="/popup-image-03.avif" alt="nirvana nuts image" priority  height={300} width={400} className="h-40 w-full   md:h-120 md:mt-0  md:p-0  md:w-105 md:ml-0 object-fill  " />
                     </div>
                     <div >
                     <button

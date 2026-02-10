@@ -133,8 +133,6 @@ const page = () => {
           33vw"
     className="object-fill rounded-t-xl"
     priority
-    fetchPriority='high'
-    
   />
 </div>
             {/* Product Info */}
@@ -157,13 +155,11 @@ const page = () => {
               </button> */}
 
           {product.name.includes("Whey Protein") && (
-          <a href="/whey-protein"
-            className="inline-block mt-6 bg-radial from-amber-600 to-amber-700
-            border-2 border-amber-900 text-white p-2 rounded-lg
-          hover:text-amber-300 transition duration-300">
+          <a href="/whey-protein">
+          <button className="mt-6 bg-radial from-amber-600 border-2   to-amber-700 cursor-pointer border-amber-900 outline-2 outline-offset-2 text-white p-2 rounded-lg hover:text-amber-300 transition duration-300">
             View More
+          </button>
           </a>
-
         )}
 
             </div>
@@ -180,13 +176,13 @@ const page = () => {
           Have questions about our products? We’d love to hear from you!
         </p>
 
-        <a  href="/contact"
-            className="inline-block bg-linear-to-r from-amber-500 to-red-500
-            border-2 border-amber-400 text-white cursor-pointer
-            px-6 py-2 rounded-lg shadow-md transition hover:scale-110">
-  Contact Us
-</a>
-
+        <a href="/contact">
+          <button
+            className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 hover:scale-112 text-white cursor-pointer px-6 py-2 rounded-lg shadow-md  transition"
+          >
+            Contact Us
+          </button>
+        </a>
       </section>
 
 

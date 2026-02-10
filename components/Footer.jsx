@@ -10,10 +10,10 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  p-12 gap-10">
         {/* WHO ARE WE */}
         <div>
-        <div className="h-20  w-10  ">
-        <Image  src="/nirvana-logo.avif" alt="logo" priority width={65} height={70} fetchPriority='high'sizes='100vw' />
+        <div className="h-20  w-20  ">
+        <Image  src="/nirvana-logo.avif" alt="logo" priority width={200} height={200} />
       </div>
-          <h2 className="text-xl font-semibold mb-4">WHO ARE WE?</h2>
+          <h3 className="text-xl font-semibold mb-4">WHO ARE WE?</h3>
           <p className="text-sm text-gray-300">
             Welcome to Nirvana Nuts — Where Flavor Meets Wholesome Goodness! We create delicious snacks that nourish your body and delight your taste buds.
           </p>
@@ -21,7 +21,7 @@ const Footer = () => {
 
         {/* QUICK LINKS */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">QUICK LINKS</h2>
+          <h3 className="text-xl font-semibold mb-4">QUICK LINKS</h3>
           <ul className="space-y-2 text-sm text-gray-300">
             <li><a href="/" className="hover:text-blue-700 transition">Home</a></li>
             <li><a href="/about" className="hover:text-blue-700 transition">About</a></li>
@@ -32,7 +32,7 @@ const Footer = () => {
         </div>
         <div>
 
-          <h2 className="text-xl font-semibold mb-4">Our Product</h2>
+          <h1 className="text-xl font-semibold mb-4">Our Product</h1>
           <div className="space-y-2 text-sm text-gray-300  ">
             <ul>
             <a href="/products"> <li  className="hover:text-blue-700  p-1 transition">Classic Salted Makhana</li></a>
@@ -46,11 +46,11 @@ const Footer = () => {
 
         {/* GET IN TOUCH */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">GET IN TOUCH</h2>
+          <h3 className="text-xl font-semibold mb-4">GET IN TOUCH</h3>
           <ul className="space-y-3 text-sm text-gray-300">
             <li> <a href="https://maps.app.goo.gl/k2Uv5NmjpYxZWU4T7" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition" >📍 S-63, 7th floor, Urbtech NPX, Noida Sector 153, Uttar Pradesh, INDIA Pin-201310 </a></li>
             <li><a href="https://wa.me/+917782069184" target="_blank" className="hover:text-blue-700 transition"> 📞 (+91) 778 206 9184 </a></li>
-            <li>✉️ <a href="mailto:info.nirvananuts@gmail.com" target="_blank" aria-label="about our instagram" className="hover:text-blue-700 transition">info.nirvananuts@gmail.com</a></li>
+            <li>✉️ <a href="mailto:info.nirvananuts@gmail.com" target="_blank" className="hover:text-blue-700 transition">info.nirvananuts@gmail.com</a></li>
           </ul>
 
           <div className="flex justify-end mt-10 pr-6 gap-4">

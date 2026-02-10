@@ -211,10 +211,9 @@ if (reviews.length === 0) return null;
                 src={src}
                 alt={`Slide ${i + 1}`}
                 className="absolute inset-0 w-full h-full background-size-cover object-center"
-                width={200}
-                height={200}
-                fetchPriority='high'
-                sizes='100vw'
+                width={400}
+                height={400}
+              
                 priority
               />
               <div className="absolute inset-0  opacity-70 mix-blend-multiply" />
@@ -264,7 +263,7 @@ if (reviews.length === 0) return null;
         <div className="min-h-screen bg-linear-to-r from-white via-gray-100 to-white px-4 py-12">
           {/* Intro Section */}
           <section >
-            <h1 className="text-4xl font-bold text-center mt-0 pb-15 text-amber-900 gap-0 animate-fadeIn">About Nirvana Nuts</h1>
+            <h1 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h1>
             <div className="max-w-6xl p-5 mx-auto text-left space-y-6 mb-12">
               <div className='text-yellow-900 text-xl font-bold '>
               <h2>Premium Makhana, Healthy Nuts & Protein-Rich Nutrition</h2>
@@ -303,7 +302,7 @@ if (reviews.length === 0) return null;
                 key={i}
                 src={img.src}
                 alt={img.alt}
-                height={200} width={200} priority fetchPriority='high' sizes='100vw'
+                height={200} width={200} priority
                 className={`rounded-lg shadow-lg hover:scale-105 transition-transform duration-500 animate-fadeInUp delay-${i * 100} w-full h-auto object-cover`}
               />
             ))}
@@ -314,7 +313,7 @@ if (reviews.length === 0) return null;
 
       {/* Why Choose Nirvana Nuts */}
 
-      <main className="font-sans text-gray-900  bg-gray-100">
+      <main className="font-sans text-gray-900  bg-gray-50">
         <section className=" py-16 px-6 max-w-6xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-amber-900 mb-10 animate-fadeInUp">
             Why Choose Nirvana Nuts
@@ -323,7 +322,7 @@ if (reviews.length === 0) return null;
             We are committed to delivering the finest quality nuts with unmatched freshness and exceptional taste.
           </p>
             <div className=" text-left py-2 pb-20">
-            <h2 className="text-2xl md:text-xl font-bold  text-amber-800">Why Nirvana Nuts?</h2>
+            <h2 className="text-2xl md:text-xl font-bold  text-amber-700">Why Nirvana Nuts?</h2>
             <ul className="list-disc p-2 space-y-2 text-gray-800 text-base md:text-lg ">
               <li>Premium quality makhana & dry fruits</li>
               <li>Rich in protein, fiber & essential nutrients</li>
@@ -390,8 +389,7 @@ if (reviews.length === 0) return null;
                 alt={product.name}
                 height={200} 
                 width={200}
-                fetchPriority='high'
-                sizes='100vw'
+                priority
                 className="w-full h-64 object-fill"
               />
               <div className="p-6 text-left">
@@ -416,8 +414,7 @@ if (reviews.length === 0) return null;
       {/* customer feedback */}
       <section className=" relative h-[60vh] overflow-hidden  md:h-80 text-center ">
           <div className='absolute inset-0 z-0'>
-          <Image src="/image-slider-07.avif" alt='background image'  height={300} width={300} fetchPriority='high'
-                sizes='100vw' className='md:w-full w-full h-full object-fill'  />
+          <Image src="/image-slider-07.avif" alt='background image' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
           </div>
           <div className="absolute inset-0 bg-black/50 "></div>
 

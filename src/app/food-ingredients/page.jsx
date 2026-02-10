@@ -17,8 +17,6 @@ const page = () => {
               alt="Lactose Powder and Milk"
               width={200} height={200}
               priority
-              fetchPriority='high'
-              sizes='100vw'
               className=" w-full h-full object-cover"
 
             />
@@ -98,8 +96,6 @@ const page = () => {
             alt="Lactose Powder and Milk"
             width={200} height={200}
             priority
-            fetchPriority='high'
-            sizes='100vw'
             className=" w-full h-full  object-cover"
           />
         </div>
@@ -174,8 +170,6 @@ const page = () => {
             alt="Lactose Powder and Milk"
             height={200} width={200}
             priority
-            fetchPriority='high'
-            sizes='100vw'
             className=" w-full h-full object-cover"
           />
         </div>
@@ -236,8 +230,6 @@ const page = () => {
             alt="Lactose Powder and Milk"
             width={200} height={200}
             priority
-            fetchPriority='high'
-            sizes='100vw'
             className=" w-full h-full object-cover"
           />
         </div>
