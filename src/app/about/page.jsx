@@ -13,11 +13,11 @@ const page = () => {
           About Nirvana Nuts – Pure Nutrition You Can Trust
         </h1>
         <div className="text-lg text-gray-900 items-center text-left leading-relaxed max-w-8xl mx-auto ">
-          <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Purpose</h2>
+          <h2 className='text-2xl font-bold text-yellow-800 py-1'>Our Purpose</h2>
           <p className='mb-2'>At Nirvana Nuts, we believe healthy eating should be simple, honest, and accessible. Our journey began with the aim to replace overly processed snacks with natural, nutrient-rich alternatives that suit Indian tastes and lifestyles.</p>
-          <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Expertise</h2>
+          <h2 className='text-2xl font-bold text-yellow-800 py-1'>Our Expertise</h2>
           <p className=' mb-2'>Backed by research-driven sourcing and strict quality standards, Nirvana Nuts focuses on delivering clean-label nutrition through makhana, nuts, dry fruits, and protein supplements. Our team prioritizes ingredient integrity, freshness, and transparency.</p>
-          <h2 className='text-2xl font-bold text-yellow-900 py-1'>Our Commitment</h2>
+          <h2 className='text-2xl font-bold text-yellow-800 py-1'>Our Commitment</h2>
           <ul className='mb-6 list-disc list-inside'>
             <li>Quality-checked sourcing</li>
               <li>Nutrition-first product development</li>
@@ -58,23 +58,23 @@ const page = () => {
         {/* Production Timeline Section */}
         <section>
           <div >
-            <h1 className='text-center  py-6 items-center text-amber-800 text-4xl font-bold'>Premium Nut Production</h1>
+            <h1 className='text-center  py-6 items-center text-yellow-900 text-4xl font-bold'>Premium Nut Production</h1>
             <ul className='text-base text-gray-900 mt-4 text-left leading-relaxed max-w-8xl mx-auto '>
-              <li > <span className=' text-base  font-bold  text-center text-yellow-900 '>Premium Raw Nut Sourcing :</span> Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention.</li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Precision Nut Calibration :</span>Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Hygienic Nut Cleaning :</span> Foreign matter removed with sieves and manual sorting to ensure purity and safe processing.</li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Flavorful Nut Roasting :</span>Heat‑treated to enhance taste, brittle shells ease extraction, and natural oils are preserved. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Natural Nut Cooling :</span>Roasted nuts cooled gradually to maintain texture, prevent scorching, and prepare for shelling. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Efficient Nut Shelling :</span>Kernels extracted manually or mechanically for clean, whole cashew kernels. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Pure Kernel Separation :</span>Advanced blowers and shakers ensure maximum yield and shell‑free kernels. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Smart Kernel Pre‑grading :</span>Initial sorting improves efficiency and reduces grading workload. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Moisture‑Controlled Drying :</span>Kernels dried to safe levels (3–6%) for longer shelf life and pest resistance. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Smooth Kernel Peeling :</span>Testa removed for blanched, premium‑quality kernels with improved appearance. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>International Kernel Grading :</span>Kernels sorted by W180, W240, splits, and other global export standards. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Kernel Rehumidification :</span>Moisture adjusted to reduce breakage during transport and maintain quality. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Gourmet Nut Flavoring :</span>Salted, spiced, honey‑coated, or chocolate‑dipped for diverse consumer preferences. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Rigorous Quality Testing :</span>Chemical, hardness, and dimensional checks ensure safety and consistency. </li>
-              <li > <span className=' text-base font-bold  text-center text-yellow-900 '>Freshness‑Preserving Packaging :</span>Sealed in pouches, jars, or tins to retain flavor, protect from contaminants, and inform consumers. </li>
+              <li > <span className=' text-base  font-bold  text-center text-yellow-800 '>Premium Raw Nut Sourcing :</span> Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention.</li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Precision Nut Calibration :</span>Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Hygienic Nut Cleaning :</span> Foreign matter removed with sieves and manual sorting to ensure purity and safe processing.</li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Flavorful Nut Roasting :</span>Heat‑treated to enhance taste, brittle shells ease extraction, and natural oils are preserved. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Natural Nut Cooling :</span>Roasted nuts cooled gradually to maintain texture, prevent scorching, and prepare for shelling. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Efficient Nut Shelling :</span>Kernels extracted manually or mechanically for clean, whole cashew kernels. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Pure Kernel Separation :</span>Advanced blowers and shakers ensure maximum yield and shell‑free kernels. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Smart Kernel Pre‑grading :</span>Initial sorting improves efficiency and reduces grading workload. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Moisture‑Controlled Drying :</span>Kernels dried to safe levels (3–6%) for longer shelf life and pest resistance. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Smooth Kernel Peeling :</span>Testa removed for blanched, premium‑quality kernels with improved appearance. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>International Kernel Grading :</span>Kernels sorted by W180, W240, splits, and other global export standards. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Kernel Rehumidification :</span>Moisture adjusted to reduce breakage during transport and maintain quality. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Gourmet Nut Flavoring :</span>Salted, spiced, honey‑coated, or chocolate‑dipped for diverse consumer preferences. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Rigorous Quality Testing :</span>Chemical, hardness, and dimensional checks ensure safety and consistency. </li>
+              <li > <span className=' text-base font-bold  text-center text-yellow-800 '>Freshness‑Preserving Packaging :</span>Sealed in pouches, jars, or tins to retain flavor, protect from contaminants, and inform consumers. </li>
             </ul>
           </div>
         </section>

@@ -244,7 +244,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="tel:917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 ">
-                      <Image src="/dialer-icon.webp" alt="dialer" width={200} height={200} priority />
+                      <Image src="/dialer-icon.avif" alt="dialer" width={200} height={200} priority />
                     </div>
                   </a>
                   <div>
@@ -258,7 +258,7 @@ const page = () => {
                 <div className="flex items-start gap-3 ">
                   <a href="https://wa.me/+917782069184">
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12  ">
-                      <Image src="/whatsapp.png" alt="whatsapp" width={200} height={200} priority />
+                      <Image src="/whatsapp.avif" alt="whatsapp" width={200} height={200} priority />
 
                     </div>
                   </a>
