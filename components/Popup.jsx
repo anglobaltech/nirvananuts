@@ -6,31 +6,35 @@ import { toast, ToastContainer } from "react-toastify";
 import emailjs from "@emailjs/browser";
 import "react-toastify/dist/ReactToastify.css";
 
-
+const FIRST_DELAY = 4000;  
+const REOPEN_DELAY = 60000;
 
 const Popup = () => {
     const [show, setShow] = useState(false);
-    const [hasShownOnce, setHasShownOnce] = useState(false);
     const form = useRef(null);
-    const timeRef= useRef(false)
+    const timeRef= useRef(null)
 
-    useEffect(() => {
-        timeRef.current = setTimeout(() => {
-            setShow(true);
-        }, 4000);
-        return () => clearTimeout(timeRef.current);
-    }, [])
+useEffect(() => {
+    const lastClosed = sessionStorage.getItem("popupClosedAt");
 
-    const closePopup = ()=>{
-        setShow(false);
-        clearTimeout(timeRef.current);
-        timeRef.current=setTimeout(()=>{
-            setShow(true);
-        },60000)
+    let delay = FIRST_DELAY;
+
+    if (lastClosed) {
+    const elapsed = Date.now() - Number(lastClosed);
+    delay = elapsed >= REOPEN_DELAY ? 0 : REOPEN_DELAY - elapsed;
     }
 
-    if (!show) return null;
+    timeRef.current = setTimeout(() => {
+    setShow(true);
+    }, delay);
 
+    return () => clearTimeout(timeRef.current);
+    }, []);
+
+    const closePopup = () => {
+    setShow(false);
+    sessionStorage.setItem("popupClosedAt", Date.now().toString());
+    };
 
     const popUpForm = async (e) => {
         e.preventDefault();
@@ -50,7 +54,7 @@ const Popup = () => {
             });
 
             form.current.reset();
-            setShow(false)
+            closePopup();
         } catch (error) {
             console.error(error);
             toast.error("Fail to sent message❌", {
@@ -59,6 +63,7 @@ const Popup = () => {
         }
 
     }
+    if (!show) return null;
 
 
     return (
