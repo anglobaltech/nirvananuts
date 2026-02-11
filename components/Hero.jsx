@@ -266,11 +266,16 @@ if (reviews.length === 0) return null;
             <h1 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h1>
             <div className="max-w-6xl p-5 mx-auto text-left space-y-6 mb-12">
               <div className='text-yellow-900 text-xl font-bold '>
-              <h2>Premium Makhana, Healthy Nuts & Protein-Rich Nutrition</h2>
+              <h2>Buy Premium Makhana & Healthy Nuts Online in India – Nirvana Nuts</h2>
               <h3 className='text-base'>(Natural Nutrition for a Healthier India)</h3>
               </div>
               <p className="text-lg text-gray-900 leading-relaxed animate-fadeIn">
-                Nirvana Nuts is an Indian wellness brand offering premium makhana (fox nuts), healthy nuts, dry fruits, and protein-rich nutrition for everyday lifestyles. Our products are carefully sourced, quality tested, and hygienically packed to deliver freshness, purity, and taste in every bite.
+                Nirvana Nuts is a trusted Indian brand where you can buy premium makhana 
+                and healthy nuts online. We offer roasted and flavored makhana made from 
+                100% naturally grown fox nuts. If you are looking to buy makhana online or 
+                buy roasted nuts for a healthy lifestyle, Nirvana Nuts brings you quality, 
+                taste, and nutrition in every pack.
+
               </p>
               <p className="text-lg text-gray-900 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
 

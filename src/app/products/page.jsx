@@ -73,10 +73,16 @@ const page = () => {
 
         <div className='text-yellow-700 font-semibold text-center '>
         <h2 className='text-xl '>1. Premium Makhana (Fox Nuts) – Light, Crunchy & Healthy</h2>
-        <h3 className='text-base ml-5 '>(India’s Favourite Guilt-Free Snack)</h3>
+        <h3 className='text-base md:ml-5 '>(India’s Favourite Guilt-Free Snack)</h3>
         </div>
         <p className='text-gray-900 py-4  '>Nirvana Nuts premium makhana is naturally low in calories and high in plant-based protein. Carefully roasted and packed, our fox nuts retain their crunch, taste, and nutritional value.</p>
-        <h3 className='text-yellow-700 text-lg'>Health Benefits of Makhana</h3>
+        <h3 className='text-yellow-700 text-lg'>Buy Makhana Online – Premium & Flavored Fox Nuts</h3>
+        <p>Looking to buy makhana online? Nirvana Nuts offers premium quality fox nuts 
+          that are carefully sourced and hygienically processed. Our range includes 
+          roasted makhana and flavored makhana, making it easy to buy healthy nuts 
+          online for daily snacking, weight management, and fitness needs.
+        </p>
+        <h3 className='text-yellow-700 text-lg pt-3'>Health Benefits of Makhana</h3>
         <ul className='list-disc list-inside text-gray-900'>
           <li>High in protein & antioxidants</li>
           <li>Low fat & low calorie</li>
@@ -84,7 +90,7 @@ const page = () => {
           <li>Gluten-free & easy to digest</li>
           <li>Ideal for fasting & mindful snacking</li>
         </ul>
-        <h3 className='text-yellow-700 text-lg' >Best for</h3>
+        <h3 className='text-yellow-700 text-lg pt-2' >Best for</h3>
         <ul className='list-disc list-inside text-gray-900 '>
           <li>Office & evening snacks</li>
           <li>Fitness & weight-loss diets</li>
@@ -92,7 +98,7 @@ const page = () => {
         </ul>
         <div className='text-yellow-700 font-semibold py-4 text-center'>
         <h2 className='text-xl '>2. Whey Protein – Clean Muscle-Building Nutrition</h2>
-        <h2 className='text-base ml-5 '>(High-Quality Protein for Strength & Recovery)</h2>
+        <h2 className='text-base md:ml-5 '>(High-Quality Protein for Strength & Recovery)</h2>
         </div>
         <p className=' py-2 '>Nirvana Nuts whey protein is derived from milk and contains all 9 essential amino acids, making it a complete and highly digestible protein source.</p>
         <h3 className='text-yellow-700 text-lg font-semibold py-1'>Types of Whey Protein:-</h3>
