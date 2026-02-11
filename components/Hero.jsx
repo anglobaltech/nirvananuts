@@ -2,7 +2,10 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react'
 
-
+export const metadata={
+  title:"Premium Makhana & Protein Snacks | Nirvana Nuts",
+  description:"Experience clean, premium makhana and protein-rich snacks crafted for mindful eating. Nirvana Nuts delivers freshness, flavor and quality across India."
+}
 // image
 const images = [
   "/new-image-01.avif",
@@ -262,14 +265,14 @@ if (reviews.length === 0) return null;
       <main>
         <div className="min-h-screen bg-linear-to-r from-white via-gray-100 to-white px-4 py-12">
           {/* Intro Section */}
-          <section >
-            <h1 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h1>
+          <section className='' >
+            <h2 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h2>
             <div className="max-w-6xl p-5 mx-auto text-left space-y-6 mb-12">
               <div className='text-yellow-900 text-xl font-bold '>
-              <h2>Buy Premium Makhana & Healthy Nuts Online in India – Nirvana Nuts</h2>
-              <h3 className='text-base'>(Natural Nutrition for a Healthier India)</h3>
+              <h1>Buy Premium Makhana & Healthy Nuts Online in India – Nirvana Nuts</h1>
+              <h2 className='text-base'>(Natural Nutrition for a Healthier India)</h2>
               </div>
-              <p className="text-lg text-gray-900 leading-relaxed animate-fadeIn">
+              <p className="text-17px text-gray-900 leading-relaxed animate-fadeIn">
                 Nirvana Nuts is a trusted Indian brand where you can buy premium makhana 
                 and healthy nuts online. We offer roasted and flavored makhana made from 
                 100% naturally grown fox nuts. If you are looking to buy makhana online or 
@@ -277,19 +280,19 @@ if (reviews.length === 0) return null;
                 taste, and nutrition in every pack.
 
               </p>
-              <p className="text-lg text-gray-900 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
+              <p className="text-17px text-gray-900 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
 
               <h2 className="text-xl font-bold  text-yellow-900">Benefits of Makhana</h2>
-              <ul className="list-disc list-inside text-gray-900 text-lg space-y-1">
-                <li><strong>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
-                <li><strong>Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
-                <li><strong>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
-                <li><strong>Heart Health:</strong> High in magnesium and low in sodium.</li>
-                <li><strong>Digestive Aid:</strong> Promotes healthy digestion and prevents constipation.</li>
+              <ul className="list-disc list-inside text-gray-900 text-14px  space-y-1">
+                <li><strong className='text-lg font-10px'>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
+                <li><strong className='text-lg' >Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
+                <li><strong className='text-lg'>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
+                <li><strong className='text-lg'>Heart Health:</strong> High in magnesium and low in sodium.</li>
+                <li><strong className='text-lg'>Digestive Aid:</strong> Promotes healthy digestion and prevents constipation.</li>
               </ul>
 
               <h2 className="text-xl font-bold  text-yellow-900">Origin of Makhana</h2>
-              <p className="text-gray-900 text-lg">
+              <p className="text-gray-900 text-17px">
                 Makhana, also known as fox nuts or lotus seeds, has been cultivated in the Mithila region of Bihar for centuries. This superfood is deeply rooted in the cultural and agricultural heritage of the region, making it a symbol of tradition and nutritional excellence.
               </p>
             </div>
@@ -300,7 +303,7 @@ if (reviews.length === 0) return null;
             {[
               { src: "/about-image-04.webp", alt: "Makhana Bowl" },
               { src: "/about-image-05.webp", alt: "Nirvana Nuts Packet" },
-              { src: "/about-image-01.avif", alt: "Roasted Almonds" },
+              { src: "/about-image-01.avif", alt: "Roasted makhana" },
 
             ].map((img, i) => (
               <Image
@@ -327,7 +330,7 @@ if (reviews.length === 0) return null;
             We are committed to delivering the finest quality nuts with unmatched freshness and exceptional taste.
           </p>
             <div className=" text-left py-2 pb-20">
-            <h2 className="text-2xl md:text-xl font-bold  text-amber-700">Why Nirvana Nuts?</h2>
+            <h2 className="text-2xl md:text-2xl font-bold  text-amber-700">Why Nirvana Nuts?</h2>
             <ul className="list-disc p-2 space-y-2 text-gray-800 text-base md:text-lg ">
               <li>Premium quality makhana & dry fruits</li>
               <li>Rich in protein, fiber & essential nutrients</li>
@@ -419,7 +422,7 @@ if (reviews.length === 0) return null;
       {/* customer feedback */}
       <section className=" relative h-[60vh] overflow-hidden  md:h-80 text-center ">
           <div className='absolute inset-0 z-0'>
-          <Image src="/image-slider-07.avif" alt='background image' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
+          <Image src="/image-slider-07.avif" alt='background makhana ' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
           </div>
           <div className="absolute inset-0 bg-black/50 "></div>
 
@@ -478,7 +481,7 @@ if (position < -1 || position > 1) return null
           {"☆".repeat(5 - rev.rating)}
         </div>
 
-        <p className="text-gray-700 text-xl">{rev.text}</p>
+        <p className="text-gray-700 text-lg">{rev.text}</p>
       </article>
     );
   })}

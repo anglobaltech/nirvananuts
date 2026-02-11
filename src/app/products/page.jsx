@@ -1,6 +1,11 @@
 import React from 'react'
 import Image from 'next/image';
 
+export const metadata={
+  title:"Buy Premium Makhana & Bulk Whey Protein | Nirvana Nuts",
+  description:"Shop premium classic salted, savory, sweet and spicy makhana along with bulk whey protein at Nirvana Nuts. Healthy, protein-rich snacks crafted for everyday wellness and wholesale needs across India."
+}
+
 const products = [
   {
     name: "Roasted & Salted Makhana – The Classic Snack",
@@ -33,11 +38,11 @@ const page = () => {
   return (
     <section className="min-h-screen  bg-white mt-20 to-amber-100 py-12  md:px-12">
       {/* about nirvana nuts */}
-      <h1 className='text-4xl font-bold  text-amber-600 text-center px-6 p-10 md:shadow-amber-800'>Welcome  to  NIRVANA  NUTS</h1>
+      <h1 className=' text-3xl md:text-4xl font-bold  text-amber-600 text-center px-6 p-10 md:shadow-amber-800'>Shop Premium Makhana Flavors & Bulk Whey Protein Online</h1>
 
-      <div className="flex flex-col md:flex-row mb-10 items-center justify-between bg-white  p-2 mt-4 rounded-xl shadow-md">
+      <div className=" md:max-w-7xl md:ml-15 flex flex-col md:flex-row mb-10 items-center justify-between bg-white  p-2 mt-4 rounded-xl shadow-md">
         <div className="text-gray-900 text-sm md:text-xl md:w-1/2 ml-7 space-y-6 md:pr-8">
-          <h2 className='text-4xl text-amber-700 '>About Nirvana Nuts</h2>
+          <h2 className=' text-2xl md:text-4xl text-amber-700 font-bold '>About Nirvana Nuts</h2>
           <p>
             At Nirvana Nuts, we believe snacking should be both delightful and
             nourishing. That's why our Makhana is carefully sourced from the best
@@ -54,7 +59,7 @@ const page = () => {
             today!
           </p>
         </div>
-        <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
+        <div className="md:ml-35 md:w-1/2 mt-8 md:mt-0 flex justify-center">
           <Image
             src="/product-welcome.avif"
             alt="Nirvana Nuts Makhana"
@@ -66,23 +71,23 @@ const page = () => {
         </div>
       </div>
 
-      <div className='text-gray-900 ml-7 text-sm md:text-xl md:ml-20 max-w-7xl '>
+      <div className='text-gray-900 md:max-w-7xl ml-7 text-sm md:text-xl md:ml-20 max-w-7xl '>
       <h2 className="text-center  text-3xl md:text-4xl font-bold text-amber-900  mb-10">
         Our Products
       </h2>
 
         <div className='text-yellow-700 font-semibold text-center '>
         <h2 className='text-xl '>1. Premium Makhana (Fox Nuts) – Light, Crunchy & Healthy</h2>
-        <h3 className='text-base md:ml-5 '>(India’s Favourite Guilt-Free Snack)</h3>
+        <h2 className='text-base md:ml-5 '>(India’s Favourite Guilt-Free Snack)</h2>
         </div>
         <p className='text-gray-900 py-4  '>Nirvana Nuts premium makhana is naturally low in calories and high in plant-based protein. Carefully roasted and packed, our fox nuts retain their crunch, taste, and nutritional value.</p>
-        <h3 className='text-yellow-700 text-lg'>Buy Makhana Online – Premium & Flavored Fox Nuts</h3>
+        <h2 className='text-yellow-700 text-lg'>Buy Makhana Online – Premium & Flavored Fox Nuts</h2>
         <p>Looking to buy makhana online? Nirvana Nuts offers premium quality fox nuts 
           that are carefully sourced and hygienically processed. Our range includes 
           roasted makhana and flavored makhana, making it easy to buy healthy nuts 
           online for daily snacking, weight management, and fitness needs.
         </p>
-        <h3 className='text-yellow-700 text-lg pt-3'>Health Benefits of Makhana</h3>
+        <h2 className='text-yellow-700 text-lg pt-3'>Health Benefits of Makhana</h2>
         <ul className='list-disc list-inside text-gray-900'>
           <li>High in protein & antioxidants</li>
           <li>Low fat & low calorie</li>
@@ -90,7 +95,7 @@ const page = () => {
           <li>Gluten-free & easy to digest</li>
           <li>Ideal for fasting & mindful snacking</li>
         </ul>
-        <h3 className='text-yellow-700 text-lg pt-2' >Best for</h3>
+        <h2 className='text-yellow-700 text-lg pt-2' >Best for</h2>
         <ul className='list-disc list-inside text-gray-900 '>
           <li>Office & evening snacks</li>
           <li>Fitness & weight-loss diets</li>
@@ -101,7 +106,7 @@ const page = () => {
         <h2 className='text-base md:ml-5 '>(High-Quality Protein for Strength & Recovery)</h2>
         </div>
         <p className=' py-2 '>Nirvana Nuts whey protein is derived from milk and contains all 9 essential amino acids, making it a complete and highly digestible protein source.</p>
-        <h3 className='text-yellow-700 text-lg font-semibold py-1'>Types of Whey Protein:-</h3>
+        <h2 className='text-yellow-700 text-lg font-semibold py-1'>Types of Whey Protein:-</h2>
         <h4 className='text-yellow-700 text-base py-1.5' >Whey Protein Concentrate (WPC)</h4>
         <ul className='list-disc list-inside'>
           <li>70–80% protein</li>
@@ -138,15 +143,14 @@ const page = () => {
           (max-width: 1024px) 50vw,
           33vw"
     className="object-fill rounded-t-xl"
-    priority
   />
 </div>
             {/* Product Info */}
             <div className="p-5 flex flex-col justify-between h-49">
               <div>
-                <h3 className="text-lg font-semibold text-amber-900">
+                <h2 className="text-lg font-semibold text-amber-900">
                   {product.name}
-                </h3>
+                </h2>
                 <p className="text-sm text-gray-600 mt-1">
                   {product.description}
                 </p>

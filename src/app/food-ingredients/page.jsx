@@ -2,11 +2,13 @@
 import Image from "next/image";
 import React from "react";
 
+
+
 const page = () => {
   return (
     <main className="bg-gray-50 min-h-screen   ">
-    <section className="p-8   ">
-      <div >
+    <section className="p-8  ">
+      <div className="max-w-7xl" >
         <h1 className="text-4xl mt-20 p-10 font-bold text-center text-gray-800 mb-12">
           🥛 Lactose – Dairy Ingredient
         </h1>
@@ -25,9 +27,9 @@ const page = () => {
             <h2 className="text-2xl font-bold text-amber-600 mb-4">
               1. Lactose
             </h2>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">
               What is Lactose?
-            </h3>
+            </h2>
             <p className="text-gray-600 mb-6 leading-relaxed">
               Lactose is a naturally occurring disaccharide sugar found in milk
               and dairy products. It consists of glucose and galactose
@@ -95,7 +97,6 @@ const page = () => {
             src="/food-ingredient-02.webp"
             alt="Lactose Powder and Milk"
             width={200} height={200}
-            priority
             className=" w-full h-full  object-cover"
           />
         </div>
@@ -105,17 +106,17 @@ const page = () => {
             2. Whey Protein Concentrate
           </h2>
 
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">
             What is Whey Protein Concentrate?
 
-          </h3>
+          </h2>
           <p className="text-gray-600 mb-6 leading-relaxed">
             Whey is a by-product of cheese manufacturing from cow milk. It contains high biological value proteins essential for growth and recovery.
           </p>
 
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">
             Benefits
-          </h3>
+          </h2>
           <ul className="list-disc list-inside text-gray-600 space-y-2 mb-8">
             <li>Rich in essential amino acidsc</li>
             <li>Rapid muscle recovery</li>
@@ -123,9 +124,9 @@ const page = () => {
             <li>Acts as protein fortifier</li>
           </ul>
 
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">
+          <h2 className="text-lg font-semibold text-gray-700 mb-3">
             Specifications
-          </h3>
+          </h2>
 
           <div className="overflow-x-auto">
             <table className="w-full border border-gray-200 text-sm text-left">
@@ -169,19 +170,18 @@ const page = () => {
             src="/food-ingredient-03.webp"
             alt="Lactose Powder and Milk"
             height={200} width={200}
-            priority
             className=" w-full h-full object-cover"
           />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-amber-600 mb-4 "> 3. Lactoferrin </h2>
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">What is Lactoferrin? </h3>
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">What is Lactoferrin? </h2>
           <p className="text-gray-600 mb-6 leading-relaxed">
             Lactoferrin is a glycoprotein present in milk and body fluids. It supports immunity, iron metabolism and exhibits antimicrobial and antioxidant properties.
           </p>
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          <h2 className="text-lg font-semibold text-gray-700 mb-2">
             Benefits
-          </h3>
+          </h2>
           <ul className="list-disc list-inside text-gray-600 space-y-2 mb-8">
             <li>Immune system support</li>Immune system support
             <li>Antioxidant & anti-inflammatory</li>
@@ -190,9 +190,9 @@ const page = () => {
           </ul>
 
           {/* Specifications Table */}
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">
+          <h2 className="text-lg font-semibold text-gray-700 mb-3">
             Specifications
-          </h3>
+          </h2>
 
           <div className="overflow-x-auto">
             <table className="w-full border border-gray-200 text-sm text-left">
@@ -229,7 +229,6 @@ const page = () => {
             src="/food-ingredient-04.webp"
             alt="Lactose Powder and Milk"
             width={200} height={200}
-            priority
             className=" w-full h-full object-cover"
           />
         </div>
@@ -315,4 +314,4 @@ const page = () => {
 }
 
 
-export default page
+export default page;
