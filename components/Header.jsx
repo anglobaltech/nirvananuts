@@ -25,9 +25,11 @@ const Header = () => {
             <a href="/about" className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>About us</a>
             <div className='relative'
               onMouseEnter={()=>setOpen(true) }
+              onMouseMove={()=>setOpen(true)}
               onMouseLeave={()=>setOpen(false)}>
               <button className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>Product▾</button>
-              <div  className={`absolute  mt-4  bg-white  rounded-xl shadow-xl p-5 gap-2 
+              <div className="absolute left-0 top-full h-4  w-full"></div>
+              <div  className={`absolute   left-0 top-full bg-white  rounded-xl shadow-xl p-5 gap-2
               ${open ? "opacity-100 visible" : "opacity-0 invisible"}
               `}>
               <div className='flex flex-col gap-4  '>

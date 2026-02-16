@@ -4,24 +4,97 @@ import Image from "next/image";
 const Page = () => {
   return (
     <div className="min-h-screen bg-white">
-      <section className="bg-[#fbf7ef] py-16 px-6">
-        <div className="max-w-6xl text-center mx-auto">
-          <h1 className="text-3xl mt-20 md:text-4xl text-amber-900 font-bold ">
-            Whey Protein – The Muscle Builder
-          </h1>
-        </div>
-      </section>
 
-      {/* Types Section */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 mt-15 mb-5">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl mt-2 text-center md:text-3xl text-amber-900 font-bold ">Whey Protein</h2>
-            <p className="mt-6 mb-5 text-gray-700 text-base md:text-lg max-w-6xl leading-relaxed">
+          <h2 className="text-2xl mt-2 text-center md:text-3xl text-amber-900 font-bold ">Whey Protein – The Muscle Builder</h2>
+            <p className="mt-6 mb-5 text-gray-700 text-base md:text-base max-w-6xl leading-relaxed">
            Whey Protein is a high-quality, fast-absorbing protein supplement derived from milk during the cheese-making process. Rich in essential amino acids and BCAAs, it supports muscle growth, faster recovery, and overall strength development. Ideal for athletes, gym enthusiasts, and anyone looking to increase daily protein intake, whey protein helps improve lean muscle mass, boost metabolism, and maintain overall wellness. Our premium whey protein powder is easy to mix, delicious in taste, and perfect for post-workout recovery, weight management, and active lifestyles.
           </p>
           <h2 className="text-2xl text-center md:text-3xl text-amber-900 font-semibold mb-10">
             The Three Main Types
           </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300">
+  
+  <img 
+    src="/whey-protein-02.avif" 
+    alt="Whey Protein Concentrate"
+    className="w-full h-48 object-fill rounded-lg mb-4"
+  />
+
+  <h3 className="text-xl text-amber-700 font-semibold mb-2"> 
+    Whey Protein Concentrate (WPC)
+  </h3>
+
+  <p className="text-gray-600 mb-4">
+    Contains 70–80% protein. Budget-friendly and nutrient-rich,
+    ideal for daily fitness and muscle support.
+  </p>
+
+  <ul className="list-disc pl-5 text-gray-600 space-y-1">
+    <li>Creamy taste</li>
+    <li>Affordable protein</li>
+    <li>Supports muscle growth</li>
+    <li>Good for daily use</li>
+  </ul>
+
+</div>
+
+<div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300">
+
+  <img 
+    src="/whey-protein-07.avif" 
+    alt="Whey Protein Isolate"
+    className="w-full h-48 object-fill rounded-lg mb-4"
+  />
+
+  <h3 className="text-xl text-amber-700 font-semibold mb-2">
+    Whey Protein Isolate (WPI)
+  </h3>
+
+  <p className="text-gray-600 mb-4">
+    90%+ pure protein with low lactose. Perfect for weight loss
+    and lean muscle building.
+  </p>
+
+  <ul className="list-disc pl-5 text-gray-600 space-y-1">
+    <li>Low fat & low carb</li>
+    <li>Fast absorption</li>
+    <li>Great for cutting phase</li>
+    <li>Lactose friendly</li>
+  </ul>
+
+</div>
+<div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300">
+
+  <img 
+    src="/whey-protein-04.avif" 
+    alt="Whey Protein Hydrolysate"
+    className="w-full h-48 object-fill rounded-lg mb-4"
+  />
+
+  <h3 className="text-xl text-amber-700 font-semibold mb-2">
+    Whey Protein Hydrolysate (WPH)
+  </h3>
+
+  <p className="text-gray-600 mb-4">
+    Pre-digested protein for fastest absorption and elite
+    muscle recovery.
+  </p>
+
+  <ul className="list-disc pl-5 text-gray-600 space-y-1">
+    <li>Super fast digestion</li>
+    <li>Easy on stomach</li>
+    <li>Advanced recovery</li>
+    <li>Premium performance</li>
+  </ul>
+
+</div>
+
+
+          </div>
 
           <div className="grid gap-8 md:grid-cols-1">
             {/* Card 1 */}
@@ -132,9 +205,9 @@ const Page = () => {
 
               <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-12 max-w-6xl mx-auto">
                 {[
-                  { src: "/whey-protein-04.avif", alt: "whey protein image" },
-                  { src: "/whey-protein-02.avif", alt: "whey protein image 2" },
-                  { src: "/whey-protein-03.avif", alt: "whey protein image 03" },
+                  { src: "/whey-protein-06.avif", alt: "whey protein image" },
+                  { src: "/whey-protein-04.avif", alt: "whey protein image 2" },
+                  { src: "/whey-protein-05.avif", alt: "whey protein image 03" },
       
                 ].map((img, i) => (
                   <Image
