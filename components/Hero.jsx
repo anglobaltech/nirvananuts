@@ -20,34 +20,34 @@ const products = [
     description: "Lightly roasted with rock salt",
 //    price: "₹199",
     image: "/image-quality-01.avif",
-    link: "/products"
+    link: "/makhana"
   },
   {
     name: "Modern Savory Flavors makhana",
     description: "Bold, tangy, cheesy, spicy",
 //    price: "₹249",
     image: "/product-03.avif",
-    link: "/products"
+    link: "/makhana"
   },
   {
     name: "Sweet Gourmet Flavors makhana",
     description: "Rich, indulgent, dessert-style crunch",
 //    price: "₹299",
     image: "/product-04.avif",
-    link: "/products"
+    link: "/makhana"
   },
   {
     name: "Fusion Spicy makhana",
     description: "A healthy mix of nuts for every mood.",
 //    price: "₹349",
     image: "/about-image-04.webp",
-    link: "/products"
+    link: "/makhana"
   },
   {
     name: "Whey Protein",
     description: "High-quality protein for muscle support",
 //    price: "₹399",
-    image: "/whey-protein-01.avif",
+    image: "/whey-protein-07.avif",
     link:"/whey-protein"
   },
 ];
@@ -202,7 +202,7 @@ if (reviews.length === 0) return null;
       onTouchEnd={onTouchEnd}
     >
       {/* Slider Background */}
-      <div className=" absolute   mt-20 mb-5 bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden ">
+      <div className=" absolute   mt-19 mb-5 bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden ">
 
         <div
           className="flex transition-transform duration-700 ease-in-out h-full "
@@ -401,7 +401,7 @@ if (reviews.length === 0) return null;
                 className="w-full h-64 object-fill"
               />
               <div className="p-6 text-left">
-                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
                 <p className="text-sm text-gray-600 mb-4">{product.description}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold text-amber-700">

@@ -40,7 +40,7 @@ const page = () => {
 
           <h2 className=' text-3xl md:text-3xl font-bold  text-amber-600 text-center px-6 mt-10 md:shadow-amber-800'>Explore Our Makhana Flavors</h2>
 
-          <div className="max-w-7xl  mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
+          <div className="max-w-6xl  mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
 
             {/* Image */}
             <div className="w-full">
@@ -49,7 +49,7 @@ const page = () => {
                 alt="Classic Salted Makhana"
                 width={600}
                 height={400}
-                className="w-full h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
+                className="w-120 h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
               />
             </div>
 
@@ -74,7 +74,7 @@ const page = () => {
           </div>
 
           {/* last */}
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
 
             {/* Text */}
             <div className="order-2 md:order-1">
@@ -101,13 +101,13 @@ const page = () => {
                 alt="Savory Makhana"
                 width={600}
                 height={400}
-                className="w-full h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
+                className="w-120 h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
               />
             </div>
 
           </div>
           {/* last */}
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
 
             {/* Image */}
             <div className="w-full">
@@ -116,7 +116,7 @@ const page = () => {
                 alt="Sweet Gourmet Flavors Makhana"
                 width={600}
                 height={400}
-                className="w-full h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
+                className="w-120 h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
               />
             </div>
 
@@ -140,7 +140,7 @@ const page = () => {
 
           </div>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
 
             {/* Text */}
             <div className="order-2 md:order-1">
@@ -167,7 +167,7 @@ const page = () => {
                 alt="Fusion Spicy Makhana"
                 width={600}
                 height={400}
-                className="w-full h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
+                className="w-120 h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
               />
             </div>
 
@@ -189,7 +189,7 @@ const page = () => {
         {products.map((product, index) => (
           <div
             key={index}
-            className='h-120 bg-white rounded-xl shadow-md overflow-hidden  duration-300 hover:scale-105 hover:shadow-lg'
+            className='h-140 bg-white rounded-xl shadow-md overflow-hidden   duration-300 hover:scale-105 hover:shadow-lg'
           >
             <div className=" relative w-full aspect-4/3 sm:aspect-3/2 lg:aspect-4/3">
               <Image
