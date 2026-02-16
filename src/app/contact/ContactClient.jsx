@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import {  useRef } from "react";
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import emailjs from "@emailjs/browser"
@@ -71,46 +71,11 @@ const ContactClient = () => {
 
 
 
-  // Refs for fade-in on scroll
-  const sectionRefs = useRef([]);
-
-  useEffect(() => {
-    // IntersectionObserver for fade-in sections
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("opacity-0", "translate-y-6");
-            entry.target.classList.add("opacity-100", "translate-y-0");
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    sectionRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  const setRef = (el, idx) => {
-    sectionRefs.current[idx] = el;
-  };
 
   return (
-    <main className="min-h-screen   relative overflow-hidden mt-14 bg-linear-to-br from-amber-50 via-orange-100 to-stone-200" >
+    <main className="min-h-screen   relative  mt-14 bg-linear-to-br from-amber-50 via-orange-100 to-stone-200" >
       <ToastContainer />
-
-      <div aria-hidden="true" className=" pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 -left-24 h-72 w-72  rounded-full bg-linear-to-br from-amber-200 to-stone-300 blur-3xl opacity-40 animate-pulse" />
-        <div className="absolute -bottom-24 -right-24 h-70 w-80  rounded-full bg-linear-to-br from-stone-300 to-amber-200 blur-3xl opacity-40 animate-pulse" />
-      </div>
-
-      {/* Page container */}
-      <section
-        ref={(el) => setRef(el, 0)}
-        className="container  mx-auto px-4 sm:px-6 lg:px-8 py-16 opacity-0 translate-y-6 transition-all duration-700 ease-out"
-      >
-        {/* Header */}
+      <section className="container  mx-auto px-4 sm:px-6 lg:px-8 py-16 ">
         <header className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-semibold p-10 tracking-tight text-amber-900">
             Contact Nirvana Nuts for Orders, Bulk Enquiries & Support
@@ -122,8 +87,6 @@ const ContactClient = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-9 gap-10 md:max-w-8xl  ">
           <div
-            ref={(el) => setRef(el, 1)}
-            className="relative     translate-y-6  transition-all duration-700 ease-out"
           >
             <div className="md:w-180 md:ml-7 rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
               <form
@@ -231,9 +194,8 @@ const ContactClient = () => {
           </div>
 
           {/* Floating contact info + social bar */}
-          <aside
-            ref={(el) => setRef(el, 2)}
-            className="relative opacity-0  translate-y-6 transition-all duration-700 ease-out"
+          <div
+            className="relative "
           >
             <div className="rounded-2xl md:w-150 md:ml-20  bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8  md:h-120 flex flex-col justify-between">
               {/* Contact info */}
@@ -305,28 +267,28 @@ const ContactClient = () => {
                   <a
                     href="https://www.instagram.com/nirvana.nuts/"
                     aria-label="Visit Instagram"
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
+                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm  hover:scale-105 "
                   >
                     <Image src="/instagram-icon.avif" alt="instagram" width={200} height={200}  />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit Facebook"
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
+                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm  hover:scale-105 "
                   >
                     <Image src="/facebook-icon.avif" alt="Facebook" height={200} width={200}  />
                   </a>
                   <a
                     href="#"
                     aria-label="Visit LinkedIn"
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm transition-all duration-200 hover:scale-105 "
+                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm  hover:scale-105 "
                   >
                     <Image src="/linkedin-icon.avif" alt="Linkedin" height={200} width={200}  />
                   </a>
                 </div>
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </section>
 

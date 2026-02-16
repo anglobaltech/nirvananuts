@@ -1,124 +1,123 @@
-"use client";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+"use client"
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { Menu, X, ChevronDown } from "lucide-react"
+
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About us" },
-    { href: "/products", label: "Product" },
-    { href: "/food-ingredients", label: "Food Ingredients" },
-    { href: "/contact", label: "Contact us" },
-  ];
+  const [open,setOpen]= useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileProduct, setMobileProduct] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-amber-50">
-      <nav className="max-w-8xl mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+    <header className='fixed w-full top-0 left-0 z-50 bg-amber-50'>
+      <nav className='max-w-7xl px-3 mx-auto '>
+        <div>
+        <div className='flex justify-between items-center px-4 py-3 mx-auto '>
           <a href="/">
-            <div className="  ml-15 relative">
-              <Image
-                src="/nirvana-logo.avif"
-                alt="logo"
-                width={65}
-                height={70}
-                className="object-contain "
-                // style={{ width: , height: "auto" }}
-                priority
-              />
-            </div>
+          <div className=' relative'>
+            <Image src="/nirvana-logo.avif" alt='nirvananuts-logo' height={60} width={75} className=' object-contain' />
+          </div>
           </a>
 
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300"
-              >
-                {link.label}
-              </a>
-            ))}
-
-            {/* Shop Now Button */}
-            {/* <a
-              href="/products"
-              className="px-4 py-2 rounded-md bg-amber-600 text-white font-semibold hover:bg-amber-700 transition duration-300"
-            >
-              Shop Now
-            </a> */}
+          <div className='hidden md:flex items-center gap-6 '>
+            <a href="/" className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>Home</a>
+            <a href="/about" className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>About us</a>
+            <div className='relative'
+              onMouseEnter={()=>setOpen(true) }
+              onMouseLeave={()=>setOpen(false)}>
+              <button className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>Product▾</button>
+              <div  className={`absolute  mt-4  bg-white  rounded-xl shadow-xl p-5 gap-2 
+              ${open ? "opacity-100 visible" : "opacity-0 invisible"}
+              `}>
+              <div className='flex flex-col gap-4  '>
+              <a href="/makhana" className="text-black font-medium hover:text-amber-600 transition whitespace-nowrap">Makhana </a> 
+              <a href="/whey-protein" className="text-black  font-medium hover:text-amber-600 transition whitespace-nowrap">Whey Protein</a>
+              </div>
+              </div>
+            </div>
+            <a href="/food-ingredients" className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>Food Ingredient</a>
+            <a href="/contact" className='px-3 py-2 rounded-md text-lg font-medium text-gray-900  hover:text-amber-600 transition duration-300'>Contact</a>
           </div>
 
-          {/* Mobile Button */}
-          <button
-            className="md:hidden text-gray-900"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+ {/* Mobile Toggle Button */}
+<div className="md:hidden">
+  <button
+    onClick={() => setMobileOpen(prev => !prev)}
+    className="text-gray-900 text-3xl"
+  >
+    {mobileOpen ? "✕" : "☰"}
+  </button>
+</div>
+
+
         </div>
+</div>
       </nav>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white">
-          <div className="flex flex-col px-4 py-4 gap-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="px-3 py-2 rounded-md text-gray-800 font-medium hover:bg-green-200 hover:text-green-800 transition duration-300"
-              >
-                {link.label}
-              </a>
-            ))}
+      {mobileOpen && (
+  <div className="md:hidden  bg-gray-100 py-4">
+    <div className="flex flex-col gap-4 px-4 ">
 
-            {/* Shop Now Button in Mobile */}
-            {/* <a
-              href="/products"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 rounded-md bg-amber-400 text-white font-semibold hover:scale-105 active:scale-95 transition-transform"
-            >
-              Shop Now
-            </a> */}
-          </div>
-        </div>
-      )}
+      <a href="/" 
+         onClick={() => setMobileOpen(false)}
+         className="text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+        Home
+      </a>
 
+      <a href="/about"
+         onClick={() => setMobileOpen(false)}
+         className="text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+        About Us
+      </a>
+
+      {/* Product Dropdown */}
+<button
+  onClick={() => setMobileProduct(!mobileProduct)}
+  className="flex justify-between items-center text-lg font-medium text-gray-900 hover:text-amber-600 transition"
+>
+  Product
+  <span className={`text-sm transition-transform ${mobileProduct ? "rotate-180" : ""}`}>
+    ▼
+  </span>
+</button>
+
+{mobileProduct && (
+  <div className="pl-4 flex flex-col gap-2">
+
+    <a href="/makhana"
+       onClick={() => setMobileOpen(false)}
+       className="text-gray-700 hover:text-amber-600 transition">
+      Makhana
+    </a>
+
+    <a href="/whey-protein"
+       onClick={() => setMobileOpen(false)}
+       className="text-gray-700 hover:text-amber-600 transition">
+      Whey Protein
+    </a>
+
+  </div>
+)}
+
+
+      <a href="/food-ingredients"
+         onClick={() => setMobileOpen(false)}
+         className="text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+        Food Ingredient
+      </a>
+
+      <a href="/contact"
+         onClick={() => setMobileOpen(false)}
+         className="text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+        Contact
+      </a>
+
+    </div>
+  </div>
+)}
     </header>
+  )
+}
 
-  );
-};
-
-export default Header;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Header

@@ -10,8 +10,8 @@ export const metadata={
 const page = () => {
   return (
     <main className="min-h-screen  bg-linear-to-r  from-white via-gray-100 to-white  ">
-      <div>
-      <section className="md:w-7xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  mb-16">
+      <div className="md:w-7xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  ">
+
         <div className="flex justify-center mt-10">
         </div>
         <h1 className="text-4xl font-bold md:p-10 text-center md:text-4xl text-yellow-900 ">
@@ -119,7 +119,7 @@ const page = () => {
         {/* Cultural Origin Section */}
         <section className="max-w-6xl  mx-auto mb-16 text-center space-y-6">
           <h2 className="text-2xl font-semibold text-yellow-900">Cultural Heritage of Makhana</h2>
-          <p className="text-gray-900 max-w-3xl mx-auto">
+          <p className="text-gray-900 max-w-4xl mx-auto">
             Makhana, also known as fox nuts, originates from the Mithila region of Bihar.
             It has been part of traditional Indian medicine for centuries, used in Ayurveda
             for its health benefits. Rich in nutrients, makhana is a staple in Indian households
@@ -141,7 +141,7 @@ const page = () => {
             </button>
           </a>
         </section>
-      </section>
+
       </div>
     </main>
 

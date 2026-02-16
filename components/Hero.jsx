@@ -441,7 +441,8 @@ if (reviews.length === 0) return null;
       </section>
 
       {/* review section */}
-<section className="mb-20 bg-linear-to-r from-blue-50 to-grey-50 flex flex-col items-center  ">
+<section className=" bg-linear-to-r from-blue-50 to-grey-50 flex flex-col items-center  ">
+
   <h2 className="text-3xl font-bold my-20 text-amber-800 text-center">
     Customer Reviews & Testimonials Nirvana Nuts
   </h2>
@@ -508,7 +509,7 @@ if (position < -1 || position > 1) return null
   </div>
 
   {/* Dots */}
-  <div className="flex gap-2 mt-6">
+  <div className="flex gap-2 mb-20  mt-6">
     
     {Array.from({ length: totalDots }).map((_, index) => (
       <span
