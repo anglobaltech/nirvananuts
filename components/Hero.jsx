@@ -263,16 +263,16 @@ if (reviews.length === 0) return null;
 
       {/* about us */}
       <main>
-        <div className="min-h-screen bg-linear-to-r from-white via-gray-100 to-white px-4 py-12">
+        <div className="min-h-screen bg-linear-to-r from-white via-gray-100 to-white px-4 py-5">
           {/* Intro Section */}
-          <section className='' >
-            <h2 className="text-4xl font-bold text-center mt-0 pb-15 text-yellow-900 gap-0 animate-fadeIn">About Nirvana Nuts</h2>
-            <div className="max-w-6xl p-5 mx-auto text-left space-y-6 mb-12">
+          <section  >
+            <h2 className="text-4xl font-bold text-center mt-0 pb-5 text-yellow-900 gap-0 ">About Nirvana Nuts</h2>
+            <div className="max-w-6xl p-5 mx-auto text-left space-y- mb-12">
               <div className='text-yellow-900 text-xl font-bold '>
               <h1>Buy Premium Makhana & Healthy Nuts Online in India – Nirvana Nuts</h1>
-              <h2 className='text-base'>(Natural Nutrition for a Healthier India)</h2>
+              <h2 className='text-base '>(Natural Nutrition for a Healthier India)</h2>
               </div>
-              <p className="text-17px text-gray-900 leading-relaxed animate-fadeIn">
+              <p className="text-17px mt-3 text-gray-900 leading-relaxed ">
                 Nirvana Nuts is a trusted Indian brand where you can buy premium makhana 
                 and healthy nuts online. We offer roasted and flavored makhana made from 
                 100% naturally grown fox nuts. If you are looking to buy makhana online or 
@@ -280,18 +280,18 @@ if (reviews.length === 0) return null;
                 taste, and nutrition in every pack.
 
               </p>
-              <p className="text-17px text-gray-900 leading-relaxed animate-fadeIn">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
+              <p className="text-17px text-gray-900 mb-5 leading-relaxed ">Whether you’re looking for low-calorie makhana, protein-rich nuts, or clean daily nutrition, Nirvana Nuts helps you snack smarter without compromising on quality.</p>
 
-              <h2 className="text-xl font-bold  text-yellow-900">Benefits of Makhana</h2>
-              <ul className="list-disc list-inside text-gray-900 text-14px  space-y-1">
-                <li><strong className='text-lg font-10px'>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
-                <li><strong className='text-lg' >Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
-                <li><strong className='text-lg'>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
-                <li><strong className='text-lg'>Heart Health:</strong> High in magnesium and low in sodium.</li>
-                <li><strong className='text-lg'>Digestive Aid:</strong> Promotes healthy digestion and prevents constipation.</li>
+              <h2 className="text-xl font-bold mb-2  text-yellow-900">Benefits of Makhana</h2>
+              <ul className="list-disc list-inside  mb-2 text-gray-900 text-14px  space-y-1">
+                <li><strong className='text-lg  text-amber-700 font-10px'>Nutrient-Rich:</strong> Packed with protein, fiber, and essential minerals.</li>
+                <li><strong className='text-lg text-amber-700 ' >Low-Calorie:</strong> Ideal for weight management and low in fat.</li>
+                <li><strong className='text-lg text-amber-700 '>Antioxidant-Rich:</strong> Helps reduce oxidative stress and lower disease risks.</li>
+                <li><strong className='text-lg text-amber-700 '>Heart Health:</strong> High in magnesium and low in sodium.</li>
+                <li><strong className='text-lg text-amber-700 '>Digestive Aid:</strong> Promotes healthy digestion and prevents constipation.</li>
               </ul>
 
-              <h2 className="text-xl font-bold  text-yellow-900">Origin of Makhana</h2>
+              <h2 className="text-xl font-bold mb-2 text-yellow-900">Origin of Makhana</h2>
               <p className="text-gray-900 text-17px">
                 Makhana, also known as fox nuts or lotus seeds, has been cultivated in the Mithila region of Bihar for centuries. This superfood is deeply rooted in the cultural and agricultural heritage of the region, making it a symbol of tradition and nutritional excellence.
               </p>
@@ -299,7 +299,7 @@ if (reviews.length === 0) return null;
           </section>
 
           {/* Image Section */}
-          <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-12 max-w-6xl mx-auto">
+          <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6  max-w-6xl mx-auto">
             {[
               { src: "/about-image-04.webp", alt: "Makhana Bowl" },
               { src: "/about-image-05.webp", alt: "Nirvana Nuts Packet" },
@@ -322,16 +322,16 @@ if (reviews.length === 0) return null;
       {/* Why Choose Nirvana Nuts */}
 
       <main className="font-sans text-gray-900  bg-gray-50">
-        <section className=" py-16 px-6 max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-amber-900 mb-10 animate-fadeInUp">
+        <section className=" py-7 px-6 max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-amber-900 mb-3 animate-fadeInUp">
             Why Choose Nirvana Nuts
           </h2>
-          <p className="text-gray-700 text-lg mb-12 animate-fadeInUp delay-200">
+          <p className="text-gray-700 text-lg mb-4 animate-fadeInUp delay-200">
             We are committed to delivering the finest quality nuts with unmatched freshness and exceptional taste.
           </p>
-            <div className=" text-left py-2 pb-20">
+            <div className=" text-left py-2 pb-8">
             <h2 className="text-2xl md:text-2xl font-bold  text-amber-700">Why Nirvana Nuts?</h2>
-            <ul className="list-disc p-2 space-y-2 text-gray-800 text-base md:text-lg ">
+            <ul className="list-disc p-2 space-y-1 text-gray-800 text-base md:text-lg ">
               <li>Premium quality makhana & dry fruits</li>
               <li>Rich in protein, fiber & essential nutrients</li>
               <li>No artificial colors or preservatives</li>
@@ -355,7 +355,7 @@ if (reviews.length === 0) return null;
         </section>
 
         {/* Quality & Value Section */}
-        <section className="grid md:grid-cols-2 gap-8 p-5 px-6 py-16 max-w-6xl mx-auto">
+        <section className="grid md:grid-cols-2 gap-8 p-5 px-6 py- max-w-6xl mx-auto">
           <div className="animate-fadeInUp">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-amber-700">OUR QUALITY</h2>
             <p className="text-gray-800 text-base md:text-lg leading-relaxed">
@@ -419,14 +419,12 @@ if (reviews.length === 0) return null;
         </div>
       </section>
 
-      {/* customer feedback */}
+
       <section className=" relative h-[60vh] overflow-hidden  md:h-80 text-center ">
           <div className='absolute inset-0 z-0'>
           <Image src="/image-slider-07.avif" alt='background makhana ' priority height={300} width={300} className='md:w-full w-full h-full object-fill'  />
           </div>
           <div className="absolute inset-0 bg-black/50 "></div>
-
-
       {/* contact us */}
         <div className="relative z-10 py-8 px-6 m-15  text-center   ">
           <h2 className="text-3xl font-bold text-amber-400 "> For Any Query, Get in Touch with Nirvana Nuts </h2>
@@ -443,7 +441,7 @@ if (reviews.length === 0) return null;
       {/* review section */}
 <section className=" bg-linear-to-r from-blue-50 to-grey-50 flex flex-col items-center  ">
 
-  <h2 className="text-3xl font-bold my-20 text-amber-800 text-center">
+  <h2 className="text-3xl font-bold my-10 text-amber-800 text-center">
     Customer Reviews & Testimonials Nirvana Nuts
   </h2>
 
@@ -457,7 +455,7 @@ if (position < -1 || position > 1) return null
     return (
       <article
         key={rev.id}
-        className="absolute w-75 md:w-1/2 lg:w-1/3 h-70
+        className="absolute w-75 md:w-1/2 lg:w-1/3 h-60
           bg-white shadow-xl rounded-xl p-6
           transition-all duration-700 ease-in-out "
         style={{

@@ -29,21 +29,21 @@ const page = () => {
   return (
     <section className='min-h-screen  bg-white mt-15 to-amber-100 py-12  md:px-12'>
 
-      <h1 className=' text-3xl md:text-4xl font-bold  text-amber-600 text-center px-7 md:p-10 md:shadow-amber-800'>Premium Makhana- Healthy and flavorful Snacking</h1>
+      <h1 className=' text-3xl md:text-4xl font-bold  text-amber-600 text-center px-7 md:p-7 md:shadow-amber-800'>Premium Makhana- Healthy and flavorful Snacking</h1>
       <div className='text-gray-900  ml-7   md:ml-20 md:max-w-7xl'>
 
         <div className='text-gray-900   text-sm p-4 md:p-0 '>
           <h2 className='text-yellow-700 text-2xl  md:text-3xl'>What make  makhana a smart snack choices?</h2>
-          <p className='text-gray-900 py-4 text-lg'>Makhana, also known as fox nuts or lotus seeds, is naturally light, protein-rich, and easy to digest. At Nirvana Nuts, we focus on maintaining purity and flavor in every batch. Our roasting process enhances crispness while preserving nutritional value.</p>
+          <p className='text-gray-900 py-4 text-17px'>Makhana, also known as fox nuts or lotus seeds, is naturally light, protein-rich, and easy to digest. At Nirvana Nuts, we focus on maintaining purity and flavor in every batch. Our roasting process enhances crispness while preserving nutritional value.</p>
 
 
 
-          <h2 className=' text-3xl md:text-3xl font-bold  text-amber-600 text-center px-6 mt-10 md:shadow-amber-800'>Explore Our Makhana Flavors</h2>
+          <h2 className=' text-3xl md:text-3xl font-bold  text-amber-600 text-center px-6 mt-4 md:shadow-amber-800'>Explore Our Makhana Flavors</h2>
 
-          <div className="max-w-6xl  mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl p-6 mt-12">
+          <div className="max-w-6xl  mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-2xl  mt-12">
 
             {/* Image */}
-            <div className="w-full">
+            <div className="w-95">
               <Image
                 src="/image-quality-01.avif"
                 alt="Classic Salted Makhana"
@@ -54,14 +54,14 @@ const page = () => {
             </div>
 
             {/* Text */}
-            <div className='h-full' >
+            <div className='h-95' >
               <h2 className="text-3xl mt-3 sm:text-3xl font-bold text-amber-600 mb-6">
                 Classic Salted Makhana
               </h2>
-              <p className="text-gray-900 text-lg">
+              <p className="text-gray-900 text-17px">
                 Our Classic Salted Makhana is gently roasted and lightly seasoned with pure salt to deliver a clean, natural flavor. A wholesome, protein-rich snack that’s perfect for everyday healthy munching.
               </p>
-              <ul className='list-disc list-inside mx-auto text-lg py-6 '>
+              <ul className='list-disc list-inside mx-auto text-17px py-6 '>
                 <li>Made from premium quality fox nuts (makhana)</li>
                 <li>Roasted, not fried for a lighter bite</li>
                 <li>Lightly salted to enhance natural taste</li>
@@ -81,10 +81,10 @@ const page = () => {
               <h2 className="text-3xl sm:text-3xl font-bold mt-3 text-amber-600 mb-6">
                 Modern Savory Flavored Makhana
               </h2>
-              <p className="text-gray-900 text-lg">
+              <p className="text-gray-900 text-17px">
                 Experience a modern twist on traditional makhana with rich savory flavors and exciting spice blends. A crunchy, nutritious alternative to fried chips and processed snacks.
               </p>
-              <ul className='list-disc list-inside text-lg py-6'>
+              <ul className='list-disc list-inside text-17px py-6'>
                 <li>Infused with bold and aromatic savory spices</li>
                 <li>Perfectly roasted for extra crunch</li>
                 <li>Healthy substitute for fried snacks</li>
@@ -125,10 +125,10 @@ const page = () => {
               <h2 className="text-3xl sm:text-3xl mt-3 font-bold text-amber-600 mb-6">
                 Sweet Gourmet Flavors Makhana
               </h2>
-              <p className="text-gray-900 text-lg">
+              <p className="text-gray-900 text-17px">
                 Indulge in a delightful sweet crunch with our Sweet Gourmet Makhana. Carefully crafted with premium ingredients, it offers the perfect balance of taste and nutrition.
               </p>
-              <ul className='list-disc list-inside text-lg py-6 '>
+              <ul className='list-disc list-inside text-17px py-6 '>
                 <li>Made from premium quality fox nuts (makhana)</li>
                 <li>Roasted, not fried for a lighter bite</li>
                 <li>Lightly salted to enhance natural taste</li>
@@ -147,10 +147,10 @@ const page = () => {
               <h2 className="text-3xl sm:text-3xl mt-3 font-bold text-amber-600 mb-6">
                 Fusion Spicy Makhana
               </h2>
-              <p className="text-gray-900 text-lg">
+              <p className="text-gray-900 text-17px">
                 Turn up the heat with Fusion Spicy Makhana, seasoned with a vibrant blend of spices for a bold and exciting taste. A light, protein-rich snack made for spice lovers
               </p>
-              <ul className='list-disc list-inside text-lg py-6'>
+              <ul className='list-disc list-inside text-17px py-6'>
                 <li>Unique fusion of traditional and modern spices</li>
                 <li>Spicy kick in every crunchy bite</li>
                 <li>Roasted for a light and airy texture</li>
@@ -180,16 +180,16 @@ const page = () => {
 
 
         <h2 className='text-yellow-700 text-2xl mt-10 py-3'>Health Benefits of Makhana</h2>
-        <p className='text-lg'>Makhana is known for being low in calories and rich in essential nutrients. It supports mindful eating and can be a smart alternative to heavily processed snacks. Its light texture makes it suitable for all age groups.</p>
+        <p className='text-17px'>Makhana is known for being low in calories and rich in essential nutrients. It supports mindful eating and can be a smart alternative to heavily processed snacks. Its light texture makes it suitable for all age groups.</p>
 
         <h2 className='text-yellow-700 text-2xl mt-5 py-3'>Why Choose Nirvana Nuts Makhana?</h2>
-        <p className='text-lg mb-10'>Nirvana Nuts ensures strict quality control, hygienic processing, and carefully sourced ingredients. Our goal is to provide consistent taste and premium crunch in every pack. Each flavor is crafted to meet the expectations of modern, health-conscious consumers.</p>
+        <p className='text-17px mb-10'>Nirvana Nuts ensures strict quality control, hygienic processing, and carefully sourced ingredients. Our goal is to provide consistent taste and premium crunch in every pack. Each flavor is crafted to meet the expectations of modern, health-conscious consumers.</p>
       </div>
       <div className='grid sm:grid-cols-2 md:grid-cols-4 gap-14 p-10 md:px-8 md:py-12 max-w-7xl mx-auto'>
         {products.map((product, index) => (
           <div
             key={index}
-            className='h-140 bg-white rounded-xl shadow-md overflow-hidden   duration-300 hover:scale-105 hover:shadow-lg'
+            className='h-135 bg-white rounded-xl shadow-md overflow-hidden   duration-300 hover:scale-105 hover:shadow-lg'
           >
             <div className=" relative w-full aspect-4/3 sm:aspect-3/2 lg:aspect-4/3">
               <Image
@@ -214,7 +214,7 @@ const page = () => {
 
       {/* contact us */}
 
-      <section className="bg-white py-16 px-6 text-center rounded-xl  mt-8">
+      <section className="bg-white  px-6 text-center rounded-xl  mt-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
         <p className="text-gray-600 mb-6 max-w-xl mx-auto">
           Have questions about our products? We’d love to hear from you!

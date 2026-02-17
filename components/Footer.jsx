@@ -7,11 +7,11 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900  text-white pt-5 pb-8 px-6 fadeInUp">
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  p-12 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  p-5 gap-10">
         {/* WHO ARE WE */}
         <div>
-        <div className="h-20  w-20  ">
-        <Image  src="/nirvana-logo.avif" alt="logo" priority width={200} height={200} />
+        <div className="h-14  w-14  ">
+        <Image  src="/nirvana-logo.avif" alt="logo"  width={200} height={200} />
       </div>
           <h3 className="text-xl font-semibold mb-4">WHO ARE WE?</h3>
           <p className="text-sm text-gray-300">
@@ -89,7 +89,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mt-12 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
+      <div className=" border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
         <p>© 2026 Nirvana Nuts |  Powered by <a href="http://www.anglobalservices.com/" target="_blank" rel="noopener noreferrer" className=" hover:text-blue-700 text-gray-400"> AN Global Services </a></p>
       </div>
     </footer>

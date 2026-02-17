@@ -77,7 +77,7 @@ const ContactClient = () => {
       <ToastContainer />
       <section className="container  mx-auto px-4 sm:px-6 lg:px-8 py-16 ">
         <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-semibold p-10 tracking-tight text-amber-900">
+          <h1 className="text-3xl sm:text-4xl font-semibold p-4 tracking-tight text-amber-900">
             Contact Nirvana Nuts for Orders, Bulk Enquiries & Support
           </h1>
           <p className="mt-3 text-stone-600 max-w-2xl mx-auto">

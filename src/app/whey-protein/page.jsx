@@ -18,9 +18,11 @@ const Page = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-8">
             <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300">
 
-              <img
+              <Image
                 src="/whey-protein-02.avif"
                 alt="Whey Protein Concentrate"
+                height={200}
+                width={200}
                 className="w-full h-48 object-fill rounded-lg mb-4"
               />
 
@@ -44,9 +46,11 @@ const Page = () => {
 
             <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition duration-300">
 
-              <img
+              <Image
                 src="/whey-protein-07.avif"
                 alt="Whey Protein Isolate"
+                height={200}
+                width={200}
                 className="w-full h-48 object-fill rounded-lg mb-4"
               />
 
@@ -69,9 +73,11 @@ const Page = () => {
             </div>
             <div className="bg-white rounded-xl shadow-md  p-6 hover:shadow-xl transition duration-300">
 
-              <img
+              <Image
                 src="/whey-protein-04.avif"
                 alt="Whey Protein Hydrolysate"
+                height={250}
+                width={250}
                 className="w-full h-48 object-fill rounded-lg mb-4"
               />
 
@@ -225,7 +231,7 @@ const Page = () => {
 
       {/* contact us */}
 
-      <section className="bg-white py-16 px-6 text-center rounded-xl  mt-8">
+      <section className="bg-white py-5 px-6 text-center rounded-xl  mt-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
         <p className="text-gray-600 mb-6 max-w-xl mx-auto">
           Have questions about our products? We’d love to hear from you!

@@ -9,7 +9,7 @@ const page = () => {
     <main className="bg-gray-50 min-h-screen   ">
     <section className="p-8  ">
       <div className="max-w-7xl mx-auto" >
-        <h1 className="text-4xl mt-20 p-10 font-bold text-center text-gray-800 mb-12">
+        <h1 className="text-4xl mt-20 p- font-bold text-center text-gray-800 mb-12">
           🥛 Lactose – Dairy Ingredient
         </h1>
         <div className="max-w-7xl  grid grid-cols-1 md:grid-cols-2 gap-10 mt-15 items-start">

@@ -8,7 +8,7 @@ const Header = () => {
   const [mobileProduct, setMobileProduct] = useState(false)
 
   return (
-    <header className="fixed w-full top-0 left-0 z-50 bg-amber-50 shadow-sm">
+    <header className="fixed w-full top-0 left-0 z-50 bg-white   shadow-sm">
       <nav className="max-w-7xl px-3 mx-auto">
         <div className="flex justify-between items-center px-4 py-3">
 
@@ -19,7 +19,8 @@ const Header = () => {
               alt="nirvananuts-logo"
               height={60}
               width={75}
-              className="object-contain"
+              loading="eager"
+              className="object-contain "
             />
           </a>
 
@@ -149,6 +150,7 @@ const Header = () => {
             <a href="/contact" onClick={() => setMobileOpen(false)}>
               Contact
             </a>
+            <Image src="/nirvana-logo.avif" alt="nirvana logo"  height={60} width={60} className="h-15 w-20 mt-93 ml-15 "/>
 
           </div>
         </div>

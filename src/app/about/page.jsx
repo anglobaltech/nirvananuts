@@ -14,7 +14,7 @@ const page = () => {
 
         <div className="flex justify-center mt-10">
         </div>
-        <h1 className="text-4xl font-bold md:p-10 text-center md:text-4xl text-yellow-900 ">
+        <h1 className="text-4xl font-bold md:p-3 text-center md:text-4xl text-yellow-900 ">
           About Nirvana Nuts – Pure Nutrition You Can Trust
         </h1>
         <div className="text-17px text-gray-900 items-center text-left leading-relaxed max-w-8xl mx-auto ">
@@ -64,7 +64,7 @@ const page = () => {
         <section>
           <div >
             <h2 className='text-center  py-6 items-center text-yellow-900 text-4xl font-bold'>Premium Nut Production</h2>
-            <ul className=' list-disc  text-17px text-gray-900 mt-4 text-left leading-relaxed max-w-4xl mx-auto '>
+            <ul className=' list-disc  text-17px text-gray-900 mt-4 text-left leading-relaxed max-w-5xl mx-auto '>
               <li > <span className=' text-lg  font-bold  text-center text-yellow-800 '>Premium Raw Nut Sourcing :</span> Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention.</li>
               <li > <span className=' text-lg font-bold  text-center text-yellow-800 '>Precision Nut Calibration :</span>Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage. </li>
               <li > <span className=' text-lg font-bold  text-center text-yellow-800 '>Hygienic Nut Cleaning :</span> Foreign matter removed with sieves and manual sorting to ensure purity and safe processing.</li>
@@ -97,7 +97,7 @@ const page = () => {
         </section>
 
         {/* image  */}
-        <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-12 max-w-6xl mx-auto">
+        <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-3 max-w-6xl mx-auto">
           {[
             { src: "/about-image-04.webp", alt: "Makhana Bowl" },
             { src: "/about-image-05.webp", alt: "Nirvana Nuts Packet" },
@@ -119,7 +119,7 @@ const page = () => {
         {/* Cultural Origin Section */}
         <section className="max-w-6xl  mx-auto mb-16 text-center space-y-6">
           <h2 className="text-2xl font-semibold text-yellow-900">Cultural Heritage of Makhana</h2>
-          <p className="text-gray-900 max-w-4xl mx-auto">
+          <p className="text-gray-900 max-w-5xl mx-auto">
             Makhana, also known as fox nuts, originates from the Mithila region of Bihar.
             It has been part of traditional Indian medicine for centuries, used in Ayurveda
             for its health benefits. Rich in nutrients, makhana is a staple in Indian households
@@ -128,7 +128,7 @@ const page = () => {
         </section>
 
         {/* contact us */}
-        <section className="bg-white py-16 px-6 text-center rounded-xl shadow-md mt-8">
+        <section className="bg-white py-10 px-6 text-center rounded-xl shadow-md mt-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
           <p className="text-gray-900 mb-6 max-w-xl mx-auto">
             Have questions about our products? We’d love to hear from you!

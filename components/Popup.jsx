@@ -70,11 +70,11 @@ useEffect(() => {
         <main role="dialog" aria-modal="true" className="fixed   inset-0 z-50 flex items-center justify-center bg-black/10 ">
         
         
-            <section className="bg-amber-50  shadow-xl mx-auto sm:h-130 sm:mt-9 overflow-hidden h-132 mt-6 w-80 md:w-190 md:h-120  rounded-lg   relative">
+            <section className="bg-white  shadow-xl mx-auto sm:h-130 sm:mt-9 overflow-hidden h-132 mt-6 w-80 md:w-190 md:h-120  rounded-2xl   relative">
 
-                <div className="md:flex">
-                    <div className=" md:shrink-0">
-                    <Image src="/popup-image-03.avif" alt="nirvana nuts image" priority  height={300} width={400} className="h-40 w-full   md:h-120 md:mt-0  md:p-0  md:w-105 md:ml-0 object-fill  " />
+                <div className="md:flex ">
+                    <div className=" md:shrink-0 ">
+                    <Image src="/popup-image-03.avif" alt="nirvana nuts image" priority  height={300} width={400} className="h-40 w-full rounded-2xl  md:h-108 md:mt-0  md:p-0  md:w-100 md:ml-5 md:mt-6  object-cover  " />
                     </div>
                     <div >
                     <button
@@ -87,9 +87,9 @@ useEffect(() => {
                         <div className="w-100 ">
                             <form ref={form} onSubmit={popUpForm} >
                                 <div className="text-black  ">
-                                    <div className="grid  grid-rows-3  md:ml-10  text-sm md:text-lg ml-4">
+                                    <div className="grid  grid-rows-3  md:ml-10 md:gap-0.5 text-sm md:text-lg ml-4">
                                         <label htmlFor="name">Name</label>
-                                        <input type="text" placeholder=" Enter your name "  name="name" required className="border-gray-500 border-2 text-base w-66 md:p-1 rounded-sm " />
+                                        <input type="text" placeholder=" Enter your name "  name="name" required className="border-gray-500 border-2 text-base w-66 md:p-0.5 rounded-sm " />
 
                                         <label htmlFor="phone">Phone No</label>
                                         <input type="phone" pattern="[0-9]{10}" title="Enter 10 digit mobile number" placeholder=" Enter your phone no "  name="phone" required className="border-gray-500 text-base border-2 w-66 md:md:p-1 rounded-sm " />
