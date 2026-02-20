@@ -74,7 +74,7 @@ const Page = () => {
             <div className="bg-white rounded-xl shadow-md  p-6 hover:shadow-xl transition duration-300">
 
               <Image
-                src="/whey-protein-04.avif"
+                src="/whey-protein-01.avif"
                 alt="Whey Protein Hydrolysate"
                 height={250}
                 width={250}
@@ -213,7 +213,7 @@ const Page = () => {
       <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-14 px-6 py-12 max-w-6xl mx-auto">
         {[
           { src: "/whey-protein-06.avif", alt: "whey protein image" },
-          { src: "/whey-protein-04.avif", alt: "whey protein image 2" },
+          { src: "/whey-protein-01.avif", alt: "whey protein image 2" },
           { src: "/whey-protein-05.avif", alt: "whey protein image 03" },
 
         ].map((img, i) => (

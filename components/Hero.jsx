@@ -1,11 +1,50 @@
 "use client"
+import { Sliders } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react'
+
+
+
 
 export const metadata={
   title:"Premium Makhana & Protein Snacks | Nirvana Nuts",
   description:"Experience clean, premium makhana and protein-rich snacks crafted for mindful eating. Nirvana Nuts delivers freshness, flavor and quality across India."
 }
+
+
+const slides = [
+  {
+    heading:"Classic Salted Makhana",
+    title: "Healthy Roasted Fox Nuts",
+    description: "Enjoy the timeless taste of perfectly roasted classic salted makhana made from premium fox nuts. A healthy, low-calorie snack packed with protein and fiber — ideal for daily munching and guilt-free snacking across India.",
+    image: "/Classic-Salted-Flavors.avif",
+  },
+  {
+    heading:"Modern Savory Flavored Makhana",
+    title: "Bold Taste, Healthy Choice",
+    description: "Experience premium makhana infused with exciting savory flavors. Crafted for modern snack lovers, our flavored fox nuts deliver crunch, nutrition, and irresistible taste in every bite.",
+    image: "/Modern Savory Flavors.avif",
+  },
+    {
+    heading:"Sweet Gourmet Makhana",
+    title: "Luxury Snacking Redefined",
+    description: "Indulge in gourmet sweet makhana made from high-quality fox nuts. A perfect blend of sweetness and crunch, offering a nutritious alternative to traditional desserts and sugary snacks.",
+    image: "/Sweet Gourmet Flavors.avif",
+  },
+    {
+    heading:"Fusion Spicy Makhana",
+    title: "Fiery Flavor,Healthy Crunch",
+    description: "Turn up the heat with our fusion spicy makhana, made from farm-fresh fox nuts and bold Indian spices. A protein-packed, crunchy snack perfect for tea time and fitness-conscious consumers.",
+    image: "/Fusion Spicy.avif",
+  },
+    {
+    heading:"Bulk Whey Protein 20kg",
+    title: "Pure, High-Quality Protein Powder",
+    description: "Premium 20kg bulk whey protein designed for manufacturers, gyms, and supplement brands. Lab-tested, high-protein formula ideal for muscle growth, recovery, and private labeling across India.",
+    image: "/whey.avif",
+  },
+];
+
 // image
 const images = [
   "/new-image-01.avif",
@@ -58,6 +97,9 @@ const Hero = () => {
   const [isHover, setIsHover] = useState(false);
   const intervalRef = useRef(null);
   const touchStartX = useRef(null);
+    const [slider, setSlider] = useState(0);
+
+
 
   useEffect(() => {
     if (isHover) return;
@@ -66,6 +108,16 @@ const Hero = () => {
     }, 4000);
     return () => clearInterval(intervalRef.current);
   }, [isHover, images.length]);
+
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlider((prev) => (prev + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
 
   const goTo = (i) => setIndex(i);
   const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
@@ -194,15 +246,17 @@ if (reviews.length === 0) return null;
     <div>
 
       {/* home slider */}
-    <section
+    {/* <section
       className="relative   w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen  bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
-    >
+    > */}
       {/* Slider Background */}
-      <div className=" absolute   mt-19 mb-5 bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden ">
+      {/* <div className=" absolute   mt-19 mb-5 bg-linear-to-r from-white via-gray-100 to-white inset-0 overflow-hidden ">
+
+
 
         <div
           className="flex transition-transform duration-700 ease-in-out h-full "
@@ -213,7 +267,7 @@ if (reviews.length === 0) return null;
               <Image
                 src={src}
                 alt={`Slide ${i + 1}`}
-                className="absolute inset-0 w-full h-full background-size-cover object-center"
+                className="absolute inset-0 w-full h-full background-size-cover  object-center  "
                 width={400}
                 height={400}
               
@@ -224,14 +278,14 @@ if (reviews.length === 0) return null;
           ))}
         </div>
         
-      </div>
+      </div> */}
 
 
 
 
 
       {/* Navigation Buttons */}
-      <button
+      {/* <button
         aria-label="Previous slide"
         onClick={prev}
         className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-900 p-2 rounded-full shadow transition"
@@ -244,10 +298,10 @@ if (reviews.length === 0) return null;
         className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-900 p-2 rounded-full shadow transition"
       >
         ›
-      </button>
+      </button> */}
 
       {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      {/* <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
         {images.map((_, i) => (
           <button
             key={i}
@@ -259,6 +313,105 @@ if (reviews.length === 0) return null;
         ))}
       </div>
 
+    </section> */}
+
+       <section className="relative min-h-screen w-full bg-amber-50  overflow-hidden">
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+            index === slider ? "opacity-100 z-10" : "opacity-0 z-0"
+          } ${slide.bg}`}
+        >
+          <div className="max-w-7xl mx-auto mt-10  px-7 py-15 h-full md:flex md:items-center ">
+            
+            
+            {/* Left Content */}
+            <div className="md:w-1/2 w-full md:space-y-6">
+
+              <h1 className='text-amber-600  md:w-60 text-sm p-1.5  text-left animate-fadeIn md:mb-13 mt-8 mb-7 md:text-0 rounded-2xl'>Trusted Supplier Since 2020</h1>
+              <h2 className="block md:hidden md:text-[50px] text-2xl text-left capitalize md:text-left tracking-tight  animate-fadeIn leading-4 md:leading-12 font-bold text-gray-900 font-['Poppins']"> {slide.heading} <span className=" text-lg md:text-[30px] text-left md:text-left  tracking-tight animate-fadeIn  md:leading-3 font-bold text-amber-900 font-['Poppins']">{slide.title}</span></h2>
+              <h2 className="hidden md:block md:text-[50px] text-2xl text-left  md:text-left tracking-tight  animate-fadeIn leading-4 md:leading-12 font-bold text-gray-900 font-['Poppins']">
+                {slide.heading}
+              </h2>
+              <h2 className="hidden md:block text-lg md:text-[30px] text-left md:text-left mb-10 tracking-tight animate-fadeIn  md:leading-3 font-bold text-amber-900 font-['Poppins']">
+                {slide.title}
+              </h2>
+              <p className="text-base leading-5 mt-10 md:mt-0 animate-fadeIn  text-gray-600 mb-15">
+                {slide.description}
+              </p>
+
+            {/* Right Image */}
+            <div className=" md:hidden block md:w-120 md:ml-20 ">
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                width={600}
+                height={400}
+                className="w-120 h-62.5 md:ml-10 sm:h-75 md:h-120 object-fill rounded-xl "
+              />
+              
+            </div>
+
+
+
+              <div className='flex mt-7 md:mt-10  md:justify-start md:items-start justify-center items-center '>
+                <a href="/">
+                <button className="bg-linear-to-r   from-amber-600 to-amber-300 animate-fadeIn hover:scale-110 cursor-pointer text-white px-4 py-2 rounded-xl transition">
+                Explore Products 
+              </button>
+              </a>
+              <button className="border-2 border-black animate-fadeIn  hover:bg-black hover:text-white hover: ml-10 mb-7 md:mt-0 mt-7 hover:scale-110 cursor-pointer text-gray-900 px-4 md:py-1.7 py-1.5 rounded-xl transition">
+                Contact us
+              </button>
+              </div>
+
+              <hr />
+              <div className='flex  gap-13  ml-8'>
+                <div className='text-gray-800  animate-fadeIn text-[10px] font-extrabold'>
+                  <h2 className='text-gray-900 text-2xl font-bold'>100%</h2>
+                  <h2 >ORGANIC</h2>
+                </div>
+                  <div className='text-gray-800 animate-fadeIn text-[10px] font-extrabold'>
+                  <h2 className='text-gray-900 text-2xl font-bold'>70K</h2>
+                  <h2>HAPPY CLIENT</h2>
+                </div>
+                <div className='text-gray-800  animate-fadeIn text-[10px] font-extrabold'>
+                  <h2 className='text-gray-900 text-2xl font-bold'>20+</h2>
+                  <h2>RECIPES</h2>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Image */}
+            <div className=" hidden md:block lg:w-120 md:w-70 xl:w-140 md:ml-20 ">
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                width={600}
+                height={400}
+                className="w-120 h-62.5 md:ml-10 sm:h-75 md:h-120 object-fill rounded-xl "
+              />
+              
+            </div>
+
+          </div>
+        </div>
+      ))}
+
+      {/* Dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setSlider(index)}
+            className={`w-3 h-3 rounded-full ${
+              index === slider ? "bg-yellow-600 scale-125" : "bg-gray-400"
+            } transition`}
+          ></button>
+        ))}
+      </div>
     </section>
 
       {/* about us */}

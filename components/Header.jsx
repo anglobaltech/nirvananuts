@@ -7,11 +7,48 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileProduct, setMobileProduct] = useState(false)
 
+    const news = [
+    "🔥Plain Makhana Available ",
+    "✨ Shop Smart, Eat Healthy",
+    "🔥Modern Savory Flavors Makhana Available ",
+    "🚚 Fast Delivery Across India",
+    "🔥Sweet Gourmet Flavors Makhana Available ",
+    "🍚 Premium Makhana Available",
+    "🔥Fusion Spicy Makhana Available ",
+    "💪 20kg Bulk Whey Protein In Stock",
+  ];
+
   return (
     <header className="fixed w-full top-0 left-0 z-50 bg-white   shadow-sm">
+
+        <div className="w-full bg-yellow-900 text-white overflow-hidden">
+      <div className="flex whitespace-nowrap animate-marquee">
+        
+        {/* First Copy */}
+        <div className="flex py-1">
+          {news.map((item, index) => (
+            <span key={index} className="mx-8 font-medium">
+              {item}
+            </span>
+          ))}
+        </div>
+
+        {/* Duplicate Copy */}
+        <div className="flex py-1">
+          {news.map((item, index) => (
+            <span key={`dup-${index}`} className="mx-8 font-medium">
+              {item}
+            </span>
+          ))}
+        </div>
+
+      </div>
+    </div>
+
+
       <nav className="max-w-7xl px-3 mx-auto">
         <div className="flex justify-between items-center px-4 py-3">
-
+        <div className="flex justify-around items-center gap-4 ">
           {/* Logo */}
           <a href="/">
             <Image
@@ -20,18 +57,21 @@ const Header = () => {
               height={60}
               width={75}
               loading="eager"
-              className="object-contain "
+              className="object-contain  "
             />
           </a>
+
+          <h1 className="text-amber-700 font-bold text-2xl animate-pulse">Nirvana Nuts</h1>
+          </div>
 
           {/* ================= DESKTOP MENU ================= */}
           <div className="hidden md:flex items-center gap-6">
 
-            <a href="/" className="px-3 py-2 text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+            <a href="/" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
               Home
             </a>
 
-            <a href="/about" className="px-3 py-2 text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+            <a href="/about" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
               About us
             </a>
 
@@ -41,7 +81,7 @@ const Header = () => {
               onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}
             >
-              <button className="px-3 py-2 text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+              <button className="px-3 py-2 text-lg font-medium  text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
                 Product ▾
               </button>
 
@@ -53,21 +93,21 @@ const Header = () => {
                 transition duration-300`}
               >
                 <div className="flex flex-col gap-4">
-                  <a href="/makhana" className="text-black font-medium hover:text-amber-600 whitespace-nowrap">
+                  <a href="/makhana" className="text-black font-medium  hover:bg-linear-to-r from-amber-600 to-amber-300 p-1.5 rounded-2xl whitespace-nowrap">
                     Makhana
                   </a>
-                  <a href="/whey-protein" className="text-black font-medium hover:text-amber-600 whitespace-nowrap">
+                  <a href="/whey-protein" className="text-black font-medium  hover:bg-linear-to-r from-amber-600 to-amber-300 p-1.5 rounded-2xl whitespace-nowrap">
                     Whey Protein
                   </a>
                 </div>
               </div>
             </div>
 
-            <a href="/food-ingredients" className="px-3 py-2 text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+            <a href="/food-ingredients" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
               Food Ingredient
             </a>
 
-            <a href="/contact" className="px-3 py-2 text-lg font-medium text-gray-900 hover:text-amber-600 transition">
+            <a href="/contact" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
               Contact
             </a>
           </div>
