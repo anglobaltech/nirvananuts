@@ -315,104 +315,124 @@ if (reviews.length === 0) return null;
 
     </section> */}
 
-       <section className="relative min-h-screen w-full bg-amber-50  overflow-hidden">
-      {slides.map((slide, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-            index === slider ? "opacity-100 z-10" : "opacity-0 z-0"
-          } ${slide.bg}`}
-        >
-          <div className="max-w-7xl mx-auto mt-10  px-7 py-15 h-full md:flex md:items-center ">
-            
-            
-            {/* Left Content */}
-            <div className="md:w-1/2 w-full md:space-y-6">
+<section className="relative min-h-screen w-full bg-amber-50 overflow-hidden flex flex-col">
+  {/* FIX 1: Adjusted the container to use 'relative' instead of 'absolute' for the active slide 
+    so it naturally pushes down away from the header. 
+  */}
+  {slides.map((slide, index) => (
+    <div
+      key={index}
+      className={`transition-opacity duration-700 ease-in-out ${
+        index === slider ? "opacity-100 flex flex-col grow" : "hidden"
+      } ${slide.bg}`}
+    >
+      {/* FIX 2: Added pt-32 (on mobile) and md:pt-40 (on desktop) 
+        to ensure the text starts safely below your Nirvana Nuts header.
+      */}
+      <div className="max-w-7xl mx-auto px-7 pt-32 md:pt-40 pb-20 h-full w-full flex flex-col md:flex-row md:items-center">
+        
+        {/* Left Content */}
+        <div className="md:w-1/2 w-full flex flex-col">
+          <h1 className='text-amber-600 w-fit text-sm p-1.5 text-left animate-fadeIn mb-4 rounded-2xl bg-white/30'>
+            Trusted Supplier Since 2020
+          </h1>
 
-              <h1 className='text-amber-600  md:w-60 text-sm p-1.5  text-left animate-fadeIn md:mb-13 mt-8 mb-7 md:text-0 rounded-2xl'>Trusted Supplier Since 2020</h1>
-              <h2 className="block md:hidden md:text-[50px] text-2xl text-left capitalize md:text-left tracking-tight  animate-fadeIn leading-4 md:leading-12 font-bold text-gray-900 font-['Poppins']"> {slide.heading} <span className=" text-lg md:text-[30px] text-left md:text-left  tracking-tight animate-fadeIn  md:leading-3 font-bold text-amber-900 font-['Poppins']">{slide.title}</span></h2>
-              <h2 className="hidden md:block md:text-[50px] text-2xl text-left  md:text-left tracking-tight  animate-fadeIn leading-4 md:leading-12 font-bold text-gray-900 font-['Poppins']">
-                {slide.heading}
-              </h2>
-              <h2 className="hidden md:block text-lg md:text-[30px] text-left md:text-left mb-10 tracking-tight animate-fadeIn  md:leading-3 font-bold text-amber-900 font-['Poppins']">
-                {slide.title}
-              </h2>
-              <p className="text-base leading-5 mt-10 md:mt-0 animate-fadeIn  text-gray-600 mb-15">
-                {slide.description}
-              </p>
+          {/* Headings */}
+          <div className=" hidden md:block space-y-2 mb-6">
+          <h2 className="text-2xl md:text-[50px] leading-tight font-bold text-gray-900 font-['Poppins'] animate-fadeIn">
+            {slide.heading}
 
-            {/* Right Image */}
-            <div className=" md:hidden block md:w-120 md:ml-20 ">
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                width={600}
-                height={400}
-                className="w-120 h-62.5 md:ml-10 sm:h-75 md:h-120 object-fill rounded-xl "
-              />
               
-            </div>
+          </h2>
+
+            <h2 className="text-lg md:text-[30px] font-bold text-amber-900 font-['Poppins'] animate-fadeIn">
+            {slide.title} 
+            </h2>
+          </div>
 
 
 
-              <div className='flex mt-7 md:mt-10  md:justify-start md:items-start justify-center items-center '>
-                <a href="/">
-                <button className="bg-linear-to-r   from-amber-600 to-amber-300 animate-fadeIn hover:scale-110 cursor-pointer text-white px-4 py-2 rounded-xl transition">
+
+          {/* Right Image (Mobile - Shown after Title) */}
+          <div className="md:hidden block mb-6">
+          <h2 className="text-2xl mb-5 md:text-[50px] leading-tight font-bold text-gray-900 font-['Poppins'] animate-fadeIn"> {slide.heading}<span className="text-base md:text-[30px] font-bold text-amber-900 font-['Poppins'] animate-fadeIn">
+              {slide.title} </span> 
+              
+          </h2>
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              width={500}
+              height={400}
+              priority
+              className="w-full h-auto max-h-62.5 object-contain rounded-xl"
+            />
+          </div>
+          
+
+
+          <p className="text-base leading-6 animate-fadeIn text-gray-600 mb-8 md:max-w-md">
+            {slide.description}
+          </p>
+
+          {/* Buttons */}
+          <div className='flex items-center gap-4 mb-10'>
+            <a href="/">
+              <button className="bg-linear-to-r from-amber-600 to-amber-300 hover:scale-105 cursor-pointer text-white px-5 py-2.5 rounded-xl transition font-medium">
                 Explore Products 
               </button>
-              </a>
-              <button className="border-2 border-black animate-fadeIn  hover:bg-black hover:text-white hover: ml-10 mb-7 md:mt-0 mt-7 hover:scale-110 cursor-pointer text-gray-900 px-4 md:py-1.7 py-1.5 rounded-xl transition">
-                Contact us
-              </button>
-              </div>
+            </a>
+            <button className="border-2 border-black hover:bg-black hover:text-white hover:scale-105 cursor-pointer text-gray-900 px-5 py-2.5 rounded-xl transition font-medium">
+              Contact us
+            </button>
+          </div>
 
-              <hr />
-              <div className='flex  gap-13  ml-8'>
-                <div className='text-gray-800  animate-fadeIn text-[10px] font-extrabold'>
-                  <h2 className='text-gray-900 text-2xl font-bold'>100%</h2>
-                  <h2 >ORGANIC</h2>
-                </div>
-                  <div className='text-gray-800 animate-fadeIn text-[10px] font-extrabold'>
-                  <h2 className='text-gray-900 text-2xl font-bold'>70K</h2>
-                  <h2>HAPPY CLIENT</h2>
-                </div>
-                <div className='text-gray-800  animate-fadeIn text-[10px] font-extrabold'>
-                  <h2 className='text-gray-900 text-2xl font-bold'>20+</h2>
-                  <h2>RECIPES</h2>
-                </div>
-              </div>
+          <hr className="border-amber-200/50 mb-8" />
 
+          {/* Stats Section */}
+          <div className='flex justify-between md:justify-start gap-8 lg:gap-13'>
+            <div className='animate-fadeIn text-[10px] font-extrabold'>
+              <h2 className='text-gray-900 text-2xl font-bold'>100%</h2>
+              <p className="text-gray-500">ORGANIC</p>
             </div>
-
-            {/* Right Image */}
-            <div className=" hidden md:block lg:w-120 md:w-70 xl:w-140 md:ml-20 ">
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                width={600}
-                height={400}
-                className="w-120 h-62.5 md:ml-10 sm:h-75 md:h-120 object-fill rounded-xl "
-              />
-              
+            <div className='animate-fadeIn text-[10px] font-extrabold'>
+              <h2 className='text-gray-900 text-2xl font-bold'>70K</h2>
+              <p className="text-gray-500">HAPPY CLIENT</p>
             </div>
-
+            <div className='animate-fadeIn text-[10px] font-extrabold'>
+              <h2 className='text-gray-900 text-2xl font-bold'>20+</h2>
+              <p className="text-gray-500">RECIPES</p>
+            </div>
           </div>
         </div>
-      ))}
 
-      {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setSlider(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === slider ? "bg-yellow-600 scale-125" : "bg-gray-400"
-            } transition`}
-          ></button>
-        ))}
+        {/* Right Image (Desktop) */}
+        <div className="hidden md:flex md:w-1/2 justify-center pl-10">
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            width={600}
+            height={500}
+            className="w-full h-auto max-h-112.5 object-contain animate-fadeIn transition-transform duration-500 hover:scale-105"
+          />
+        </div>
       </div>
-    </section>
+    </div>
+  ))}
+
+  {/* Dots - Placed safely at the bottom */}
+  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+    {slides.map((_, index) => (
+      <button
+        key={index}
+        onClick={() => setSlider(index)}
+        className={`w-3 h-3 rounded-full transition-all ${
+          index === slider ? "bg-amber-600 scale-125" : "bg-gray-300"
+        }`}
+      ></button>
+    ))}
+  </div>
+</section>
 
       {/* about us */}
       <main>
