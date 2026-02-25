@@ -67,11 +67,11 @@ const Header = () => {
           {/* ================= DESKTOP MENU ================= */}
           <div className="hidden md:flex items-center gap-6">
 
-            <a href="/" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
+            <a href="/" className="px-3 py-2 text-lg font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
               Home
             </a>
 
-            <a href="/about" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
+            <a href="/about" className="px-3 py-2 text-lg font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
               About us
             </a>
 
@@ -81,7 +81,7 @@ const Header = () => {
               onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}
             >
-              <button className="px-3 py-2 text-lg font-medium  text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
+              <button className="px-3 py-2 text-lg font-medium  text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
                 Product ▾
               </button>
 
@@ -93,22 +93,22 @@ const Header = () => {
                 transition duration-300`}
               >
                 <div className="flex flex-col gap-4">
-                  <a href="/makhana" className="text-black font-medium  hover:bg-linear-to-r from-amber-600 to-amber-300 p-1.5 rounded-2xl whitespace-nowrap">
+                  <a href="/makhana" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
                     Makhana
                   </a>
-                  <a href="/whey-protein" className="text-black font-medium  hover:bg-linear-to-r from-amber-600 to-amber-300 p-1.5 rounded-2xl whitespace-nowrap">
+                  <a href="/whey-protein" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
                     Whey Protein
                   </a>
                 </div>
               </div>
             </div>
 
-            <a href="/food-ingredients" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
+            <a href="/food-ingredients" className="px-3 py-2 text-lg font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
               Food Ingredient
             </a>
 
-            <a href="/contact" className="px-3 py-2 text-lg font-medium text-black hover:bg-linear-to-r from-amber-600 to-amber-300 rounded-2xl transition">
-              Contact
+            <a href="/contact" className="px-3 py-2 text-lg font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
+              Contact us
             </a>
           </div>
 

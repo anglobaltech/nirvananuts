@@ -1,14 +1,65 @@
-
+"use client";
 import Image from 'next/image';
+import Link from "next/link";
 import React from 'react'
+import { useEffect } from 'react';
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-export const metadata={
-  title:"About Nirvana Nuts – Crafted for Healthy Living",
-  description:"At Nirvana Nuts, we create thoughtfully sourced makhana and nutritious snacks designed for modern lifestyles, combining purity, taste and quality."
-}
+
+const makhanaProcess = [
+  {
+    title: "1. Raw Material Sourcing",
+    description:
+      "We begin with sourcing the finest Makhana (fox nuts), handpicked at peak freshness from trusted farms. Each batch is checked for size, color, and moisture to ensure only premium-quality seeds enter our process.",
+  },
+  {
+    title: "2. Cleaning & Sorting",
+    description:
+      "Raw Makhana is thoroughly cleaned to remove dust, stones, and other foreign particles. It is then sorted and calibrated by size to ensure uniform roasting and consistent texture in every pack.",
+  },
+  {
+    title: "3. Roasting & Puffing",
+    description:
+      "The cleaned seeds are gently roasted under controlled heat. This stage helps puff the seeds, develop their signature light crunch, and enhance flavor while preserving nutritional value.",
+  },
+  {
+    title: "4. Shelling & Sieving",
+    description:
+      "After roasting, the outer shells are carefully removed. The puffed Makhana kernels are then sieved to separate any broken or undersized pieces, ensuring a uniform, premium-grade final product.",
+  },
+  {
+    title: "5. Drying & Conditioning",
+    description:
+      "The kernels are dried to an optimal moisture level to extend shelf life and maintain crispness. This step is crucial to prevent microbial growth and preserve the natural taste and texture.",
+  },
+  {
+    title: "6. Flavoring & Blending",
+    description:
+      "Depending on the variant, Makhana is lightly seasoned with carefully selected ingredients—such as classic salted, Cheese Masti, or fasting-friendly flavors—while maintaining a clean-label, health-focused profile.",
+  },
+  {
+    title: "7. Quality Control",
+    description:
+      "Every batch undergoes strict quality checks for appearance, crunch, taste, and hygiene. Only the lots that meet our internal standards move forward to packaging.",
+  },
+  {
+    title: "8. Packaging & Dispatch",
+    description:
+      "Makhana is packed in high-barrier, food-grade pouches and bulk bags designed to protect against moisture, oxygen, and light. Clear labeling ensures traceability, and products are then dispatched through our D2C and bulk channels.",
+  },
+];
+
+
 
 
 const page = () => {
+    useEffect(() => {
+    AOS.init({
+      duration: 1500,
+      once: true,
+    });
+  }, []);
   const steps=[
     {
       title:"Premium Raw Nut Sourcing ",
@@ -71,93 +122,154 @@ const page = () => {
       description:"Sealed in pouches, jars, or tins to retain flavor, protect from contaminants, and inform consumers. "
     },
   ]
+
+
+
+
+
+
   return (
     <main className="min-h-screen  bg-linear-to-r  from-white via-gray-100 to-white  ">
-      <div className="md:w-7xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  ">
 
-        <div className="flex justify-center mt-10">
+<section className="bg-amber-50 py-20 px-6 md:px-20 text-amber-900">
+  <div className="max-w-7xl mx-auto mt-15 grid md:grid-cols-2 gap-16 items-center">
+
+    {/* LEFT CONTENT */}
+    <div data-aos="fade-right">
+
+      <span className="text-amber-600 uppercase tracking-widest text-sm font-semibold">
+        Our Heritage
+      </span>
+
+      <h2 className="text-4xl md:text-5xl font-bold leading-tight mt-4 mb-6">
+        A Journey of <span className="italic text-amber-500">Pure Nutrition & Strength</span>
+      </h2>
+
+      <p className="text-amber-800 text-lg leading-relaxed mb-6">
+        Nirvana Nuts was founded with a simple mission — to deliver
+        premium quality makhana and clean nutrition products sourced
+        from nature. Our roasted fox nuts are carefully selected,
+        hygienically processed, and crafted for healthy living.
+      </p>
+
+      <p className="text-amber-800 text-lg leading-relaxed mb-8">
+        Alongside our gourmet makhana range, we also supply 
+        <strong className="text-amber-500"> Bulk Whey Protein in 20kg packaging</strong> —
+        trusted by gyms, fitness brands, and distributors looking
+        for high-quality protein solutions for muscle growth and recovery.
+      </p>
+
+      <a
+        href="/products"
+        className="inline-block bg-amber-600 hover:bg-amber-500 text-amber-50 px-10 py-4 rounded-full font-semibold shadow-lg transition duration-300"
+        data-aos="zoom-in"
+        data-aos-delay="300"
+      >
+        Explore Collection
+      </a>
+
+    </div>
+
+    {/* RIGHT IMAGE */}
+    <div className="relative" data-aos="fade-left">
+
+      <Image
+        src="/new-image-04.avif"
+        alt="Nirvana Nuts Premium Makhana and Bulk Whey Protein 20kg Supplier"
+        height={200}
+        width={200}
+        className="rounded-2xl shadow-2xl w-full object-cover"
+      />
+
+      {/* Floating Badge */}
+      <div 
+        className="absolute -bottom-6 -left-6 bg-amber-100 rounded-2xl shadow-xl px-4 py-3"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
+        <span className="text-3xl font-bold text-amber-600">6+</span>
+        <p className="text-[10px] text-amber-800 uppercase tracking-wider">
+          Years of Excellence
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+    <section className="bg-linear-to-br from-amber-50 via-amber-100 to-amber-200 py-20 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+
+        {/* LEFT IMAGE */}
+        <div data-aos="fade-right" className="relative group">
+          <Image
+            src="/founder of nirvana nuts.avif"
+            alt="Nirvana Nuts Founder - Premium Makhana & Bulk Whey Protein Supplier"
+            width={600}
+            height={700}
+            className="rounded-t-2xl shadow-2xl object-cover w-full"
+            priority
+          />
+
+          {/* Overlay Card */}
+          <div  data-aos="fade-up"
+            data-aos-delay="300" 
+            className=" bottom-0 left-0 w-full bg-amber-900/90 backdrop-blur-md text-white p-6 rounded-b-2xl">
+            <h3 className="text-2xl font-bold">
+              Nirvana Nuts Leadership
+            </h3>
+            <p className="text-amber-200 text-sm">
+              Committed to Purity, Performance & Global Standards
+            </p>
+          </div>
         </div>
-        <h1 className="text-4xl font-bold md:p-3 text-center md:text-4xl text-yellow-900 ">
-          About Nirvana Nuts – Pure Nutrition You Can Trust
-        </h1>
-        <div className="text-17px text-gray-900 items-center text-left leading-relaxed max-w-8xl mx-auto ">
-          <h2 className='text-2xl font-bold text-yellow-800 py-1'>Our Purpose</h2>
-          <p className='mb-2'>At Nirvana Nuts, we believe healthy eating should be simple, honest, and accessible. Our journey began with the aim to replace overly processed snacks with natural, nutrient-rich alternatives that suit Indian tastes and lifestyles.</p>
-          <h2 className='text-2xl font-bold text-yellow-800 py-1'>Our Expertise</h2>
-          <p className=' mb-2'>Backed by research-driven sourcing and strict quality standards, Nirvana Nuts focuses on delivering clean-label nutrition through makhana, nuts, dry fruits, and protein supplements. Our team prioritizes ingredient integrity, freshness, and transparency.</p>
-          <h2 className='text-2xl font-bold text-yellow-800 py-1'>Our Commitment</h2>
-          <ul className='mb-6 list-disc list-inside'>
-            <li>Quality-checked sourcing</li>
-              <li>Nutrition-first product development</li>
-              <li>Clear labeling & honest communication</li>
-              <li>Customer trust above everything else</li>
-          </ul>
 
-
-          {/* <p className="mb-2">
-            At Nirvana Nuts, we craft healthy, flavorful snacks using premium handpicked makhana (fox nuts).
-            Our mission is to bring joy to snacking without compromising on health, ensuring every bite
-            is packed with nutrition and taste.
-          </p>
-          <p className="mb-2">
-            Nirvana Nuts is a customer‑focused brand redefining healthy snacking in India. With a vision to deliver premium quality dry fruits, makhana, almonds, and mixed nuts at the best price, the brand combines taste, nutrition, and sustainability.
-          </p>
-          <p className="mb-2">Guided by core values of quality, integrity, leadership, collaboration, and customer satisfaction, Nirvana Nuts ensures every product supports wellness while offering convenience through its direct‑to‑consumer e‑commerce model
-          </p>
-          <p className="mb-2">From the popular Makhana varieties like Plain, Cheese Masti, and Especially for Fast to premium crunchy almonds and mixed nut blends, Nirvana Nuts provides snacks that are fresh, nutritious, and delivered straight to your door.
-          </p> */}
-          <p className="text-17px text-gray-900 mb-2  text-left leading-relaxed max-w-8xl mx-auto ">Nirvana Nuts is proudly maintained by <span className='text-lg text-black font-bold'>"An global Services"</span> ensuring that every customer enjoys premium dry fruits and healthy snacks with world‑class standards. By combining local trust with international reach, we deliver makhana, almonds, and mixed nut blends that are fresh, nutritious, and accessible worldwide.</p>
-          <p className="text-17px text-black  mb-2 text-left leading-relaxed max-w-8xl mx-auto ">Our commitment to quality, integrity, and customer satisfaction is supported by seamless logistics and responsive support, making Nirvana Nuts not just a brand, but a global partner in healthy snacking.</p>
-
-        </div>
-        <div >
-        </div>
+        {/* RIGHT CONTENT */}
         <div>
-          <a href="http://www.anglobalservices.com/" target="_blank" rel="noopener noreferrer"> <h2  className='text-4xl font-bold text-center text-blue-600 mb-8 '>An Global Services </h2></a>
-          <p className="text-17px text-gray-900 mb-2  text-left leading-relaxed max-w-8xl mx-auto ">At Nirvana Nuts, We also deliver trusted global certification and compliance solutions to help businesses meet international standards. Our services include (ISI mark), Foreign Manufactures Certification Scheme (FMCS), Compulsory Registration Scheme (CRS) for Electronics & IT Goods, BIS hallmarking of precious For metals/jewellery, BEE Registration Services, Trademark Registration Services, CE Certification Services, EPR Authorization (for e-waste), Solar Panel BIS Registration Services, WPC Approval and TEC Certification, MSME & NSIC Certification, WMI Certification, NABL Accreditation Consultancy, WPC License and many more. With our expertise, brands can achieve seamless market entry, regulatory compliance, and global recognition </p>
-          <p className="text-17px text-gray-900 mb-2  text-left leading-relaxed max-w-8xl mx-auto ">View our website for more details</p>
-          <a href="https://www.anglobalservices.com/" target='blank' >
-          <div className='text-center'>
-            <button className='bg-linear-to-r from-amber-500 to-amber-700 hover:scale-110 text-shadow-white transition-shadow p-2 rounded-2xl mt-6  cursor-pointer  text-2xl font-bold  hover:bg-amber-600 shadow-2xl'>Visit Our Website</button>
-            </div>
-          </a>
-        </div>
 
-        {/* Production Timeline Section */}
-    <section className=" py-16 px-6">
-      <div className="max-w-6xl mx-auto">
+          {/* Vision */}
+          <div data-aos="fade-left" className="mb-12">
+            <h2 className="text-4xl font-bold text-amber-900 mb-4">
+              Our Vision
+            </h2>
+            <div className="w-20 h-1 bg-amber-600 mb-6"></div>
 
-        {/* Title */}
-        <h2 className="text-center text-4xl font-bold text-yellow-900 mb-16">
-          Premium Nut Production
-        </h2>
+            <p className="text-gray-800 text-lg leading-relaxed">
+              To become a trusted global brand in healthy snacking and
+              performance nutrition by delivering premium quality 
+              <strong> makhana (fox nuts)</strong> and 
+              <strong> bulk whey protein (20kg packaging)</strong> 
+              to fitness brands, gyms, distributors, and modern consumers.
+            </p>
 
-        <div className="relative">
+            <p className="text-gray-700 text-lg leading-relaxed mt-4">
+              We aim to provide clean-label, nutrient-rich products
+              sourced responsibly and processed under strict quality standards.
+            </p>
+          </div>
 
-          {/* Vertical Line */}
-          <div className="absolute left-4 top-0 w-1 h-full bg-yellow-300"></div>
+          {/* Mission */}
+          <div data-aos="fade-left" data-aos-delay="200">
+            <h2 className="text-4xl font-bold text-amber-900 mb-4">
+              Our Mission
+            </h2>
+            <div className="w-20 h-1 bg-amber-600 mb-6"></div>
 
-          <div className="space-y-12">
-            {steps.map((step, index) => (
-              <div key={index} className="relative pl-16">
+            <p className="text-gray-800 text-lg leading-relaxed">
+              Our mission is to maintain excellence from sourcing to
+              packaging by following international food safety and
+              nutritional standards.
+            </p>
 
-                {/* Step Circle */}
-                <div className="absolute left-0 top-2 w-8 h-8 flex items-center justify-center bg-yellow-700 text-white rounded-full font-bold shadow-md">
-                  {index + 1}
-                </div>
-
-                {/* Card */}
-                <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 border border-yellow-200">
-                  <h3 className="text-xl font-semibold text-yellow-800 mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-
-              </div>
-            ))}
+            <ul className="mt-6 space-y-3 text-gray-700 text-lg">
+              <li>✔ Premium farm-sourced makhana with hygienic processing</li>
+              <li>✔ High-quality 20kg bulk whey protein solutions</li>
+              <li>✔ Reliable supply for fitness brands & manufacturers</li>
+              <li>✔ Transparent quality testing & global compliance</li>
+            </ul>
           </div>
 
         </div>
@@ -165,6 +277,162 @@ const page = () => {
     </section>
 
 
+    {/* process */}
+
+   <section className="bg-amber-50 py-20 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto">
+
+        {/* SEO Heading */}
+        <h2
+          className="text-4xl font-bold text-center text-gray-800 mb-4"
+          data-aos="fade-up"
+        >
+          Premium Makhana Processing – Nirvana Nuts
+        </h2>
+
+        <p
+          className="text-center text-gray-600 max-w-3xl mx-auto mb-14"
+          data-aos="fade-up"
+        >
+          From farm-sourced fox nuts to perfectly roasted healthy snacks,
+          Nirvana Nuts follows a strict quality-controlled manufacturing
+          process ensuring purity, crunch, and nutrition.
+        </p>
+
+        {/* Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          {makhanaProcess.map((step, index) => (
+            <div
+              key={index}
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+              data-aos="zoom-in"
+              data-aos-delay={index * 100}
+            >
+              <h3 className="text-lg font-semibold text-emerald-700 mb-2">
+                {step.title}
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+          ))}
+
+        </div>
+
+        {/* Bulk Whey Protein Section */}
+        <div
+          className="mt-20 bg-emerald-50 p-10 rounded-2xl shadow-lg"
+          data-aos="fade-up"
+        >
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            20kg Bulk Whey Protein Solutions
+          </h2>
+
+          <p className="text-gray-700 mb-4">
+            Nirvana Nuts also supplies premium 20kg bulk whey protein for
+            fitness brands, manufacturers, and private label businesses.
+            Our protein solutions reflect our commitment to purity,
+            performance, and transparency.
+          </p>
+
+          <ul className="list-disc pl-6 text-gray-700 space-y-2">
+            <li>High Protein Content</li>
+            <li>Lab Tested Quality</li>
+            <li>Bulk Packaging – 20kg Bags</li>
+            <li>Ideal for Private Label & Manufacturing</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+  
+  {/* an global services */}
+  <section className="relative py-20 bg-linear-to-br from-amber-50 via-white to-green-50 overflow-hidden">
+
+  <div className="max-w-7xl mx-auto px-6 lg:px-12">
+
+    {/* Heading */}
+    <div className="text-center mb-16" data-aos="fade-up">
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+        Global Excellence Powered by <span className="text-green-600">An Global Services</span>
+      </h2>
+      <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+        Nirvana Nuts is proudly maintained by <strong>An Global Services</strong>, 
+        ensuring every customer enjoys premium dry fruits and healthy snacks 
+        with world-class quality standards and global reach.
+      </p>
+    </div>
+
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+      {/* Left Content */}
+      <div data-aos="fade-right">
+
+        <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+          Premium Healthy Products with Global Standards
+        </h3>
+
+        <p className="text-gray-600 mb-6 leading-relaxed">
+          By combining local trust with international logistics expertise, 
+          we deliver <strong>makhana, almonds, mixed nut blends, and bulk whey protein (20kg)</strong> 
+          that are fresh, nutritious, and accessible worldwide.
+        </p>
+
+        <p className="text-gray-600 mb-6 leading-relaxed">
+          Our commitment to quality, integrity, and customer satisfaction is 
+          supported by seamless supply chains and responsive global support — 
+          making Nirvana Nuts not just a brand, but your trusted partner in healthy snacking.
+        </p>
+
+        <a
+          href="https://www.anglobalservices.com/"
+          target="_blank"
+          className="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full shadow-lg transition duration-300"
+        >
+          Visit Our Website →
+        </a>
+
+      </div>
+
+      {/* Right Content */}
+      <div data-aos="fade-left" className="bg-white p-8 rounded-2xl shadow-xl border border-amber-100">
+
+        <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+          Global Certification & Compliance Services
+        </h3>
+
+        <ul className="space-y-3 text-gray-600 text-sm leading-relaxed">
+
+          <li>✔ ISI Mark & FMCS Certification</li>
+          <li>✔ CRS for Electronics & IT Goods</li>
+          <li>✔ BIS Hallmarking for Jewellery</li>
+          <li>✔ BEE Registration Services</li>
+          <li>✔ Trademark Registration</li>
+          <li>✔ CE Certification Services</li>
+          <li>✔ EPR Authorization (E-Waste)</li>
+          <li>✔ Solar Panel BIS Registration</li>
+          <li>✔ WPC & TEC Certification</li>
+          <li>✔ MSME & NSIC Certification</li>
+          <li>✔ WMI Certification</li>
+          <li>✔ NABL Accreditation Consultancy</li>
+
+        </ul>
+
+        <p className="mt-6 text-gray-600 text-sm">
+          With our expertise, brands achieve seamless market entry, 
+          regulatory compliance, and international recognition.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+      <div className="md:w-7xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  ">
         {/* Health Benefits Section */}
         <section className="max-w-6xl mx-auto mb-16">
           <h2 className="text-4xl py-5 font-semibold text-yellow-900 mb-6 text-center">Health Benefits of Nirvana Nuts Makhana</h2>
