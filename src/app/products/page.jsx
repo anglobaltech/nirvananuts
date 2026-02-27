@@ -36,7 +36,7 @@ const products = [
 
 const page = () => {
   return (
-    <section className="min-h-screen  bg-white mt-20 to-amber-100 py-12  md:px-12">
+    <section className="min-h-screen w-full overflow-hidden  bg-white mt-20 to-amber-100 py-12  md:px-12">
       {/* about nirvana nuts */}
       <h1 className=' text-3xl md:text-4xl font-bold  text-amber-600 text-center px-6 p-10 md:shadow-amber-800'>Shop Premium Makhana Flavors & Bulk Whey Protein Online</h1>
 

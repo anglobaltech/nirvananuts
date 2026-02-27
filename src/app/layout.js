@@ -27,11 +27,11 @@ export default function RootLayout({ children }) {
         <Header />
 
         <main>{children}</main>
+        <Whatsapp />
 
-        {/* Client-side UI */}
         <ClientOnly />
 
-        <Whatsapp />
+
         <Footer />
       </body>
     </html>

@@ -73,11 +73,11 @@ const ContactClient = () => {
 
 
   return (
-    <main className="min-h-screen   relative  mt-14 bg-linear-to-br from-amber-50 via-orange-100 to-stone-200" >
+    <main className="min-h-screen   relative  mt-20 bg-linear-to-br from-amber-50 via-orange-100 to-stone-200" >
       <ToastContainer />
       <section className="container  mx-auto px-4 sm:px-6 lg:px-8 py-16 ">
         <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-semibold p-4 tracking-tight text-amber-900">
+          <h1 className="text-3xl sm:text-4xl  font-semibold p-4 tracking-tight text-amber-900">
             Contact Nirvana Nuts for Orders, Bulk Enquiries & Support
           </h1>
           <p className="mt-3 text-stone-600 max-w-2xl mx-auto">
@@ -85,10 +85,10 @@ const ContactClient = () => {
           </p>
         </header>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-9 gap-10 md:max-w-8xl  ">
+        <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-0.5 gap-10 md:max-w-8xl  ">
           <div
           >
-            <div className="md:w-180 md:ml-7 rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
+            <div className="md:w-140 md:ml-30 rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
               <form
                 ref={form}
                 onSubmit={sendEmail}
@@ -96,6 +96,7 @@ const ContactClient = () => {
                 aria-label="Contact form"
               >
                 {/* Name */}
+                <div className="flex flex-col-2 gap-4">
                 <div className="group">
                   <label htmlFor="name" className="block text-lg font-medium text-stone-900">Name</label>
                   <input
@@ -129,6 +130,7 @@ const ContactClient = () => {
 
                   />
 
+                </div>
                 </div>
 
                 {/* Email */}
@@ -197,7 +199,7 @@ const ContactClient = () => {
           <div
             className="relative "
           >
-            <div className="rounded-2xl md:w-150 md:ml-20  bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8  md:h-120 flex flex-col justify-between">
+            <div className="rounded-2xl md:w-150   bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8  md:h-120 flex flex-col justify-between">
               {/* Contact info */}
               <div className="space-y-2">
                 <h2 className="text-xl font-semibold text-stone-800">Reach us directly</h2>

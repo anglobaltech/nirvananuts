@@ -27,7 +27,7 @@ const page = () => {
 
 
   return (
-    <section className='min-h-screen  bg-white mt-15 to-amber-100 py-12  md:px-12'>
+    <section className='min-h-screen overflow-hidden bg-white mt-15 to-amber-100 py-12  md:px-12'>
 
       <h1 className=' text-3xl md:text-4xl font-bold  text-amber-600 text-center px-7 md:p-7 md:shadow-amber-800'>Premium Makhana- Healthy and flavorful Snacking</h1>
       <div className='text-gray-900  ml-7   md:ml-20 md:max-w-7xl'>
@@ -49,7 +49,7 @@ const page = () => {
                 alt="Classic Salted Makhana"
                 width={600}
                 height={400}
-                className="w-120 h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
+                className="lg:w-120 h-62.5 sm:h-75 md:h-80 object-fill rounded-xl"
               />
             </div>
 

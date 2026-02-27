@@ -324,7 +324,7 @@ const Hero = () => {
       ${index === slider ? "opacity-100 z-10" : "opacity-0 pointer-events-none"}`}
           >
 
-            <div className="w-full max-w-360 mx-auto px-5 pt-32 md:pt-40 pb-20 h-full flex flex-col md:flex-row items-center">
+            <div className="w-full max-w-360 mx-auto px-5  pt-32 md:pt-40 pb-20 h-full flex flex-col md:flex-row items-center">
 
               {/* LEFT CONTENT */}
               <div className="md:w-1/2 w-full flex flex-col">
@@ -358,21 +358,21 @@ const Hero = () => {
                     width={500}
                     height={400}
                     priority
-                    className="w-full h-auto object-contain rounded-xl"
+                    className="w-full h-40 object-contain rounded-xl"
                   />
                 </div>
 
-                <p className="text-base leading-6 text-gray-600 mb-8 md:max-w-md">
+                <p className="text-[12px] lg:text-base lg:leading-6 leading-4 text-gray-600 mb-2 md:max-w-md">
                   {slide.description}
                 </p>
 
                 {/* Buttons */}
-                <div className="flex items-center gap-4 mb-5 md:mb-10">
-                  <button className="bg-linear-to-r from-amber-600 to-amber-300 text-white px-5 py-2.5 rounded-xl transition hover:scale-105">
+                <div className="flex items-center gap-4 mb-4 md:mb-10">
+                  <button className="bg-linear-to-r from-amber-600 to-amber-300 text-[12px] lg:text-lg text-white px-3 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:scale-105">
                     Explore Products
                   </button>
 
-                  <button className="border-2 border-black text-gray-900 px-5 py-2 rounded-xl transition hover:bg-black hover:text-white hover:scale-105">
+                  <button className="border-2 border-black lg:text-lg text-gray-900 text-[12px] px-2 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:bg-black hover:text-white hover:scale-105">
                     Contact us
                   </button>
                 </div>
@@ -382,16 +382,16 @@ const Hero = () => {
                 {/* Stats */}
                 <div className="flex gap-8">
                   <div>
-                    <h2 className="text-gray-900 text-2xl font-bold">100%</h2>
-                    <p className="text-gray-500 text-xs">ORGANIC</p>
+                    <h2 className="text-gray-900 text:base lg:text-2xl font-bold">100%</h2>
+                    <p className="text-gray-500 text-[10px] lg:text-xs">ORGANIC</p>
                   </div>
                   <div>
-                    <h2 className="text-gray-900 text-2xl font-bold">70K</h2>
-                    <p className="text-gray-500 text-xs">HAPPY CLIENT</p>
+                    <h2 className="text-gray-900 text:base lg:text-2xl font-bold">70K</h2>
+                    <p className="text-gray-500 text-[10px] lg:text-xs">HAPPY CLIENT</p>
                   </div>
                   <div>
-                    <h2 className="text-gray-900 text-2xl font-bold">20+</h2>
-                    <p className="text-gray-500 text-xs">RECIPES</p>
+                    <h2 className="text-gray-900 text:base lg:text-2xl font-bold">20+</h2>
+                    <p className="text-gray-500 text-[10px] lg:text-xs">RECIPES</p>
                   </div>
                 </div>
               </div>
@@ -417,7 +417,7 @@ const Hero = () => {
             <button
               key={index}
               onClick={() => setSlider(index)}
-              className={`w-3 h-3 rounded-full transition-all ${index === slider
+              className={`w-3 h-2  lg:h-3 rounded-full transition-all ${index === slider
                   ? "bg-amber-600 scale-125"
                   : "bg-gray-300"
                 }`}

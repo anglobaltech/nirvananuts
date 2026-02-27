@@ -96,6 +96,18 @@ const Header = () => {
                   <a href="/makhana" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
                     Makhana
                   </a>
+                  <a href="/plain-makhana" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
+                    Classic Plain Makhana
+                  </a>
+                    <a href="/modern-makhana" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
+                    Modern Savory Makhana
+                  </a>
+                  <a href="/sweet-makhana" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
+                    Sweet Gourmet Makhana
+                  </a>
+                  <a href="/fusion-makhana" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
+                    Fusion Spicy Makhana
+                  </a>
                   <a href="/whey-protein" className="text-black font-medium  hover:scale-110 hover:font-bold hover:text-amber-600 p-1.5 rounded-2xl whitespace-nowrap">
                     Whey Protein
                   </a>
@@ -176,6 +188,18 @@ const Header = () => {
               <div className="pl-4 flex flex-col gap-2 text-gray-900">
                 <a href="/makhana" onClick={() => setMobileOpen(false)}>
                   Makhana
+                </a>
+                <a href="/plain-makhana" onClick={() => setMobileOpen(false)}>
+                  Classic Plain Makhana
+                </a>
+                <a href="/modern-makhana" onClick={() => setMobileOpen(false)}>
+                  Modern Savory Makhana
+                </a>
+                <a href="/sweet-makhana" onClick={() => setMobileOpen(false)}>
+                  Sweet Gourmet Makhana
+                </a>
+                <a href="/fusion-makhana" onClick={() => setMobileOpen(false)}>
+                  Fusion Spicy Makhana
                 </a>
                 <a href="/whey-protein" onClick={() => setMobileOpen(false)}>
                   Whey Protein

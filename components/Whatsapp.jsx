@@ -6,24 +6,49 @@ const Whatsapp = () => {
   return (
 <section>
 
+    <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[9999] flex flex-col gap-4">
+
       {/* WhatsApp */}
+      <a
+        href="https://wa.me/917782069184"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="group"
+      >
+        <div className="bg-white shadow-xl rounded-full p-3 transition-all duration-300 group-hover:scale-110 hover:shadow-2xl">
+          <Image
+            src="/whatsapp-image.webp"
+            alt="WhatsApp"
+            width={30}
+            height={30}
+            priority
+          />
+        </div>
+      </a>
 
-      <div className='fixed  bottom-6 right-6 h-10 w-15  mb-30'>
-        <a href="http://wa.me/+917782069184" aria-label="visit whatsapp" target="_blank" rel="noopener noreferrer"
-        className='h- w-20'>
-          <div className='bg-white rounded-full hover:scale-120'>
-        <Image src="/whatsapp-image.webp" alt='Whatsapp' width={200} height={100}/></div>
-        </a>
-      </div>
+      {/* Call */}
+      <a
+        href="tel:+917782069184"
+        aria-label="Call Now"
+        className="group"
+      >
+        <div className="bg-white shadow-xl rounded-full p-3 transition-all duration-300 group-hover:scale-110 hover:shadow-2xl">
+          <Image
+            src="/dialer-icon.avif"
+            alt="Call"
+            width={30}
+            height={30}
+            priority
+          />
+        </div>
+      </a>
 
-      <div className='fixed  bottom-6 right-6 h-10 w-15 mb-8 '>
-        <a href="tel:+917782069184" aria-label="visit whatsapp" target="_blank" rel="noopener noreferrer"
-        className='h-10 w-20 '>
-          <div className='bg-white rounded-full hover:scale-120'>
-        <Image src="/dialer-icon.avif" alt='dialer' width={200} height={100}/></div>
-        </a>
+    </div>
 
-      </div>
+
+
+
 
 
       {/* <a href="https://wa.me/+917782069184" target="_blank" rel="noopener noreferrer"

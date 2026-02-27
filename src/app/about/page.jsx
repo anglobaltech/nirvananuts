@@ -129,10 +129,10 @@ const page = () => {
 
 
   return (
-    <main className="min-h-screen  bg-linear-to-r  from-white via-gray-100 to-white  ">
+    <main className="min-h-screen w-full  bg-linear-to-r overflow-hidden from-white via-gray-100 to-white  ">
 
-<section className="bg-amber-50 py-20 px-6 md:px-20 text-amber-900">
-  <div className="max-w-7xl mx-auto mt-15 grid md:grid-cols-2 gap-16 items-center">
+<section className="bg-amber-50  py-20 px-6 md:px-20 text-amber-900">
+  <div className="max-w-7xl mx-auto mt-15 grid md:grid-cols-2 gap-12 items-center">
 
     {/* LEFT CONTENT */}
     <div data-aos="fade-right">
@@ -180,6 +180,8 @@ const page = () => {
         width={200}
         className="rounded-2xl shadow-2xl w-full object-cover"
       />
+
+
 
       {/* Floating Badge */}
       <div 
@@ -432,7 +434,7 @@ const page = () => {
 
 </section>
 
-      <div className="md:w-7xl lg:w-7xl  mt-5 items-center p-8 mx-auto space-y-6  ">
+      <div className="max-w-7xl mx-auto mt-10 px-6 space-y-12">
         {/* Health Benefits Section */}
         <section className="max-w-6xl mx-auto mb-16">
           <h2 className="text-4xl py-5 font-semibold text-yellow-900 mb-6 text-center">Health Benefits of Nirvana Nuts Makhana</h2>
