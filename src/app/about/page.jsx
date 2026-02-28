@@ -50,9 +50,6 @@ const makhanaProcess = [
   },
 ];
 
-
-
-
 const page = () => {
     useEffect(() => {
     AOS.init({
@@ -60,73 +57,6 @@ const page = () => {
       once: true,
     });
   }, []);
-  const steps=[
-    {
-      title:"Premium Raw Nut Sourcing ",
-      description: "Hand‑picked nuts sourced directly from trusted farms, sun‑dried for freshness and spoilage prevention."
-    },
-    {
-      title:"Precision Nut Calibration",
-      description:"Nuts sorted by size (18mm–24mm) for efficient shelling and minimal kernel breakage."
-    },
-    {
-      title:"Hygienic Nut Cleaning ",
-      description:" Foreign matter removed with sieves and manual sorting to ensure purity and safe processing."
-    },
-    {
-      title:"Flavorful Nut Roasting",
-      description:"Heat‑treated to enhance taste, brittle shells ease extraction, and natural oils are preserved."
-    },
-    {
-      title:"Natural Nut Cooling",
-      description:"Roasted nuts cooled gradually to maintain texture, prevent scorching, and prepare for shelling. "
-    },
-        {
-      title:"Efficient Nut Shelling",
-      description:"Kernels extracted manually or mechanically for clean, whole cashew kernels."
-    },
-        {
-      title:"Pure Kernel Separation",
-      description:"Advanced blowers and shakers ensure maximum yield and shell‑free kernels."
-    },
-        {
-      title:"Smart Kernel Pre‑grading",
-      description:"Initial sorting improves efficiency and reduces grading workload."
-    },
-        {
-      title:"Moisture‑Controlled Drying",
-      description:"Kernels dried to safe levels (3–6%) for longer shelf life and pest resistance. "
-    },
-        {
-      title:"Smooth Kernel Peeling ",
-      description:"Testa removed for blanched, premium‑quality kernels with improved appearance."
-    },
-        {
-      title:"International Kernel Grading",
-      description:"Kernels sorted by W180, W240, splits, and other global export standards."
-    },
-        {
-      title:"Kernel Rehumidification",
-      description:"Moisture adjusted to reduce breakage during transport and maintain quality."
-    },
-      {
-      title:"Gourmet Nut Flavoring",
-      description:"Salted, spiced, honey‑coated, or chocolate‑dipped for diverse consumer preferences."
-    },
-    {
-      title:"Rigorous Quality Testing",
-      description:"Chemical, hardness, and dimensional checks ensure safety and consistency. "
-    },
-    {
-      title:"Freshness‑Preserving Packaging",
-      description:"Sealed in pouches, jars, or tins to retain flavor, protect from contaminants, and inform consumers. "
-    },
-  ]
-
-
-
-
-
 
   return (
     <main className="min-h-screen w-full  bg-linear-to-r overflow-hidden from-white via-gray-100 to-white  ">
@@ -404,20 +334,18 @@ const page = () => {
           Global Certification & Compliance Services
         </h3>
 
-        <ul className="space-y-3 text-gray-600 text-sm leading-relaxed">
+        <ul className="space-y-3 text-gray-600   text-sm leading-relaxed">
 
-          <li>✔ ISI Mark & FMCS Certification</li>
-          <li>✔ CRS for Electronics & IT Goods</li>
-          <li>✔ BIS Hallmarking for Jewellery</li>
-          <li>✔ BEE Registration Services</li>
-          <li>✔ Trademark Registration</li>
-          <li>✔ CE Certification Services</li>
-          <li>✔ EPR Authorization (E-Waste)</li>
-          <li>✔ Solar Panel BIS Registration</li>
-          <li>✔ WPC & TEC Certification</li>
-          <li>✔ MSME & NSIC Certification</li>
-          <li>✔ WMI Certification</li>
-          <li>✔ NABL Accreditation Consultancy</li>
+        <Link href="https://www.anglobalservices.com/foreign-manufacturers-certification-scheme-fmcs" target='blank'>  <li className='hover:text-blue-500'>✔ ISI Mark & FMCS Certification</li></Link>        
+        <Link href="https://www.anglobalservices.com/bis-crs-registration-electronic-products" target='blank'>  <li className='hover:text-blue-500'>✔ CRS for Electronics & IT Goods</li></Link>
+        <Link href="https://www.anglobalservices.com/hallmarking" target='blank'>  <li className='hover:text-blue-500'>✔ BIS Hallmarking for Jewellery</li></Link>        
+        <Link href="https://www.anglobalservices.com/bee_services" target='blank'>  <li className='hover:text-blue-500'>✔ BEE Registration Services</li></Link>    
+        <Link href="https://www.anglobalservices.com/trademark-registration-services" target='blank'>  <li className='hover:text-blue-500'>✔ Trademark Registration</li></Link> 
+        <Link href="https://www.anglobalservices.com/epr-registration-services" target='blank'>  <li className='hover:text-blue-500'>✔ EPR Authorization (E-Waste)</li></Link>      
+        <Link href="https://www.anglobalservices.com/bis-registration-for-solar-panels" target='blank'>  <li className='hover:text-blue-500'>✔ Solar Panel BIS Registration</li></Link>       
+        <Link href="https://www.anglobalservices.com/wpc-certification-services" target='blank'>  <li className='hover:text-blue-500'>✔ WPC & TEC Certification</li></Link>  
+        <Link href="https://www.anglobalservices.com/msme-nsic-registration" target='blank'>  <li className='hover:text-blue-500'>✔ MSME & NSIC Certification</li></Link>    
+        <Link href="https://www.anglobalservices.com/nabl-accreditation-services" target='blank'>  <li className='hover:text-blue-500'>✔ NABL Accreditation Consultancy</li></Link>
 
         </ul>
 

@@ -368,13 +368,16 @@ const Hero = () => {
 
                 {/* Buttons */}
                 <div className="flex items-center gap-4 mb-4 md:mb-10">
+                  <Link href="/products">
                   <button className="bg-linear-to-r from-amber-600 to-amber-300 text-[12px] lg:text-lg text-white px-3 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:scale-105">
                     Explore Products
                   </button>
-
+                  </Link>
+                <Link href="/contact ">
                   <button className="border-2 border-black lg:text-lg text-gray-900 text-[12px] px-2 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:bg-black hover:text-white hover:scale-105">
                     Contact us
                   </button>
+                </Link>
                 </div>
 
                 <hr className="border-amber-200/50 md:mb-8" />

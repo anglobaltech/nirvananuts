@@ -40,12 +40,12 @@ const page = () => {
                     <div className="flex gap-4">
                         <Link href="/contact">
                             <button className="bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition">
-                                Bulk Inquiry
+                                Shop Now
                             </button>
                         </Link>
                         <Link href="/shop">
                             <button className="border border-amber-600 text-amber-700 px-6 py-3 rounded-xl hover:bg-amber-100 transition">
-                                Shop Now
+                                Explore More Products
                             </button>
                         </Link>
                     </div>
@@ -93,8 +93,8 @@ const page = () => {
 
                         <div data-aos="zoom-in" data-aos-delay="300" className="bg-white p-6 rounded-2xl shadow-md">
                             <Dumbbell className="mx-auto text-amber-600 mb-4" size={40} />
-                            <h3 className="font-semibold text-amber-500 mb-2">Bulk Supply</h3>
-                            <p className="text-sm text-gray-600">Available in 50kg packaging.</p>
+                            <h3 className="font-semibold text-amber-500 mb-2">All India Supply</h3>
+                            <p className="text-sm text-gray-600">Available in 100g, 200g, 250g and 500g</p>
                         </div>
 
                     </div>
@@ -123,14 +123,14 @@ const page = () => {
                     <ul className="space-y-3 text-gray-700">
                         <li>✔ Size: 18mm – 24mm</li>
                         <li>✔ Moisture: Below 5%</li>
-                        <li>✔ Packaging: 500g, 1kg, 5kg, 20kg bulk</li>
+                        <li>✔ Packaging: 100g, 200g, 250g, 500g</li>
                         <li>✔ Shelf Life: 12 Months</li>
                         <li>✔ Storage: Cool & Dry Place</li>
                     </ul>
 
                     <Link href="/contact">
                         <button className="mt-6 bg-amber-600 text-white px-6 py-3 rounded-xl hover:bg-amber-700 transition">
-                            Request Bulk Quote
+                            Shop Now
                         </button>
                     </Link>
                 </div>

@@ -40,12 +40,12 @@ const page =() => {
                     <div className="flex gap-4">
                         <Link href="/contact">
                             <button className="bg-orange-600 text-white px-6 py-3 rounded-xl hover:bg-orange-700 transition">
-                                Bulk Inquiry
+                                Shop Now
                             </button>
                         </Link>
                         <Link href="/shop">
                             <button className="border border-orange-600 text-orange-600 px-6 py-3 rounded-xl hover:bg-orange-100 transition">
-                                Shop Now
+                                Explore More Products
                             </button>
                         </Link>
                     </div>
@@ -94,7 +94,7 @@ const page =() => {
                         <div data-aos="zoom-in" data-aos-delay="300" className="bg-white p-6 rounded-2xl shadow-md">
                             <Sparkles className="mx-auto text-orange-600 mb-4" size={40} />
                             <h3 className="font-semibold text-amber-500 mb-2">Export Ready</h3>
-                            <p className="text-sm text-gray-600">Available in bulk quantities.</p>
+                            <p className="text-sm text-gray-600">Available in 100g,200g, 250g and 500g.</p>
                         </div>
 
                     </div>
@@ -122,15 +122,14 @@ const page =() => {
 
                     <ul className="space-y-3 text-gray-700">
                         <li>✔ Flavor: Modern Savory / Spicy</li>
-                        <li>✔ Packaging: 100g, 250g, 500g, 1kg</li>
-                        <li>✔ Bulk Supply Available</li>
+                        <li>✔ Packaging: 100g, 200g, 250g, 500g</li>
                         <li>✔ Shelf Life: 9–12 Months</li>
                         <li>✔ Storage: Cool & Dry Place</li>
                     </ul>
 
                     <Link href="/contact">
                         <button className="mt-6 bg-orange-600 text-white px-6 py-3 rounded-xl hover:bg-orange-700 transition">
-                            Request Bulk Quote
+                            Shop Now
                         </button>
                     </Link>
                 </div>

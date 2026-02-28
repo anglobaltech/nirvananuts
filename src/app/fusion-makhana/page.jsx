@@ -41,14 +41,14 @@ const page=()=>{
           <div className="flex gap-4">
             <Link href="/contact">
               <button className="bg-red-700 text-white px-6 py-3 rounded-xl hover:bg-red-800 transition">
-                Bulk Inquiry
-              </button>
-            </Link>
-            {/* <Link href="/shop">
-              <button className="border border-red-700 text-red-700 px-6 py-3 rounded-xl hover:bg-red-100 transition">
                 Shop Now
               </button>
-            </Link> */}
+            </Link>
+            <Link href="/products">
+              <button className="border border-red-700 text-red-700 px-6 py-3 rounded-xl hover:bg-red-100 transition">
+                Explore More products
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -94,8 +94,8 @@ const page=()=>{
 
             <div data-aos="zoom-in" data-aos-delay="300" className="bg-white p-6 rounded-2xl shadow-md">
               <Truck className="mx-auto text-red-700 mb-4" size={40}/>
-              <h3 className="font-semibold text-amber-500 mb-2">Bulk Supply</h3>
-              <p className="text-sm text-gray-600">Available for wholesale orders.</p>
+              <h3 className="font-semibold text-amber-500 mb-2">All India Supply</h3>
+              <p className="text-sm text-gray-600">Available in 100g,200g, 250g and 500g.</p>
             </div>
 
           </div>
@@ -123,15 +123,14 @@ const page=()=>{
 
           <ul className="space-y-3 text-gray-700">
             <li>✔ Flavor: Fusion Spicy Blend</li>
-            <li>✔ Packaging: 100g, 250g, 500g, 1kg</li>
-            <li>✔ 20kg Bulk Packaging Available</li>
+            <li>✔ Packaging: 100g, 200g, 250g, 500g</li>
             <li>✔ Shelf Life: 9–12 Months</li>
             <li>✔ Storage: Cool & Dry Place</li>
           </ul>
 
           <Link href="/contact">
             <button className="mt-6 bg-red-700 text-white px-6 py-3 rounded-xl hover:bg-red-800 transition">
-              Request Bulk Quote
+              Shop Now
             </button>
           </Link>
         </div>

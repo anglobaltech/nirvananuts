@@ -40,12 +40,12 @@ const page= () => {
                     <div className="flex gap-4">
                         <Link href="/contact">
                             <button className="bg-rose-600 text-white px-6 py-3 rounded-xl hover:bg-rose-700 transition">
-                                Bulk Inquiry
+                                Shop Now
                             </button>
                         </Link>
                         <Link href="/shop">
                             <button className="border border-rose-600 text-rose-600 px-6 py-3 rounded-xl hover:bg-rose-100 transition">
-                                Shop Now
+                                Explore More Products
                             </button>
                         </Link>
                     </div>
@@ -122,15 +122,14 @@ const page= () => {
 
                     <ul className="space-y-3 text-gray-700">
                         <li>✔ Flavor: Sweet Gourmet Blend</li>
-                        <li>✔ Packaging: 100g, 250g, 500g, 1kg</li>
-                        <li>✔ Bulk Supply Available</li>
+                        <li>✔ Packaging: 100g, 200g 250g, 500g</li>
                         <li>✔ Shelf Life: 9–12 Months</li>
                         <li>✔ Storage: Cool & Dry Place</li>
                     </ul>
 
                     <Link href="/contact">
                         <button className="mt-6 bg-rose-600 text-white px-6 py-3 rounded-xl hover:bg-rose-700 transition">
-                            Request Bulk Quote
+                            Shop Now
                         </button>
                     </Link>
                 </div>
