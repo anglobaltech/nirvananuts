@@ -61,7 +61,7 @@ const Header = () => {
             />
           </a>
 
-          <h1 className="text-amber-700 font-bold text-2xl animate-pulse">Nirvana Nuts</h1>
+
           </div>
 
           {/* ================= DESKTOP MENU ================= */}
@@ -122,6 +122,12 @@ const Header = () => {
             <a href="/contact" className="px-3 py-2 text-lg font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
               Contact us
             </a>
+            {/* <a href="/customer/cart" className="px-3 py-2 text-lg  font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
+              Cart
+            </a> */}
+            {/* <a href="/login" className="px-3 py-2 text-lg bg-blue-700  font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
+              Login
+            </a> */}
           </div>
 
           {/* ================= MOBILE BUTTON ================= */}

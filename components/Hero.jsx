@@ -7,6 +7,15 @@ import { ArrowRight } from 'lucide-react'
 import { Leaf, ShieldCheck, Heart, Dumbbell } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ProductCard from "@/dynamicProductCard/ProductCard"
+import { db } from "@/lib/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
+import { auth } from "@/lib/firebase"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation"
+
 
 
 
@@ -249,6 +258,185 @@ const Hero = () => {
   const touchStartX = useRef(null);
   const [slider, setSlider] = useState(0);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [products, setProducts] = useState([])
+
+const router = useRouter()
+const addToCart = async (product) => {
+
+ 
+//  stock
+
+if(!product.stock){
+toast.error("Product out of stock")
+return
+}
+ 
+  const user = auth.currentUser
+
+  try {
+
+    // USER LOGIN HAI → FIREBASE CART
+    if (user) {
+
+      const cartRef = doc(db, "carts", user.uid)
+      const cartSnap = await getDoc(cartRef)
+
+      if (cartSnap.exists()) {
+
+        const currentItems = cartSnap.data().items || []
+
+        const updatedItems = [
+          ...currentItems,
+          {
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            unit: product.unit,
+            quantity: 1
+          }
+        ]
+
+        await updateDoc(cartRef, {
+          items: updatedItems
+        })
+
+      } else {
+
+        await setDoc(cartRef, {
+          items: [
+            {
+              name: product.name,
+              price: product.price,
+              image: product.image,
+              unit: product.unit,
+              quantity: 1
+            }
+          ]
+        })
+      }
+
+    }
+
+    // USER LOGIN NAHI HAI → LOCAL STORAGE CART
+    else {
+
+      const localCart = JSON.parse(localStorage.getItem("cart")) || []
+
+      localCart.push({
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        unit: product.unit,
+        quantity: 1
+      })
+
+      localStorage.setItem("cart", JSON.stringify(localCart))
+
+    }
+
+toast.success("Product added to cart 🛒")
+
+setTimeout(() => {
+  router.push("/customer/cart")
+}, 1200)
+
+  } catch (error) {
+    console.log(error)
+    toast.error("Something went wrong")
+  }
+}
+
+const shopproduct = async (product) => {
+
+  const user = auth.currentUser
+
+  try {
+
+    // USER LOGIN HAI → FIREBASE CART
+    if (user) {
+
+      const cartRef = doc(db, "carts", user.uid)
+      const cartSnap = await getDoc(cartRef)
+
+      if (cartSnap.exists()) {
+
+        const currentItems = cartSnap.data().items || []
+
+        const updatedItems = [
+          ...currentItems,
+          {
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            unit: product.unit,
+            quantity: 1
+          }
+        ]
+
+        await updateDoc(cartRef, {
+          items: updatedItems
+        })
+
+      } else {
+
+        await setDoc(cartRef, {
+          items: [
+            {
+              name: product.name,
+              price: product.price,
+              image: product.image,
+              unit: product.unit,
+              quantity: 1
+            }
+          ]
+        })
+      }
+
+    }
+
+    // USER LOGIN NAHI HAI → LOCAL STORAGE CART
+    else {
+
+      const localCart = JSON.parse(localStorage.getItem("cart")) || []
+
+      localCart.push({
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        unit: product.unit,
+        quantity: 1
+      })
+
+      localStorage.setItem("cart", JSON.stringify(localCart))
+
+    }
+
+toast.success("Product added  🛒")
+
+setTimeout(() => {
+  router.push("/customer/checkout")
+}, 1200)
+
+  } catch (error) {
+    console.log(error)
+    toast.error("Something went wrong")
+  }
+}
+  useEffect(() =>{
+    const fetchProducts = async () => {
+      try {
+                const querySnapshot = await getDocs(collection(db, "products"));
+        const data = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          docId: doc.id,
+        }));
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+      fetchProducts();
+  }, []);
 
 
 
@@ -468,6 +656,36 @@ const Hero = () => {
           </div>
         </div>
       </section>
+
+{/* product card  */}
+<section className="min-h-screen py-20 px-6 
+bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
+
+  <div className="max-w-7xl mx-auto">
+
+    <h1
+      data-aos="fade-down"
+      className="text-4xl font-bold text-center text-gray-800  mb-14"
+    >
+      Our Premium Makhana
+    </h1>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+      {products.map((product)=>(
+        <ProductCard
+          key={product.docId}
+          product={product}
+          addToCart={addToCart}
+          shopproduct={shopproduct}
+        />
+      ))}
+
+    </div>
+
+  </div>
+
+</section>
 
       {/* product whey protein  */}
 

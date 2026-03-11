@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
+    images: {
+    domains: ["res.cloudinary.com"],
+  },
   reactCompiler: true,
 
   async redirects() {
@@ -19,6 +23,9 @@ const nextConfig = {
     ];
   },
 };
+
+
+
 
 export default nextConfig;
 
