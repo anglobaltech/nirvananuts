@@ -641,6 +641,7 @@ setTimeout(() => {
                     src={item.image}
                     alt={item.alt}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-contain rounded-2xl"
                   />
                 </div>
