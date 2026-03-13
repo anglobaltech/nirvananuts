@@ -18,9 +18,9 @@ const layout = ({children}) => {
 }
 
 function AdminChecking({children}) {
-    const CircularProgress = dynamic(
-  () => import("@nextui-org/react").then((mod) => mod.CircularProgress),
-  { ssr: false }
+const CircularProgress = dynamic(() =>
+  import("@heroui/react").then(mod => mod.CircularProgress),
+{ ssr: false }
 );
     const {user, isLoading}=useAuth();
     const router= useRouter();

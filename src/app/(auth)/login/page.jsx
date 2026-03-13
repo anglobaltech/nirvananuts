@@ -55,27 +55,27 @@ toast.error(error.message)
 
 
 // GOOGLE LOGIN
-const signInWithGoogle = async () => {
+// const signInWithGoogle = async () => {
 
-setIsLoading(true)
+// setIsLoading(true)
 
-try{
+// try{
 
-const result = await signInWithPopup(auth,new GoogleAuthProvider())
+// const result = await signInWithPopup(auth,new GoogleAuthProvider())
 
-toast.success("Login Successfully")
+// toast.success("Login Successfully")
 
-router.push("/admin")
+// router.push("/admin")
 
-}catch(error){
+// }catch(error){
 
-toast.error(error.message)
+// toast.error(error.message)
 
-}
+// }
 
-setIsLoading(false)
+// setIsLoading(false)
 
-}
+// }
 
 
 useEffect(()=>{
@@ -144,7 +144,7 @@ Forget Password?
 </div>
 
 
-<button
+{/* <button
 disabled={isLoading}
 onClick={signInWithGoogle}
 className="text-gray-900 cursor-pointer rounded-2xl bg-gray-300 p-3"
@@ -152,7 +152,7 @@ className="text-gray-900 cursor-pointer rounded-2xl bg-gray-300 p-3"
 
 {isLoading ? "Signing In..." : "Sign in With Google"}
 
-</button>
+</button> */}
 
 </div>
 
