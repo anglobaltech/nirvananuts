@@ -280,11 +280,11 @@ const page = () => {
     </section>
   
   {/* an global services */}
-  <section className="relative py-20 bg-linear-to-br from-amber-50 via-white to-green-50 overflow-hidden">
+  {/* <section className="relative py-20 bg-linear-to-br from-amber-50 via-white to-green-50 overflow-hidden">
 
   <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-    {/* Heading */}
+
     <div className="text-center mb-16" data-aos="fade-up">
       <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
         Global Excellence Powered by <span className="text-green-600">An Global Services</span>
@@ -298,7 +298,7 @@ const page = () => {
 
     <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-      {/* Left Content */}
+
       <div data-aos="fade-right">
 
         <h3 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -327,7 +327,7 @@ const page = () => {
 
       </div>
 
-      {/* Right Content */}
+
       <div data-aos="fade-left" className="bg-white p-8 rounded-2xl shadow-xl border border-amber-100">
 
         <h3 className="text-2xl font-semibold text-gray-900 mb-6">
@@ -360,7 +360,7 @@ const page = () => {
 
   </div>
 
-</section>
+</section> */}
 
       <div className="max-w-7xl mx-auto mt-10 px-6 space-y-12">
         {/* Health Benefits Section */}

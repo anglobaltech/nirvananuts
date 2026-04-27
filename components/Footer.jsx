@@ -90,7 +90,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className=" border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
-        <p>© 2026 NIRVANANUTS PRIVATE LIMITED</p>
+        <p>© 2026. NIRVANANUTS PRIVATE LIMITED. All Rights Reserved.</p>
       </div>
     </footer>
 

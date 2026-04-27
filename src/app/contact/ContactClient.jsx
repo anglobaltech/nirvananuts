@@ -249,15 +249,15 @@ const ContactClient = () => {
 
                 {/* Location */}
                 <div className="flex items-start gap-3">
-                  <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6">
+                  {/* <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6"> */}
                     <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12">
                       <Image src="/location-01.avif" alt="location" height={200} width={200}  />
                     </div>
-                  </a>
+                  {/* </a> */}
 
                   <div>
                     <p className="text-sm text-stone-500">Location</p>
-                    <p className="font-medium text-stone-800">Unit No. S63, 7th, Urbtech NPx, Sector 153, Noida, Uttar Pradesh 201304</p>
+                    <p className="font-medium text-stone-800">VILL-, SEMRA HAT,THANA-TURKULIYA, Semra (East Champaran), Banjaria, East Champaran845435, Bihar</p>
                   </div>
                 </div>
               </div>
