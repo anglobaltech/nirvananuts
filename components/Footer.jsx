@@ -48,7 +48,7 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">GET IN TOUCH</h3>
           <ul className="space-y-3 text-sm text-gray-300">
-            <li> <a href="https://maps.app.goo.gl/k2Uv5NmjpYxZWU4T7" target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 transition" >📍 S-63, 7th floor, Urbtech NPX, Noida Sector 153, Uttar Pradesh, INDIA Pin-201310 </a></li>
+            <li  >📍 VILL-, SEMRA HAT,THANA-TURKULIYA, Semra (East Champaran), Banjaria, East Champaran845435, Bihar </li>
             <li><a href="https://wa.me/+917782069184" target="_blank" className="hover:text-blue-700 transition"> 📞 (+91) 778 206 9184 </a></li>
             <li>✉️ <a href="mailto:info.nirvananuts@gmail.com" target="_blank" className="hover:text-blue-700 transition">info.nirvananuts@gmail.com</a></li>
           </ul>
@@ -90,7 +90,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className=" border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
-        <p>© 2026 Nirvana Nuts |  Powered by <a href="http://www.anglobalservices.com/" target="_blank" rel="noopener noreferrer" className=" hover:text-blue-700 text-gray-400"> AN Global Services </a></p>
+        <p>© 2026 NIRVANANUTS PRIVATE LIMITED</p>
       </div>
     </footer>
 
