@@ -242,7 +242,7 @@ const ContactClient = () => {
                   </a>
                   <div>
                     <p className="text-sm text-stone-500">Email</p>
-                    <p className="font-medium text-stone-800">info.nirvananuts@gmail.com</p>
+                    <p className="font-medium text-stone-800">info@nirvananuts.in</p>
                   </div>
                 </div>
                 <br />
