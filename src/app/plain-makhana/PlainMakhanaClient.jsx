@@ -21,15 +21,21 @@ import {
   Plus,
   HelpCircle
 } from "lucide-react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc
+} from "firebase/firestore";
+import {  auth, db } from "@/lib/firebase";
 import { toast } from "react-toastify";
 
-const images = [
-    "/plain-makhana-nirvana-nuts.avif",
-    "/image-quality-02.png",
-    "/image-quality-01.avif",
-];
+// const images = [
+//     "/plain-makhana-nirvana-nuts.avif",
+//     "/image-quality-02.png",
+//     "/image-quality-01.avif",
+// ];
 
 const faqs = [
     {
@@ -47,11 +53,12 @@ const faqs = [
 ];
 
 export default function PlainMakhanaPage() {
-    const [active, setActive] = useState(images[0]);
+    const [active, setActive] = useState("");
     const [openIndex, setOpenIndex] = useState(null);
     const [product, setProduct] = useState(null);
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const [images, setImages] = useState([]);
 
     const basePrice = selectedVariant?.price || 0;
     const productDiscount = product?.discount || 0;
@@ -79,55 +86,117 @@ export default function PlainMakhanaPage() {
         setOpenIndex(openIndex === index ? null : index);
     };
 
-    const handleAction = (type) => {
-        if (!product?.inStock) return;
-        
-        const actionPayload = {
-            productId: product.docId,
-            variant: selectedVariant?.label,
-            quantity: quantity,
-            pricePerUnit: discountedPrice,
-            totalPrice: totalPrice
+const handleAction = async (type) => {
+    if (!product?.inStock) return;
+
+    try {
+
+        const item = {
+            docId: product.docId,
+            name: product.name,
+            mainImage: active || product.images?.[0],
+            selectedWeight: selectedVariant?.label || "Default",
+            price: Number(basePrice),
+            qty: Number(quantity),
+            tieredDiscounts: product?.tieredDiscounts || [],
         };
 
-        if (type === "cart") {
-            toast.success(`Added ${quantity} units to your cart!`);
-            console.log("Cart Action payload:", actionPayload);
-        } else if (type === "buyNow") {
-            console.log("Directing to checkout flow with:", actionPayload);
+        const user = auth.currentUser;
+
+        if (user) {
+
+            const cartRef = doc(db, "carts", user.uid);
+
+            const cartSnap = await getDoc(cartRef);
+
+            let existingItems = [];
+
+            if (cartSnap.exists()) {
+                existingItems = cartSnap.data().items || [];
+            }
+
+            const updatedItems = [...existingItems, item];
+
+            await setDoc(
+                cartRef,
+                { items: updatedItems },
+                { merge: true }
+            );
+
+        } else {
+
+            const existingCart =
+                JSON.parse(localStorage.getItem("cart")) || [];
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify([...existingCart, item])
+            );
         }
-    };
+
+        if (type === "cart") {
+            toast.success("Added to cart!");
+            window.location.href = "/customer/cart";
+        }
+
+        if (type === "buyNow") {
+            toast.success("Redirecting to checkout...");
+            window.location.href = "/customer/checkout";
+        }
+
+    } catch (error) {
+        console.log("Cart Error:", error);
+        toast.error("Something went wrong");
+    }
+};
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const snapshot = await getDocs(collection(db, "products"));
-                const data = snapshot.docs.map((doc) => ({
-                    docId: doc.id,
-                    ...doc.data(),
-                }));
+useEffect(() => {
+    const fetchProduct = async () => {
+        try {
+            const snapshot = await getDocs(collection(db, "products"));
 
-                const plainProduct = data.find(
-                    (p) => p.category === "plain-makhana"
-                );
+            const data = snapshot.docs.map((doc) => ({
+                docId: doc.id,
+                ...doc.data(),
+            }));
 
-                if (plainProduct) {
-                    setProduct(plainProduct);
-                    if (plainProduct?.variants?.length > 0) {
-                        setSelectedVariant(plainProduct.variants[0]);
-                    }
+            const plainProduct = data.find(
+                (p) => p.category?.toLowerCase() === "plain-makhana"
+            );
+
+            if (plainProduct) {
+                setProduct(plainProduct);
+
+                // Dynamic Images
+                if (
+                    plainProduct?.images &&
+                    Array.isArray(plainProduct.images) &&
+                    plainProduct.images.length > 0
+                ) {
+                    setImages(plainProduct.images);
+                    setActive(plainProduct.images[0]);
                 }
-            } catch (error) {
-                console.error(error);
-                toast.error("Failed to load product");
+
+                // Variants
+                if (
+                    plainProduct?.variants &&
+                    plainProduct.variants.length > 0
+                ) {
+                    setSelectedVariant(plainProduct.variants[0]);
+                }
             }
-        };
-        fetchProduct();
-    }, []);
+        } catch (error) {
+            console.error("Firebase Product Error:", error);
+            toast.error("Failed to load product");
+        }
+    };
+
+    fetchProduct();
+}, []);
 
     return (
         <div className="bg-amber-50">
@@ -154,11 +223,14 @@ export default function PlainMakhanaPage() {
 
                 <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-orange-100/40 blur-3xl rounded-full" />
 
-                <img
-                  src={active || "/plain-makhana-nirvana-nuts.avif"}
-                  alt={product?.name || "Plain Makhana"}
-                  className="relative max-h-[75%] max-w-[75%] w-auto h-auto object-contain transition-all duration-700"
-                />
+                <Image
+  src={active || "/plain-makhana-nirvana-nuts.avif"}
+  alt={product?.name || "Plain Makhana"}
+  width={700}
+  height={700}
+  unoptimized
+  className="relative max-h-[75%] max-w-[75%] w-auto h-auto object-contain transition-all duration-700"
+/>
               </div>
 
               {/* THUMBNAILS */}
@@ -173,11 +245,14 @@ export default function PlainMakhanaPage() {
                         : "border-slate-200 hover:border-slate-400"
                     }`}
                   >
-                    <img
-                      src={img}
-                      alt={`Product ${i + 1}`}
-                      className="w-full h-full object-contain p-3"
-                    />
+                    <Image
+  src={img}
+  alt={`Product ${i + 1}`}
+  width={200}
+  height={200}
+  unoptimized
+  className="w-full h-full object-contain p-3"
+/>
                   </button>
                 ))}
               </div>

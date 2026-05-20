@@ -19,8 +19,14 @@ import {
   HelpCircle,
   ArrowRight
 } from "lucide-react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc
+} from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 import { toast } from "react-toastify";
 
 const faqs = [
@@ -78,26 +84,69 @@ export default function ModernMakhanaPage() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const handleAction = (type) => {
-    if (!product?.inStock) return;
-
-    const actionPayload = {
-      productId: product.docId,
-      variant: selectedVariant?.label,
-      quantity: quantity,
-      pricePerUnit: discountedPrice,
-      totalPrice: totalPrice,
-    };
-
-    if (type === "cart") {
-      toast.success(
-        `Added ${quantity} units of Modern Makhana to your cart!`
-      );
-      console.log("Cart Action payload:", actionPayload);
-    } else if (type === "buyNow") {
-      console.log("Checkout:", actionPayload);
-    }
-  };
+ const handleAction = async (type) => {
+     if (!product?.inStock) return;
+ 
+     try {
+ 
+         const item = {
+             docId: product.docId,
+             name: product.name,
+             mainImage: active || product.images?.[0],
+             selectedWeight: selectedVariant?.label || "Default",
+             price: Number(basePrice),
+             qty: Number(quantity),
+             tieredDiscounts: product?.tieredDiscounts || [],
+         };
+ 
+         const user = auth.currentUser;
+ 
+         if (user) {
+ 
+             const cartRef = doc(db, "carts", user.uid);
+ 
+             const cartSnap = await getDoc(cartRef);
+ 
+             let existingItems = [];
+ 
+             if (cartSnap.exists()) {
+                 existingItems = cartSnap.data().items || [];
+             }
+ 
+             const updatedItems = [...existingItems, item];
+ 
+             await setDoc(
+                 cartRef,
+                 { items: updatedItems },
+                 { merge: true }
+             );
+ 
+         } else {
+ 
+             const existingCart =
+                 JSON.parse(localStorage.getItem("cart")) || [];
+ 
+             localStorage.setItem(
+                 "cart",
+                 JSON.stringify([...existingCart, item])
+             );
+         }
+ 
+         if (type === "cart") {
+             toast.success("Added to cart!");
+             window.location.href = "/customer/cart";
+         }
+ 
+         if (type === "buyNow") {
+             toast.success("Redirecting to checkout...");
+             window.location.href = "/customer/checkout";
+         }
+ 
+     } catch (error) {
+         console.log("Cart Error:", error);
+         toast.error("Something went wrong");
+     }
+ };
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });

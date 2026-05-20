@@ -9,6 +9,8 @@ import {
 } from "@/customerService/wishlistService";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 
 export default function ProductCard({ product, addToCart }) {
   const router = useRouter();
@@ -80,27 +82,61 @@ await addToWishlist({
 };
 
 // ProductCard.jsx ke andar handleAction function ko replace karein
-const handleAction = (type) => {
-  const item = {
-    docId: product.docId,
-    name: product.name,
-    mainImage: product.mainImage,
-    selectedWeight: selectedWeight.label,
-    // IMPORTANT: Yahan original base price bhejna hai
-    price: Number(selectedWeight.price), 
-    qty: Number(quantity),
-    // IMPORTANT: Ye line cart page ko discount calculate karne degi
-    tieredDiscounts: product?.tieredDiscounts || product?.buyMoreSaveMore || [],
-  };
+const handleAction = async (type) => {
+  try {
+    const item = {
+      docId: product.docId,
+      name: product.name,
+      mainImage: product.mainImage,
+      selectedWeight: selectedWeight.label,
+      price: Number(selectedWeight.price),
+      qty: Number(quantity),
+      tieredDiscounts:
+        product?.tieredDiscounts ||
+        product?.buyMoreSaveMore ||
+        [],
+    };
 
-  addToCart(item);
+    const user = auth.currentUser;
 
-  if (type === "cart") {
-    router.push("/customer/cart");
-  }
+    if (user) {
+      const cartRef = doc(db, "carts", user.uid);
 
-  if (type === "buyNow") {
-    router.push("/customer/checkout");
+      const cartSnap = await getDoc(cartRef);
+
+      let existingItems = [];
+
+      if (cartSnap.exists()) {
+        existingItems = cartSnap.data().items || [];
+      }
+
+      const updatedItems = [...existingItems, item];
+
+      await setDoc(
+        cartRef,
+        { items: updatedItems },
+        { merge: true }
+      );
+    } else {
+      const existingCart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify([...existingCart, item])
+      );
+    }
+
+    if (type === "cart") {
+      router.push("/customer/cart");
+    }
+
+    if (type === "buyNow") {
+      router.push("/customer/checkout");
+    }
+
+  } catch (error) {
+    console.log("Buy Now Error:", error);
   }
 };
   return (

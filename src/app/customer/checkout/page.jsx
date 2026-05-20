@@ -71,7 +71,7 @@ export default function Checkout() {
 
     const totals = computedCartItems.reduce(
       (acc, item) => {
-        acc.subtotal += Number(item.price) * Number(item.qty || 1);
+       acc.subtotal += item.stats.originalTotal;
         acc.savings += item.stats.totalSavings;
         acc.final += item.stats.totalItemPrice;
         return acc;
