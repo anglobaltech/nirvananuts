@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import Image from "next/image"
+import { ChevronDown, ShoppingCart, UserRound } from "lucide-react"
 
 const Header = () => {
   const [open, setOpen] = useState(false)
@@ -122,16 +123,22 @@ const Header = () => {
             <a href="/contact" className="px-3 py-2 text-lg font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
               Contact us
             </a>
-            {/* <a href="/customer/cart" className="px-3 py-2 text-lg  font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
-              Cart
-            </a> */}
-            {/* <a href="/login" className="px-3 py-2 text-lg bg-blue-700  font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
-              Login
-            </a> */}
+            <a href="/customer/cart" className="px-3 py-2 text-lg  font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
+              <ShoppingCart />
+            </a>
+            <a href="/login" className="px-3 py-2 text-lg rounded-full font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 bg-amber-300 transition">
+              <UserRound/>
+            </a>
           </div>
 
           {/* ================= MOBILE BUTTON ================= */}
-          <div className="md:hidden">
+          <div className="md:hidden grid grid-cols-3">
+            <a href="/login" className="px-3 py-2 text-lg rounded-full font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 bg-amber-300 transition">
+              <UserRound/>
+            </a>
+            <a href="/customer/cart" className="px-3 py-2 text-lg  font-medium text-black hover:scale-110 hover:font-bold hover:text-amber-600 rounded-2xl transition">
+              <ShoppingCart />
+            </a>
             <button
               onClick={() => setMobileOpen(true)}
               className="text-3xl text-gray-900"

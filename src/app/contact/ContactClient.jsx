@@ -1,16 +1,15 @@
 "use client";
-import {  useRef } from "react";
-import { useState } from "react";
+
+import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import emailjs from "@emailjs/browser"
+import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 
-
 const ContactClient = () => {
   const form = useRef(null);
-  const [isSent, setIsSent] = useState(false);
+
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +31,7 @@ const ContactClient = () => {
     try {
       setLoading(true);
 
-      //  verify captcha on server
+      // verify captcha on server
       const res = await fetch("/api/verify-captcha", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -40,15 +39,16 @@ const ContactClient = () => {
       });
 
       const data = await res.json();
+
       if (!data.success) {
         throw new Error("Captcha verification failed");
       }
 
       await emailjs.sendForm(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-      form.current,
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
       );
 
       form.current.reset();
@@ -61,6 +61,7 @@ const ContactClient = () => {
       });
     } catch (error) {
       console.error(error);
+
       toast.error("Failed to send message ❌", {
         theme: "dark",
       });
@@ -69,223 +70,298 @@ const ContactClient = () => {
     }
   };
 
-
-
-
   return (
-    <main className="min-h-screen   relative  mt-20 bg-linear-to-br from-amber-50 via-orange-100 to-stone-200" >
+    <main className="min-h-screen relative mt-16 sm:mt-20 bg-gradient-to-br from-amber-50 via-orange-100 to-stone-200 overflow-hidden">
       <ToastContainer />
-      <section className="container  mx-auto px-4 sm:px-6 lg:px-8 py-16 ">
-        <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl  font-semibold p-4 tracking-tight text-amber-900">
+
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
+        {/* Heading */}
+        <header className="text-center mb-10 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold p-2 sm:p-4 tracking-tight text-amber-900 leading-snug">
             Contact Nirvana Nuts for Orders, Bulk Enquiries & Support
           </h1>
-          <p className="mt-3 text-stone-600 max-w-2xl mx-auto">
-            We do love to hear from you—questions, collaborations, or feedback. Drop us a message and we will get back soon.
+
+          <p className="mt-3 text-sm sm:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed">
+            We do love to hear from you—questions, collaborations, or
+            feedback. Drop us a message and we will get back soon.
           </p>
         </header>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2  md:gap-0.5 gap-10 md:max-w-8xl  ">
-          <div
-          >
-            <div className="md:w-140 md:ml-30 rounded-2xl bg-white/60  backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8">
+
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start">
+          {/* LEFT FORM */}
+          <div className="w-full flex justify-center">
+            <div className="w-full max-w-2xl rounded-2xl bg-white/60 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-5 sm:p-6 lg:p-8">
               <form
                 ref={form}
                 onSubmit={sendEmail}
                 className="space-y-5"
                 aria-label="Contact form"
               >
-                {/* Name */}
-                <div className="flex flex-col-2 gap-4">
-                <div className="group">
-                  <label htmlFor="name" className="block text-lg font-medium text-stone-900">Name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    placeholder="Enter your full name"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                              focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                              group-focus-within:scale-[1.01] hover:border-stone-400"
-                  />
-                </div>
+                {/* Name + Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Name */}
+                  <div className="group">
+                    <label
+                      htmlFor="name"
+                      className="block text-base sm:text-lg font-medium text-stone-900"
+                    >
+                      Name
+                    </label>
 
-                {/* phone */}
-                <div className="group">
-                  <label htmlFor="phone" className="block text-lg font-medium text-stone-900">
-                    Phone Number
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="phone"
-                    pattern="[0-9]{10}"
-                    title="Enter 10 digit mobile number"
-                    required
-                    placeholder="Enter your phone number"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                              focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                              group-focus-within:scale-[1.01] hover:border-stone-400"
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      placeholder="Enter your full name"
+                      className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
+                      focus:ring-2 focus:ring-amber-500 focus:border-amber-500
+                      group-focus-within:scale-[1.01] hover:border-stone-400"
+                    />
+                  </div>
 
-                  />
+                  {/* Phone */}
+                  <div className="group">
+                    <label
+                      htmlFor="phone"
+                      className="block text-base sm:text-lg font-medium text-stone-900"
+                    >
+                      Phone Number
+                    </label>
 
-                </div>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      title="Enter 10 digit mobile number"
+                      required
+                      placeholder="Enter your phone number"
+                      className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
+                      focus:ring-2 focus:ring-amber-500 focus:border-amber-500
+                      group-focus-within:scale-[1.01] hover:border-stone-400"
+                    />
+                  </div>
                 </div>
 
                 {/* Email */}
                 <div className="group">
-                  <label htmlFor="email" className="block text-lg font-medium text-stone-900">
+                  <label
+                    htmlFor="email"
+                    className="block text-base sm:text-lg font-medium text-stone-900"
+                  >
                     Email
                   </label>
+
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
                     placeholder="you@example.com"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                              focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                              group-focus-within:scale-[1.01] hover:border-stone-400"
+                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
+                    focus:ring-2 focus:ring-amber-500 focus:border-amber-500
+                    group-focus-within:scale-[1.01] hover:border-stone-400"
                     aria-describedby="email-desc"
                   />
-                  <p id="email-desc" className="mt-1 text-xs text-stone-500">
+
+                  <p
+                    id="email-desc"
+                    className="mt-1 text-xs sm:text-sm text-stone-500"
+                  >
                     We’ll only use this to reply to your message.
                   </p>
                 </div>
 
-
                 {/* Message */}
                 <div className="group">
-                  <label htmlFor="message" className="block text-lg font-medium text-stone-900">
+                  <label
+                    htmlFor="message"
+                    className="block text-base sm:text-lg font-medium text-stone-900"
+                  >
                     Message
                   </label>
+
                   <textarea
                     id="message"
                     name="message"
                     required
-                    rows={3}
+                    rows={4}
                     placeholder="Tell us more…"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                              focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                              group-focus-within:scale-[1.01] hover:border-stone-400 resize-y"
+                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
+                    focus:ring-2 focus:ring-amber-500 focus:border-amber-500
+                    group-focus-within:scale-[1.01] hover:border-stone-400 resize-none"
                   />
                 </div>
 
-                {/* reCAPTCHA */}
-                <div className="mb-4 ">
-                  <ReCAPTCHA
-                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                    onChange={(token) => setCaptchaToken(token)}
-                  />
+                {/* Recaptcha */}
+                <div className="overflow-x-auto">
+                  <div className="min-w-[304px]">
+                    <ReCAPTCHA
+                      sitekey={
+                        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+                      }
+                      onChange={(token) => setCaptchaToken(token)}
+                    />
+                  </div>
                 </div>
 
-                {/* Submit button with hover animation */}
+                {/* Submit */}
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-linear-to-r from-amber-600 to-stone-700 text-white px-6 py-3 font-medium shadow-md
-                              transition-transform duration-200 hover:scale-[1.03] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer"
+                    disabled={loading}
+                    className="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-gradient-to-r from-amber-600 to-stone-700 text-white px-6 py-3 font-medium shadow-md
+                    transition-transform duration-200 hover:scale-[1.03] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer disabled:opacity-70"
                     aria-label="Submit contact form"
                   >
-                    <span>Send Message</span>
+                    {loading ? "Sending..." : "Send Message"}
                   </button>
                 </div>
               </form>
             </div>
           </div>
 
-          {/* Floating contact info + social bar */}
-          <div
-            className="relative "
-          >
-            <div className="rounded-2xl md:w-150   bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-6 sm:p-8  md:h-120 flex flex-col justify-between">
-              {/* Contact info */}
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold text-stone-800">Reach us directly</h2>
+          {/* RIGHT SIDE */}
+          <div className="w-full flex justify-center">
+            <div className="w-full max-w-3xl rounded-2xl bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-5 sm:p-6 lg:p-8 flex flex-col justify-between lg:min-h-[620px]">
+              {/* Contact Info */}
+              <div className="space-y-6">
+                <h2 className="text-xl sm:text-2xl font-semibold text-stone-800">
+                  Reach us directly
+                </h2>
 
                 {/* Phone */}
-                <div className="flex items-start gap-3 ">
+                <div className="flex items-start gap-4">
                   <a href="tel:917782069184">
-                    <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 ">
-                      <Image src="/dialer-icon.avif" alt="dialer" width={200} height={200}  />
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center hover:scale-110 transition">
+                      <Image
+                        src="/dialer-icon.avif"
+                        alt="dialer"
+                        width={200}
+                        height={200}
+                      />
                     </div>
                   </a>
-                  <div>
+
+                  <div className="break-all">
                     <p className="text-sm text-stone-500">Phone</p>
-                    <p className="font-medium text-stone-800">+91 778 206 9184</p>
+                    <p className="font-medium text-stone-800 text-sm sm:text-base">
+                      +91 778 206 9184
+                    </p>
                   </div>
                 </div>
-                <br />
 
-                {/* Whatsapp */}
-                <div className="flex items-start gap-3 ">
-                  <a href="https://wa.me/+917782069184">
-                    <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12  ">
-                      <Image src="/whatsapp.avif" alt="whatsapp" width={200} height={200}  />
-
+                {/* WhatsApp */}
+                <div className="flex items-start gap-4">
+                  <a href="https://wa.me/917782069184">
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center hover:scale-110 transition">
+                      <Image
+                        src="/whatsapp.avif"
+                        alt="whatsapp"
+                        width={200}
+                        height={200}
+                      />
                     </div>
                   </a>
-                  <div>
-                    <p className="text-sm text-stone-500">Phone</p>
-                    <p className="font-medium text-stone-800">+91 778 206 9184</p>
+
+                  <div className="break-all">
+                    <p className="text-sm text-stone-500">WhatsApp</p>
+                    <p className="font-medium text-stone-800 text-sm sm:text-base">
+                      +91 778 206 9184
+                    </p>
                   </div>
                 </div>
-                <br />
 
                 {/* Email */}
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-4">
                   <a href="mailto:info.nirvananuts@gmail.com">
-                    <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12 cursor-pointer ">
-                      <Image src="/email-icon.webp" alt="email" width={200} height={200} priority />
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center hover:scale-110 transition">
+                      <Image
+                        src="/email-icon.webp"
+                        alt="email"
+                        width={200}
+                        height={200}
+                        priority
+                      />
                     </div>
                   </a>
-                  <div>
+
+                  <div className="break-all">
                     <p className="text-sm text-stone-500">Email</p>
-                    <p className="font-medium text-stone-800">info@nirvananuts.in</p>
+                    <p className="font-medium text-stone-800 text-sm sm:text-base">
+                      info@nirvananuts.in
+                    </p>
                   </div>
                 </div>
-                <br />
 
                 {/* Location */}
-                <div className="flex items-start gap-3">
-                  {/* <a href="https://maps.app.goo.gl/fCnvbW9fFsHGkm2d6"> */}
-                    <div className="flex h-10 w-10 items-center justify-center hover:h-12 hover:w-12">
-                      <Image src="/location-01.avif" alt="location" height={200} width={200}  />
-                    </div>
-                  {/* </a> */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center">
+                    <Image
+                      src="/location-01.avif"
+                      alt="location"
+                      height={200}
+                      width={200}
+                    />
+                  </div>
 
                   <div>
                     <p className="text-sm text-stone-500">Location</p>
-                    <p className="font-medium text-stone-800">VILL-, SEMRA HAT,THANA-TURKULIYA, Semra (East Champaran), Banjaria, East Champaran845435, Bihar</p>
+
+                    <p className="font-medium text-stone-800 text-sm sm:text-base leading-relaxed">
+                      VILL-, SEMRA HAT, THANA-TURKULIYA, Semra (East
+                      Champaran), Banjaria, East Champaran 845435, Bihar
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Floating social bar with animated icons */}
+              {/* Social */}
               <div className="mt-8">
-                <p className="text-sm text-stone-500 mb-3">Follow us</p>
+                <p className="text-sm text-stone-500 mb-3">
+                  Follow us
+                </p>
+
                 <div className="flex items-center gap-3">
                   <a
                     href="https://www.instagram.com/nirvana.nuts/"
                     aria-label="Visit Instagram"
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm  hover:scale-105 "
+                    className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm hover:scale-105 transition"
                   >
-                    <Image src="/instagram-icon.avif" alt="instagram" width={200} height={200}  />
+                    <Image
+                      src="/instagram-icon.avif"
+                      alt="instagram"
+                      width={200}
+                      height={200}
+                    />
                   </a>
+
                   <a
                     href="#"
                     aria-label="Visit Facebook"
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm  hover:scale-105 "
+                    className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm hover:scale-105 transition"
                   >
-                    <Image src="/facebook-icon.avif" alt="Facebook" height={200} width={200}  />
+                    <Image
+                      src="/facebook-icon.avif"
+                      alt="Facebook"
+                      height={200}
+                      width={200}
+                    />
                   </a>
+
                   <a
                     href="#"
                     aria-label="Visit LinkedIn"
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm  hover:scale-105 "
+                    className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm hover:scale-105 transition"
                   >
-                    <Image src="/linkedin-icon.avif" alt="Linkedin" height={200} width={200}  />
+                    <Image
+                      src="/linkedin-icon.avif"
+                      alt="Linkedin"
+                      height={200}
+                      width={200}
+                    />
                   </a>
                 </div>
               </div>
@@ -293,10 +369,8 @@ const ContactClient = () => {
           </div>
         </div>
       </section>
-
     </main>
   );
-}
-
+};
 
 export default ContactClient;

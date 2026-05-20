@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Whatsapp from "../../components/Whatsapp"
-import ClientOnly from "../../components/ClientOnly"
 
 
 export default function LayoutWrapper({ children }) {
@@ -21,7 +20,6 @@ export default function LayoutWrapper({ children }) {
       {!hideLayout && <Header />}
 
       <main>{children}</main>
-      {!hideLayout && <ClientOnly />}
       {!hideLayout && <Whatsapp />}
       {!hideLayout && <Footer />}
     </>

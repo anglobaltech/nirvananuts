@@ -24,11 +24,13 @@ const CircularProgress = dynamic(() =>
 );
     const {user, isLoading}=useAuth();
     const router= useRouter();
-    useEffect(()=>{
-        if(!user && !isLoading){
-            router.push("/login");
-        }
-    },[user, isLoading]);
+   useEffect(() => {
+  if (isLoading) return;
+
+  if (!user) {
+    router.replace("/login");
+  }
+}, [user, isLoading]);
 
     if(isLoading){
         return(

@@ -1,97 +1,83 @@
 "use client"
-import { Sliders } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
-import { ArrowRight } from 'lucide-react'
-import { Leaf, ShieldCheck, Heart, Dumbbell } from "lucide-react";
+import { ArrowRight, Leaf, ShieldCheck, Heart, Dumbbell } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ProductCard from "@/dynamicProductCard/ProductCard"
 import { db } from "@/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore"
+import { collection, getDocs, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth } from "@/lib/firebase"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation"
-
-
-
-
-
-
-export const metadata = {
-  title: "Premium Makhana & Protein Snacks | Nirvana Nuts",
-  description: "Experience clean, premium makhana and protein-rich snacks crafted for mindful eating. Nirvana Nuts delivers freshness, flavor and quality across India."
-}
-
+import { calculateDiscount } from "@/utils/discount";
 
 const slides = [
   {
     heading: "Classic Salted Makhana",
     title: "Healthy Roasted Fox Nuts",
-    description: "Enjoy the timeless taste of perfectly roasted classic salted makhana made from premium fox nuts. A healthy, low-calorie snack packed with protein and fiber — ideal for daily munching and guilt-free snacking across India.",
+    description: "Buy makhana online in India with our classic salted fox nuts. A light, roasted healthy snack rich in protein, fiber, and antioxidants—perfect for guilt-free daily munching.",
     image: "/Classic-Salted-Flavors.avif",
   },
   {
     heading: "Modern Savory Flavored Makhana",
     title: "Bold Taste, Healthy Choice",
-    description: "Experience premium makhana infused with exciting savory flavors. Crafted for modern snack lovers, our flavored fox nuts deliver crunch, nutrition, and irresistible taste in every bite.",
+    description: "Shop flavored makhana online in India and enjoy crunchy fox nuts with modern savory spices. A nutritious snack option loaded with taste, low calories, and clean ingredients.",
     image: "/Modern Savory Flavors.avif",
   },
   {
     heading: "Sweet Gourmet Makhana",
     title: "Luxury Snacking Redefined",
-    description: "Indulge in gourmet sweet makhana made from high-quality fox nuts. A perfect blend of sweetness and crunch, offering a nutritious alternative to traditional desserts and sugary snacks.",
+    description: "Order premium sweet makhana online in India made from high-quality fox nuts. A delicious healthy snack alternative to sweets, combining natural flavor, crunch, and nutrition.",
     image: "/Sweet Gourmet Flavors.avif",
   },
   {
     heading: "Fusion Spicy Makhana",
     title: "Fiery Flavor,Healthy Crunch",
-    description: "Turn up the heat with our fusion spicy makhana, made from farm-fresh fox nuts and bold Indian spices. A protein-packed, crunchy snack perfect for tea time and fitness-conscious consumers.",
+    description: "Discover spicy makhana online in India crafted with bold Indian flavors. These roasted fox nuts are a protein-rich healthy snack, ideal for tea-time cravings and fitness diets.",
     image: "/Fusion Spicy.avif",
   },
   {
     heading: "Bulk Whey Protein 20kg",
     title: "Pure, High-Quality Protein Powder",
-    description: "Premium 20kg bulk whey protein designed for manufacturers, gyms, and supplement brands. Lab-tested, high-protein formula ideal for muscle growth, recovery, and private labeling across India.",
+    description: "Buy whey protein in bulk online in India with premium quality assurance. Ideal for gyms and brands, this high-protein supplement supports muscle growth, recovery, and performance.",
     image: "/whey.avif",
-  },
+  }
 ];
 
 const dryfruits = [
   {
     name: "Classic Salted Makhana",
     image: "/salted makhana.avif",
-    alt: "classic makhana",
+    alt: "Classic salted makhana healthy roasted fox nuts snack India",
     link: "/makhana",
     color: "text-orange-500",
   },
   {
     name: "Modern Savory Makhana",
     image: "/modern savory flavors makhana.avif",
-    alt: "modern makhana",
+    alt: "Modern savory makhana flavored fox nuts healthy snack India",
     link: "/makhana",
     color: "text-yellow-600",
   },
   {
     name: "Sweet Gourmet Makhana",
     image: "/sweet flavors makhana.avif",
-    alt: "sweet makhana",
+    alt: "Sweet gourmet makhana healthy fox nuts dessert snack India",
     link: "/category/pistachio",
     color: "text-green-600",
   },
   {
     name: "Fusion Spicy Makhana",
     image: "/Fusion.avif",
-    alt: "fusion makhana",
+    alt: "Fusion spicy makhana masala fox nuts healthy snack India",
     link: "/category/walnut",
     color: "text-amber-700",
   },
 
 ];
-
 const faqs = [
   {
     question: "What is Nirvana Nuts Makhana?",
@@ -102,6 +88,14 @@ const faqs = [
     question: "Do you offer Bulk Whey Protein (20kg)?",
     answer:
       "Yes, we offer high-quality Bulk Whey Protein in 20kg packaging suitable for gyms, supplement brands, and bulk buyers. It contains high protein concentration, excellent mixability, and supports muscle growth and recovery.",
+  },
+  {
+    question: "What are the benefits of makhana?",
+    answer: "Makhana is rich in protein, fiber, and antioxidants. It helps in weight loss, improves heart health, and is a perfect healthy snack."
+  },
+  {
+    question: "Where to buy makhana online in India?",
+    answer: "You can buy premium makhana online in India from Nirvana Nuts with multiple flavors and fast delivery."
   },
   {
     question: "Is Nirvana Nuts Makhana healthy?",
@@ -119,9 +113,7 @@ const faqs = [
       "Yes. All Nirvana Nuts products are made with premium ingredients, hygienically processed, and quality tested to ensure safety and freshness.",
   },
 ];
-
 const initialReviews = [
-
   {
     id: 1,
     name: "Shivam Sharma",
@@ -194,260 +186,75 @@ const initialReviews = [
   },
 ];
 
-
-
-
-
-// image
-const images = [
-  "/new-image-01.avif",
-  "/new-image-02.avif",
-  "/new-image-03.avif",
-  "/new-image-04.avif",
-];
-// our products
-const products = [
-  {
-    name: "Classic Salted Makhana",
-    description: "Lightly roasted with rock salt",
-    //    price: "₹199",
-    image: "/image-quality-01.avif",
-    link: "/makhana"
-  },
-  {
-    name: "Modern Savory Flavors makhana",
-    description: "Bold, tangy, cheesy, spicy",
-    //    price: "₹249",
-    image: "/product-03.avif",
-    link: "/makhana"
-  },
-  {
-    name: "Sweet Gourmet Flavors makhana",
-    description: "Rich, indulgent, dessert-style crunch",
-    //    price: "₹299",
-    image: "/product-04.avif",
-    link: "/makhana"
-  },
-  {
-    name: "Fusion Spicy makhana",
-    description: "A healthy mix of nuts for every mood.",
-    //    price: "₹349",
-    image: "/about-image-04.webp",
-    link: "/makhana"
-  },
-  {
-    name: "Whey Protein",
-    description: "High-quality protein for muscle support",
-    //    price: "₹399",
-    image: "/whey-protein-07.avif",
-    link: "/whey-protein"
-  },
-];
-
 const Hero = () => {
 
-  // animation
   useEffect(() => {
     AOS.init({ duration: 1500 });
   }, []);
 
-  //  home slider
-  const [index, setIndex] = useState(0);
-  const [isHover, setIsHover] = useState(false);
-  const intervalRef = useRef(null);
-  const touchStartX = useRef(null);
   const [slider, setSlider] = useState(0);
   const [activeIndex, setActiveIndex] = useState(null);
   const [products, setProducts] = useState([])
+const [loading, setLoading] = useState(true);
+  const router = useRouter()
 
-const router = useRouter()
-const addToCart = async (product) => {
+// 1. Add this function alongside your addToCart function
+const buyNow = (product) => {
+  const quantity = 1;
+  const basePrice = Number(product?.price) || 0;
 
- 
-//  stock
+  const { finalPrice, discount } = calculateDiscount(
+    product.buyMoreSaveMore || [],
+    quantity,
+    basePrice
+  );
 
-if(!product.stock){
-toast.error("Product out of stock")
-return
-}
- 
-  const user = auth.currentUser
+  // Redirecting to checkout directly with pricing context
+  router.push(`/checkout?productId=${product.docId}&price=${finalPrice}&qty=${quantity}`);
+};
 
-  try {
+// 2. Ensure addToCart handles the initial quantity (1) correctly
+const addToCart = (item) => {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // USER LOGIN HAI → FIREBASE CART
-    if (user) {
+  const existingIndex = cart.findIndex(
+    (i) =>
+      i.docId === item.docId &&
+      i.selectedWeight === item.selectedWeight
+  );
 
-      const cartRef = doc(db, "carts", user.uid)
-      const cartSnap = await getDoc(cartRef)
-
-      if (cartSnap.exists()) {
-
-        const currentItems = cartSnap.data().items || []
-
-        const updatedItems = [
-          ...currentItems,
-          {
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            unit: product.unit,
-            quantity: 1
-          }
-        ]
-
-        await updateDoc(cartRef, {
-          items: updatedItems
-        })
-
-      } else {
-
-        await setDoc(cartRef, {
-          items: [
-            {
-              name: product.name,
-              price: product.price,
-              image: product.image,
-              unit: product.unit,
-              quantity: 1
-            }
-          ]
-        })
-      }
-
-    }
-
-    // USER LOGIN NAHI HAI → LOCAL STORAGE CART
-    else {
-
-      const localCart = JSON.parse(localStorage.getItem("cart")) || []
-
-      localCart.push({
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        unit: product.unit,
-        quantity: 1
-      })
-
-      localStorage.setItem("cart", JSON.stringify(localCart))
-
-    }
-
-toast.success("Product added to cart 🛒")
-
-setTimeout(() => {
-  router.push("/customer/cart")
-}, 1200)
-
-  } catch (error) {
-    console.log(error)
-    toast.error("Something went wrong")
+  if (existingIndex > -1) {
+    cart[existingIndex].qty += item.qty;
+  } else {
+    cart.push(item);
   }
-}
 
-const shopproduct = async (product) => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  console.log("Updated Cart:", cart);
+};
 
-  const user = auth.currentUser
-
-  try {
-
-    // USER LOGIN HAI → FIREBASE CART
-    if (user) {
-
-      const cartRef = doc(db, "carts", user.uid)
-      const cartSnap = await getDoc(cartRef)
-
-      if (cartSnap.exists()) {
-
-        const currentItems = cartSnap.data().items || []
-
-        const updatedItems = [
-          ...currentItems,
-          {
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            unit: product.unit,
-            quantity: 1
-          }
-        ]
-
-        await updateDoc(cartRef, {
-          items: updatedItems
-        })
-
-      } else {
-
-        await setDoc(cartRef, {
-          items: [
-            {
-              name: product.name,
-              price: product.price,
-              image: product.image,
-              unit: product.unit,
-              quantity: 1
-            }
-          ]
-        })
-      }
-
+const shopproduct = (product) => {
+  router.push(`/product/${product.docId}`);
+};
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      setLoading(true); // Start loading
+      const querySnapshot = await getDocs(collection(db, "products"));
+      const data = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        docId: doc.id,
+      }));
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast.error("Failed to load products");
+    } finally {
+      setLoading(false); // Stop loading
     }
-
-    // USER LOGIN NAHI HAI → LOCAL STORAGE CART
-    else {
-
-      const localCart = JSON.parse(localStorage.getItem("cart")) || []
-
-      localCart.push({
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        unit: product.unit,
-        quantity: 1
-      })
-
-      localStorage.setItem("cart", JSON.stringify(localCart))
-
-    }
-
-toast.success("Product added  🛒")
-
-setTimeout(() => {
-  router.push("/customer/checkout")
-}, 1200)
-
-  } catch (error) {
-    console.log(error)
-    toast.error("Something went wrong")
-  }
-}
-  useEffect(() =>{
-    const fetchProducts = async () => {
-      try {
-                const querySnapshot = await getDocs(collection(db, "products"));
-        const data = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          docId: doc.id,
-        }));
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-      fetchProducts();
-  }, []);
-
-
-
-  useEffect(() => {
-    if (isHover) return;
-    intervalRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(intervalRef.current);
-  }, [isHover, images.length]);
-
+  };
+  fetchProducts();
+}, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -457,15 +264,10 @@ setTimeout(() => {
     return () => clearInterval(timer);
   }, []);
 
-
-  const goTo = (i) => setIndex(i);
-  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
-  const next = () => setIndex((i) => (i + 1) % images.length);
-
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
-  // review
+
   const [reviews, setReviews] = useState([]);
   const [current, setCurrent] = useState(1);
   const [cardsPerView, setCardsPerView] = useState(1);
@@ -488,7 +290,7 @@ setTimeout(() => {
 
   const maxIndex = reviews.length - cardsPerView;
   const totalDots = Math.ceil(reviews.length / cardsPerView)
-  const slidePercentage = 100 / cardsPerView;
+
 
   useEffect(() => {
     if (reviews.length === 0) return;
@@ -503,7 +305,8 @@ setTimeout(() => {
 
   return (
     <div className='min-h-screen w-full overflow-x-hidden'>
-      <section className="relative min-h-screen w-full bg-amber-50 flex flex-col ">
+      {/* top slider */}
+      <section className="relative min-h-175 md:min-h-screen w-full bg-amber-50 flex flex-col ">
 
         {slides.map((slide, index) => (
           <div
@@ -514,14 +317,13 @@ setTimeout(() => {
 
             <div className="w-full max-w-360 mx-auto px-5  pt-32 md:pt-40 pb-20 h-full flex flex-col md:flex-row items-center">
 
-              {/* LEFT CONTENT */}
+
               <div className="md:w-1/2 w-full flex flex-col">
 
-                <h1 className="text-amber-600 w-fit text-sm p-1.5 mb-4 rounded-2xl bg-white/30">
+                <h2 className="text-amber-600 w-fit mt-3 text-sm p-1.5 mb-4 rounded-2xl bg-white/30">
                   Trusted Supplier Since 2020
-                </h1>
+                </h2>
 
-                {/* Desktop Heading */}
                 <div className="hidden md:block space-y-2 mb-6">
                   <h2 className="text-2xl md:text-[50px] leading-tight font-bold text-gray-900">
                     {slide.heading}
@@ -531,7 +333,6 @@ setTimeout(() => {
                   </h2>
                 </div>
 
-                {/* Mobile */}
                 <div className="md:hidden block mb-6">
                   <h2 className="text-2xl mb-5 font-bold text-gray-900">
                     {slide.heading}
@@ -542,7 +343,7 @@ setTimeout(() => {
 
                   <Image
                     src={slide.image}
-                    alt={slide.title}
+                    alt={`${slide.heading} ${slide.title} healthy makhana fox nuts snack India Nirvana Nuts`}
                     width={500}
                     height={400}
                     priority
@@ -554,47 +355,47 @@ setTimeout(() => {
                   {slide.description}
                 </p>
 
-                {/* Buttons */}
                 <div className="flex items-center gap-4 mb-4 md:mb-10">
                   <Link href="/products">
-                  <button className="bg-linear-to-r from-amber-600 to-amber-300 text-[12px] lg:text-lg text-white px-3 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:scale-105">
-                    Explore Products
-                  </button>
+                    <button className="bg-linear-to-r from-amber-600 to-amber-300 text-[12px] lg:text-lg text-white px-3 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:scale-105">
+                      Explore Products
+                    </button>
                   </Link>
-                <Link href="/contact ">
-                  <button className="border-2 border-black lg:text-lg text-gray-900 text-[12px] px-2 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:bg-black hover:text-white hover:scale-105">
-                    Contact us
-                  </button>
-                </Link>
+                  <Link href="/contact">
+                    <button className="border-2 border-black lg:text-lg text-gray-900 text-[12px] px-2 py-1 lg:px-5 lg:py-2.5 rounded-xl transition hover:bg-black hover:text-white hover:scale-105">
+                      Contact us
+                    </button>
+                  </Link>
                 </div>
 
                 <hr className="border-amber-200/50 md:mb-8" />
 
-                {/* Stats */}
                 <div className="flex gap-8">
                   <div>
-                    <h2 className="text-gray-900 text:base lg:text-2xl font-bold">100%</h2>
+                    <h2 className="text-gray-900 text-base lg:text-2xl font-bold">100%</h2>
                     <p className="text-gray-500 text-[10px] lg:text-xs">ORGANIC</p>
                   </div>
                   <div>
-                    <h2 className="text-gray-900 text:base lg:text-2xl font-bold">70K</h2>
+                    <h2 className="text-gray-900 text-base lg:text-2xl font-bold">70K</h2>
                     <p className="text-gray-500 text-[10px] lg:text-xs">HAPPY CLIENT</p>
                   </div>
                   <div>
-                    <h2 className="text-gray-900 text:base lg:text-2xl font-bold">20+</h2>
+                    <h2 className="text-gray-900 text-base lg:text-2xl font-bold">20+</h2>
                     <p className="text-gray-500 text-[10px] lg:text-xs">RECIPES</p>
                   </div>
                 </div>
               </div>
 
-              {/* RIGHT IMAGE (Desktop) */}
               <div className="hidden md:flex md:w-1/2 justify-center pl-10">
                 <Image
                   src={slide.image}
-                  alt={slide.title}
+                  alt={`${slide.heading} ${slide.title} healthy makhana fox nuts snack India`}
                   width={600}
                   height={500}
-                  className="w-full max-w-md h-auto object-contain transition-transform duration-500 hover:scale-105"
+                  priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="w-full max-w-md h-auto object-contain"
                 />
               </div>
 
@@ -602,15 +403,14 @@ setTimeout(() => {
           </div>
         ))}
 
-        {/* DOTS */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setSlider(index)}
               className={`w-3 h-2  lg:h-3 rounded-full transition-all ${index === slider
-                  ? "bg-amber-600 scale-125"
-                  : "bg-gray-300"
+                ? "bg-amber-600 scale-125"
+                : "bg-gray-300"
                 }`}
             />
           ))}
@@ -623,11 +423,14 @@ setTimeout(() => {
         <div className="max-w-8xl mx-auto px-4">
 
           {/* Heading */}
-          <h2 className="text-4xl md:text-5xl font-semibold text-center text-gray-800 mb-14">
+          <h2 className="text-4xl md:text-5xl font-semibold text-center text-gray-800 mb-3">
             Shop by Makhana
           </h2>
 
-          {/* Items Grid */}
+          <p className="text-center text-gray-600 max-w-6xl mx-auto mb-14">
+            Explore a wide range of flavored makhana including salted, spicy, and sweet fox nuts. Healthy, crunchy, and perfect for guilt-free snacking.
+          </p>
+
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:grid-cols-4 gap-10 text-center">
             {dryfruits.map((item, index) => (
               <Link
@@ -635,7 +438,7 @@ setTimeout(() => {
                 href={item.link}
                 className="group flex flex-col justify-between items-center transition-all duration-300"
               >
-                {/* Image Circle */}
+
                 <div className="relative w-28 h-28 md:w-32 md:h-32 mb-4  transition-transform duration-300 group-hover:scale-110">
                   <Image
                     src={item.image}
@@ -658,53 +461,54 @@ setTimeout(() => {
         </div>
       </section>
 
-{/* product card  */}
-<section className="min-h-screen py-20 px-6 
-bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
+      {/* product card  */}
+<section className="min-h-screen py-16 px-6 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
+        <div className="max-w-7xl mx-auto">
+          <h2 data-aos="fade-down" className="text-4xl font-bold text-center text-gray-800 mb-3">
+            Buy Premium Makhana at Best Price
+          </h2>
+          <p className="text-center text-gray-600 max-w-6xl mx-auto mb-14">
+            Nirvana Nuts offers high-quality fox nuts snacks rich in protein and fiber.
+          </p>
 
-  <div className="max-w-7xl mx-auto">
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
+  {products?.filter(Boolean).map((product) => {
+    // Calculate initial display price for 1 unit
+    const { finalPrice, discount } = calculateDiscount(
+      product.buyMoreSaveMore || [],
+      1,
+      Number(product.price) || 0
+    );
 
-    <h1
-      data-aos="fade-down"
-      className="text-4xl font-bold text-center text-gray-800  mb-14"
-    >
-      Our Premium Makhana
-    </h1>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-
-      {products.map((product)=>(
-        <ProductCard
-          key={product.docId}
-          product={product}
-          addToCart={addToCart}
-          shopproduct={shopproduct}
-        />
-      ))}
-
-    </div>
-
-  </div>
-
-</section>
+    return (
+      <ProductCard
+        key={product.docId}
+        product={product}
+        displayPrice={finalPrice}   // Pass calculated price
+        displayDiscount={discount} // Pass calculated discount %
+        addToCart={addToCart}
+        buyNow={() => buyNow(product)} // New prop for direct checkout
+        shopproduct={() => shopproduct(product)}
+      />
+    );
+  })}
+</div>
+        </div>
+      </section>
 
       {/* product whey protein  */}
-
       <section className="relative bg-linear-to-r from-[#0F2F23] to-[#163D2F] text-white py-20 px-6 md:px-20 overflow-hidden">
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
-          {/* LEFT CONTENT */}
           <div data-aos="fade-right">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-              Premium Bulk Whey Protein
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+              Bulk Whey Protein Supplier
               <span className="text-[#38B000]"> (20kg)</span>
-            </h1>
+            </h2>
 
             <p className="text-lg text-gray-200 mb-6 leading-relaxed">
-              Nirvana Nuts offers high-quality Bulk Whey Protein in 20kg packaging —
-              ideal for gyms, supplement brands, distributors, and fitness businesses.
-              High protein concentration, excellent mixability, and superior muscle recovery support.
+              Buy bulk whey protein in India with high protein content. Ideal for gyms, supplement brands, and fitness businesses looking for reliable whey protein suppliers.
             </p>
 
             <ul className="space-y-3 text-gray-200 mb-8">
@@ -731,23 +535,20 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
             </div>
           </div>
 
-          {/* RIGHT IMAGE */}
           <div className="relative">
             <Image
               src="/whey-protein-05.avif"
-              alt="Nirvana Nuts Bulk Whey Protein 20kg"
+              alt="Bulk whey protein 20kg India high protein powder muscle growth gym supplement Nirvana Nuts"
               height={200}
               width={200}
-              className="w-full max-w-md mx-auto rounded-2xl shadow-amber-100 hover:scale-103 drop-shadow-2xl"
+              className="w-full max-w-md mx-auto rounded-2xl shadow-amber-100 hover:scale-105 drop-shadow-2xl"
             />
           </div>
 
         </div>
       </section>
 
-
       {/* about us for website */}
-
       <section
         data-aos="fade-up"
         className="bg-stone-50 py-20 px-6 lg:px-20"
@@ -756,13 +557,11 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
         <h2 className="md:text-5xl text-3xl italic tracking-widest text-amber-600 text-center font-bold uppercase mb-4">Our Story & Commitment</h2>
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
 
-
-          {/* Left Image Section */}
           <div data-aos="fade-right" className="relative">
             <div className="rounded-3xl overflow-hidden shadow-xl">
               <Image
                 src="/product-welcome.avif"
-                alt="Premium quality makhana and healthy ingredients by Nirvana Nuts"
+                alt="Premium makhana fox nuts healthy snacks India natural roasted Nirvana Nuts"
                 width={800}
                 height={700}
                 className="object-cover w-full h-full"
@@ -770,7 +569,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
               />
             </div>
 
-            {/* Floating Badge */}
             <div className="absolute -right-9 top-20 bg-white shadow-lg rounded-2xl px-3 py-4 text-center">
               <h3 className="text-2xl font-bold text-amber-600">6+</h3>
               <p className="text-[8px] w-15 tracking-widest text-gray-600 mt-1">
@@ -779,13 +577,7 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
             </div>
           </div>
 
-
-          {/* Right Content Section */}
           <div data-aos="fade-left">
-            <p  >
-
-            </p>
-
             <h2
               id="heritage-heading"
               className="text-3xl lg:text-3xl font-semibold text-emerald-900 leading-tight"
@@ -807,13 +599,9 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
             </p>
 
             <p className="text-gray-600 leading-relaxed mb-8">
-              Alongside our premium makhana range, we also supply high-quality
-              whey protein in bulk 20kg packaging — ideal for gyms, supplement
-              brands, and nutrition manufacturers seeking reliable performance
-              nutrition solutions.
+              Nirvana Nuts is a trusted makhana supplier in India offering premium roasted fox nuts and healthy snacks for modern lifestyles.
             </p>
 
-            {/* Feature Points */}
             <div className="grid sm:grid-cols-2 gap-8 mb-10">
 
               <div>
@@ -859,7 +647,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
 
             </div>
 
-            {/* CTA Button */}
             <a
               href="/about"
               className="inline-flex items-center gap-2 text-emerald-900 font-medium hover:text-amber-600 transition"
@@ -871,9 +658,7 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
         </div>
       </section>
 
-
       {/* our commitment */}
-
       <section
         data-aos="fade-right"
         className="bg-linear-to-br from-emerald-950 via-green-900 to-emerald-950 text-stone-200 py-24 px-6 lg:px-20"
@@ -881,7 +666,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
       >
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
 
-          {/* LEFT SIDE CONTENT */}
           <div data-aos="fade-up">
             <p className="text-sm tracking-widest uppercase text-amber-400 mb-4">
               Our Commitment
@@ -910,7 +694,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
               reflects our dedication to purity, performance, and transparency.
             </p>
 
-            {/* STATS */}
             <div className="flex gap-16">
               <div>
                 <h3 className="text-3xl font-bold text-amber-400">6+</h3>
@@ -928,10 +711,8 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
             </div>
           </div>
 
-          {/* RIGHT SIDE CARDS */}
           <div className="grid sm:grid-cols-2 gap-8">
 
-            {/* Card 1 */}
             <div data-aos="fade-right" className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:border-amber-400 transition duration-300">
               <Leaf className="text-amber-400 mb-6" size={32} />
               <h4 className="text-xl font-semibold mb-4">
@@ -944,7 +725,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
               </p>
             </div>
 
-            {/* Card 2 */}
             <div data-aos="fade-left" className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:border-amber-400 transition duration-300">
               <Dumbbell className="text-amber-400 mb-6" size={32} />
               <h4 className="text-xl font-semibold mb-4">
@@ -956,7 +736,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
               </p>
             </div>
 
-            {/* Card 3 */}
             <div data-aos="fade-right" className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:border-amber-400 transition duration-300">
               <Heart className="text-amber-400 mb-6" size={32} />
               <h4 className="text-xl font-semibold mb-4">
@@ -968,7 +747,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
               </p>
             </div>
 
-            {/* Card 4 */}
             <div data-aos="fade-left" className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:border-amber-400 transition duration-300">
               <ShieldCheck className="text-amber-400 mb-6" size={32} />
               <h4 className="text-xl font-semibold mb-4">
@@ -984,10 +762,10 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
         </div>
       </section>
 
+      {/* FAQ */}
       <section className="bg-[#E9F5ED] py-16 px-4 md:px-20">
         <div className="max-w-4xl mx-auto">
 
-          {/* SEO Heading */}
           <h2 className="text-3xl md:text-4xl font-bold text-[#1E5D3B] text-center mb-10">
             Frequently Asked Questions – Nirvana Nuts
           </h2>
@@ -1027,18 +805,17 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
       {/* about us */}
       <section className=" relative h-[60vh] overflow-hidden  md:h-80 text-center ">
         <div className='absolute inset-0 z-0'>
-          <Image src="/image-slider-07.avif" alt='background makhana ' priority height={300} width={300} className='md:w-full w-full h-full object-fill' />
+          <Image src="/image-slider-07.avif" alt="Healthy makhana fox nuts background India Nirvana Nuts" priority height={300} width={300} className='md:w-full w-full h-full object-fill' />
         </div>
         <div className="absolute inset-0 bg-black/50 "></div>
-        {/* contact us */}
         <div className="relative z-10 py-8 px-6 m-15  text-center   ">
           <h2 className="text-3xl font-bold text-amber-400 "> For Any Query, Get in Touch with Nirvana Nuts </h2>
-          <p className="text-gray-100 mb- max-w-xl mx-auto">
+          <p className="text-gray-100 max-w-xl mx-auto">
             Have questions about our products? We’d love to hear from you!
           </p>
 
           <a href="/contact">
-            <button className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 hover:scale-112 text-white mt-8  px-6 py-2 rounded-lg shadow-md  transition cursor-pointer">Contact Us</button>
+            <button className="bg-linear-to-r from-amber-500 to-red-500 border-2  border-amber-400  focus:border-red-600 hover:scale-110 text-white mt-8  px-6 py-2 rounded-lg shadow-md  transition cursor-pointer">Contact Us</button>
           </a>
         </div>
       </section>
@@ -1047,7 +824,7 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
       <section className=" bg-linear-to-r from-blue-50 to-grey-50 flex flex-col items-center  ">
 
         <h2 className="text-3xl font-bold my-10 text-amber-800 text-center">
-          Customer Reviews & Testimonials Nirvana Nuts
+          Best Makhana Brand in India – Customer Reviews
         </h2>
 
         <div className="w-full max-w-7xl  mt-1 relative overflow-hidden perspective-distant">
@@ -1060,7 +837,7 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
               return (
                 <article
                   key={rev.id}
-                  className="absolute w-75 md:w-1/2 lg:w-1/3 h-70
+                  className="absolute w-75 md:w-1/2 lg:w-1/3 h-72
           bg-white shadow-xl rounded-xl p-6
           transition-all duration-700 ease-in-out "
                   style={{
@@ -1091,7 +868,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
             })}
           </div>
 
-          {/* Arrows */}
           <button
             onClick={() =>
               setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))
@@ -1111,7 +887,6 @@ bg-linear-to-br from-orange-50 via-amber-50 to-yellow-100">
           </button>
         </div>
 
-        {/* Dots */}
         <div className="flex gap-2 mb-20  mt-6">
 
           {Array.from({ length: totalDots }).map((_, index) => (

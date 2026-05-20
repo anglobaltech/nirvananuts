@@ -3,359 +3,285 @@
 import { useEffect, useState } from "react";
 import { db, auth } from "@/lib/firebase";
 import {
-collection,
-getDocs,
-addDoc,
-deleteDoc,
-doc,
-updateDoc,
-serverTimestamp
+  collection,
+  getDocs,
+  setDoc,
+  doc,
+  updateDoc,
+  serverTimestamp
 } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+  UserPlus, 
+  ShieldCheck, 
+  UserCog, 
+  Trash2, 
+  Edit3, 
+  Mail, 
+  Lock, 
+  User,
+  X,
+  Plus
+} from "lucide-react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AdminPage(){
-
-const [admins,setAdmins] = useState([])
-const [name,setName] = useState("")
-const [email,setEmail] = useState("")
-const [password,setPassword] = useState("")
-const [editId,setEditId] = useState(null)
-
-
-
-const fetchAdmins = async () => {
-
-const snapshot = await getDocs(collection(db,"admins"))
-
-setAdmins(snapshot.docs.map(doc => ({
-id:doc.id,
-...doc.data()
-})))
-
-}
-
-useEffect(()=>{
-fetchAdmins()
-},[])
-
-
-
-// Create admin
-const handleAddAdmin = async () => {
-
-if(!name || !email || !password){
-toast.error("Please fill all fields")
-return
-}
-
-try{
-
-const userCredential = await createUserWithEmailAndPassword(auth,email,password)
-
-await addDoc(collection(db,"admins"),{
-uid:userCredential.user.uid,
-name,
-email,
-createdAt:serverTimestamp()
-})
-
-setName("")
-setEmail("")
-setPassword("")
-
-fetchAdmins()
-
-toast.success("Admin created")
-
-}catch(error){
-toast.error(error.message)
-}
-
-}
-
-
-
-// Delete admin
-const deleteAdmin = async (id,uid) => {
-
-try{
-
-const res = await fetch("/apiAdmin/deleteAdmin",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({uid})
-})
-
-const data = await res.json()
-
-if(!res.ok){
-toast.error(data.error)
-return
-}
-
-await deleteDoc(doc(db,"admins",id))
-
-fetchAdmins()
-
-toast.success("Admin deleted")
-
-}catch{
-toast.error("Error deleting admin")
-}
-
-}
-
-
-
-// Update admin
-const handleEditAdmin = async (id) => {
-
-if(!name || !email){
-toast.error("Fill all fields")
-return
-}
-
-await updateDoc(doc(db,"admins",id),{
-name,
-email
-})
-
-setEditId(null)
-setName("")
-setEmail("")
-
-fetchAdmins()
-
-toast.success("Admin updated")
-
-}
-
-
-
-return(
-
-<div className="min-h-screen bg-gray-100 py-10 px-4">
-
-<ToastContainer position="top-right" autoClose={2000} />
-
-<div className="max-w-6xl mx-auto">
-
-{/* Header */}
-
-<h1 className="text-2xl text-center md:text-3xl font-bold text-gray-800 mb-10">
-Admin Management
-</h1>
-
-
-
-{/* Create Admin Form (Centered) */}
-
-<div className="flex justify-center mb-12">
-
-<div className="bg-white w-full max-w-md rounded-xl shadow-md p-6">
-
-<h2 className="text-lg  font-semibold text-gray-700 mb-6">
-{editId ? "Update Admin" : "Add New Admin"}
-</h2>
-
-<div className="flex flex-col gap-4">
-
-<div>
-<label className="text-sm text-gray-600">Admin Name</label>
-
-<input
-className="w-full border text-gray-900 mt-1 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-placeholder="Enter name"
-value={name}
-onChange={(e)=>setName(e.target.value)}
-/>
-</div>
-
-
-<div>
-<label className="text-sm text-gray-600">Email</label>
-
-<input
-className="w-full border mt-1 p-3 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-placeholder="Enter email"
-value={email}
-onChange={(e)=>setEmail(e.target.value)}
-/>
-</div>
-
-
-{!editId && (
-
-<div>
-<label className="text-sm text-gray-600">Password</label>
-
-<input
-type="password"
-className="w-full border mt-1 p-3 text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-placeholder="Enter password"
-value={password}
-onChange={(e)=>setPassword(e.target.value)}
-/>
-</div>
-
-)}
-
-
-
-<button
-onClick={editId ? ()=>handleEditAdmin(editId) : handleAddAdmin}
-className={`mt-2 py-3 rounded-lg text-white font-semibold transition cursor-pointer
-${editId ? "bg-blue-600 hover:bg-blue-700" : "bg-green-600 hover:bg-green-700"}
-`}
->
-
-{editId ? "Update Admin" : "Add Admin"}
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-{/* MOBILE ADMIN CARDS */}
-
-<div className="md:hidden flex flex-col gap-4">
-
-{admins.map(admin => (
-
-<div
-key={admin.id}
-className="bg-white p-4 rounded-xl shadow-md"
->
-
-<p className="text-sm text-gray-500">
-Name
-</p>
-
-<p className="font-medium text-gray-800">
-{admin.name}
-</p>
-
-
-<p className="text-sm text-gray-500 mt-2">
-Email
-</p>
-
-<p className="font-medium text-gray-800">
-{admin.email}
-</p>
-
-
-<div className="flex gap-3 mt-4">
-
-<button
-onClick={()=>{
-setEditId(admin.id)
-setName(admin.name)
-setEmail(admin.email)
-}}
-className="bg-yellow-400 hover:bg-yellow-500 px-4 py-1 rounded cursor-pointer"
->
-Edit
-</button>
-
-<button
-onClick={()=>deleteAdmin(admin.id,admin.uid)}
-className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded cursor-pointer"
->
-Delete
-</button>
-
-</div>
-
-</div>
-
-))}
-
-</div>
-
-
-
-{/* DESKTOP TABLE */}
-
-<div className="hidden md:block bg-white rounded-xl shadow-md overflow-hidden">
-
-<table className="w-full">
-
-<thead>
-
-<tr className="bg-gray-800 text-white">
-
-<th className="p-4 text-left">Name</th>
-<th className="p-4 text-left">Email</th>
-<th className="p-4 text-center">Actions</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{admins.map(admin => (
-
-<tr
-key={admin.id}
-className="border-b hover:bg-gray-50"
->
-
-<td className="p-4 text-gray-700">
-{admin.name}
-</td>
-
-<td className="p-4 text-gray-700">
-{admin.email}
-</td>
-
-<td className="p-4 flex justify-center gap-3">
-
-<button
-onClick={()=>{
-setEditId(admin.id)
-setName(admin.name)
-setEmail(admin.email)
-}}
-className="bg-yellow-400 hover:bg-yellow-500 px-4 py-1 rounded cursor-pointer"
->
-Edit
-</button>
-
-<button
-onClick={()=>deleteAdmin(admin.id,admin.uid)}
-className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded cursor-pointer"
->
-Delete
-</button>
-
-</td>
-
-</tr>
-
-))}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-)
-
+export default function AdminPage() {
+  const [admins, setAdmins] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false); // For mobile UX
+
+  const fetchAdmins = async () => {
+    const snapshot = await getDocs(collection(db, "users"));
+    const adminList = snapshot.docs
+      .map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      .filter(user => user.role === "admin");
+    setAdmins(adminList);
+  };
+
+  useEffect(() => {
+    fetchAdmins();
+  }, []);
+
+  const handleAddAdmin = async () => {
+    if (!name || !email || !password) {
+      toast.error("Please fill all fields");
+      return;
+    }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        uid: userCredential.user.uid,
+        name,
+        email,
+        role: "admin",
+        createdAt: serverTimestamp()
+      });
+      resetForm();
+      fetchAdmins();
+      toast.success("Security Clearance Granted");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const deleteAdmin = async (id, uid) => {
+    if (!uid) {
+      toast.error("UID missing ❌");
+      return;
+    }
+    if (!confirm("Revoke admin access?")) return;
+
+    try {
+      const res = await fetch("/apiAdmin/deleteAdmin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid })
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        toast.error(data.error);
+        return;
+      }
+      fetchAdmins();
+      toast.success("Access Revoked");
+    } catch (error) {
+      toast.error("System Error");
+    }
+  };
+
+  const handleEditAdmin = async (id) => {
+    if (!name || !email) {
+      toast.error("Fill all fields");
+      return;
+    }
+    await updateDoc(doc(db, "users", id), { name, email });
+    resetForm();
+    fetchAdmins();
+    toast.success("Credentials Updated");
+  };
+
+  const resetForm = () => {
+    setEditId(null);
+    setName("");
+    setEmail("");
+    setPassword("");
+    setIsFormOpen(false);
+  };
+
+  const startEdit = (admin) => {
+    setEditId(admin.id);
+    setName(admin.name);
+    setEmail(admin.email);
+    setIsFormOpen(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F4EDE4] text-[#2D1B0D] selection:bg-[#2D1B0D] selection:text-white pb-20 pt-20 px-6 lg:px-16">
+      <ToastContainer position="top-right" autoClose={2000} theme="light" />
+
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-black text-white rounded-full">
+                <ShieldCheck size={14} fill="white" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">Security Protocol</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extralight tracking-tighter italic leading-tight">
+              Admin<span className="text-[#A68966] font-serif"> Access.</span>
+            </h1>
+          </div>
+
+          {!isFormOpen && (
+            <button 
+              onClick={() => setIsFormOpen(true)}
+              className="flex items-center gap-4 group bg-white/40 hover:bg-white px-8 py-4 rounded-full border border-white/60 transition-all text-[10px] font-black uppercase tracking-widest shadow-sm"
+            >
+              Add Personnel <Plus size={14} className="group-hover:rotate-90 transition-transform" />
+            </button>
+          )}
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          
+          {/* Create/Edit Section (Floating Glass Card) */}
+          {isFormOpen && (
+            <div className="lg:col-span-4 space-y-6">
+              <div className="bg-white/70 backdrop-blur-xl border border-white p-8 rounded-[2.5rem] shadow-2xl shadow-black/[0.03] sticky top-32">
+                <div className="flex justify-between items-center mb-8">
+                  <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">
+                    {editId ? "Modify Credentials" : "Initialize Personnel"}
+                  </h2>
+                  <button onClick={resetForm} className="text-[#A68966] hover:text-[#2D1B0D]">
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="relative">
+                    <User size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A68966]" />
+                    <input
+                      className="w-full bg-white/50 border border-white/60 pl-11 pr-4 py-4 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic placeholder:opacity-50"
+                      placeholder="Legal Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <Mail size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A68966]" />
+                    <input
+                      className="w-full bg-white/50 border border-white/60 pl-11 pr-4 py-4 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic placeholder:opacity-50"
+                      placeholder="Email Address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+
+                  {!editId && (
+                    <div className="relative">
+                      <Lock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A68966]" />
+                      <input
+                        type="password"
+                        className="w-full bg-white/50 border border-white/60 pl-11 pr-4 py-4 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic placeholder:opacity-50"
+                        placeholder="Security Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  <button
+                    onClick={editId ? () => handleEditAdmin(editId) : handleAddAdmin}
+                    className="w-full bg-[#2D1B0D] hover:bg-black text-white py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg hover:shadow-black/20"
+                  >
+                    {editId ? "Update Clearances" : "Authorize Admin"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Directory Section */}
+          <div className={`${isFormOpen ? 'lg:col-span-8' : 'lg:col-span-12'} space-y-6`}>
+            
+            <div className="overflow-hidden bg-white/40 backdrop-blur-xl rounded-[3rem] border border-white shadow-2xl shadow-black/[0.02]">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-[#D2C1B0]/30">
+                      <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Admin Identity</th>
+                      <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966] hidden sm:table-cell">Communication</th>
+                      <th className="p-8 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Control</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#D2C1B0]/20">
+                    {admins.map((admin) => (
+                      <tr key={admin.id} className="group hover:bg-white/60 transition-colors">
+                        <td className="p-8">
+                          <div className="flex items-center gap-5">
+                            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#2D1B0D] text-[#F4EDE4] text-sm font-extralight italic shadow-md transition-transform group-hover:scale-110">
+                              {admin.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <p className="font-bold text-[#2D1B0D] tracking-tight text-lg leading-none">{admin.name}</p>
+                              <p className="text-[9px] font-black uppercase tracking-widest text-[#A68966] opacity-60 mt-2">Level 4 Access</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-8 hidden sm:table-cell">
+                          <div className="flex items-center gap-2 text-xs text-[#2D1B0D]/80">
+                            <Mail size={12} className="text-[#8B5E3C]" />
+                            <span>{admin.email}</span>
+                          </div>
+                        </td>
+                        <td className="p-8">
+                          <div className="flex justify-end gap-3">
+                            <button 
+                              onClick={() => startEdit(admin)}
+                              className="p-3 bg-white text-[#2D1B0D] rounded-full border border-[#D2C1B0]/30 hover:bg-[#2D1B0D] hover:text-white transition-all shadow-sm"
+                            >
+                              <Edit3 size={14} />
+                            </button>
+                            <button
+                              onClick={() => deleteAdmin(admin.id, admin.uid)}
+                              className="p-3 bg-red-50 text-red-400 rounded-full border border-red-100 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Brand Footer */}
+        <footer className="mt-32 pt-12 border-t border-[#D2C1B0]/30 flex flex-col items-center opacity-20">
+          <div className="text-[50px] font-black tracking-[0.6em] text-[#2D1B0D] italic select-none">
+            NIRVANA NUTS
+          </div>
+          <p className="text-[9px] uppercase tracking-widest text-[#A68966] font-bold mt-4">
+            Internal Access Logs • Est. 2026
+          </p>
+        </footer>
+      </div>
+    </div>
+  );
 }

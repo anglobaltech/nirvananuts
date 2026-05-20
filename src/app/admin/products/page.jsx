@@ -5,34 +5,47 @@ import ProductTable from "../component/ProductTable";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { Package, Sparkles } from "lucide-react";
 
 export default function ProductsPage() {
-
-  useEffect(()=>{
+  useEffect(() => {
     AOS.init({
-      duration:800,
-      once:true
-    })
-  },[])
+      duration: 1000,
+      once: true,
+      easing: "ease-out-expo"
+    });
+  }, []);
 
   return (
-<div className="min-h-screen text-gray-800 bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 p-4 lg:p-10">
+    <div className="min-h-screen bg-[#F4EDE4] text-[#2D1B0D] pb-24 selection:bg-[#2D1B0D] selection:text-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-20 pt-16">
+        
+        {/* Header Section */}
+        <header className="space-y-6" data-aos="fade-down">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-[#2D1B0D] text-white rounded-full">
+              <Sparkles size={14} />
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">
+              Curation Suite
+            </span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-extralight tracking-tighter italic leading-tight">
+            Inventory <span className="text-[#A68966] font-serif">& Assets.</span>
+          </h1>
+          <p className="max-w-md text-sm text-[#2D1B0D]/60 leading-relaxed font-light">
+            Manage your high-resolution product catalog, variants, and promotional logic from a centralized control center.
+          </p>
+        </header>
 
-      <div className="max-w-7xl mx-auto space-y-10">
-
-        <h1
-        data-aos="fade-down"
-        className="lg:text-4xl text-2xl font-bold text-gray-800"
-        >
-          🛍 Products Management
-        </h1>
-
-        <div data-aos="fade-up">
-          <ProductForm/>
+        {/* Form Section */}
+        <div data-aos="fade-up" className="relative">
+          <ProductForm />
         </div>
 
+        {/* Table Section */}
         <div data-aos="fade-up" data-aos-delay="200">
-          <ProductTable/>
+          <ProductTable />
         </div>
 
       </div>

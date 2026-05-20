@@ -3,56 +3,72 @@
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { toast } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css";
 import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "@/lib/firebase"
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation"
 import { useAuth } from "../../../../contexts/AuthContext"
 
 export default function Page(){
 
 const router = useRouter()
-const { user } = useAuth()
+const { user, isLoading: authLoading } = useAuth()
 
 const [email,setEmail] = useState("")
 const [password,setPassword] = useState("")
 const [isLoading,setIsLoading] = useState(false)
 
+const loginUser = async (e) => {
+  e.preventDefault();
 
-// EMAIL LOGIN
-const loginUser = async (e)=>{
-e.preventDefault()
+  try {
+    setIsLoading(true);
 
-try{
+    console.log("EMAIL:", email);
+    console.log("PASSWORD:", password);
 
-const userCredential = await signInWithEmailAndPassword(auth,email,password)
+    await signInWithEmailAndPassword(
+      auth,
+      email.trim(),
+      password.trim()
+    );
 
-const uid = userCredential.user.uid
+    toast.success("Login successful");
 
-const docRef = doc(db,"users",uid)
-const docSnap = await getDoc(docRef)
+  } catch (error) {
+  console.log("FULL ERROR:", error);
+  console.log("ERROR CODE:", error.code);
 
-if(docSnap.exists()){
+  if (error.code === "auth/invalid-email") {
+    toast.error("Invalid email format ❌");
 
-const role = docSnap.data().role
+  } else if (error.code === "auth/invalid-credential") {
 
-if(role === "admin"){
-router.push("/admin")
-}else{
-router.push("/customer")
+    // 🔍 Check if email exists in Firestore
+    const q = query(
+      collection(db, "users"),
+      where("email", "==", email.trim())
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      // ❌ user not found
+      toast.error("User not found. Please create account ❌");
+    } else {
+      // ❌ wrong password
+      toast.error("Incorrect password ❌");
+    }
+
+  } else {
+    toast.error("Login failed ❌");
+  }
+} finally {
+  setIsLoading(false);
 }
-
-}else{
-toast.error("User role not found")
-}
-
-}catch(error){
-toast.error(error.message)
-}
-
-}
-
+};
 
 // GOOGLE LOGIN
 // const signInWithGoogle = async () => {
@@ -77,18 +93,39 @@ toast.error(error.message)
 
 // }
 
+useEffect(() => {
+  if (!user) return
 
-useEffect(()=>{
-if(user){
-router.push("/admin")
+  const getRoleAndRedirect = async () => {
+    const ref = doc(db, "users", user.uid)
+    const snap = await getDoc(ref)
+
+    if (!snap.exists()) {
+      toast.error("User data not found ❌")
+      return
+    }
+
+    const role = snap.data().role
+
+    if (role === "admin") {
+      router.replace("/admin")
+    } else {
+      router.replace("/customer")
+    }
+  }
+
+  getRoleAndRedirect()
+}, [user])
+
+
+if (authLoading) {
+  return <div className="text-center p-10">Loading...</div>
 }
-},[user,router])
-
 
 return(
 
 <main className="w-full flex items-center justify-center md:p-24 p-10 bg-gray-300 min-h-screen">
-
+<ToastContainer position="top-right" autoClose={3000}/>
 <section className="flex flex-col gap-3">
 
 <div className="flex justify-center">
@@ -124,22 +161,30 @@ onChange={(e)=>setPassword(e.target.value)}
 className="p-2 rounded-lg border focus:outline-none text-gray-900 w-full"
 />
 
-<button className="text-white rounded-2xl cursor-pointer bg-blue-600 p-3">
-Login
+<button
+  type="submit"
+  disabled={isLoading}
+  className="text-white bg-blue-600 p-3 rounded-2xl disabled:opacity-50"
+>
+  {isLoading ? "Logging in..." : "Login"}
 </button>
 
 </form>
 
 
-<div className="flex justify-between">
+<div className="flex justify-between items-center">
 
+  <Link href="/forget-password">
+    <button className="font-semibold cursor-pointer text-sm text-blue-700">
+      Forget Password?
+    </button>
+  </Link>
 
-
-<Link href="/forget-password">
-<button className="font-semibold cursor-pointer text-sm text-blue-700">
-Forget Password?
-</button>
-</Link>
+  <Link href="/customerSignup">
+    <button className="text-sm cursor-pointer text-blue-700 hover:underline">
+      Create Account
+    </button>
+  </Link>
 
 </div>
 

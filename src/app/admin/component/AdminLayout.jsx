@@ -59,7 +59,7 @@ const AdminLayout = ({ children }) => {
 
        
 
-        <div className="p-8">
+        <div className="">
           {children}
         </div>
 

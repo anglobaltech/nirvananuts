@@ -1,6 +1,7 @@
 import { db } from "@/lib/firebase";
 import { doc, runTransaction } from "firebase/firestore";
 
+
 export const generateOrderId = async () => {
 
   const counterRef = doc(db, "counters", "orders");
