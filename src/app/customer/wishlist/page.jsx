@@ -381,7 +381,7 @@ export default function WishlistPage() {
             <p className="text-gray-400 mt-1.5 text-sm max-w-sm">
               Explore your store space and save your preferred products right here.
             </p>
-            <Link href="/customer" className="mt-5 px-6 py-2.5 bg-gray-900 hover:bg-black text-white rounded-xl text-sm font-semibold shadow transition active:scale-95">
+            <Link href="/" className="mt-5 px-6 py-2.5 bg-gray-900 hover:bg-black text-white rounded-xl text-sm font-semibold shadow transition active:scale-95">
               Discover Products
             </Link>
           </section>

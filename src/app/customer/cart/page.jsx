@@ -112,7 +112,7 @@ export default function CartPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h1 className="text-4xl font-black text-gray-900 tracking-tight">Cart.</h1>
+            <h1 className="text-4xl font-black text-gray-900 tracking-tight">Cart</h1>
             <p className="text-gray-500 font-medium">Review your selection of Nirvana Nuts</p>
           </div>
           <Link href="/" className="group flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-black transition-colors">
@@ -156,7 +156,7 @@ export default function CartPage() {
                     <div className="flex-grow w-full">
                       <div className="flex justify-between items-start mb-1">
                         <h2 className="text-lg font-black text-gray-900">{item.name}</h2>
-                        <button onClick={() => removeItem(index)} className="text-gray-300 hover:text-red-500 transition-colors">
+                        <button onClick={() => removeItem(index)} className="w-8 h-8 mt-1 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200">
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -168,22 +168,72 @@ export default function CartPage() {
                         <span className="text-xs text-gray-400 font-bold uppercase tracking-tighter">Pack size</span>
                       </div>
 
+                      {/* discount */}
+
+                      {/* Dynamic Discount Message */}
+{item.tieredDiscounts?.length > 0 && (() => {
+
+  const sortedOffers = [...item.tieredDiscounts].sort(
+    (a, b) => Number(a.qty) - Number(b.qty)
+  );
+
+  const nextOffer = sortedOffers.find(
+    (offer) => item.qty < Number(offer.qty)
+  );
+
+  const currentOffer = sortedOffers
+    .filter((offer) => item.qty >= Number(offer.qty))
+    .sort((a, b) => Number(b.qty) - Number(a.qty))[0];
+
+  return (
+    <div className="mb-4">
+      {nextOffer ? (
+        <div className="bg-orange-50 border border-orange-100 text-orange-700 text-xs font-bold px-4 py-3 rounded-2xl">
+          Add{" "}
+          <span className="text-black">
+            {Number(nextOffer.qty) - item.qty}
+          </span>{" "}
+          more for{" "}
+          <span className="text-green-600">
+            {nextOffer.discount}% OFF
+          </span>
+        </div>
+      ) : currentOffer ? (
+        <div className="bg-green-50 border border-green-100 text-green-700 text-xs font-bold px-4 py-3 rounded-2xl">
+          Congratulations! Your {currentOffer.discount}% discount is active 🎉
+        </div>
+      ) : null}
+    </div>
+  );
+})()}
+                      
+
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center bg-gray-50 rounded-2xl p-1 border border-gray-100">
-                          <button onClick={() => updateQuantity(index, -1)} className="w-10 h-10 flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Minus size={14}/></button>
+                          <button onClick={() => updateQuantity(index, -1)} className="w-10 h-10 text-black  cursor-pointer  flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Minus size={14}/></button>
                           <span className="w-12 text-center font-black text-gray-900">{item.qty}</span>
-                          <button onClick={() => updateQuantity(index, 1)} className="w-10 h-10 flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Plus size={14}/></button>
+                          <button onClick={() => updateQuantity(index, 1)} className="w-10 text-black h-10 cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Plus size={14}/></button>
                         </div>
 
-                        <div className="text-right">
-                          {stats.isDiscounted && (
-                            <div className="flex flex-col items-end">
-                              <span className="text-xs text-gray-400 line-through">₹{stats.originalTotal}</span>
-                              <span className="text-[10px] text-green-600 font-black uppercase">Saved ₹{stats.totalSavings}</span>
-                            </div>
-                          )}
-                          <span className="text-2xl font-black text-gray-900 tracking-tighter">₹{stats.totalItemPrice}</span>
-                        </div>
+<div className="text-right">
+
+  {stats.isDiscounted && (
+    <div className="flex flex-col items-end">
+      <span className="text-xs text-gray-400 line-through">
+        ₹{item.price}
+      </span>
+
+      <span className="text-[10px] text-green-600 font-black uppercase">
+        {stats.discountPercent}% OFF
+      </span>
+    </div>
+  )}
+
+  <span className="text-2xl font-black text-gray-900 tracking-tighter">
+    ₹{stats.unitPriceAfterDiscount}
+  </span>
+
+</div>
                       </div>
                     </div>
                   </div>
@@ -233,7 +283,7 @@ export default function CartPage() {
                 </div>
 
                 <Link href="/customer/checkout">
-                  <button className="w-full bg-black text-white py-6 rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-200 transition-all flex items-center justify-center gap-3 active:scale-95 group">
+                  <button className="w-full cursor-pointer bg-black text-white py-6 rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-200 transition-all flex items-center justify-center gap-3 active:scale-95 group">
                     Checkout <Zap size={18} className="fill-yellow-400 text-yellow-400 border-none group-hover:scale-125 transition-transform" />
                   </button>
                 </Link>

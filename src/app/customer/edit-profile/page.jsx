@@ -4,23 +4,46 @@ import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { motion } from "framer-motion";
-import { 
-  ArrowLeft, Save, Lock, User, MapPin, 
-  Sparkles, ShieldCheck, Globe 
-} from "lucide-react";
+import { ArrowLeft, Save,Sparkles, ShieldCheck,} from "lucide-react";
 import Link from "next/link";
-
 import { db } from "@/lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import {
-  getAuth,
-  onAuthStateChanged,
-  updatePassword,
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-} from "firebase/auth";
+import {getAuth,onAuthStateChanged,} from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const auth = getAuth();
+const InputField = ({
+  label,
+  name,
+  type = "text",
+  disabled = false,
+  required = false,
+  value,
+  onChange,
+}) => (
+  <div className="relative group">
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder=" "
+      disabled={disabled}
+      required={required}
+      className={`peer w-full bg-transparent border-b border-[#D2C1B0] py-3 outline-none transition-all text-lg font-medium text-[#2D1B0D]
+      ${
+        disabled
+          ? "opacity-50 cursor-not-allowed"
+          : "focus:border-[#8B5E3C]"
+      }`}
+    />
+
+    <label className="absolute left-0 top-3 text-[#A68966] text-xs uppercase tracking-widest pointer-events-none transition-all peer-focus:-top-5 peer-focus:text-[10px] peer-focus:text-[#8B5E3C] peer-[:not(:placeholder-shown)]:-top-5 peer-[:not(:placeholder-shown)]:text-[10px]">
+      {label}
+    </label>
+  </div>
+);
 
 export default function EditProfilePage() {
   const [user, setUser] = useState(null);
@@ -29,16 +52,13 @@ export default function EditProfilePage() {
   const [form, setForm] = useState({
     fullName: "",
     email: "",
-    phone: "",
+    mobile: "",
     gender: "",
     street: "",
     city: "",
     state: "",
     pincode: "",
     country: "",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
     twoFactor: false,
     language: "English",
     darkMode: false,
@@ -77,21 +97,11 @@ export default function EditProfilePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) return alert("User not logged in ❌");
+    if (!user) return toast.error("User not logged in");
     setLoading(true);
 
     try {
-      if (form.currentPassword && form.newPassword) {
-        if (form.newPassword !== form.confirmPassword) {
-          setLoading(false);
-          return alert("Passwords do not match ❌");
-        }
-        const credential = EmailAuthProvider.credential(user.email, form.currentPassword);
-        await reauthenticateWithCredential(user, credential);
-        await updatePassword(user, form.newPassword);
-      }
-
-      const { currentPassword, newPassword, confirmPassword, ...safeData } = form;
+      const safeData = form;
 
       await setDoc(doc(db, "users", user.uid), {
         ...safeData,
@@ -99,38 +109,28 @@ export default function EditProfilePage() {
         updatedAt: new Date(),
       });
 
-      alert("Profile Updated ✅");
+      toast.success("Profile Updated Successfully✅");
     } catch (err) {
       console.error(err);
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const InputField = ({ label, name, type = "text", placeholder, disabled = false, required = false }) => (
-    <div className="relative group">
-      <input
-        type={type}
-        name={name}
-        value={form[name] || (name === "email" ? user?.email : "")}
-        onChange={handleChange}
-        placeholder=" "
-        disabled={disabled}
-        required={required}
-        className={`peer w-full bg-transparent border-b border-[#D2C1B0] py-3 outline-none transition-all text-lg font-medium text-[#2D1B0D] 
-          ${disabled ? "opacity-50 cursor-not-allowed" : "focus:border-[#8B5E3C]"}`}
-      />
-      <label className="absolute left-0 top-3 text-[#A68966] text-xs uppercase tracking-widest pointer-events-none transition-all 
-        peer-focus:-top-5 peer-focus:text-[10px] peer-focus:text-[#8B5E3C] 
-        peer-[:not(:placeholder-shown)]:-top-5 peer-[:not(:placeholder-shown)]:text-[10px]">
-        {label}
-      </label>
-    </div>
-  );
+  
 
   return (
     <main className="min-h-screen mt-27  bg-[#F4EDE4] text-[#4A3728] selection:bg-[#8B5E3C] selection:text-white">
+      <ToastContainer
+  position="top-right"
+  autoClose={3000}
+  hideProgressBar={false}
+  newestOnTop
+  closeOnClick
+  pauseOnHover
+  theme="light"
+/>
       {/* Navigation Header */}
       <nav className=" top-0 left-0 w-full z-50 bg-[#F4EDE4]/80 backdrop-blur-md border-b border-[#D2C1B0]/20">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -177,9 +177,9 @@ export default function EditProfilePage() {
                 <h2 className="text-xs font-black uppercase tracking-[0.4em]">Identity</h2>
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-12">
-                <InputField label="Full Name" name="fullName" required />
-                <InputField label="Email Address" name="email" disabled />
-                <InputField label="Contact Number" name="phone" required />
+                <InputField label="Full Name" name="fullName" value={form.fullName} onChange={handleChange} required />
+                <InputField label="Email Address" name="email" value={form.email} onChange={handleChange} disabled />
+                <InputField label="Contact Number" name="mobile" value={form.phone} onChange={handleChange} required />
                 <div className="relative group">
                   <select
                     name="gender"
@@ -205,30 +205,15 @@ export default function EditProfilePage() {
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-12">
                 <div className="md:col-span-2">
-                  <InputField label="Street Address" name="street" />
+                  <InputField label="Street Address" name="street" value={form.street} onChange={handleChange} />
                 </div>
-                <InputField label="City" name="city" />
-                <InputField label="State / Province" name="state" />
-                <InputField label="Pincode" name="pincode" />
-                <InputField label="Country" name="country" />
+                <InputField label="City" name="city" value={form.city} onChange={handleChange} />
+                <InputField label="State / Province" name="state" value={form.state} onChange={handleChange} />
+                <InputField label="Pincode" name="pincode" value={form.pincode} onChange={handleChange} />
+                <InputField label="Country" name="country" value={form.country} onChange={handleChange} />
               </div>
             </section>
 
-            {/* Section 03: Security */}
-            <section className="space-y-12">
-              <div className="flex items-center gap-4 border-b border-[#D2C1B0]/30 pb-4">
-                <span className="text-[10px] font-black text-[#8B5E3C] tracking-[0.4em]">03</span>
-                <h2 className="text-xs font-black uppercase tracking-[0.4em]">Security Update</h2>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                <InputField label="Current Password" name="currentPassword" type="password" />
-                <InputField label="New Password" name="newPassword" type="password" />
-                <InputField label="Confirm New Password" name="confirmPassword" type="password" />
-              </div>
-              <p className="text-[9px] text-[#A68966] italic uppercase tracking-widest leading-relaxed">
-                * Leave password fields blank if you do not wish to change your credentials.
-              </p>
-            </section>
 
             {/* Action Footer */}
             <div className="pt-12 border-t border-[#D2C1B0]/30 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -239,7 +224,7 @@ export default function EditProfilePage() {
               <button 
                 type="submit" 
                 disabled={loading}
-                className="group w-full md:w-auto bg-[#2D1B0D] text-white px-12 py-5 rounded-full font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:bg-[#8B5E3C] active:scale-[0.98] shadow-xl shadow-black/10 flex items-center justify-center gap-3"
+                className="group w-full cursor-pointer md:w-auto bg-[#2D1B0D] text-white px-12 py-5 rounded-full font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:bg-[#8B5E3C] active:scale-[0.98] shadow-xl shadow-black/10 flex items-center justify-center gap-3"
               >
                 {loading ? "Syncing..." : "Commit Changes"}
                 <Save size={14} className="group-hover:rotate-12 transition-transform" />

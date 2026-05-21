@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { getUserOrders } from "@/customerService/orderServiceCustomer";
 import { getWishlist } from "@/customerService/wishlistService";
 import DashboardCard from "../DashboardCards"; // Path based on your structure
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [orders, setOrders] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +25,13 @@ export default function Dashboard() {
         return;
       }
       setUser(u);
+      // FETCH USER PROFILE
+const userRef = doc(db, "users", u.uid);
+const userSnap = await getDoc(userRef);
+
+if (userSnap.exists()) {
+  setUserData(userSnap.data());
+}
       try {
         const orderData = await getUserOrders(u.uid);
         setOrders(orderData || []);
@@ -59,7 +68,7 @@ export default function Dashboard() {
             <span className="text-[10px] uppercase tracking-[0.3em] text-[#A68966] font-black">Nirvana Private Portal</span>
           </div>
           <h1 className="text-5xl font-extralight tracking-tighter">
-            Welcome, <span className="font-serif italic text-[#A68966]">{user?.displayName || "Shivani"}</span>
+            Welcome <span className="font-serif italic text-[#A68966]">{userData?.fullName || "to Nirvananuts"}</span>
           </h1>
           <p className="text-[#A68966] text-sm mt-2 font-medium tracking-wide">
             Here's what's happening with your account
@@ -67,7 +76,7 @@ export default function Dashboard() {
         </motion.div>
 
         <Link href="/customer/orders">
-          <button className="bg-[#2D1B0D] text-white px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#442C1E] transition-all shadow-xl shadow-[#2D1B0D]/10 flex items-center gap-3">
+          <button className="bg-[#2D1B0D] cursor-pointer text-white px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#442C1E] transition-all shadow-xl shadow-[#2D1B0D]/10 flex items-center gap-3">
             <Package size={14} /> Track Orders
           </button>
         </Link>
@@ -79,6 +88,7 @@ export default function Dashboard() {
           title="Total Orders" 
           value={totalOrders} 
           sub="Your total purchases" 
+          color="text-[#A68966]"
         />
         <DashboardCard 
           title="Total Spent" 
@@ -90,6 +100,7 @@ export default function Dashboard() {
           title="Wishlist" 
           value={wishlist.length} 
           sub="Saved items" 
+          color="text-[#A68966]"
         />
         <DashboardCard 
           title="Reward Points" 
@@ -146,11 +157,11 @@ export default function Dashboard() {
             <div className="relative z-10">
               <div className="w-24 h-24 rounded-full border-2 border-[#C5A059] mx-auto p-1 mb-6">
                 <div className="w-full h-full bg-[#F4EDE4] rounded-full flex items-center justify-center text-3xl font-black text-[#2D1B0D]">
-                  {user?.displayName?.charAt(0) || "S"}
+                  {userData?.fullName?.charAt(0) || "S"}
                 </div>
               </div>
               
-              <h2 className="text-2xl font-serif italic tracking-tight mb-1">{user?.displayName || "Shivani"}</h2>
+              <h2 className="text-2xl font-serif italic tracking-tight mb-1">{userData?.fullName || "Guest"}</h2>
               <p className="text-[#A68966] text-[10px] font-bold uppercase tracking-widest mb-6">{user?.email}</p>
               
               <div className="inline-flex items-center gap-2 bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mb-10">

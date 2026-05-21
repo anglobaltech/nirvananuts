@@ -72,25 +72,15 @@ const loginUser = async (e) => {
 
 // GOOGLE LOGIN
 // const signInWithGoogle = async () => {
-
 // setIsLoading(true)
-
 // try{
-
 // const result = await signInWithPopup(auth,new GoogleAuthProvider())
-
 // toast.success("Login Successfully")
-
 // router.push("/admin")
-
 // }catch(error){
-
 // toast.error(error.message)
-
 // }
-
 // setIsLoading(false)
-
 // }
 
 useEffect(() => {
@@ -119,92 +109,128 @@ useEffect(() => {
 
 
 if (authLoading) {
-  return <div className="text-center p-10">Loading...</div>
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex flex-col items-center gap-2">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+        <p className="text-sm font-medium text-slate-500">Loading...</p>
+      </div>
+    </div>
+  )
 }
 
-return(
+return (
+  <main className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-8 md:p-24">
+    <ToastContainer position="top-right" autoClose={3000} />
+    
+    <section className="w-full max-w-md flex flex-col gap-6">
+      
+      {/* Logo Container */}
+      <div className="flex justify-center">
+        <div className="relative overflow-hidden rounded-2xl bg-white p-2 shadow-sm border border-slate-100">
+          <Image
+            src="/nirvana-logo.avif"
+            height={80}
+            width={80}
+            alt="logo image"
+            className="object-contain"
+          />
+        </div>
+      </div>
 
-<main className="w-full flex items-center justify-center md:p-24 p-10 bg-gray-300 min-h-screen">
-<ToastContainer position="top-right" autoClose={3000}/>
-<section className="flex flex-col gap-3">
+      {/* Main Login Card */}
+      <div className="w-full rounded-2xl border border-slate-100 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-10">
+        
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Welcome back</h1>
+          <p className="mt-1.5 text-sm text-slate-500">Login with your email credentials</p>
+        </div>
 
-<div className="flex justify-center">
+        <form onSubmit={loginUser} className="flex flex-col gap-4">
+          
+          {/* Email Input Group */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="name@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+            />
+          </div>
 
-<Image
-src="/nirvana-logo.avif"
-height={100}
-width={100}
-alt="logo image"
-/>
+          {/* Password Input Group */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+            />
+          </div>
 
-</div>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="mt-2 w-full rounded-xl bg-blue-600 p-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
+          >
+            {isLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                Logging in...
+              </span>
+            ) : (
+              "Login"
+            )}
+          </button>
 
-<div className="flex flex-col gap-3 bg-white md:p-10 p-5 rounded-xl md:min-w-110 w-full">
+        </form>
 
-<h1 className="text-black font-bold text-lg">Login with Email</h1>
+        {/* Action Links */}
+        <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-medium">
+          <Link href="/forget-password">
+            <button className="cursor-pointer text-slate-500 hover:text-blue-600 transition-colors">
+              Forgot Password?
+            </button>
+          </Link>
 
-<form onSubmit={loginUser} className="flex flex-col gap-3">
+          <div className="flex items-center gap-1 text-slate-500">
+            <span>New here?</span>
+            <Link href="/customerSignup">
+              <button className="cursor-pointer font-semibold text-blue-600 hover:underline">
+                Create Account
+              </button>
+            </Link>
+          </div>
+        </div>
 
-<input
-type="email"
-placeholder="Enter Your Email"
-value={email}
-onChange={(e)=>setEmail(e.target.value)}
-className="p-2 rounded-lg border focus:outline-none text-gray-900 w-full"
-/>
+        {/* Commented out Google button styled to match the new layout */}
+        {/* 
+        <div className="relative my-6 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-slate-100"></span></div>
+          <span className="relative bg-white px-3 text-xs text-slate-400 uppercase tracking-wider">Or continue with</span>
+        </div>
 
-<input
-type="password"
-placeholder="Enter Your Password"
-value={password}
-onChange={(e)=>setPassword(e.target.value)}
-className="p-2 rounded-lg border focus:outline-none text-gray-900 w-full"
-/>
+        <button
+          disabled={isLoading}
+          onClick={signInWithGoogle}
+          className="w-full flex items-center justify-center gap-2 cursor-pointer rounded-xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 active:scale-[0.99] disabled:opacity-50"
+        >
+          {isLoading ? "Signing In..." : "Sign in With Google"}
+        </button> 
+        */}
 
-<button
-  type="submit"
-  disabled={isLoading}
-  className="text-white bg-blue-600 p-3 rounded-2xl disabled:opacity-50"
->
-  {isLoading ? "Logging in..." : "Login"}
-</button>
+      </div>
 
-</form>
-
-
-<div className="flex justify-between items-center">
-
-  <Link href="/forget-password">
-    <button className="font-semibold cursor-pointer text-sm text-blue-700">
-      Forget Password?
-    </button>
-  </Link>
-
-  <Link href="/customerSignup">
-    <button className="text-sm cursor-pointer text-blue-700 hover:underline">
-      Create Account
-    </button>
-  </Link>
-
-</div>
-
-
-{/* <button
-disabled={isLoading}
-onClick={signInWithGoogle}
-className="text-gray-900 cursor-pointer rounded-2xl bg-gray-300 p-3"
->
-
-{isLoading ? "Signing In..." : "Sign in With Google"}
-
-</button> */}
-
-</div>
-
-</section>
-
-</main>
-
+    </section>
+  </main>
 )
-
 }

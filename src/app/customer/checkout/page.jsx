@@ -45,22 +45,50 @@ export default function Checkout() {
     name: "", email: "", phone: "", address: "", city: "", state: "", pincode: ""
   });
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (u) => {
-      setUser(u);
-      let currentCart = [];
-      if (u) {
-        const cartRef = doc(db, "carts", u.uid);
-        const cartSnap = await getDoc(cartRef);
-        if (cartSnap.exists()) currentCart = cartSnap.data().items || [];
-      } else {
-        currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (u) => {
+    setUser(u);
+
+    let currentCart = [];
+
+    if (u) {
+
+      // FETCH CART
+      const cartRef = doc(db, "carts", u.uid);
+      const cartSnap = await getDoc(cartRef);
+
+      if (cartSnap.exists()) {
+        currentCart = cartSnap.data().items || [];
       }
-      setCart(currentCart);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+
+      // FETCH PROFILE DATA
+      const userRef = doc(db, "users", u.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+
+        setContact({
+          name: data.fullName || "",
+          email: u.email || "",
+          phone: data.mobile || "",
+          address: data.street || "",
+          city: data.city || "",
+          state: data.state || "",
+          pincode: data.pincode || "",
+        });
+      }
+
+    } else {
+      currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+    }
+
+    setCart(currentCart);
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
 
   // 2. MEMOIZED DATA PROCESSING MATRIX: Halts redundant loops completely during component updates
   const { totals, computedCartItems } = useMemo(() => {
@@ -149,9 +177,9 @@ export default function Checkout() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16">
         
         {/* LEFT COLUMN: Checkout Details */}
-        <div className="order-2 lg:order-1 lg:col-span-7 space-y-8 md:space-y-12">
+        <div className="order-1 lg:order-1 lg:col-span-7 space-y-8 md:space-y-12">
           <header>
-             <Link href="/cart" className="inline-flex items-center gap-2 text-[10px] font-bold text-[#A68966] hover:text-[#8B5E3C] transition-all mb-4 uppercase tracking-[0.3em]">
+             <Link href="/cart" className="inline-flex mt-25 md:mt-2 items-center gap-2 text-[10px] font-bold text-[#A68966] hover:text-[#8B5E3C] transition-all mb-4 uppercase tracking-[0.3em]">
                <ArrowLeft size={12}/> Review Bag
              </Link>
              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -195,6 +223,7 @@ export default function Checkout() {
                 { id: "phone", label: "Mobile Number" },
                 { id: "address", label: "Shipping Address", full: true },
                 { id: "city", label: "City" },
+                { id: "state", label: "State" },
                 { id: "pincode", label: "Pincode" }
               ].map((field) => (
                 <div key={field.id} className={`relative group ${field.full ? "sm:col-span-2" : ""}`}>
@@ -257,15 +286,15 @@ export default function Checkout() {
                       <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 pt-2 sm:pt-0 border-t border-[#E8DFD5]/40 sm:border-0">
                         <div className="flex items-center gap-2">
                           <div className="flex items-center bg-white rounded-xl border border-[#E8DFD5] p-0.5 sm:p-1">
-                            <button onClick={() => updateQuantity(idx, -1)} className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Minus size={10}/></button>
+                            <button onClick={() => updateQuantity(idx, -1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Minus size={10}/></button>
                             <span className="w-6 sm:w-8 text-center text-xs font-bold">{item.qty || 1}</span>
-                            <button onClick={() => updateQuantity(idx, 1)} className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Plus size={10}/></button>
+                            <button onClick={() => updateQuantity(idx, 1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Plus size={10}/></button>
                           </div>
                           
                           {/* Delete Item CTA Button */}
                           <button 
                             onClick={() => deleteItem(idx)}
-                            className="w-8 h-8 rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200"
+                            className="w-8 h-8 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200"
                             title="Delete Item"
                           >
                             <Trash2 size={13} />
@@ -285,8 +314,8 @@ export default function Checkout() {
         </div>
 
         {/* RIGHT COLUMN: Sticky Summary Card */}
-        <div className="order-1 lg:order-2 lg:col-span-5">
-          <div className="lg:sticky lg:top-24 xl:top-32">
+        <div className="order-2 lg:order-1 lg:col-span-5">
+          <div className="mt-10 lg:sticky lg:top-24 xl:top-32">
             <div className="backdrop-blur-xl bg-white/40 border border-white/80 rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] p-5 sm:p-8 md:p-10 shadow-xl shadow-[#2D1B0D]/5 relative overflow-hidden">
               
               <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#A68966] mb-6 md:mb-8 border-b border-[#E8DFD5] pb-5">Checkout Summary</h3>
@@ -321,7 +350,7 @@ export default function Checkout() {
                  <button 
                   onClick={handleOrder}
                   disabled={cart.length === 0}
-                  className="group w-full mt-6 md:mt-8 bg-[#2D1B0D] text-white py-4 md:py-6 rounded-full font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:bg-[#8B5E3C] shadow-lg shadow-[#2D1B0D]/20 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+                  className="group w-full cursor-pointer mt-6 md:mt-8 bg-[#2D1B0D] text-white py-4 md:py-6 rounded-full font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:bg-[#8B5E3C] shadow-lg shadow-[#2D1B0D]/20 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
                  >
                     <span className="flex items-center justify-center gap-2 sm:gap-3">
                       Secure Checkout <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
