@@ -90,6 +90,14 @@ const handleAction = async (type) => {
     if (!product?.inStock) return;
 
     try {
+        const user = auth.currentUser;
+
+        // LOGIN CHECK
+        if (!user) {
+            toast.error("Please login first");
+            window.location.href = "/login";
+            return;
+        }
 
         const item = {
             docId: product.docId,
@@ -101,38 +109,23 @@ const handleAction = async (type) => {
             tieredDiscounts: product?.tieredDiscounts || [],
         };
 
-        const user = auth.currentUser;
+        const cartRef = doc(db, "carts", user.uid);
 
-        if (user) {
+        const cartSnap = await getDoc(cartRef);
 
-            const cartRef = doc(db, "carts", user.uid);
+        let existingItems = [];
 
-            const cartSnap = await getDoc(cartRef);
-
-            let existingItems = [];
-
-            if (cartSnap.exists()) {
-                existingItems = cartSnap.data().items || [];
-            }
-
-            const updatedItems = [...existingItems, item];
-
-            await setDoc(
-                cartRef,
-                { items: updatedItems },
-                { merge: true }
-            );
-
-        } else {
-
-            const existingCart =
-                JSON.parse(localStorage.getItem("cart")) || [];
-
-            localStorage.setItem(
-                "cart",
-                JSON.stringify([...existingCart, item])
-            );
+        if (cartSnap.exists()) {
+            existingItems = cartSnap.data().items || [];
         }
+
+        const updatedItems = [...existingItems, item];
+
+        await setDoc(
+            cartRef,
+            { items: updatedItems },
+            { merge: true }
+        );
 
         if (type === "cart") {
             toast.success("Added to cart!");

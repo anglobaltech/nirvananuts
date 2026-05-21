@@ -180,7 +180,7 @@ return (
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-2 w-full rounded-xl bg-blue-600 p-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
+            className="mt-2 w-full cursor-pointer rounded-xl bg-blue-600 p-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">

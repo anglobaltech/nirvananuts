@@ -83,67 +83,70 @@ const [active, setActive] = useState("");
   };
 
 const handleAction = async (type) => {
-    if (!product?.inStock) return;
+  if (!product?.inStock) return;
 
-    try {
+  try {
+    const user = auth.currentUser;
 
-        const item = {
-            docId: product.docId,
-            name: product.name,
-            mainImage: active || product.images?.[0],
-            selectedWeight: selectedVariant?.label || "Default",
-            price: Number(basePrice),
-            qty: Number(quantity),
-            tieredDiscounts: product?.tieredDiscounts || [],
-        };
+    // LOGIN CHECK
+    if (!user) {
+      toast.error("Please login first");
 
-        const user = auth.currentUser;
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1500);
 
-        if (user) {
-
-            const cartRef = doc(db, "carts", user.uid);
-
-            const cartSnap = await getDoc(cartRef);
-
-            let existingItems = [];
-
-            if (cartSnap.exists()) {
-                existingItems = cartSnap.data().items || [];
-            }
-
-            const updatedItems = [...existingItems, item];
-
-            await setDoc(
-                cartRef,
-                { items: updatedItems },
-                { merge: true }
-            );
-
-        } else {
-
-            const existingCart =
-                JSON.parse(localStorage.getItem("cart")) || [];
-
-            localStorage.setItem(
-                "cart",
-                JSON.stringify([...existingCart, item])
-            );
-        }
-
-        if (type === "cart") {
-            toast.success("Added to cart!");
-            window.location.href = "/customer/cart";
-        }
-
-        if (type === "buyNow") {
-            toast.success("Redirecting to checkout...");
-            window.location.href = "/customer/checkout";
-        }
-
-    } catch (error) {
-        console.log("Cart Error:", error);
-        toast.error("Something went wrong");
+      return;
     }
+
+    const item = {
+      docId: product.docId,
+      name: product.name,
+      mainImage: active || product.images?.[0],
+      selectedWeight: selectedVariant?.label || "Default",
+      price: Number(basePrice),
+      qty: Number(quantity),
+      tieredDiscounts: product?.tieredDiscounts || [],
+    };
+
+    const cartRef = doc(db, "carts", user.uid);
+
+    const cartSnap = await getDoc(cartRef);
+
+    let existingItems = [];
+
+    if (cartSnap.exists()) {
+      existingItems = cartSnap.data().items || [];
+    }
+
+    const updatedItems = [...existingItems, item];
+
+    await setDoc(
+      cartRef,
+      { items: updatedItems },
+      { merge: true }
+    );
+
+    if (type === "cart") {
+      toast.success("Added to cart!");
+
+      setTimeout(() => {
+        window.location.href = "/customer/cart";
+      }, 1000);
+    }
+
+    if (type === "buyNow") {
+      toast.success("Redirecting to checkout...");
+
+      setTimeout(() => {
+        window.location.href = "/customer/checkout";
+      }, 1000);
+    }
+
+  } catch (error) {
+    console.log("Cart Error:", error);
+    toast.error("Something went wrong");
+  }
 };
 
   useEffect(() => {

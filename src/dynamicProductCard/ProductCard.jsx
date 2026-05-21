@@ -84,6 +84,14 @@ await addToWishlist({
 // ProductCard.jsx ke andar handleAction function ko replace karein
 const handleAction = async (type) => {
   try {
+    const user = auth.currentUser;
+
+    // AGAR USER LOGIN NAHI HAI
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
     const item = {
       docId: product.docId,
       name: product.name,
@@ -97,46 +105,36 @@ const handleAction = async (type) => {
         [],
     };
 
-    const user = auth.currentUser;
+    const cartRef = doc(db, "carts", user.uid);
 
-    if (user) {
-      const cartRef = doc(db, "carts", user.uid);
+    const cartSnap = await getDoc(cartRef);
 
-      const cartSnap = await getDoc(cartRef);
+    let existingItems = [];
 
-      let existingItems = [];
-
-      if (cartSnap.exists()) {
-        existingItems = cartSnap.data().items || [];
-      }
-
-      const updatedItems = [...existingItems, item];
-
-      await setDoc(
-        cartRef,
-        { items: updatedItems },
-        { merge: true }
-      );
-    } else {
-      const existingCart =
-        JSON.parse(localStorage.getItem("cart")) || [];
-
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([...existingCart, item])
-      );
+    if (cartSnap.exists()) {
+      existingItems = cartSnap.data().items || [];
     }
 
+    const updatedItems = [...existingItems, item];
+
+    await setDoc(
+      cartRef,
+      { items: updatedItems },
+      { merge: true }
+    );
+
+    // ADD TO CART
     if (type === "cart") {
       router.push("/customer/cart");
     }
 
+    // BUY NOW
     if (type === "buyNow") {
       router.push("/customer/checkout");
     }
 
   } catch (error) {
-    console.log("Buy Now Error:", error);
+    console.log("Action Error:", error);
   }
 };
   return (

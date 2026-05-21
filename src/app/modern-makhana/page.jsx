@@ -84,69 +84,75 @@ export default function ModernMakhanaPage() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
- const handleAction = async (type) => {
-     if (!product?.inStock) return;
- 
-     try {
- 
-         const item = {
-             docId: product.docId,
-             name: product.name,
-             mainImage: active || product.images?.[0],
-             selectedWeight: selectedVariant?.label || "Default",
-             price: Number(basePrice),
-             qty: Number(quantity),
-             tieredDiscounts: product?.tieredDiscounts || [],
-         };
- 
-         const user = auth.currentUser;
- 
-         if (user) {
- 
-             const cartRef = doc(db, "carts", user.uid);
- 
-             const cartSnap = await getDoc(cartRef);
- 
-             let existingItems = [];
- 
-             if (cartSnap.exists()) {
-                 existingItems = cartSnap.data().items || [];
-             }
- 
-             const updatedItems = [...existingItems, item];
- 
-             await setDoc(
-                 cartRef,
-                 { items: updatedItems },
-                 { merge: true }
-             );
- 
-         } else {
- 
-             const existingCart =
-                 JSON.parse(localStorage.getItem("cart")) || [];
- 
-             localStorage.setItem(
-                 "cart",
-                 JSON.stringify([...existingCart, item])
-             );
-         }
- 
-         if (type === "cart") {
-             toast.success("Added to cart!");
-             window.location.href = "/customer/cart";
-         }
- 
-         if (type === "buyNow") {
-             toast.success("Redirecting to checkout...");
-             window.location.href = "/customer/checkout";
-         }
- 
-     } catch (error) {
-         console.log("Cart Error:", error);
-         toast.error("Something went wrong");
-     }
- };
+const handleAction = async (type) => {
+    if (!product?.inStock) return;
+
+    try {
+
+        const item = {
+            docId: product.docId,
+            name: product.name,
+            mainImage: active || product.images?.[0],
+            selectedWeight: selectedVariant?.label || "Default",
+            price: Number(basePrice),
+            qty: Number(quantity),
+            tieredDiscounts: product?.tieredDiscounts || [],
+        };
+
+        const user = auth.currentUser;
+
+        // LOGIN CHECK
+        if (!user) {
+            toast.error("Please login first");
+
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 1000);
+
+            return;
+        }
+
+        // FIREBASE CART SAVE
+        const cartRef = doc(db, "carts", user.uid);
+
+        const cartSnap = await getDoc(cartRef);
+
+        let existingItems = [];
+
+        if (cartSnap.exists()) {
+            existingItems = cartSnap.data().items || [];
+        }
+
+        const updatedItems = [...existingItems, item];
+
+        await setDoc(
+            cartRef,
+            { items: updatedItems },
+            { merge: true }
+        );
+
+        // REDIRECTS
+        if (type === "cart") {
+            toast.success("Added to cart!");
+
+            setTimeout(() => {
+                window.location.href = "/customer/cart";
+            }, 1000);
+        }
+
+        if (type === "buyNow") {
+            toast.success("Redirecting to checkout...");
+
+            setTimeout(() => {
+                window.location.href = "/customer/checkout";
+            }, 1000);
+        }
+
+    } catch (error) {
+        console.log("Cart Error:", error);
+        toast.error("Something went wrong");
+    }
+};
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -393,25 +399,23 @@ export default function ModernMakhanaPage() {
                 ) : (
                   <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
                     
-                    {/* BAG ADD ACTION */}
-                    <button
-                      onClick={() => handleAction("cart")}
-                      className="w-full sm:w-auto px-6 h-14 rounded-2xl border border-slate-200 bg-white text-slate-800 hover:text-slate-900 hover:border-slate-950 active:scale-98 transition duration-200 flex items-center justify-center gap-2 font-bold text-sm cursor-pointer shadow-2xs"
-                    >
-                      <ShoppingBag size={18} />
-                      <span className="sm:hidden">Add To Bag</span>
-                    </button>
+                  <button
+                        onClick={() => handleAction("cart")}
+                        className="w-full sm:w-auto px-6 h-14 rounded-2xl border border-slate-200 bg-white text-slate-800 flex items-center justify-center gap-2 font-bold text-sm cursor-pointer"
+                      >
+                        <ShoppingBag size={18} />
+                        Add To Cart
+                      </button>
 
-                    {/* EXPRESS DIRECT ACTION CHEVRON BUTTON */}
-                    <button
-                      onClick={() => handleAction("buyNow")}
-                      className="w-full flex-1 flex items-center justify-between pl-6 pr-4 h-14 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold tracking-wider text-sm transition duration-200 group/btn cursor-pointer shadow-lg shadow-amber-500/10 active:scale-98"
-                    >
-                      <span>Proceed to Checkout</span>
-                      <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center transition-transform duration-300 group-hover/btn:translate-x-0.5">
-                        <ArrowRight size={16} strokeWidth={2.5} />
-                      </div>
-                    </button>
+                      <button
+                        onClick={() => handleAction("buyNow")}
+                        className="w-full flex-1 flex items-center justify-between pl-6 pr-4 h-14 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm transition duration-200 cursor-pointer"
+                      >
+                        <span>Buy Now</span>
+                        <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center">
+                          <ArrowRight size={16} />
+                        </div>
+                      </button>
                   </div>
                 )}
               </div>
