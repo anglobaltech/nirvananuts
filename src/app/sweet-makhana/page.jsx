@@ -106,7 +106,7 @@ const handleAction = async (type) => {
         };
 
         // ==========================================
-        // WORKFLOW A: ADD TO CART LAYERS
+        // WORKFLOW A: ADD TO CART LAYERS (NO REDIRECT)
         // ==========================================
         if (type === "cart") {
             const cartRef = doc(db, "carts", user.uid);
@@ -136,12 +136,12 @@ const handleAction = async (type) => {
             await setDoc(cartRef, { items: updatedItems }, { merge: true });
 
             // Notify user of success WITHOUT executing a route redirect
-            toast.success("Added to cart!");
+            toast.success("Added to cart successfully!");
             return;
         }
 
         // ==========================================
-        // WORKFLOW B: BUY NOW EXPRESS INTERCEPT
+        // WORKFLOW B: BUY NOW EXPRESS (PRODUCTION FIX)
         // ==========================================
         if (type === "buyNow") {
             const checkoutPayload = {
@@ -152,8 +152,10 @@ const handleAction = async (type) => {
             // Save object directly into localized Session Memory (Bypasses backend cart array)
             sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
 
-            // Execute rapid clean path straight to your checkout routing point
             toast.success("Redirecting to checkout...");
+            
+            // PRODUCTION CLIENT COMPILATION FIX: Force absolute browser redirect handshake
+            // This prevents Next.js client routing from racing ahead of Firebase auth status
             window.location.href = "/customer/checkout";
         }
 

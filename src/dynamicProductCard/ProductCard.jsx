@@ -134,7 +134,7 @@ export default function ProductCard({ product, addToCart }) {
       }
 
       // ==========================================
-      // ACTION WORKFLOW: BUY NOW
+      // ACTION WORKFLOW: BUY NOW (PRODUCTION RE-VERIFY FIXED)
       // ==========================================
       if (type === "buyNow") {
         // Direct checkout payload construction without touching backend cart arrays
@@ -147,8 +147,9 @@ export default function ProductCard({ product, addToCart }) {
         sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
         
         toast.success("Redirecting to checkout...");
-        // Direct route manipulation for checkout processing
-        router.push("/customer/checkout");
+        
+        // PRODUCTION CLIENT COMPILATION REFIX: Force absolute browser redirect handshake
+        window.location.href = "/customer/checkout";
       }
     } catch (error) {
       console.log("Action Error:", error);
