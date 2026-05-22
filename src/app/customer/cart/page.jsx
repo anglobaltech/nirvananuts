@@ -14,6 +14,7 @@ export default function CartPage() {
   const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [authChecking, setAuthChecking] = useState(true); // PRODUCTION FIX
   const [user, setUser] = useState(null);
 
   const normalize = (item) => ({
@@ -27,40 +28,38 @@ export default function CartPage() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        setUser(currentUser);
+        const localCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      // AUTHENTICATION GUARD: If the customer is not logged in, redirect them to the login page immediately
-      if (!currentUser) {
-        toast.error("Please login to view your cart");
-        router.push("/login");
-        setLoading(false);
-        return;
-      }
-
-      const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-      try {
-        const docRef = doc(db, "carts", currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const firebaseCart = docSnap.data().items || [];
-          const mergedCart = [...firebaseCart, ...localCart].map(normalize);
-          setCartItems(mergedCart);
-          await updateDoc(docRef, { items: mergedCart });
-          localStorage.removeItem("cart");
-        } else {
-          const initialCart = localCart.map(normalize);
-          await setDoc(docRef, { items: initialCart });
-          setCartItems(initialCart);
+        try {
+          const docRef = doc(db, "carts", currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const firebaseCart = docSnap.data().items || [];
+            const mergedCart = [...firebaseCart, ...localCart].map(normalize);
+            setCartItems(mergedCart);
+            await updateDoc(docRef, { items: mergedCart });
+            localStorage.removeItem("cart");
+          } else {
+            const initialCart = localCart.map(normalize);
+            await setDoc(docRef, { items: initialCart });
+            setCartItems(initialCart);
+          }
+        } catch (error) {
+          console.error("Error managing cart data:", error);
+        } finally {
+          setAuthChecking(false); // Auth resolved, data ready
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error managing cart data:", error);
-      } finally {
-        setLoading(false);
+      } else {
+        // PRODUCTION INTERCEPT: Explicit unauthenticated status returned from Firebase
+        toast.error("Please login to view your cart");
+        window.location.href = "/login"; // Absolute relocation for production stability
       }
     });
     return () => unsubscribe();
-  }, [router]);
+  }, []);
 
   // --- ENHANCED PRICING ENGINE ---
   const calculatePricing = (item) => {
@@ -118,7 +117,8 @@ export default function CartPage() {
   const shipping = subtotal > 500 || cartItems.length === 0 ? 0 : 80;
   const finalTotal = subtotal + shipping;
 
-  if (loading) return (
+  // BLOCK RENDERING IN PRODUCTION UNTIL FIRESTORE AND AUTH HANDSHAKE COMPLETES
+  if (authChecking || loading) return (
     <div className="h-screen flex items-center justify-center bg-white">
       <div className="w-10 h-10 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
     </div>

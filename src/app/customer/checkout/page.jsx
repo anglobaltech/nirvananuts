@@ -43,6 +43,7 @@ export default function Checkout() {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authChecking, setAuthChecking] = useState(true); // PRODUCTION AUTH SYNC FIX
   const [checkoutSource, setCheckoutSource] = useState("cart"); 
   const [contact, setContact] = useState({
     name: "", email: "", phone: "", address: "", city: "", state: "", pincode: ""
@@ -50,58 +51,57 @@ export default function Checkout() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
-      setUser(u);
+      if (u) {
+        setUser(u);
 
-      // SECURITY GUARD: If visitor is completely unauthorized, stop execution and route to /login
-      if (!u) {
-        toast.error("Please login to proceed with checkout");
-        router.push("/login");
+        let currentCart = [];
+        const directCheckoutData = sessionStorage.getItem("directCheckoutItem");
+
+        // ASSIGNMENT SEPARATION: Check if express route object is present
+        if (directCheckoutData) {
+          try {
+            const parsedData = JSON.parse(directCheckoutData);
+            currentCart = parsedData.items || [];
+            setCheckoutSource("buyNow");
+          } catch (err) {
+            console.error("Session checkout parsing failed:", err);
+          }
+        } else {
+          // Fallback option: If no direct purchase item is present, pull full long-term Firestore Cart
+          const cartRef = doc(db, "carts", u.uid);
+          const cartSnap = await getDoc(cartRef);
+
+          if (cartSnap.exists()) {
+            currentCart = cartSnap.data().items || [];
+          }
+          setCheckoutSource("cart");
+        }
+
+        // FETCH USER PROFILE DETAILS
+        const userRef = doc(db, "users", u.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const data = userSnap.data();
+          setContact({
+            name: data.fullName || "",
+            email: u.email || "",
+            phone: data.mobile || "",
+            address: data.street || "",
+            city: data.city || "",
+            state: data.state || "",
+            pincode: data.pincode || "",
+          });
+        }
+
+        setCart(currentCart);
+        setAuthChecking(false); // Authentication and Firestore sync verified safely
         setLoading(false);
-        return;
-      }
-
-      let currentCart = [];
-      const directCheckoutData = sessionStorage.getItem("directCheckoutItem");
-
-      // ASSIGNMENT SEPARATION: Check if express route object is present
-      if (directCheckoutData) {
-        try {
-          const parsedData = JSON.parse(directCheckoutData);
-          currentCart = parsedData.items || [];
-          setCheckoutSource("buyNow");
-        } catch (err) {
-          console.error("Session checkout parsing failed:", err);
-        }
       } else {
-        // Fallback option: If no direct purchase item is present, pull full long-term Firestore Cart
-        const cartRef = doc(db, "carts", u.uid);
-        const cartSnap = await getDoc(cartRef);
-
-        if (cartSnap.exists()) {
-          currentCart = cartSnap.data().items || [];
-        }
-        setCheckoutSource("cart");
+        // CRITICAL PRODUCTION INTERCEPT: Explicit unauthenticated block
+        toast.error("Please login to proceed with checkout");
+        window.location.href = "/login"; // Absolute location mapping for production routing stability
       }
-
-      // FETCH USER PROFILE DETAILS
-      const userRef = doc(db, "users", u.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        const data = userSnap.data();
-        setContact({
-          name: data.fullName || "",
-          email: u.email || "",
-          phone: data.mobile || "",
-          address: data.street || "",
-          city: data.city || "",
-          state: data.state || "",
-          pincode: data.pincode || "",
-        });
-      }
-
-      setCart(currentCart);
-      loading && setLoading(false);
     });
 
     return () => unsubscribe();
@@ -202,7 +202,8 @@ export default function Checkout() {
     }
   };
 
-  if (loading) return (
+  // BLOCK MOUNT ENGINE UNTIL AUTH SHAKE COMPLETE
+  if (authChecking || loading) return (
     <div className="h-screen flex items-center justify-center bg-[#F4EDE4]">
       <div className="text-[#8B5E3C] font-black tracking-[0.5em] text-sm animate-pulse italic">NIRVANA</div>
     </div>
