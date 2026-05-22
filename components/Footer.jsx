@@ -48,7 +48,7 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">GET IN TOUCH</h3>
           <ul className="space-y-3 text-sm text-gray-300">
-            <li  >📍 VILL-, SEMRA HAT,THANA-TURKULIYA, Semra (East Champaran), Banjaria, East Champaran845435, Bihar </li>
+            <li  >📍 VILL- SEMRA HAT, THANA-TURKULIYA, Semra (East Champaran), Banjaria, East Champaran845435, Bihar </li>
             <li><a href="https://wa.me/+917782069184" target="_blank" className="hover:text-blue-700 transition"> 📞 (+91) 778 206 9184 </a></li>
             <li>✉️ <a href="mailto:info@nirvananuts.in" target="_blank" className="hover:text-blue-700 transition">info@nirvananuts.in</a></li>
           </ul>

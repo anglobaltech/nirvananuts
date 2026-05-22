@@ -380,7 +380,7 @@ const page = () => {
           {[
             { src: "/about-image-04.webp", alt: "Makhana Bowl" },
             { src: "/about-image-05.webp", alt: "Nirvana Nuts Packet" },
-            { src: "/about-image-06.avif", alt: "Roasted makhana" },
+            { src: "/product-03.avif", alt: "Roasted makhana" },
 
           ].map((img, i) => (
             <Image

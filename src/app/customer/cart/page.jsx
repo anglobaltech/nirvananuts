@@ -6,10 +6,12 @@ import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ShoppingBag, Trash2, Plus, Minus, ArrowLeft, Truck, Tag, Leaf, Zap, ShieldCheck, Sparkles } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function CartPage() {
+  const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -26,9 +28,18 @@ export default function CartPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+
+      // AUTHENTICATION GUARD: If the customer is not logged in, redirect them to the login page immediately
+      if (!currentUser) {
+        toast.error("Please login to view your cart");
+        router.push("/login");
+        setLoading(false);
+        return;
+      }
+
       const localCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      if (currentUser) {
+      try {
         const docRef = doc(db, "carts", currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -42,13 +53,14 @@ export default function CartPage() {
           await setDoc(docRef, { items: initialCart });
           setCartItems(initialCart);
         }
-      } else {
-        setCartItems(localCart.map(normalize));
+      } catch (error) {
+        console.error("Error managing cart data:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [router]);
 
   // --- ENHANCED PRICING ENGINE ---
   const calculatePricing = (item) => {
@@ -92,6 +104,13 @@ export default function CartPage() {
     if (user) await updateDoc(doc(db, "carts", user.uid), { items: updated });
     else localStorage.setItem("cart", JSON.stringify(updated));
     toast.info("Item removed from cart");
+  };
+
+  // CLEAN SEPARATION ACTION FOR CHECKOUT
+  const handleCheckoutNavigation = () => {
+    // Remove single instant buy items so checkout defaults to fetching the database cart
+    sessionStorage.removeItem("directCheckoutItem");
+    router.push("/customer/checkout");
   };
 
   const subtotal = cartItems.reduce((acc, item) => acc + calculatePricing(item).totalItemPrice, 0);
@@ -144,7 +163,7 @@ export default function CartPage() {
                     
                     {/* Item Discount Ribbon */}
                     {stats.isDiscounted && (
-                      <div className="absolute top-0 right-0 bg-green-600 text-white text-[10px] font-black px-4 py-1 rounded-bl-2xl flex items-center gap-1 z-10 animate-pulse">
+                      <div className="absolute top-0 right-0 bg-green-600 text-white text-[10px] font-black px-4 py-1 rounded-bl-2xl flex items-center gap-1 z-10">
                         <Sparkles size={10} /> {stats.discountPercent}% OFF
                       </div>
                     )}
@@ -168,72 +187,64 @@ export default function CartPage() {
                         <span className="text-xs text-gray-400 font-bold uppercase tracking-tighter">Pack size</span>
                       </div>
 
-                      {/* discount */}
-
                       {/* Dynamic Discount Message */}
-{item.tieredDiscounts?.length > 0 && (() => {
+                      {item.tieredDiscounts?.length > 0 && (() => {
+                        const sortedOffers = [...item.tieredDiscounts].sort(
+                          (a, b) => Number(a.qty) - Number(b.qty)
+                        );
 
-  const sortedOffers = [...item.tieredDiscounts].sort(
-    (a, b) => Number(a.qty) - Number(b.qty)
-  );
+                        const nextOffer = sortedOffers.find(
+                          (offer) => item.qty < Number(offer.qty)
+                        );
 
-  const nextOffer = sortedOffers.find(
-    (offer) => item.qty < Number(offer.qty)
-  );
+                        const currentOffer = sortedOffers
+                          .filter((offer) => item.qty >= Number(offer.qty))
+                          .sort((a, b) => Number(b.qty) - Number(a.qty))[0];
 
-  const currentOffer = sortedOffers
-    .filter((offer) => item.qty >= Number(offer.qty))
-    .sort((a, b) => Number(b.qty) - Number(a.qty))[0];
-
-  return (
-    <div className="mb-4">
-      {nextOffer ? (
-        <div className="bg-orange-50 border border-orange-100 text-orange-700 text-xs font-bold px-4 py-3 rounded-2xl">
-          Add{" "}
-          <span className="text-black">
-            {Number(nextOffer.qty) - item.qty}
-          </span>{" "}
-          more for{" "}
-          <span className="text-green-600">
-            {nextOffer.discount}% OFF
-          </span>
-        </div>
-      ) : currentOffer ? (
-        <div className="bg-green-50 border border-green-100 text-green-700 text-xs font-bold px-4 py-3 rounded-2xl">
-          Congratulations! Your {currentOffer.discount}% discount is active 🎉
-        </div>
-      ) : null}
-    </div>
-  );
-})()}
+                        return (
+                          <div className="mb-4">
+                            {nextOffer ? (
+                              <div className="bg-orange-50 border border-orange-100 text-orange-700 text-xs font-bold px-4 py-3 rounded-2xl">
+                                Add{" "}
+                                <span className="text-black">
+                                  {Number(nextOffer.qty) - item.qty}
+                                </span>{" "}
+                                more for{" "}
+                                <span className="text-green-600">
+                                  {nextOffer.discount}% OFF
+                                </span>
+                              </div>
+                            ) : currentOffer ? (
+                              <div className="bg-green-50 border border-green-100 text-green-700 text-xs font-bold px-4 py-3 rounded-2xl">
+                                Congratulations! Your {currentOffer.discount}% discount is active 🎉
+                              </div>
+                            ) : null}
+                          </div>
+                        );
+                      })()}
                       
-
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center bg-gray-50 rounded-2xl p-1 border border-gray-100">
-                          <button onClick={() => updateQuantity(index, -1)} className="w-10 h-10 text-black  cursor-pointer  flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Minus size={14}/></button>
+                          <button onClick={() => updateQuantity(index, -1)} className="w-10 h-10 text-black cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Minus size={14}/></button>
                           <span className="w-12 text-center font-black text-gray-900">{item.qty}</span>
                           <button onClick={() => updateQuantity(index, 1)} className="w-10 text-black h-10 cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Plus size={14}/></button>
                         </div>
 
-<div className="text-right">
-
-  {stats.isDiscounted && (
-    <div className="flex flex-col items-end">
-      <span className="text-xs text-gray-400 line-through">
-        ₹{item.price}
-      </span>
-
-      <span className="text-[10px] text-green-600 font-black uppercase">
-        {stats.discountPercent}% OFF
-      </span>
-    </div>
-  )}
-
-  <span className="text-2xl font-black text-gray-900 tracking-tighter">
-    ₹{stats.unitPriceAfterDiscount}
-  </span>
-
-</div>
+                        <div className="text-right">
+                          {stats.isDiscounted && (
+                            <div className="flex flex-col items-end">
+                              <span className="text-xs text-gray-400 line-through">
+                                ₹{item.price * item.qty}
+                              </span>
+                              <span className="text-[10px] text-green-600 font-black uppercase">
+                                {stats.discountPercent}% OFF
+                              </span>
+                            </div>
+                          )}
+                          <span className="text-2xl font-black text-gray-900 tracking-tighter">
+                            ₹{stats.totalItemPrice}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -255,7 +266,7 @@ export default function CartPage() {
                   </div>
                   
                   {totalSavings > 0 && (
-                    <div className="p-4 bg-green-50 rounded-2xl border border-green-100 mb-4 animate-bounce-subtle">
+                    <div className="p-4 bg-green-50 rounded-2xl border border-green-100 mb-4">
                       <div className="flex justify-between text-green-700 font-black text-sm">
                         <span className="flex items-center gap-2"><Tag size={16}/> Nirvana Savings</span>
                         <span>-₹{totalSavings}</span>
@@ -282,11 +293,12 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <Link href="/customer/checkout">
-                  <button className="w-full cursor-pointer bg-black text-white py-6 rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-200 transition-all flex items-center justify-center gap-3 active:scale-95 group">
-                    Checkout <Zap size={18} className="fill-yellow-400 text-yellow-400 border-none group-hover:scale-125 transition-transform" />
-                  </button>
-                </Link>
+                <button 
+                  onClick={handleCheckoutNavigation}
+                  className="w-full cursor-pointer bg-black text-white py-6 rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-200 transition-all flex items-center justify-center gap-3 active:scale-95 group"
+                >
+                  Checkout <Zap size={18} className="fill-yellow-400 text-yellow-400 border-none group-hover:scale-125 transition-transform" />
+                </button>
 
                 <div className="mt-8 pt-8 border-t border-gray-50 flex justify-between items-center px-2">
                    <div className="flex flex-col items-center gap-2">

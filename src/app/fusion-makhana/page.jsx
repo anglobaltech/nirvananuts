@@ -85,70 +85,84 @@ const [active, setActive] = useState("/product-04.avif");
     setOpenIndex(openIndex === index ? null : index);
   };
 const handleAction = async (type) => {
-  if (!product?.inStock) return;
+    if (!product?.inStock) return;
 
-  try {
-    const user = auth.currentUser;
+    try {
+        const user = auth.currentUser;
 
-    // LOGIN CHECK
-    if (!user) {
-      toast.error("Please login first");
+        // 1. AUTHENTICATION GUARD: If customer is not logged in, redirect immediately
+        if (!user) {
+            toast.error("Please login first");
+            window.location.href = "/login";
+            return;
+        }
 
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1500);
+        const item = {
+            docId: product.docId,
+            name: product.name,
+            mainImage: active || product.images?.[0] || "/placeholder.png",
+            selectedWeight: selectedVariant?.label || "Default",
+            price: Number(basePrice),
+            qty: Number(quantity),
+            tieredDiscounts: product?.tieredDiscounts || [],
+        };
 
-      return;
+        // ==========================================
+        // WORKFLOW A: ADD TO CART LAYERS
+        // ==========================================
+        if (type === "cart") {
+            const cartRef = doc(db, "carts", user.uid);
+            const cartSnap = await getDoc(cartRef);
+
+            let existingItems = [];
+            if (cartSnap.exists()) {
+                existingItems = cartSnap.data().items || [];
+            }
+
+            // FIXED DUPLICATE BUG: Search for an item matching both ID and weight configuration
+            const existingItemIndex = existingItems.findIndex(
+                (cartItem) => cartItem.docId === item.docId && cartItem.selectedWeight === item.selectedWeight
+            );
+
+            let updatedItems;
+            if (existingItemIndex > -1) {
+                // If matched, increment the existing quantity integer value
+                updatedItems = [...existingItems];
+                updatedItems[existingItemIndex].qty += item.qty;
+            } else {
+                // If unique, append cleanly to the layout array
+                updatedItems = [...existingItems, item];
+            }
+
+            // Push exclusively to Firestore Carts collection
+            await setDoc(cartRef, { items: updatedItems }, { merge: true });
+
+            // Notify user of success WITHOUT executing a route redirect
+            toast.success("Added to cart!");
+            return;
+        }
+
+        // ==========================================
+        // WORKFLOW B: BUY NOW EXPRESS INTERCEPT
+        // ==========================================
+        if (type === "buyNow") {
+            const checkoutPayload = {
+                items: [item],
+                checkoutSource: "buyNow"
+            };
+
+            // Save object directly into localized Session Memory (Bypasses backend cart array)
+            sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
+
+            // Execute rapid clean path straight to your checkout routing point
+            toast.success("Redirecting to checkout...");
+            window.location.href = "/customer/checkout";
+        }
+
+    } catch (error) {
+        console.log("Action Execution Failure:", error);
+        toast.error("Something went wrong");
     }
-
-    const item = {
-      docId: product.docId,
-      name: product.name,
-      mainImage: active || product.images?.[0],
-      selectedWeight: selectedVariant?.label || "Default",
-      price: Number(basePrice),
-      qty: Number(quantity),
-      tieredDiscounts: product?.tieredDiscounts || [],
-    };
-
-    const cartRef = doc(db, "carts", user.uid);
-
-    const cartSnap = await getDoc(cartRef);
-
-    let existingItems = [];
-
-    if (cartSnap.exists()) {
-      existingItems = cartSnap.data().items || [];
-    }
-
-    const updatedItems = [...existingItems, item];
-
-    await setDoc(
-      cartRef,
-      { items: updatedItems },
-      { merge: true }
-    );
-
-    if (type === "cart") {
-      toast.success("Added to cart!");
-
-      setTimeout(() => {
-        window.location.href = "/customer/cart";
-      }, 1000);
-    }
-
-    if (type === "buyNow") {
-      toast.success("Redirecting to checkout...");
-
-      setTimeout(() => {
-        window.location.href = "/customer/checkout";
-      }, 1000);
-    }
-
-  } catch (error) {
-    console.log("Cart Error:", error);
-    toast.error("Something went wrong");
-  }
 };
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });

@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductCard({ product, addToCart }) {
   const router = useRouter();
@@ -52,95 +54,122 @@ export default function ProductCard({ product, addToCart }) {
   }, [product.docId]);
 
   const handleWishlist = async () => {
-  try {
-    if (wish) {
-      await removeFromWishlist(product.docId);
-      setWish(false);
-    } else {
-await addToWishlist({
-  id: product.docId,
-  title: product.name,
-  description: product.description,
-  image: product.mainImage,
-
-  variants: product.variants || [],
-
-  tieredDiscounts:
-    product.tieredDiscounts ||
-    product.buyMoreSaveMore ||
-    [],
-
-  stock: true,
-  rating: 4,
-});
-
-      setWish(true);
+    try {
+      if (wish) {
+        await removeFromWishlist(product.docId);
+        setWish(false);
+        toast.info("Removed from wishlist");
+      } else {
+        await addToWishlist({
+          id: product.docId,
+          title: product.name,
+          description: product.description,
+          image: product.mainImage,
+          variants: product.variants || [],
+          tieredDiscounts: product.tieredDiscounts || product.buyMoreSaveMore || [],
+          stock: true,
+          rating: 4,
+        });
+        setWish(true);
+        toast.success("Added to wishlist!");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-};
+  };
 
-// ProductCard.jsx ke andar handleAction function ko replace karein
-const handleAction = async (type) => {
-  try {
-    const user = auth.currentUser;
+  const handleAction = async (type) => {
+    try {
+      const user = auth.currentUser;
 
-    // AGAR USER LOGIN NAHI HAI
-    if (!user) {
-      router.push("/login");
-      return;
+      // 1. AUTHENTICATION GUARD: If customer is not logged in, always redirect to login
+      if (!user) {
+        toast.error("Please login first");
+        router.push("/login");
+        return;
+      }
+
+      const item = {
+        docId: product.docId,
+        name: product.name,
+        mainImage: product.mainImage,
+        selectedWeight: selectedWeight.label,
+        price: Number(selectedWeight.price),
+        qty: Number(quantity),
+        tieredDiscounts: product?.tieredDiscounts || product?.buyMoreSaveMore || [],
+      };
+
+      // ==========================================
+      // ACTION WORKFLOW: ADD TO CART
+      // ==========================================
+      if (type === "cart") {
+        const cartRef = doc(db, "carts", user.uid);
+        const cartSnap = await getDoc(cartRef);
+
+        let existingItems = [];
+        if (cartSnap.exists()) {
+          existingItems = cartSnap.data().items || [];
+        }
+
+        // FIXED DUPLICATE BUG: Check if the exact item with same id AND variant weight exists
+        const existingItemIndex = existingItems.findIndex(
+          (cartItem) => cartItem.docId === item.docId && cartItem.selectedWeight === item.selectedWeight
+        );
+
+        let updatedItems;
+        if (existingItemIndex > -1) {
+          // If product match is found, update quantity instead of appending a new item block
+          updatedItems = [...existingItems];
+          updatedItems[existingItemIndex].qty += item.qty;
+        } else {
+          // If unique, append item cleanly to array
+          updatedItems = [...existingItems, item];
+        }
+
+        // Save updated items into Firestore database
+        await setDoc(cartRef, { items: updatedItems }, { merge: true });
+        
+        // Dynamic notification toast layout replacement
+        toast.success("Item added to cart successfully!");
+      }
+
+      // ==========================================
+      // ACTION WORKFLOW: BUY NOW
+      // ==========================================
+      if (type === "buyNow") {
+        // Direct checkout payload construction without touching backend cart arrays
+        const checkoutPayload = {
+          items: [item],
+          checkoutSource: "buyNow"
+        };
+
+        // Temporarily stringify data to route seamlessly without bloating cart tables
+        sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
+        
+        toast.success("Redirecting to checkout...");
+        // Direct route manipulation for checkout processing
+        router.push("/customer/checkout");
+      }
+    } catch (error) {
+      console.log("Action Error:", error);
+      toast.error("Something went wrong");
     }
+  };
 
-    const item = {
-      docId: product.docId,
-      name: product.name,
-      mainImage: product.mainImage,
-      selectedWeight: selectedWeight.label,
-      price: Number(selectedWeight.price),
-      qty: Number(quantity),
-      tieredDiscounts:
-        product?.tieredDiscounts ||
-        product?.buyMoreSaveMore ||
-        [],
-    };
-
-    const cartRef = doc(db, "carts", user.uid);
-
-    const cartSnap = await getDoc(cartRef);
-
-    let existingItems = [];
-
-    if (cartSnap.exists()) {
-      existingItems = cartSnap.data().items || [];
-    }
-
-    const updatedItems = [...existingItems, item];
-
-    await setDoc(
-      cartRef,
-      { items: updatedItems },
-      { merge: true }
-    );
-
-    // ADD TO CART
-    if (type === "cart") {
-      router.push("/customer/cart");
-    }
-
-    // BUY NOW
-    if (type === "buyNow") {
-      router.push("/customer/checkout");
-    }
-
-  } catch (error) {
-    console.log("Action Error:", error);
-  }
-};
   return (
-    // Height constrained to 520px to keep it "Medium". Overflow-hidden prevents leaks.
     <div className="group relative bg-white rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 flex flex-col w-full max-w-[340px] mx-auto h-[550px]">
-      
+      <ToastContainer 
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       {/* COMPACT IMAGE SECTION */}
       <div className="relative h-55 w-full overflow-hidden shrink-0">
         <Image
@@ -158,26 +187,26 @@ const handleAction = async (type) => {
         </button>
 
         {isOutOfStock && (
-  <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider z-10">
-    Out of Stock
-  </div>
-)}
+          <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider z-10">
+            Out of Stock
+          </div>
+        )}
       </div>
 
-      {/* CONTENT SECTION - Tighter Padding */}
+      {/* CONTENT SECTION */}
       <div className="p-4 flex flex-col flex-grow bg-white relative">
         <h2 className="text-base font-black text-gray-900 leading-tight mb-1 truncate">
           {product?.name || "Nirvana Nuts"}
         </h2>
         
-        {/* DESCRIPTION - Scrollable if too long to keep card height fixed */}
+        {/* DESCRIPTION */}
         <div className="h-12 overflow-y-auto mb-2 no-scrollbar">
             <p className="text-[11px] text-gray-500 leading-snug">
                 {product?.description || "Premium roasted Nirvana Nuts. Nutrient-rich and perfect for a healthy crunch."}
             </p>
         </div>
 
-        {/* WEIGHT SELECTION GRID - Compact */}
+        {/* WEIGHT SELECTION GRID */}
         <div className="grid grid-cols-4 gap-1 mb-2">
           {weightVariants.map((v) => (
             <button
@@ -194,7 +223,7 @@ const handleAction = async (type) => {
           ))}
         </div>
 
-        {/* PRICE DISPLAY - Condensed */}
+        {/* PRICE DISPLAY */}
         <div className="flex justify-between items-center mb-1 bg-orange-50/50 px-3 py-1 rounded-xl border border-orange-100">
           <div>
             <div className="flex items-center gap-0.5">
@@ -209,7 +238,7 @@ const handleAction = async (type) => {
           </div>
         </div>
 
-        {/* DISCOUNT GREETING - Reduced Height */}
+        {/* DISCOUNT GREETING */}
        <div className=" flex items-center">
           {isMaxDiscount ? (
             <div className="bg-green-50 border border-green-100 px-2 py-1 rounded-lg flex items-center gap-2 w-full">
@@ -226,7 +255,7 @@ const handleAction = async (type) => {
           ) : null}
         </div>
 
-        {/* ACTIONS - Pinned to bottom */}
+        {/* ACTIONS */}
         <div className="mt-2 space-y-1">
           <div className="flex items-center justify-between bg-gray-100 rounded-xl p-0.5 border border-gray-200">
             <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white shadow-sm font-black text-gray-600">-</button>
@@ -235,46 +264,46 @@ const handleAction = async (type) => {
           </div>
 
          {isOutOfStock ? (
-  <button
-    disabled
-    className="w-full py-3 rounded-xl bg-gray-100 text-gray-400 font-semibold text-xs uppercase tracking-wider border border-gray-200/60 cursor-not-allowed flex items-center justify-center gap-2"
-  >
-    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-pulse" />
-    Out Of Stock
-  </button>
-) : (
-  <div className="flex items-center gap-3 w-full">
-    
-    {/* ADD TO CART BUTTON */}
-    <button
-      onClick={() => handleAction("cart")}
-      title="Add to Cart"
-      className={`p-3 rounded-xl border transition-all duration-300 relative overflow-hidden group cursor-pointer active:scale-95 ${
-        isMaxDiscount
-          ? "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"
-          : "bg-white border-gray-200 text-gray-700 hover:border-gray-900 hover:text-gray-900 shadow-xs"
-      }`}
-    >
-      <ShoppingCart size={18} className="transition-transform duration-300 group-hover:scale-110" />
-      {isMaxDiscount && (
-        <span className="absolute -top-1 -right-1 flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-      )}
-    </button>
+          <button
+            disabled
+            className="w-full py-3 rounded-xl bg-gray-100 text-gray-400 font-semibold text-xs uppercase tracking-wider border border-gray-200/60 cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-pulse" />
+            Out Of Stock
+          </button>
+        ) : (
+          <div className="flex items-center gap-3 w-full">
+            
+            {/* ADD TO CART BUTTON */}
+            <button
+              onClick={() => handleAction("cart")}
+              title="Add to Cart"
+              className={`p-3 rounded-xl border transition-all duration-300 relative overflow-hidden group cursor-pointer active:scale-95 ${
+                isMaxDiscount
+                  ? "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+                  : "bg-white border-gray-200 text-gray-700 hover:border-gray-900 hover:text-gray-900 shadow-xs"
+              }`}
+            >
+              <ShoppingCart size={18} className="transition-transform duration-300 group-hover:scale-110" />
+              {isMaxDiscount && (
+                <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+              )}
+            </button>
 
-    {/* BUY NOW BUTTON */}
-    <button
-      onClick={() => handleAction("buyNow")}
-      className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-amber-600 transition-all duration-300 shadow-sm shadow-gray-900/10 active:scale-[0.98] group cursor-pointer"
-    >
-      <Zap size={14} className="fill-amber-400 text-amber-400 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12" />
-      <span>Buy Now</span>
-    </button>
+            {/* BUY NOW BUTTON */}
+            <button
+              onClick={() => handleAction("buyNow")}
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-amber-600 transition-all duration-300 shadow-sm shadow-gray-900/10 active:scale-[0.98] group cursor-pointer"
+            >
+              <Zap size={14} className="fill-amber-400 text-amber-400 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12" />
+              <span>Buy Now</span>
+            </button>
 
-  </div>
-)}
+          </div>
+        )}
         </div>
       </div>
     </div>

@@ -311,7 +311,7 @@ const ContactClient = () => {
                     <p className="text-sm text-stone-500">Location</p>
 
                     <p className="font-medium text-stone-800 text-sm sm:text-base leading-relaxed">
-                      VILL-, SEMRA HAT, THANA-TURKULIYA, Semra (East
+                      VILL- SEMRA HAT, THANA-TURKULIYA, Semra (East
                       Champaran), Banjaria, East Champaran 845435, Bihar
                     </p>
                   </div>

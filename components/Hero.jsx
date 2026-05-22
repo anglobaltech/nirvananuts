@@ -52,28 +52,28 @@ const dryfruits = [
     name: "Classic Salted Makhana",
     image: "/salted makhana.avif",
     alt: "Classic salted makhana healthy roasted fox nuts snack India",
-    link: "/makhana",
+    link: "/plain-makhana",
     color: "text-orange-500",
   },
   {
     name: "Modern Savory Makhana",
     image: "/modern savory flavors makhana.avif",
     alt: "Modern savory makhana flavored fox nuts healthy snack India",
-    link: "/makhana",
+    link: "/modern-makhana",
     color: "text-yellow-600",
   },
   {
     name: "Sweet Gourmet Makhana",
     image: "/sweet flavors makhana.avif",
     alt: "Sweet gourmet makhana healthy fox nuts dessert snack India",
-    link: "/category/pistachio",
+    link: "/sweet-makhana",
     color: "text-green-600",
   },
   {
     name: "Fusion Spicy Makhana",
     image: "/Fusion.avif",
     alt: "Fusion spicy makhana masala fox nuts healthy snack India",
-    link: "/category/walnut",
+    link: "/fusion-makhana",
     color: "text-amber-700",
   },
 
@@ -315,7 +315,7 @@ useEffect(() => {
       ${index === slider ? "opacity-100 z-10" : "opacity-0 pointer-events-none"}`}
           >
 
-            <div className="w-full max-w-360 mx-auto px-5  pt-32 md:pt-40 pb-20 h-full flex flex-col md:flex-row items-center">
+            <div className="w-full max-w-360 mx-auto px-5  pt-32 md:pt-20 pb-20 h-full flex flex-col md:flex-row items-center">
 
 
               <div className="md:w-1/2 w-full flex flex-col">

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { generateOrderId } from "@/services/generateOrderId";
 
 // 1. ISOLATED PURE FUNCTION: Taken out of component memory path to bypass reconciliation
@@ -38,36 +39,56 @@ const computeItemCosting = (item) => {
 };
 
 export default function Checkout() {
+  const router = useRouter();
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [checkoutSource, setCheckoutSource] = useState("cart"); 
   const [contact, setContact] = useState({
     name: "", email: "", phone: "", address: "", city: "", state: "", pincode: ""
   });
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (u) => {
-    setUser(u);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
 
-    let currentCart = [];
-
-    if (u) {
-
-      // FETCH CART
-      const cartRef = doc(db, "carts", u.uid);
-      const cartSnap = await getDoc(cartRef);
-
-      if (cartSnap.exists()) {
-        currentCart = cartSnap.data().items || [];
+      // SECURITY GUARD: If visitor is completely unauthorized, stop execution and route to /login
+      if (!u) {
+        toast.error("Please login to proceed with checkout");
+        router.push("/login");
+        setLoading(false);
+        return;
       }
 
-      // FETCH PROFILE DATA
+      let currentCart = [];
+      const directCheckoutData = sessionStorage.getItem("directCheckoutItem");
+
+      // ASSIGNMENT SEPARATION: Check if express route object is present
+      if (directCheckoutData) {
+        try {
+          const parsedData = JSON.parse(directCheckoutData);
+          currentCart = parsedData.items || [];
+          setCheckoutSource("buyNow");
+        } catch (err) {
+          console.error("Session checkout parsing failed:", err);
+        }
+      } else {
+        // Fallback option: If no direct purchase item is present, pull full long-term Firestore Cart
+        const cartRef = doc(db, "carts", u.uid);
+        const cartSnap = await getDoc(cartRef);
+
+        if (cartSnap.exists()) {
+          currentCart = cartSnap.data().items || [];
+        }
+        setCheckoutSource("cart");
+      }
+
+      // FETCH USER PROFILE DETAILS
       const userRef = doc(db, "users", u.uid);
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
         const data = userSnap.data();
-
         setContact({
           name: data.fullName || "",
           email: u.email || "",
@@ -79,18 +100,14 @@ useEffect(() => {
         });
       }
 
-    } else {
-      currentCart = JSON.parse(localStorage.getItem("cart")) || [];
-    }
+      setCart(currentCart);
+      loading && setLoading(false);
+    });
 
-    setCart(currentCart);
-    setLoading(false);
-  });
+    return () => unsubscribe();
+  }, [router]);
 
-  return () => unsubscribe();
-}, []);
-
-  // 2. MEMOIZED DATA PROCESSING MATRIX: Halts redundant loops completely during component updates
+  // 2. MEMOIZED DATA PROCESSING MATRIX
   const { totals, computedCartItems } = useMemo(() => {
     const computedCartItems = cart.map((item) => ({
       ...item,
@@ -99,7 +116,7 @@ useEffect(() => {
 
     const totals = computedCartItems.reduce(
       (acc, item) => {
-       acc.subtotal += item.stats.originalTotal;
+        acc.subtotal += item.stats.originalTotal;
         acc.savings += item.stats.totalSavings;
         acc.final += item.stats.totalItemPrice;
         return acc;
@@ -119,7 +136,7 @@ useEffect(() => {
   const amountToFreeShipping = freeShippingThreshold - totals.final;
   const grandTotal = totals.final + shipping;
 
-  // 3. CACHED EVENT HANDLERS: Prevents children downstream components from triggering unnecessary renders
+  // 3. CACHED EVENT HANDLERS: Handles variations or quantities safely
   const updateQuantity = useCallback(async (index, change) => {
     setCart((prevCart) => {
       const updated = [...prevCart];
@@ -130,40 +147,59 @@ useEffect(() => {
         qty: Math.max(1, (updated[index].qty || 1) + change)
       };
 
-      if (auth.currentUser) {
-        updateDoc(doc(db, "carts", auth.currentUser.uid), { items: updated });
+      if (checkoutSource === "cart") {
+        if (auth.currentUser) {
+          updateDoc(doc(db, "carts", auth.currentUser.uid), { items: updated });
+        }
       } else {
-        localStorage.setItem("cart", JSON.stringify(updated));
+        // Save back safely to separate session memory only (Does not pollute database carts collection)
+        sessionStorage.setItem("directCheckoutItem", JSON.stringify({ items: updated, checkoutSource: "buyNow" }));
       }
       return updated;
     });
-  }, []);
+  }, [checkoutSource]);
 
   const deleteItem = useCallback(async (index) => {
     setCart((prevCart) => {
       const updated = prevCart.filter((_, i) => i !== index);
-      if (auth.currentUser) {
-        updateDoc(doc(db, "carts", auth.currentUser.uid), { items: updated });
+      
+      if (checkoutSource === "cart") {
+        if (auth.currentUser) {
+          updateDoc(doc(db, "carts", auth.currentUser.uid), { items: updated });
+        }
       } else {
-        localStorage.setItem("cart", JSON.stringify(updated));
+        sessionStorage.setItem("directCheckoutItem", JSON.stringify({ items: updated, checkoutSource: "buyNow" }));
       }
       return updated;
     });
     toast.info("Item removed from your bag");
-  }, []);
+  }, [checkoutSource]);
 
   const handleOrder = async () => {
     if (cart.length === 0) return toast.error("Your bag is empty");
     if (!contact.name || !contact.address || !contact.phone) return toast.error("Please provide delivery details");
+    
     try {
       const orderId = await generateOrderId();
       await createOrder({
         orderId, customerName: contact.name, products: cart, totalAmount: grandTotal, 
         address: contact, status: "Pending", createdAt: new Date()
       });
+
+      // ORDER COMPLETION DATA CLEANUP
+      if (checkoutSource === "cart" && auth.currentUser) {
+        // Clear active Firestore persistent array on database order completion
+        await updateDoc(doc(db, "carts", auth.currentUser.uid), { items: [] });
+      } else {
+        // Clear quick buy session storage payload only on order complete
+        sessionStorage.removeItem("directCheckoutItem");
+      }
+
       toast.success("Securing your order...");
       window.location.href = "/payment";
-    } catch (err) { toast.error("Checkout error"); }
+    } catch (err) { 
+      toast.error("Checkout error"); 
+    }
   };
 
   if (loading) return (
@@ -179,7 +215,7 @@ useEffect(() => {
         {/* LEFT COLUMN: Checkout Details */}
         <div className="order-1 lg:order-1 lg:col-span-7 space-y-8 md:space-y-12">
           <header>
-             <Link href="/cart" className="inline-flex mt-25 md:mt-2 items-center gap-2 text-[10px] font-bold text-[#A68966] hover:text-[#8B5E3C] transition-all mb-4 uppercase tracking-[0.3em]">
+             <Link href="/customer/cart" className="inline-flex mt-25 md:mt-2 items-center gap-2 text-[10px] font-bold text-[#A68966] hover:text-[#8B5E3C] transition-all mb-4 uppercase tracking-[0.3em]">
                <ArrowLeft size={12}/> Review Bag
              </Link>
              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -231,7 +267,7 @@ useEffect(() => {
                     type="text"
                     id={field.id}
                     placeholder=" "
-                    value={contact[field.id]}
+                    value={contact[field.id] || ""}
                     onChange={(e) => setContact({...contact, [field.id]: e.target.value})}
                     className="peer w-full bg-transparent border-b border-[#D2C1B0] py-2 md:py-3 outline-none focus:border-[#8B5E3C] transition-all text-sm md:text-base font-medium text-[#2D1B0D]"
                   />
@@ -258,13 +294,12 @@ useEffect(() => {
                 ) : (
                   computedCartItems.map((item, idx) => (
                     <motion.div 
-                      key={`${item.id || idx}-${item.selectedWeight}`} 
+                      key={`${item.docId || idx}-${item.selectedWeight}`} 
                       initial={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, x: -30, scale: 0.98 }}
                       transition={{ duration: 0.18 }}
                       className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl md:rounded-3xl bg-white/60 border border-white hover:border-[#8B5E3C]/30 transition-all shadow-sm group/card"
                     >
-                      {/* Image & Product Metadata */}
                       <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                         <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 relative rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-[#E8DFD5] shrink-0">
                           <Image src={item.mainImage || "/placeholder.png"} fill className="object-cover" alt="product" priority={idx < 3} />
@@ -282,7 +317,6 @@ useEffect(() => {
                         </div>
                       </div>
                       
-                      {/* Actions (Qty/Delete) & Item Pricing Engine */}
                       <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 pt-2 sm:pt-0 border-t border-[#E8DFD5]/40 sm:border-0">
                         <div className="flex items-center gap-2">
                           <div className="flex items-center bg-white rounded-xl border border-[#E8DFD5] p-0.5 sm:p-1">
@@ -291,7 +325,6 @@ useEffect(() => {
                             <button onClick={() => updateQuantity(idx, 1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Plus size={10}/></button>
                           </div>
                           
-                          {/* Delete Item CTA Button */}
                           <button 
                             onClick={() => deleteItem(idx)}
                             className="w-8 h-8 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200"
