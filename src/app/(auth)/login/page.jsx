@@ -44,7 +44,6 @@ const loginUser = async (e) => {
 
     toast.success("Login successful");
 
-    // IMPORTANT FIX
     setTimeout(() => {
       if (role === "admin") {
         window.location.href = "/admin";
