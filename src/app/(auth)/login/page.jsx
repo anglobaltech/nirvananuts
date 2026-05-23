@@ -26,50 +26,63 @@ const loginUser = async (e) => {
   try {
     setIsLoading(true);
 
-    console.log("EMAIL:", email);
-    console.log("PASSWORD:", password);
-
-    await signInWithEmailAndPassword(
+    const result = await signInWithEmailAndPassword(
       auth,
       email.trim(),
       password.trim()
     );
 
-    toast.success("Login successful");
+    const uid = result.user.uid;
 
-  } catch (error) {
-  console.log("FULL ERROR:", error);
-  console.log("ERROR CODE:", error.code);
+    // GET USER ROLE
+    const ref = doc(db, "users", uid);
+    const snap = await getDoc(ref);
 
-  if (error.code === "auth/invalid-email") {
-    toast.error("Invalid email format ❌");
-
-  } else if (error.code === "auth/invalid-credential") {
-
-    // 🔍 Check if email exists in Firestore
-    const q = query(
-      collection(db, "users"),
-      where("email", "==", email.trim())
-    );
-
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      // ❌ user not found
-      toast.error("User not found. Please create account ❌");
-    } else {
-      // ❌ wrong password
-      toast.error("Incorrect password ❌");
+    if (!snap.exists()) {
+      toast.error("User data not found ❌");
+      return;
     }
 
-  } else {
-    toast.error("Login failed ❌");
-  }
-} finally {
-  setIsLoading(false);
-}
-};
+    const role = snap.data().role;
 
+    toast.success("Login successful");
+
+    // DIRECT REDIRECT
+    if (role === "admin") {
+      router.replace("/admin");
+    } else {
+      router.replace("/customer");
+    }
+
+  } catch (error) {
+    console.log("FULL ERROR:", error);
+
+    if (error.code === "auth/invalid-email") {
+      toast.error("Invalid email format ❌");
+
+    } else if (error.code === "auth/invalid-credential") {
+
+      const q = query(
+        collection(db, "users"),
+        where("email", "==", email.trim())
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        toast.error("User not found ❌");
+      } else {
+        toast.error("Incorrect password ❌");
+      }
+
+    } else {
+      toast.error("Login failed ❌");
+    }
+
+  } finally {
+    setIsLoading(false);
+  }
+};
 // GOOGLE LOGIN
 // const signInWithGoogle = async () => {
 // setIsLoading(true)
@@ -83,29 +96,6 @@ const loginUser = async (e) => {
 // setIsLoading(false)
 // }
 
-useEffect(() => {
-  if (!user) return
-
-  const getRoleAndRedirect = async () => {
-    const ref = doc(db, "users", user.uid)
-    const snap = await getDoc(ref)
-
-    if (!snap.exists()) {
-      toast.error("User data not found ❌")
-      return
-    }
-
-    const role = snap.data().role
-
-    if (role === "admin") {
-      router.replace("/admin")
-    } else {
-      router.replace("/customer")
-    }
-  }
-
-  getRoleAndRedirect()
-}, [user])
 
 
 if (authLoading) {

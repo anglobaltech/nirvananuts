@@ -50,7 +50,7 @@ const Sidebar = () => {
 
         <button 
           onClick={() => setOpen(true)} 
-          className="text-[#2D1B0D] p-2 hover:bg-white/50 rounded-full transition-colors"
+          className="text-[#2D1B0D] p-2 hover:bg-white/50 rounded-full cursor-pointer transition-colors"
         >
           <Menu size={22} strokeWidth={1.5} />
         </button>
@@ -133,9 +133,9 @@ const Sidebar = () => {
             className="flex items-center justify-center gap-3 w-full px-5 py-4 rounded-full
               bg-white border border-red-50 text-red-400 text-[10px] font-black uppercase tracking-widest
               hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-500
-              shadow-sm group active:scale-95"
+              shadow-sm group active:scale-95 cursor-pointer"
           >
-            <LogOut size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
+            <LogOut size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform r" />
             End Session
           </button>
           
