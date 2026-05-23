@@ -32,27 +32,29 @@ const loginUser = async (e) => {
       password.trim()
     );
 
-    // 1. Show the success toast
-    toast.success("Login successful");
-
-    // 2. Fetch the user role IMMEDIATELY instead of waiting for useEffect
     const ref = doc(db, "users", userCredential.user.uid);
     const snap = await getDoc(ref);
 
-    if (snap.exists()) {
-      const role = snap.data().role;
-      // 3. Force the redirect here
-      if (role === "admin") {
-        router.replace("/admin");
-      } else {
-        router.replace("/customer");
-      }
-    } else {
+    if (!snap.exists()) {
       toast.error("User data not found");
+      return;
     }
 
+    const role = snap.data().role;
+
+    toast.success("Login successful");
+
+    // IMPORTANT FIX
+    setTimeout(() => {
+      if (role === "admin") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/customer";
+      }
+    }, 1000);
+
   } catch (error) {
-    // ... keep your existing catch logic
+    toast.error(error.message);
   } finally {
     setIsLoading(false);
   }
@@ -71,29 +73,29 @@ const loginUser = async (e) => {
 // setIsLoading(false)
 // }
 
-useEffect(() => {
-  if (!user) return
+// useEffect(() => {
+//   if (!user) return
 
-  const getRoleAndRedirect = async () => {
-    const ref = doc(db, "users", user.uid)
-    const snap = await getDoc(ref)
+//   const getRoleAndRedirect = async () => {
+//     const ref = doc(db, "users", user.uid)
+//     const snap = await getDoc(ref)
 
-    if (!snap.exists()) {
-      toast.error("User data not found ❌")
-      return
-    }
+//     if (!snap.exists()) {
+//       toast.error("User data not found ❌")
+//       return
+//     }
 
-    const role = snap.data().role
+//     const role = snap.data().role
 
-    if (role === "admin") {
-      router.replace("/admin")
-    } else {
-      router.replace("/")
-    }
-  }
+//     if (role === "admin") {
+//       router.replace("/admin")
+//     } else {
+//       router.replace("/customer")
+//     }
+//   }
 
-  getRoleAndRedirect()
-}, [user])
+//   getRoleAndRedirect()
+// }, [user])
 
 
 if (authLoading) {
