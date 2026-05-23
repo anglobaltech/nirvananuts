@@ -1,4 +1,5 @@
 import { db } from "@/lib/firebase";
+
 import {
   collection,
   query,
@@ -17,15 +18,37 @@ export const getUserOrders = async (userId) => {
 
     const snapshot = await getDocs(q);
 
-      console.log("Firestore Data:", snapshot.docs.map(doc => doc.data())); // 🔥
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
 
-    return snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-      items: doc.data().items || [],
-    }));
+      return {
+        id: doc.id,
+
+        orderId: data.orderId || "",
+
+        customerName: data.customerName || "",
+
+        email: data.email || "",
+
+        phone: data.phone || "",
+
+        address: data.address || {},
+
+        products: data.products || [],
+
+        totalAmount: data.totalAmount || 0,
+
+        totalItems: data.totalItems || 0,
+
+        payment: data.payment || "COD",
+
+        status: data.status || "Placed",
+
+        createdAt: data.createdAt || null,
+      };
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Order Fetch Error:", error);
     return [];
   }
 };

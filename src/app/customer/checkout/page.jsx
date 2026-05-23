@@ -87,7 +87,7 @@ export default function Checkout() {
             name: data.fullName || "",
             email: u.email || "",
             phone: data.mobile || "",
-            address: data.street || "",
+            address: data.address || data.street || "",
             city: data.city || "",
             state: data.state || "",
             pincode: data.pincode || "",
@@ -181,10 +181,14 @@ export default function Checkout() {
     
     try {
       const orderId = await generateOrderId();
-      await createOrder({
-        orderId, customerName: contact.name, products: cart, totalAmount: grandTotal, 
-        address: contact, status: "Pending", createdAt: new Date()
-      });
+     await createOrder({
+  orderId,
+  customerName: contact.name,
+  products: cart,
+  totalAmount: grandTotal,
+  address: contact,
+  checkoutSource,
+});
 
       // ORDER COMPLETION DATA CLEANUP
       if (checkoutSource === "cart" && auth.currentUser) {

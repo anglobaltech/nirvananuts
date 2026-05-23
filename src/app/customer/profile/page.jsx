@@ -40,7 +40,7 @@ export default function ProfilePage() {
           email: user.email || "—",
           mobile: firestoreData.mobile || "—",
           gender: firestoreData.gender || "—",
-          street: firestoreData.street || "—",
+          street: firestoreData.address || "—",
           city: firestoreData.city || "—",
           state: firestoreData.state || "—",
           pincode: firestoreData.pincode || "—",
@@ -80,7 +80,7 @@ export default function ProfilePage() {
       title: "Location & Logistics", 
       icon: <MapPin size={18} />, 
       data: [
-        { label: "Street Address", value: userData.street },
+        { label: "Street Address", value: userData.address },
         { label: "City", value: userData.city },
         { label: "State / Province", value: userData.state },
         { label: "Postal / Zip Code", value: userData.pincode },

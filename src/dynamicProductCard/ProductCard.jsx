@@ -64,7 +64,7 @@ export default function ProductCard({ product, addToCart }) {
           id: product.docId,
           title: product.name,
           description: product.description,
-          image: product.mainImage,
+          mainImage: product.mainImage,
           variants: product.variants || [],
           tieredDiscounts: product.tieredDiscounts || product.buyMoreSaveMore || [],
           stock: true,

@@ -4,6 +4,7 @@ import AdminLayout from './component/AdminLayout'
 import AuthContextProvider, { useAuth } from '../../../contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const layout = ({children}) => {

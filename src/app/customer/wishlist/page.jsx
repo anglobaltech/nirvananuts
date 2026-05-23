@@ -10,6 +10,8 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { subscribeWishlist, removeFromWishlist } from "@/customerService/wishlistService";
 import { auth, db } from "@/lib/firebase";
 import { sortProducts, searchProducts } from "@/utils/wishlist";
+import { onAuthStateChanged } from "firebase/auth";
+import { toast } from "react-toastify";
 
 // Extracted Pricing Matrix Strategy for lightning-fast item lookups
 const calculatePricing = (basePrice, quantity, tiers) => {
@@ -195,33 +197,46 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
 export default function WishlistPage() {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [authChecking, setAuthChecking] = useState(true); // PRODUCTION FIX
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   
   const router = useRouter();
 
-  // Subscribes cleanly using native component callback bindings
+  // Unified production auth guard verification synchronization engine
   useEffect(() => {
-    let active = true;
-    const unsub = subscribeWishlist(
-      (data) => {
-        if (!active) return;
-        setWishlist(data || []);
-        setLoading(false);
-      },
-      (err) => {
-        if (!active) return;
-        console.error(err);
-        setError("Failed to load wishlist items securely.");
-        setLoading(false);
-      }
-    );
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        let active = true;
+        const unsubWishlist = subscribeWishlist(
+          (data) => {
+            if (!active) return;
+            setWishlist(data || []);
+            setAuthChecking(false);
+            setLoading(false);
+          },
+          (err) => {
+            if (!active) return;
+            console.error(err);
+            setError("Failed to load wishlist items securely.");
+            setAuthChecking(false);
+            setLoading(false);
+          }
+        );
 
-    return () => {
-      active = false;
-      if (unsub) unsub();
-    };
+        return () => {
+          active = false;
+          if (unsubWishlist) unsubWishlist();
+        };
+      } else {
+        // PRODUCTION INTERCEPT: Redirect out immediately via high-level window relocation
+        toast.error("Please login to view your wishlist");
+        window.location.href = "/login";
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const filtered = useMemo(() => {
@@ -283,7 +298,7 @@ export default function WishlistPage() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.03 } // Scaled down stagger lag to fix 9s load bottlenecks
+      transition: { staggerChildren: 0.03 } 
     }
   };
 
@@ -291,6 +306,24 @@ export default function WishlistPage() {
     hidden: { opacity: 0, y: 12 },
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 28 } }
   };
+
+  // BLOCK THE ENTIRE HTML LAYOUT VIEW UNTIL HANDSHAKE IS VERIFIED
+  if (authChecking || loading) return (
+    <main className="bg-gray-50/60 min-h-screen pt-24 pb-16 text-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex flex-col h-[400px] bg-white rounded-2xl border border-gray-100 p-4 shadow-sm space-y-4">
+              <div className="aspect-square w-full bg-gray-200 animate-pulse rounded-xl" />
+              <div className="h-5 bg-gray-200 animate-pulse rounded w-2/3" />
+              <div className="h-4 bg-gray-200 animate-pulse rounded w-1/3" />
+              <div className="h-10 bg-gray-200 animate-pulse rounded-xl w-full mt-auto" />
+            </div>
+          ))}
+        </section>
+      </div>
+    </main>
+  );
 
   return (
     <main className="bg-gray-50/60 min-h-screen pt-24 pb-16 text-gray-900">
@@ -355,22 +388,8 @@ export default function WishlistPage() {
           </div>
         )}
 
-        {/* Skeleton Shimmer Loading States */}
-        {loading && (
-          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="flex flex-col h-[400px] bg-white rounded-2xl border border-gray-100 p-4 shadow-sm space-y-4">
-                <div className="aspect-square w-full bg-gray-200 animate-pulse rounded-xl" />
-                <div className="h-5 bg-gray-200 animate-pulse rounded w-2/3" />
-                <div className="h-4 bg-gray-200 animate-pulse rounded w-1/3" />
-                <div className="h-10 bg-gray-200 animate-pulse rounded-xl w-full mt-auto" />
-              </div>
-            ))}
-          </section>
-        )}
-
         {/* Empty Fallback State Layout */}
-        {!loading && filtered.length === 0 && (
+        {filtered.length === 0 && (
           <section className="flex flex-col items-center justify-center text-center py-24 bg-white rounded-3xl border border-dashed border-gray-200 p-8 shadow-sm">
             <div className="p-4 bg-rose-50 text-rose-500 rounded-full mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
@@ -389,7 +408,7 @@ export default function WishlistPage() {
 
         {/* Main Products Grid Output Area */}
         <AnimatePresence mode="popLayout">
-          {!loading && filtered.length > 0 && (
+          {filtered.length > 0 && (
             <motion.section 
               variants={containerVariants}
               initial="hidden"

@@ -11,6 +11,9 @@ import {
   CheckCircle2,
   PhoneCall
 } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -41,18 +44,36 @@ export default function OrdersPage() {
 
   useEffect(() => { fetchOrders(); }, []);
 
-  const handleStatusChange = async (id, status) => {
+const handleStatusChange = async (id, status) => {
+  try {
     await updateOrder(id, { status });
+
+    toast.success(`Order status updated to ${status}`);
+
     fetchOrders();
-  };
+  } catch (error) {
+    toast.error("Failed to update order status");
+  }
+};
 
-  const handleDelete = async (id) => {
-    if (confirm("Delete this shipment record?")) {
-      await deleteOrder(id);
-      fetchOrders();
-    }
-  };
+const handleDelete = async (id) => {
+  // window.confirm hata diya gaya hai
+  try {
+    await deleteOrder(id);
 
+    // Success notification
+    toast.success("Shipment record deleted successfully", {
+      theme: "colored"
+    });
+
+    // Refresh the list
+    fetchOrders();
+  } catch (error) {
+    toast.error("Failed to delete shipment record", {
+      theme: "colored"
+    });
+  }
+};
   const StatusBadge = ({ status }) => {
     const colors = {
       Delivered: "bg-[#2D1B0D] text-white",
@@ -68,6 +89,17 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-[#F4EDE4] text-[#2D1B0D] pt-24 pb-20 px-4 lg:px-12">
+      <ToastContainer
+  position="top-right"
+  autoClose={3000}
+  hideProgressBar={false}
+  newestOnTop={true}
+  closeOnClick
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+  theme="colored"
+/>
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
@@ -118,18 +150,18 @@ export default function OrdersPage() {
                         <td className="p-6 font-mono text-[10px] opacity-40 tracking-tighter">#{order.orderId || order.id.slice(0, 8)}</td>
                         <td className="p-6">
                           <p className="font-bold text-sm tracking-tight">{order.customerName}</p>
-                          <p className="text-[10px] text-[#A68966]">{order.customerEmail}</p>
+                          <p className="text-[10px] text-[#A68966]">{order.email}</p>
                         </td>
                         <td className="p-6">
                            <div className="flex items-center gap-2 text-xs font-medium opacity-80">
                              <PhoneCall size={12} className="text-[#8B5E3C]" />
-                             {order.customerPhone || "N/A"}
+                             {order.phone || "N/A"}
                            </div>
                         </td>
                         <td className="p-6">
                           <p className="text-[11px] leading-relaxed max-w-[180px] opacity-70 italic font-serif">
                             {order.address && typeof order.address === "object"
-                              ? `${order.address.street}, ${order.address.city}`
+                              ? `${order.address.address}, ${order.address.city}`
                               : "N/A"}
                           </p>
                         </td>
@@ -138,7 +170,7 @@ export default function OrdersPage() {
                             {(order.products || []).map((prod, idx) => (
                               <img 
                                 key={idx} 
-                                src={prod.image || "/no-image.png"} 
+                                src={prod.mainImage || "/placeholder.png"} 
                                 className="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm"
                                 title={prod.name}
                               />
@@ -152,7 +184,7 @@ export default function OrdersPage() {
                             {getNextStatus(order.status) && (
                               <button
                                 onClick={() => handleStatusChange(order.id, getNextStatus(order.status))}
-                                className="flex items-center gap-1 text-[8px] font-black uppercase tracking-tighter text-[#8B5E3C] hover:text-[#2D1B0D] transition-colors"
+                                className=" cursor-pointer flex items-center gap-1 text-[8px] font-black uppercase tracking-tighter text-[#8B5E3C] hover:text-[#2D1B0D] transition-colors"
                               >
                                 Advance <ChevronRight size={10} />
                               </button>
@@ -162,7 +194,7 @@ export default function OrdersPage() {
                         <td className="p-6 text-right">
                           <button 
                             onClick={() => handleDelete(order.id)}
-                            className="p-3 text-red-200 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
+                            className=" cursor-pointer p-3 text-red-200 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
                           >
                             <Trash2 size={16} />
                           </button>
@@ -188,11 +220,11 @@ export default function OrdersPage() {
 
                   <div className="space-y-4 border-y border-[#D2C1B0]/30 py-6 my-6">
                     <div className="flex items-center gap-3 text-xs font-medium">
-                      <Phone size={14} className="text-[#A68966]" /> {order.customerPhone || "No Phone Provided"}
+                      <Phone size={14} className="text-[#A68966]" /> {order.phone || "No Phone Provided"}
                     </div>
                     <div className="flex items-start gap-3 text-xs opacity-70">
                       <MapPin size={14} className="text-[#A68966] mt-1 shrink-0" />
-                      <span className="italic font-serif leading-relaxed">{order.address?.street}, {order.address?.city}</span>
+                      <span className="italic font-serif leading-relaxed">{order.address?.address}, {order.address?.city}</span>
                     </div>
                   </div>
 
@@ -200,10 +232,10 @@ export default function OrdersPage() {
                     {(order.products || []).map((prod, idx) => (
                       <div key={idx} className="flex justify-between items-center group">
                         <div className="flex items-center gap-4">
-                          <img src={prod.image} className="w-12 h-12 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
+                          <img src={prod.mainImage} className="w-12 h-12 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
                           <div>
                             <p className="text-xs font-bold tracking-tight">{prod.name}</p>
-                            <p className="text-[10px] opacity-40 uppercase tracking-widest">{prod.quantity} Units</p>
+                            <p className="text-[10px] opacity-40 uppercase tracking-widest">{prod.qty} Units</p>
                           </div>
                         </div>
                         <p className="text-sm font-medium italic">₹{prod.price}</p>
@@ -218,7 +250,7 @@ export default function OrdersPage() {
                     </div>
                     <button 
                       onClick={() => handleDelete(order.id)}
-                      className="p-4 bg-red-50 text-red-400 rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                      className="p-4 cursor-pointer bg-red-50  text-red-400 rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-sm"
                     >
                       <Trash2 size={18} />
                     </button>

@@ -59,17 +59,17 @@ export default function OrderCard({ order }) {
       {/* ADDRESS */}
       <div className="mt-5 bg-gray-50 rounded-xl p-3 text-sm text-gray-600">
   📍 {
-    order.address && typeof order.address === "object"
-      ? [
-          order.address.street,
-          order.address.city,
-          order.address.state,
-          order.address.pincode,
-        ]
-          .filter(Boolean)
-          .join(", ")
-      : order.address || "No address"
-  }
+  order.address && typeof order.address === "object"
+    ? [
+        order.address.address,
+        order.address.city,
+        order.address.state,
+        order.address.pincode,
+      ]
+        .filter(Boolean)
+        .join(", ")
+    : order.address || "No address"
+}
 </div>
 
       {/* ACTIONS */}

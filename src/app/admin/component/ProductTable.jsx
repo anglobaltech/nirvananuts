@@ -70,7 +70,7 @@ const saveChanges = async () => {
     await updateProduct(currentProduct.id, {
       ...currentProduct,
       images: finalImages,
-      mainImage: finalImages[0] || "",
+      image: finalImages[0] || "",
       inStock: totalStock > 0,
     });
 
@@ -110,7 +110,7 @@ const saveChanges = async () => {
               <tr key={p.id} className="group hover:bg-white/80 transition-colors">
                 <td className="p-10">
                   <div className="flex items-center gap-6">
-                    <img src={p.mainImage} className="w-20 h-20 rounded-3xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
+                    <img src={p.image} className="w-20 h-20 rounded-3xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
                     <div>
                       <p className="font-bold text-[#2D1B0D] tracking-tight text-xl">{p.name}</p>
                       <p className="text-[10px] font-black uppercase tracking-widest text-[#A68966] mt-2 italic opacity-60">{p.category}</p>
@@ -153,7 +153,7 @@ const saveChanges = async () => {
         {products.map(p => (
           <div key={p.id} className="bg-white/70 p-6 rounded-[2.5rem] border border-white flex flex-col gap-6 shadow-sm">
              <div className="flex items-center gap-4">
-                <img src={p.mainImage} className="w-16 h-16 rounded-2xl object-cover" />
+                <img src={p.image} className="w-16 h-16 rounded-2xl object-cover" />
                 <div>
                    <h3 className="font-bold text-[#2D1B0D]">{p.name}</h3>
                    <p className="text-[10px] uppercase font-black tracking-widest text-[#A68966]">{p.category}</p>

@@ -54,7 +54,7 @@ export default function EditProfilePage() {
     email: "",
     mobile: "",
     gender: "",
-    street: "",
+    address: "",
     city: "",
     state: "",
     pincode: "",
@@ -101,13 +101,28 @@ export default function EditProfilePage() {
     setLoading(true);
 
     try {
-      const safeData = form;
+      const safeData = {
+  fullName: form.fullName || "",
+  mobile: form.mobile || "",
+  gender: form.gender || "",
 
-      await setDoc(doc(db, "users", user.uid), {
-        ...safeData,
-        email: user.email,
-        updatedAt: new Date(),
-      });
+  address: form.address || "",
+  city: form.city || "",
+  state: form.state || "",
+  pincode: form.pincode || "",
+  country: form.country || "",
+
+  updatedAt: new Date(),
+};
+
+     await setDoc(
+  doc(db, "users", user.uid),
+  {
+    ...safeData,
+    email: user.email,
+  },
+  { merge: true }
+);
 
       toast.success("Profile Updated Successfully✅");
     } catch (err) {
@@ -179,7 +194,7 @@ export default function EditProfilePage() {
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-12">
                 <InputField label="Full Name" name="fullName" value={form.fullName} onChange={handleChange} required />
                 <InputField label="Email Address" name="email" value={form.email} onChange={handleChange} disabled />
-                <InputField label="Contact Number" name="mobile" value={form.phone} onChange={handleChange} required />
+                <InputField label="Contact Number" name="mobile" value={form.mobile} onChange={handleChange} required />
                 <div className="relative group">
                   <select
                     name="gender"
@@ -205,7 +220,7 @@ export default function EditProfilePage() {
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-12">
                 <div className="md:col-span-2">
-                  <InputField label="Street Address" name="street" value={form.street} onChange={handleChange} />
+                  <InputField label="Street Address" name="address" value={form.address} onChange={handleChange} />
                 </div>
                 <InputField label="City" name="city" value={form.city} onChange={handleChange} />
                 <InputField label="State / Province" name="state" value={form.state} onChange={handleChange} />
