@@ -26,37 +26,48 @@ const loginUser = async (e) => {
   try {
     setIsLoading(true);
 
-    const userCredential = await signInWithEmailAndPassword(
+    console.log("EMAIL:", email);
+    console.log("PASSWORD:", password);
+
+    await signInWithEmailAndPassword(
       auth,
       email.trim(),
       password.trim()
     );
 
-    const ref = doc(db, "users", userCredential.user.uid);
-    const snap = await getDoc(ref);
-
-    if (!snap.exists()) {
-      toast.error("User data not found");
-      return;
-    }
-
-    const role = snap.data().role;
-
     toast.success("Login successful");
 
-    setTimeout(() => {
-      if (role === "admin") {
-        window.location.href = "/admin";
-      } else {
-        window.location.href = "/customer";
-      }
-    }, 1000);
-
   } catch (error) {
-    toast.error(error.message);
-  } finally {
-    setIsLoading(false);
+  console.log("FULL ERROR:", error);
+  console.log("ERROR CODE:", error.code);
+
+  if (error.code === "auth/invalid-email") {
+    toast.error("Invalid email format ❌");
+
+  } else if (error.code === "auth/invalid-credential") {
+
+    // 🔍 Check if email exists in Firestore
+    const q = query(
+      collection(db, "users"),
+      where("email", "==", email.trim())
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      // ❌ user not found
+      toast.error("User not found. Please create account ❌");
+    } else {
+      // ❌ wrong password
+      toast.error("Incorrect password ❌");
+    }
+
+  } else {
+    toast.error("Login failed ❌");
   }
+} finally {
+  setIsLoading(false);
+}
 };
 
 // GOOGLE LOGIN
@@ -72,29 +83,29 @@ const loginUser = async (e) => {
 // setIsLoading(false)
 // }
 
-// useEffect(() => {
-//   if (!user) return
+useEffect(() => {
+  if (!user) return
 
-//   const getRoleAndRedirect = async () => {
-//     const ref = doc(db, "users", user.uid)
-//     const snap = await getDoc(ref)
+  const getRoleAndRedirect = async () => {
+    const ref = doc(db, "users", user.uid)
+    const snap = await getDoc(ref)
 
-//     if (!snap.exists()) {
-//       toast.error("User data not found ❌")
-//       return
-//     }
+    if (!snap.exists()) {
+      toast.error("User data not found ❌")
+      return
+    }
 
-//     const role = snap.data().role
+    const role = snap.data().role
 
-//     if (role === "admin") {
-//       router.replace("/admin")
-//     } else {
-//       router.replace("/customer")
-//     }
-//   }
+    if (role === "admin") {
+      router.replace("/admin")
+    } else {
+      router.replace("/customer")
+    }
+  }
 
-//   getRoleAndRedirect()
-// }, [user])
+  getRoleAndRedirect()
+}, [user])
 
 
 if (authLoading) {
