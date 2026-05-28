@@ -98,8 +98,10 @@ useEffect(() => {
     const role = snap.data().role
 
     if (role === "admin") {
+      router.refresh();
       router.replace("/admin")
     } else {
+      router.refresh();
       router.replace("/customer")
     }
   }
