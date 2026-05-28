@@ -300,7 +300,9 @@ useEffect(() => {
     return () => clearInterval(interval);
   }, [reviews, cardsPerView]);
 
-  if (reviews.length === 0) return null;
+if (reviews.length === 0) {
+  return null;
+}
 
 
   return (
@@ -472,7 +474,8 @@ useEffect(() => {
           </p>
 
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
-  {products?.filter(Boolean).map((product) => {
+  {Array.isArray(products) &&
+  products.filter(Boolean).map((product) => {
     // Calculate initial display price for 1 unit
     const { finalPrice, discount } = calculateDiscount(
       product.buyMoreSaveMore || [],

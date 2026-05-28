@@ -7,47 +7,80 @@ import {
   removeFromWishlist,
   subscribeWishlist,
 } from "@/customerService/wishlistService";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify"; // Keep this to trigger alerts!
 
 export default function ProductCard({ product, addToCart }) {
+  if (!product) return null;
   const router = useRouter();
   const [wish, setWish] = useState(false);
   const [quantity, setQuantity] = useState(1);
   
-  const weightVariants = product?.variants?.length > 0 ? product.variants : [
-    { label: "250gm", price: Number(product?.price) || 0 },
-    { label: "500gm", price: (Number(product?.price) || 0) * 1.9 },
-    { label: "1kg", price: (Number(product?.price) || 0) * 3.6 },
-    { label: "100kg", price: (Number(product?.price) || 0) * 320 },
-  ];
+  const weightVariants = useMemo(() => {
+    return product?.variants && product.variants.length > 0 
+      ? product.variants 
+      : [
+          { label: "250gm", price: Number(product?.price) || 0 },
+          { label: "500gm", price: (Number(product?.price) || 0) * 1.9 },
+          { label: "1kg", price: (Number(product?.price) || 0) * 3.6 },
+          { label: "100kg", price: (Number(product?.price) || 0) * 320 },
+        ];
+  }, [product?.variants, product?.price]);
 
-  const [selectedWeight, setSelectedWeight] = useState(weightVariants[0]);
+  const [selectedWeight, setSelectedWeight] = useState(() => weightVariants[0]);
+
+  useEffect(() => {
+    setSelectedWeight(weightVariants[0]);
+  }, [weightVariants]);
 
   const isOutOfStock =
-  !product?.inStock ||
-  product?.variants?.every((v) => Number(v.stock) <= 0);
+    !product?.inStock ||
+    (Array.isArray(product?.variants) &&
+      product.variants.every((v) => Number(v.stock) <= 0));
 
-  const basePrice = selectedWeight.price;
-  const tiers = product?.tieredDiscounts || product?.buyMoreSaveMore || [];
-  const activeTier = tiers
-    .filter((t) => quantity >= t.qty)
-    .sort((a, b) => b.qty - a.qty)[0];
+  const basePrice = Number(selectedWeight?.price || 0);
 
-  const tierDiscountPercent = activeTier ? activeTier.discount : 0;
+  const tiers = useMemo(() => {
+    const rawTiers = Array.isArray(product?.tieredDiscounts)
+      ? product.tieredDiscounts
+      : Array.isArray(product?.buyMoreSaveMore)
+      ? product.buyMoreSaveMore
+      : [];
+    return [...rawTiers].sort((a, b) => Number(a?.qty || 0) - Number(b?.qty || 0));
+  }, [product?.tieredDiscounts, product?.buyMoreSaveMore]);
+    
+  const activeTier = useMemo(() => {
+    return tiers
+      .filter((t) => t && quantity >= Number(t.qty || 0))
+      .sort((a, b) => Number(b.qty || 0) - Number(a.qty || 0))[0];
+  }, [tiers, quantity]);
+
+  const tierDiscountPercent = activeTier ? Number(activeTier.discount || 0) : 0;
   const priceAfterTier = Math.round(basePrice - (basePrice * tierDiscountPercent) / 100);
   const totalPayable = priceAfterTier * quantity;
 
-  const isMaxDiscount = tiers.length > 0 && tierDiscountPercent === Math.max(...tiers.map(t => t.discount));
-  const nextTier = tiers.find((t) => t.qty > quantity);
+  const validDiscounts = useMemo(() => {
+    return tiers
+      .filter((t) => t && t.discount != null)
+      .map((t) => Number(t.discount));
+  }, [tiers]);
+
+  const isMaxDiscount =
+    validDiscounts.length > 0 &&
+    tierDiscountPercent === Math.max(...validDiscounts);
+  
+  const nextTier = useMemo(() => {
+    return tiers.find((t) => t && Number(t.qty || 0) > quantity);
+  }, [tiers, quantity]);
 
   useEffect(() => {
     const unsub = subscribeWishlist((items) => {
-      const exists = items.find((i) => i.id === product.id || i.id === product.docId);
+      const exists = items.find(
+        (i) => i.id === product.docId || i.docId === product.docId
+      );
       setWish(!!exists);
     });
     return () => unsub && unsub();
@@ -56,19 +89,22 @@ export default function ProductCard({ product, addToCart }) {
   const handleWishlist = async () => {
     try {
       if (wish) {
-        await removeFromWishlist(product.docId);
+        await removeFromWishlist(product.id || product.docId);
         setWish(false);
         toast.info("Removed from wishlist");
       } else {
         await addToWishlist({
           id: product.docId,
+          docId: product.docId,
           title: product.name,
           description: product.description,
+          image: product.mainImage,
           mainImage: product.mainImage,
           variants: product.variants || [],
           tieredDiscounts: product.tieredDiscounts || product.buyMoreSaveMore || [],
-          stock: true,
-          rating: 4,
+          stock: product.inStock ?? true,
+          rating: product.rating || 4,
+          price: Number(product.price || 0),
         });
         setWish(true);
         toast.success("Added to wishlist!");
@@ -82,7 +118,6 @@ export default function ProductCard({ product, addToCart }) {
     try {
       const user = auth.currentUser;
 
-      // 1. AUTHENTICATION GUARD: If customer is not logged in, always redirect to login
       if (!user) {
         toast.error("Please login first");
         router.push("/login");
@@ -93,15 +128,12 @@ export default function ProductCard({ product, addToCart }) {
         docId: product.docId,
         name: product.name,
         mainImage: product.mainImage,
-        selectedWeight: selectedWeight.label,
+        selectedWeight: selectedWeight?.label,
         price: Number(selectedWeight.price),
         qty: Number(quantity),
         tieredDiscounts: product?.tieredDiscounts || product?.buyMoreSaveMore || [],
       };
 
-      // ==========================================
-      // ACTION WORKFLOW: ADD TO CART
-      // ==========================================
       if (type === "cart") {
         const cartRef = doc(db, "carts", user.uid);
         const cartSnap = await getDoc(cartRef);
@@ -111,44 +143,30 @@ export default function ProductCard({ product, addToCart }) {
           existingItems = cartSnap.data().items || [];
         }
 
-        // FIXED DUPLICATE BUG: Check if the exact item with same id AND variant weight exists
         const existingItemIndex = existingItems.findIndex(
           (cartItem) => cartItem.docId === item.docId && cartItem.selectedWeight === item.selectedWeight
         );
 
         let updatedItems;
         if (existingItemIndex > -1) {
-          // If product match is found, update quantity instead of appending a new item block
           updatedItems = [...existingItems];
           updatedItems[existingItemIndex].qty += item.qty;
         } else {
-          // If unique, append item cleanly to array
           updatedItems = [...existingItems, item];
         }
 
-        // Save updated items into Firestore database
         await setDoc(cartRef, { items: updatedItems }, { merge: true });
-        
-        // Dynamic notification toast layout replacement
         toast.success("Item added to cart successfully!");
       }
 
-      // ==========================================
-      // ACTION WORKFLOW: BUY NOW (PRODUCTION RE-VERIFY FIXED)
-      // ==========================================
       if (type === "buyNow") {
-        // Direct checkout payload construction without touching backend cart arrays
         const checkoutPayload = {
           items: [item],
           checkoutSource: "buyNow"
         };
 
-        // Temporarily stringify data to route seamlessly without bloating cart tables
         sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
-        
         toast.success("Redirecting to checkout...");
-        
-        // PRODUCTION CLIENT COMPILATION REFIX: Force absolute browser redirect handshake
         window.location.href = "/customer/checkout";
       }
     } catch (error) {
@@ -159,19 +177,8 @@ export default function ProductCard({ product, addToCart }) {
 
   return (
     <div className="group relative bg-white rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 flex flex-col w-full max-w-[340px] mx-auto h-[550px]">
-      <ToastContainer 
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      {/* COMPACT IMAGE SECTION */}
+      {/* FIXED: Removed the multiple conflicting ToastContainers from here */}
+      
       <div className="relative h-55 w-full overflow-hidden shrink-0">
         <Image
           src={product?.mainImage || "/placeholder.png"}
@@ -182,7 +189,7 @@ export default function ProductCard({ product, addToCart }) {
         />
         <button 
           onClick={handleWishlist}
-          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm p-1.5 rounded-full shadow-sm z-10"
+          className="absolute top-3 right-3 cursor-pointer bg-white/80 backdrop-blur-sm p-1.5 rounded-full shadow-sm z-10"
         >
           <Heart size={16} className={wish ? "text-red-500 fill-red-500" : "text-gray-400"} />
         </button>
@@ -194,27 +201,24 @@ export default function ProductCard({ product, addToCart }) {
         )}
       </div>
 
-      {/* CONTENT SECTION */}
       <div className="p-4 flex flex-col flex-grow bg-white relative">
         <h2 className="text-base font-black text-gray-900 leading-tight mb-1 truncate">
           {product?.name || "Nirvana Nuts"}
         </h2>
         
-        {/* DESCRIPTION */}
         <div className="h-12 overflow-y-auto mb-2 no-scrollbar">
             <p className="text-[11px] text-gray-500 leading-snug">
                 {product?.description || "Premium roasted Nirvana Nuts. Nutrient-rich and perfect for a healthy crunch."}
             </p>
         </div>
 
-        {/* WEIGHT SELECTION GRID */}
         <div className="grid grid-cols-4 gap-1 mb-2">
           {weightVariants.map((v) => (
             <button
               key={v.label}
               onClick={() => { setSelectedWeight(v); setQuantity(1); }}
               className={`py-1 rounded-lg text-[9px] font-black border transition-all ${
-                selectedWeight.label === v.label
+                selectedWeight?.label === v.label
                   ? "bg-black text-white border-black"
                   : "bg-gray-50 text-gray-400 border-gray-100"
               }`}
@@ -224,7 +228,6 @@ export default function ProductCard({ product, addToCart }) {
           ))}
         </div>
 
-        {/* PRICE DISPLAY */}
         <div className="flex justify-between items-center mb-1 bg-orange-50/50 px-3 py-1 rounded-xl border border-orange-100">
           <div>
             <div className="flex items-center gap-0.5">
@@ -239,24 +242,22 @@ export default function ProductCard({ product, addToCart }) {
           </div>
         </div>
 
-        {/* DISCOUNT GREETING */}
        <div className=" flex items-center">
           {isMaxDiscount ? (
             <div className="bg-green-50 border border-green-100 px-2 py-1 rounded-lg flex items-center gap-2 w-full">
               <CheckCircle size={12} className="text-green-600" />
               <p className="text-[9px] font-black text-green-700 uppercase">Congratulations! Your exclusive discount is now active 🎉</p>
             </div>
-          ) : nextTier ? (
+          ) : (nextTier && (Number(nextTier.qty || 0) - quantity > 0)) ? (
             <div className="bg-orange-50 border border-orange-100 px-2 py-1 rounded-lg flex items-center gap-2 w-full">
               <Tag size={12} className="text-orange-500" />
               <p className="text-[9px] font-bold text-orange-700">
-                Add {nextTier.qty - quantity} more to activate {nextTier.discount}% OFF on your order
+                Add {Number(nextTier.qty || 0) - quantity} more to activate {nextTier.discount}% OFF on your order
               </p>
             </div>
           ) : null}
         </div>
 
-        {/* ACTIONS */}
         <div className="mt-2 space-y-1">
           <div className="flex items-center justify-between bg-gray-100 rounded-xl p-0.5 border border-gray-200">
             <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white shadow-sm font-black text-gray-600">-</button>
@@ -274,8 +275,6 @@ export default function ProductCard({ product, addToCart }) {
           </button>
         ) : (
           <div className="flex items-center gap-3 w-full">
-            
-            {/* ADD TO CART BUTTON */}
             <button
               onClick={() => handleAction("cart")}
               title="Add to Cart"
@@ -294,7 +293,6 @@ export default function ProductCard({ product, addToCart }) {
               )}
             </button>
 
-            {/* BUY NOW BUTTON */}
             <button
               onClick={() => handleAction("buyNow")}
               className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-amber-600 transition-all duration-300 shadow-sm shadow-gray-900/10 active:scale-[0.98] group cursor-pointer"
@@ -302,7 +300,6 @@ export default function ProductCard({ product, addToCart }) {
               <Zap size={14} className="fill-amber-400 text-amber-400 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-12" />
               <span>Buy Now</span>
             </button>
-
           </div>
         )}
         </div>

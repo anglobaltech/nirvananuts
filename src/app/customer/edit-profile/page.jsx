@@ -232,10 +232,7 @@ export default function EditProfilePage() {
 
             {/* Action Footer */}
             <div className="pt-12 border-t border-[#D2C1B0]/30 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="flex items-center gap-3 text-[#A68966] opacity-60">
-                <Sparkles size={16} />
-                <span className="text-[9px] font-black uppercase tracking-widest">Nirvana Private Account System</span>
-              </div>
+              <div className="flex items-center gap-3 text-[#A68966] opacity-60"></div>
               <button 
                 type="submit" 
                 disabled={loading}

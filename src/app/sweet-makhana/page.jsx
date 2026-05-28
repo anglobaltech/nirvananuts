@@ -28,6 +28,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 

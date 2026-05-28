@@ -30,17 +30,23 @@ const calculatePricing = (basePrice, quantity, tiers) => {
 function WishlistCard({ item, handleRemove, handleBuyNow }) {
   const [quantity, setQuantity] = useState(1);
 
+  // FIXED: Stabilized the fallback structural reference to prevent memory reference cascades
   const variants = useMemo(() => {
-    return item.variants?.length > 0
+    return item.variants && item.variants.length > 0
       ? item.variants
-      : [{ label: "Default", price: item.price }];
-  }, [item.variants, item.price]);
+      : null;
+  }, [item.variants]);
 
-  const [selectedWeight, setSelectedWeight] = useState(variants[0]);
+  // FIXED: Extract fallback array gracefully without recreation loops
+  const activeVariants = variants || [{ label: "Default", price: item.price }];
+
+  const [selectedWeight, setSelectedWeight] = useState(() => activeVariants[0]);
   
-  // Sync selected variant if item variants array references shift upstream
+  // Sync selected variant cleanly across state transitions safely
   useEffect(() => {
-    setSelectedWeight(variants[0]);
+    if (variants && variants.length > 0) {
+      setSelectedWeight(variants[0]);
+    }
   }, [variants]);
 
   const basePrice = Number(selectedWeight?.price || item.price || 0);
@@ -56,7 +62,7 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
     handleBuyNow({
       ...item,
       quantity,
-      selectedWeight: selectedWeight.label,
+      selectedWeight: selectedWeight?.label || "Default",
       price: finalPrice,
     });
   };
@@ -66,7 +72,7 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
       {/* Image Viewport Container */}
       <div className="relative aspect-square w-full overflow-hidden bg-gray-50">
         <Image
-          src={item.image}
+          src={item.image || item.mainImage || "/placeholder.png"}
           alt={item.title}
           fill
           priority={false}
@@ -105,9 +111,9 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
         </div>
 
         {/* Dynamic Multivariant Attribute Array MAP */}
-        {variants.length > 1 && (
+        {activeVariants.length > 1 && (
           <div className="flex flex-wrap gap-1.5 my-2">
-            {variants.map((v) => (
+            {activeVariants.map((v) => (
               <button
                 key={v.label}
                 onClick={() => {
@@ -197,14 +203,13 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
 export default function WishlistPage() {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [authChecking, setAuthChecking] = useState(true); // PRODUCTION FIX
+  const [authChecking, setAuthChecking] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   
   const router = useRouter();
 
-  // Unified production auth guard verification synchronization engine
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -230,7 +235,6 @@ export default function WishlistPage() {
           if (unsubWishlist) unsubWishlist();
         };
       } else {
-        // PRODUCTION INTERCEPT: Redirect out immediately via high-level window relocation
         toast.error("Please login to view your wishlist");
         window.location.href = "/login";
       }
@@ -245,7 +249,6 @@ export default function WishlistPage() {
     return sortProducts(data, sort);
   }, [wishlist, search, sort]);
 
-  // Use useCallback to pass stable memory pointers down into grid arrays
   const handleRemove = useCallback(async (id) => {
     try {
       await removeFromWishlist(id);
@@ -293,7 +296,6 @@ export default function WishlistPage() {
     }
   }, [router]);
 
-  // Framer Motion Animation Options configurations
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -307,7 +309,6 @@ export default function WishlistPage() {
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 28 } }
   };
 
-  // BLOCK THE ENTIRE HTML LAYOUT VIEW UNTIL HANDSHAKE IS VERIFIED
   if (authChecking || loading) return (
     <main className="bg-gray-50/60 min-h-screen pt-24 pb-16 text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -329,7 +330,6 @@ export default function WishlistPage() {
     <main className="bg-gray-50/60 min-h-screen pt-24 pb-16 text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Navigation / Header Box */}
         <div className="flex flex-col gap-5 border-b mt-10 border-gray-200 pb-6 mb-8">
           <div>
             <Link href="/" className="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-black uppercase tracking-wider mb-4 transition">
@@ -344,7 +344,6 @@ export default function WishlistPage() {
             </h1>
           </div>
 
-          {/* Combined Control Filtering Action Bar */}
           <div className="flex flex-col sm:flex-row gap-3 w-full">
             <div className="relative flex-1">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
@@ -378,17 +377,15 @@ export default function WishlistPage() {
           </div>
         </div>
 
-        {/* Global Error Boundaries */}
         {error && (
           <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-700 text-sm font-medium flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+            <svg xmlns="http://www.w3.org/2000/xl" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
             {error}
           </div>
         )}
 
-        {/* Empty Fallback State Layout */}
         {filtered.length === 0 && (
           <section className="flex flex-col items-center justify-center text-center py-24 bg-white rounded-3xl border border-dashed border-gray-200 p-8 shadow-sm">
             <div className="p-4 bg-rose-50 text-rose-500 rounded-full mb-4">
@@ -406,7 +403,6 @@ export default function WishlistPage() {
           </section>
         )}
 
-        {/* Main Products Grid Output Area */}
         <AnimatePresence mode="popLayout">
           {filtered.length > 0 && (
             <motion.section 

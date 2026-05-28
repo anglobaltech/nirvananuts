@@ -17,25 +17,41 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { generateOrderId } from "@/services/generateOrderId";
 
-// 1. ISOLATED PURE FUNCTION: Taken out of component memory path to bypass reconciliation
+// 1. ISOLATED PURE FUNCTION WITH NEXT OFF TRACKER ENGINE
 const computeItemCosting = (item) => {
   const basePrice = Number(item.price) || 0;
   const qty = Number(item.qty || item.quantity || 1);
   let discountPercent = 0;
   const discounts = item.tieredDiscounts || [];
 
-  if (discounts.length > 0) {
-    const applicableOffer = [...discounts]
+  // Sort discounts ascending to calculate next tier achievements
+  const sortedDiscounts = [...discounts].sort((a, b) => Number(a.qty) - Number(b.qty));
+
+  if (sortedDiscounts.length > 0) {
+    const applicableOffer = [...sortedDiscounts]
       .filter((offer) => qty >= Number(offer.qty))
-      .sort((a, b) => Number(b.qty) - Number(a.qty))[0];
+      .reverse()[0];
     if (applicableOffer) discountPercent = Number(applicableOffer.discount);
   }
+
+  // Find the upcoming tier for the item
+  const nextOffer = sortedDiscounts.find((offer) => Number(offer.qty) > qty);
+  const itemsNeededForNextOffer = nextOffer ? Number(nextOffer.qty) - qty : 0;
+  const nextDiscountPercent = nextOffer ? Number(nextOffer.discount) : 0;
 
   const unitPriceAfterDiscount = Math.round(basePrice - (basePrice * discountPercent) / 100);
   const totalItemPrice = unitPriceAfterDiscount * qty;
   const totalSavings = (basePrice * qty) - totalItemPrice;
 
-  return { totalItemPrice, totalSavings, discountPercent, originalTotal: basePrice * qty };
+  return { 
+    totalItemPrice, 
+    totalSavings, 
+    discountPercent, 
+    originalTotal: basePrice * qty,
+    isDiscounted: totalSavings > 0,
+    itemsNeededForNextOffer,
+    nextDiscountPercent
+  };
 };
 
 export default function Checkout() {
@@ -43,7 +59,7 @@ export default function Checkout() {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [authChecking, setAuthChecking] = useState(true); // PRODUCTION AUTH SYNC FIX
+  const [authChecking, setAuthChecking] = useState(true);
   const [checkoutSource, setCheckoutSource] = useState("cart"); 
   const [contact, setContact] = useState({
     name: "", email: "", phone: "", address: "", city: "", state: "", pincode: ""
@@ -57,7 +73,6 @@ export default function Checkout() {
         let currentCart = [];
         const directCheckoutData = sessionStorage.getItem("directCheckoutItem");
 
-        // ASSIGNMENT SEPARATION: Check if express route object is present
         if (directCheckoutData) {
           try {
             const parsedData = JSON.parse(directCheckoutData);
@@ -67,7 +82,6 @@ export default function Checkout() {
             console.error("Session checkout parsing failed:", err);
           }
         } else {
-          // Fallback option: If no direct purchase item is present, pull full long-term Firestore Cart
           const cartRef = doc(db, "carts", u.uid);
           const cartSnap = await getDoc(cartRef);
 
@@ -77,7 +91,6 @@ export default function Checkout() {
           setCheckoutSource("cart");
         }
 
-        // FETCH USER PROFILE DETAILS
         const userRef = doc(db, "users", u.uid);
         const userSnap = await getDoc(userRef);
 
@@ -95,24 +108,27 @@ export default function Checkout() {
         }
 
         setCart(currentCart);
-        setAuthChecking(false); // Authentication and Firestore sync verified safely
+        setAuthChecking(false);
         setLoading(false);
       } else {
-        // CRITICAL PRODUCTION INTERCEPT: Explicit unauthenticated block
         toast.error("Please login to proceed with checkout");
-        window.location.href = "/login"; // Absolute location mapping for production routing stability
+        window.location.href = "/login";
       }
     });
 
     return () => unsubscribe();
   }, [router]);
 
-  // 2. MEMOIZED DATA PROCESSING MATRIX
-  const { totals, computedCartItems } = useMemo(() => {
-    const computedCartItems = cart.map((item) => ({
-      ...item,
-      stats: computeItemCosting(item),
-    }));
+  const { totals, computedCartItems, allDiscountsMaxed } = useMemo(() => {
+    let hasPendingOffers = false;
+
+    const computedCartItems = cart.map((item) => {
+      const stats = computeItemCosting(item);
+      if (stats.itemsNeededForNextOffer > 0) {
+        hasPendingOffers = true;
+      }
+      return { ...item, stats };
+    });
 
     const totals = computedCartItems.reduce(
       (acc, item) => {
@@ -124,7 +140,10 @@ export default function Checkout() {
       { subtotal: 0, savings: 0, final: 0 }
     );
 
-    return { totals, computedCartItems };
+    // If cart has items and none of them have pending higher discount offers, then maxed out is true
+    const allDiscountsMaxed = cart.length > 0 && !hasPendingOffers;
+
+    return { totals, computedCartItems, allDiscountsMaxed };
   }, [cart]);
 
   const freeShippingThreshold = 500;
@@ -136,7 +155,6 @@ export default function Checkout() {
   const amountToFreeShipping = freeShippingThreshold - totals.final;
   const grandTotal = totals.final + shipping;
 
-  // 3. CACHED EVENT HANDLERS: Handles variations or quantities safely
   const updateQuantity = useCallback(async (index, change) => {
     setCart((prevCart) => {
       const updated = [...prevCart];
@@ -152,7 +170,6 @@ export default function Checkout() {
           updateDoc(doc(db, "carts", auth.currentUser.uid), { items: updated });
         }
       } else {
-        // Save back safely to separate session memory only (Does not pollute database carts collection)
         sessionStorage.setItem("directCheckoutItem", JSON.stringify({ items: updated, checkoutSource: "buyNow" }));
       }
       return updated;
@@ -181,29 +198,25 @@ export default function Checkout() {
     
     try {
       const orderId = await generateOrderId();
-await createOrder({
-  orderId,
-  customerName: contact.name,
-  email: contact.email,
-  phone: contact.phone,
-  products: cart,
-  totalAmount: grandTotal,
-  address: {
-    address: contact.address,
-    city: contact.city,
-    state: contact.state,
-    pincode: contact.pincode,
-  },
-  checkoutSource,
-});
+      await createOrder({
+        orderId,
+        customerName: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        products: cart,
+        totalAmount: grandTotal,
+        address: {
+          address: contact.address,
+          city: contact.city,
+          state: contact.state,
+          pincode: contact.pincode,
+        },
+        checkoutSource,
+      });
 
-
-      // ORDER COMPLETION DATA CLEANUP
       if (checkoutSource === "cart" && auth.currentUser) {
-        // Clear active Firestore persistent array on database order completion
         await updateDoc(doc(db, "carts", auth.currentUser.uid), { items: [] });
       } else {
-        // Clear quick buy session storage payload only on order complete
         sessionStorage.removeItem("directCheckoutItem");
       }
 
@@ -214,7 +227,6 @@ await createOrder({
     }
   };
 
-  // BLOCK MOUNT ENGINE UNTIL AUTH SHAKE COMPLETE
   if (authChecking || loading) return (
     <div className="h-screen flex items-center justify-center bg-[#F4EDE4]">
       <div className="text-[#8B5E3C] font-black tracking-[0.5em] text-sm animate-pulse italic">NIRVANA</div>
@@ -295,9 +307,26 @@ await createOrder({
             </div>
           </section>
 
-          {/* ITEM REVIEW */}
+          {/* ITEM REVIEW SECTION */}
           <section className="space-y-6">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">02 Review Selection</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">02 Review Selection</h2>
+              
+              {/* GLOBAL CONGRATS MESSAGE WHEN ALL DISCOUNTS ARE MAXED OUT */}
+              {allDiscountsMaxed && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-green-700/10 border border-green-700/20 text-green-800 rounded-full px-4 py-1 flex items-center gap-2 self-start sm:self-auto shadow-sm"
+                >
+                  <Sparkles size={12} className="text-green-700 shrink-0 animate-spin" />
+                  <span className="text-[10px] font-black uppercase tracking-wider">
+                     Woohoo! You saved maximum on this order! 🎉
+                  </span>
+                </motion.div>
+              )}
+            </div>
+
             <div className="space-y-3 md:space-y-4">
               <AnimatePresence mode="popLayout">
                 {computedCartItems.length === 0 ? (
@@ -311,46 +340,66 @@ await createOrder({
                       initial={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, x: -30, scale: 0.98 }}
                       transition={{ duration: 0.18 }}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl md:rounded-3xl bg-white/60 border border-white hover:border-[#8B5E3C]/30 transition-all shadow-sm group/card"
+                      className="flex flex-col p-4 rounded-2xl md:rounded-3xl bg-white/60 border border-white hover:border-[#8B5E3C]/30 transition-all shadow-sm group/card gap-3"
                     >
-                      <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-                        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 relative rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-[#E8DFD5] shrink-0">
-                          <Image src={item.mainImage || "/placeholder.png"} fill className="object-cover" alt="product" priority={idx < 3} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="text-xs sm:text-sm font-bold text-[#2D1B0D] tracking-tight truncate">{item.name}</h4>
-                          <div className="flex flex-wrap items-center gap-2 mt-1">
-                            <span className="text-[8px] sm:text-[9px] font-bold text-[#8B5E3C] uppercase tracking-[0.2em]">{item.selectedWeight}</span>
-                            {item.stats.discountPercent > 0 && (
-                              <span className="text-[9px] sm:text-[10px] text-green-700 font-black italic flex items-center gap-1">
-                                <Tag size={9} className="fill-green-700"/> SAVED {item.stats.discountPercent}%
-                              </span>
-                            )}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 relative rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-[#E8DFD5] shrink-0">
+                            <Image src={item.mainImage || "/placeholder.png"} fill className="object-cover" alt="product" priority={idx < 3} />
                           </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 pt-2 sm:pt-0 border-t border-[#E8DFD5]/40 sm:border-0">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center bg-white rounded-xl border border-[#E8DFD5] p-0.5 sm:p-1">
-                            <button onClick={() => updateQuantity(idx, -1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Minus size={10}/></button>
-                            <span className="w-6 sm:w-8 text-center text-xs font-bold">{item.qty || 1}</span>
-                            <button onClick={() => updateQuantity(idx, 1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Plus size={10}/></button>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-xs sm:text-sm font-bold text-[#2D1B0D] tracking-tight truncate">{item.name}</h4>
+                            <div className="flex flex-wrap items-center gap-2 mt-1">
+                              <span className="text-[8px] sm:text-[9px] font-bold text-[#8B5E3C] uppercase tracking-[0.2em]">{item.selectedWeight}</span>
+                              {item.stats.isDiscounted && (
+                                <span className="text-[9px] sm:text-[10px] text-green-700 font-black italic flex items-center gap-1 bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                                  <Tag size={9} className="fill-green-700"/> SAVED {item.stats.discountPercent}%
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          
-                          <button 
-                            onClick={() => deleteItem(idx)}
-                            className="w-8 h-8 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200"
-                            title="Delete Item"
-                          >
-                            <Trash2 size={13} />
-                          </button>
                         </div>
                         
-                        <div className="text-right min-w-[70px] sm:min-w-[80px]">
-                          <p className="text-sm font-black text-[#2D1B0D] italic tracking-tighter">₹{item.stats.totalItemPrice}</p>
+                        <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 pt-2 sm:pt-0 border-t border-[#E8DFD5]/40 sm:border-0">
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center bg-white rounded-xl border border-[#E8DFD5] p-0.5 sm:p-1">
+                              <button onClick={() => updateQuantity(idx, -1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Minus size={10}/></button>
+                              <span className="w-6 sm:w-8 text-center text-xs font-bold">{item.qty || 1}</span>
+                              <button onClick={() => updateQuantity(idx, 1)} className="w-7 h-7 cursor-pointer sm:w-8 sm:h-8 flex items-center justify-center text-[#A68966] hover:text-[#8B5E3C] transition-colors"><Plus size={10}/></button>
+                            </div>
+                            
+                            <button 
+                              onClick={() => deleteItem(idx)}
+                              className="w-8 h-8 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200"
+                              title="Delete Item"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                          
+                          {/* Price block */}
+                          <div className="text-right min-w-[80px] sm:min-w-[100px] flex flex-col justify-center">
+                            {item.stats.isDiscounted && (
+                              <span className="text-[11px] text-gray-400 line-through font-medium tracking-tighter">
+                                ₹{item.stats.originalTotal}
+                              </span>
+                            )}
+                            <p className="text-sm sm:text-base font-black text-[#2D1B0D] italic tracking-tighter">
+                              ₹{item.stats.totalItemPrice}
+                            </p>
+                          </div>
                         </div>
                       </div>
+
+                      {/* ITEM TIERED DISCOUNT TRACKER MSG */}
+                      {item.stats.itemsNeededForNextOffer > 0 && (
+                        <div className="bg-[#8B5E3C]/5 border border-[#8B5E3C]/10 rounded-xl px-3 py-2 flex items-center gap-2 text-[#8B5E3C] mt-1 self-start sm:self-auto w-full">
+                          <Zap size={12} className="fill-[#8B5E3C] text-[#8B5E3C] animate-bounce shrink-0" />
+                          <span className="text-[10px] font-bold tracking-wide uppercase">
+                            Add <span className="font-extrabold text-[#2D1B0D] text-xs underline">{item.stats.itemsNeededForNextOffer} more</span> pack to unlock <span className="text-green-700 font-extrabold">{item.stats.nextDiscountPercent}% OFF!</span>
+                          </span>
+                        </div>
+                      )}
                     </motion.div>
                   ))
                 )}
