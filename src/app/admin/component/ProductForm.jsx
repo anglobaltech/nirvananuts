@@ -64,7 +64,7 @@ export default function ProductForm() {
       await createProduct({
         name, description, category,
         images: uploadedImages,
-        mainImage: uploadedImages[0],
+        mainImage: uploadedImages?.[0] || "",
         variants: cleanVariants,
         tieredDiscounts: cleanOffers,
         inStock: totalStock > 0,
@@ -142,7 +142,7 @@ export default function ProductForm() {
           {images.map((img, i) => (
             <div key={i} className="relative w-24 h-24 group">
               <img src={URL.createObjectURL(img)} className="w-full h-full object-cover rounded-2xl shadow-md" />
-              <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} className="absolute -top-2 -right-2 bg-[#2D1B0D] text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+              <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} className="cursor-pointer absolute -top-2 -right-2 bg-[#2D1B0D]  hover:text-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
                 <Trash2 size={12} />
               </button>
             </div>
@@ -157,7 +157,7 @@ export default function ProductForm() {
             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B5E3C] flex items-center gap-2">
               <Layers size={14} /> Configurations
             </h3>
-            <button type="button" onClick={addVariant} className="text-[9px] font-bold uppercase tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Variant</button>
+            <button type="button" onClick={addVariant} className="text-[9px] font-bold uppercase cursor-pointer tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Variant</button>
           </div>
           <div className="space-y-3">
             {variants.map((v, i) => (
@@ -165,7 +165,7 @@ export default function ProductForm() {
                 <input placeholder="Size" value={v.label} onChange={(e) => updateVariant(i, "label", e.target.value)} className="w-1/3 bg-white/50 border p-4 rounded-xl text-xs outline-none focus:bg-white" />
                 <input type="number" placeholder="Price" value={v.price} onChange={(e) => updateVariant(i, "price", e.target.value)} className="w-1/3 bg-white/50 border p-4 rounded-xl text-xs outline-none focus:bg-white" />
                 <input type="number" placeholder="Stock" value={v.stock} onChange={(e) => updateVariant(i, "stock", e.target.value)} className="w-1/4 bg-white/50 border p-4 rounded-xl text-xs outline-none focus:bg-white" />
-                <button type="button" onClick={() => removeVariant(i)} className="text-[#A68966] hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
+                <button type="button" onClick={() => removeVariant(i)} className="text-[#A68966] hover:text-red-500 cursor-pointer transition-colors"><Trash2 size={14} /></button>
               </div>
             ))}
           </div>
@@ -176,7 +176,7 @@ export default function ProductForm() {
             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B5E3C] flex items-center gap-2">
               <Tag size={14} /> Loyalty Incentives
             </h3>
-            <button type="button" onClick={addOffer} className="text-[9px] font-bold uppercase tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Tier</button>
+            <button type="button" onClick={addOffer} className="text-[9px] font-bold uppercase cursor-pointer tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Tier</button>
           </div>
           <div className="space-y-3">
             {offers.map((o, i) => (
@@ -189,7 +189,7 @@ export default function ProductForm() {
                   <input type="number" value={o.discount} onChange={(e) => updateOffer(i, "discount", e.target.value)} className="w-full bg-transparent outline-none text-xs font-bold text-[#8B5E3C]" />
                   <span className="text-[9px] font-black text-[#8B5E3C]">% OFF</span>
                 </div>
-                <button type="button" onClick={() => removeOffer(i)} className="p-2 text-[#A68966]"><Trash2 size={14} /></button>
+                <button type="button" onClick={() => removeOffer(i)} className="p-2 text-[#A68966] cursor-pointer hover:text-red-600"><Trash2 size={14} /></button>
               </div>
             ))}
           </div>
@@ -198,7 +198,7 @@ export default function ProductForm() {
 
       <button
         type="submit" disabled={loading}
-        className="w-full bg-[#2D1B0D] hover:bg-black text-[#F4EDE4] py-6 rounded-[2rem] text-[11px] font-black uppercase tracking-[0.5em] transition-all shadow-xl hover:shadow-black/20 flex items-center justify-center gap-4 group"
+        className="w-full bg-[#2D1B0D] cursor-pointer hover:bg-amber-500 hover:text-amber-900 duration-500 text-[#F4EDE4] py-6 rounded-[2rem] text-[11px] font-black uppercase tracking-[0.5em] transition-all shadow-xl hover:shadow-black/20 flex items-center justify-center gap-4 group"
       >
         {loading ? "Establishing Product Records..." : <>Finalize Catalog Entry <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" /></>}
       </button>

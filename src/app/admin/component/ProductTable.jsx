@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { updateProduct, deleteProduct } from "@/services/productService";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Settings, X, Package, Tag, Save, Zap, Edit3, Trash2 } from "lucide-react";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function ProductTable() {
   const [products, setProducts] = useState([]);
@@ -15,18 +17,48 @@ export default function ProductTable() {
   const [newImageFile, setNewImageFile] = useState(null);
   const [newImages, setNewImages] = useState([]);
 
-  const handleDelete = async (id) => {
-  const confirmDelete = window.confirm("Delete this product?");
-  
-  if (!confirmDelete) return;
+const handleDelete = async (id) => {
+  toast(
+    ({ closeToast }) => (
+      <div className="space-y-4">
+        <p className="text-sm font-semibold">
+          Delete this product permanently?
+        </p>
 
-  try {
-    await deleteProduct(id);
-    toast.success("Product deleted");
-    fetchProducts();
-  } catch (error) {
-    toast.error("Delete failed");
-  }
+        <div className="flex gap-3">
+          <button
+            onClick={async () => {
+              try {
+                await deleteProduct(id);
+
+                toast.success("Product deleted successfully");
+
+                fetchProducts();
+              } catch (error) {
+                toast.error("Delete failed");
+              }
+
+              closeToast();
+            }}
+            className="px-4 py-2 bg-red-500 text-white rounded-xl text-xs font-bold"
+          >
+            Delete
+          </button>
+
+          <button
+            onClick={closeToast}
+            className="px-4 py-2 bg-gray-200 rounded-xl text-xs font-bold"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ),
+    {
+      autoClose: false,
+      closeOnClick: false,
+    }
+  );
 };
 
   const fetchProducts = async () => {
@@ -70,7 +102,7 @@ const saveChanges = async () => {
     await updateProduct(currentProduct.id, {
       ...currentProduct,
       images: finalImages,
-      image: finalImages[0] || "",
+      mainImage: finalImages[0] || "",
       inStock: totalStock > 0,
     });
 
@@ -87,7 +119,18 @@ const saveChanges = async () => {
 };
 
   return (
+    
     <div className="space-y-10">
+      <ToastContainer
+  position="top-right"
+  autoClose={3000}
+  hideProgressBar={false}
+  newestOnTop
+  closeOnClick
+  pauseOnHover
+  draggable
+  theme="colored"
+/>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-2">
           <h2 className="text-3xl font-serif italic text-[#2D1B0D]">Asset Registry</h2>
@@ -110,7 +153,7 @@ const saveChanges = async () => {
               <tr key={p.id} className="group hover:bg-white/80 transition-colors">
                 <td className="p-10">
                   <div className="flex items-center gap-6">
-                    <img src={p.image} className="w-20 h-20 rounded-3xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
+                    <img src={p.mainImage} className="w-20 h-20 rounded-3xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
                     <div>
                       <p className="font-bold text-[#2D1B0D] tracking-tight text-xl">{p.name}</p>
                       <p className="text-[10px] font-black uppercase tracking-widest text-[#A68966] mt-2 italic opacity-60">{p.category}</p>
@@ -128,14 +171,14 @@ const saveChanges = async () => {
     
     <button
       onClick={() => openManageModal(p)}
-      className="p-4 bg-[#2D1B0D] text-white rounded-full hover:bg-black transition-all shadow-lg shadow-black/10"
+      className="p-4 bg-[#2D1B0D] text-white rounded-full cursor-pointer hover:bg-black transition-all shadow-lg shadow-black/10"
     >
       <Edit3 size={16} />
     </button>
 
     <button
       onClick={() => handleDelete(p.id)}
-      className="p-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all shadow-lg"
+      className="p-4 cursor-pointer hover:text-red-600 hover:bg-gray-200 bg-red-500 text-white rounded-full transition-all shadow-lg"
     >
       <Trash2 size={16} />
     </button>
@@ -153,7 +196,7 @@ const saveChanges = async () => {
         {products.map(p => (
           <div key={p.id} className="bg-white/70 p-6 rounded-[2.5rem] border border-white flex flex-col gap-6 shadow-sm">
              <div className="flex items-center gap-4">
-                <img src={p.image} className="w-16 h-16 rounded-2xl object-cover" />
+                <img src={p.mainImage} className="w-16 h-16 rounded-2xl object-cover" />
                 <div>
                    <h3 className="font-bold text-[#2D1B0D]">{p.name}</h3>
                    <p className="text-[10px] uppercase font-black tracking-widest text-[#A68966]">{p.category}</p>
@@ -170,7 +213,7 @@ const saveChanges = async () => {
 
   <button
     onClick={() => handleDelete(p.id)}
-    className="px-5 bg-red-500 text-white rounded-2xl"
+    className="px-5 bg-red-500 text-white cursor-pointer rounded-2xl"
   >
     <Trash2 size={16} />
   </button>
@@ -284,7 +327,7 @@ const saveChanges = async () => {
                 images: updated,
               });
             }}
-            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
+            className="absolute -top-2 -right-2 bg-red-500 cursor-pointer hover:bg-gray-200 hover:text-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
           >
             <Trash2 size={12} />
           </button>
@@ -334,7 +377,7 @@ const saveChanges = async () => {
             onClick={() => {
               setNewImages(newImages.filter((_, idx) => idx !== i));
             }}
-            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
+            className="absolute -top-2 -right-2 bg-red-500 cursor-pointer hover:text-red-600 hover:bg-white text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
           >
             <Trash2 size={12} />
           </button>
@@ -468,7 +511,7 @@ const saveChanges = async () => {
                     tieredDiscounts: upd,
                   });
                 }}
-                className="text-red-500"
+                className="text-red-500 cursor-pointer hover:text-red-600 hover:bg-gray-200"
               >
                 <Trash2 size={16} />
               </button>

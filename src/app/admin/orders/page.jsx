@@ -155,7 +155,7 @@ const handleDelete = async (id) => {
                         <td className="p-6">
                            <div className="flex items-center gap-2 text-xs font-medium opacity-80">
                              <PhoneCall size={12} className="text-[#8B5E3C]" />
-                             {order.phone || "N/A"}
+                             {order.phone || order.address?.phone || "N/A"}
                            </div>
                         </td>
                         <td className="p-6">
@@ -224,7 +224,11 @@ const handleDelete = async (id) => {
                     </div>
                     <div className="flex items-start gap-3 text-xs opacity-70">
                       <MapPin size={14} className="text-[#A68966] mt-1 shrink-0" />
-                      <span className="italic font-serif leading-relaxed">{order.address?.address}, {order.address?.city}</span>
+<span className="italic font-serif leading-relaxed">
+  {order.address
+    ? `${order.address.address || ""}, ${order.address.city || ""}`
+    : "No Address"}
+</span>
                     </div>
                   </div>
 

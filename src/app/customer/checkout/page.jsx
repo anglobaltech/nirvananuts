@@ -181,14 +181,22 @@ export default function Checkout() {
     
     try {
       const orderId = await generateOrderId();
-     await createOrder({
+await createOrder({
   orderId,
   customerName: contact.name,
+  email: contact.email,
+  phone: contact.phone,
   products: cart,
   totalAmount: grandTotal,
-  address: contact,
+  address: {
+    address: contact.address,
+    city: contact.city,
+    state: contact.state,
+    pincode: contact.pincode,
+  },
   checkoutSource,
 });
+
 
       // ORDER COMPLETION DATA CLEANUP
       if (checkoutSource === "cart" && auth.currentUser) {

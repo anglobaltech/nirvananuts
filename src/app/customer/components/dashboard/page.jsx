@@ -162,11 +162,11 @@ if (userSnap.exists()) {
               </div>
               
               <h2 className="text-2xl font-serif italic tracking-tight mb-1">{userData?.fullName || "Guest"}</h2>
-              <p className="text-[#A68966] text-[10px] font-bold uppercase tracking-widest mb-6">{userData?.fullName ? "Premium Customer" : "Guest User"} </p>
+              <p className="text-[#A68966] text-[10px] font-bold uppercase tracking-widest mb-6">{userData?.email || user?.email} </p>
               
-              <div className="inline-flex items-center gap-2 bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mb-10">
+              {/* <div className="inline-flex items-center gap-2 bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] mb-10">
                 <Crown size={12} /> Gold Member
-              </div>
+              </div> */}
 
               <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-8">
                 <div>
