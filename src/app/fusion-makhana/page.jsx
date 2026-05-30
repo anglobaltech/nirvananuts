@@ -30,8 +30,6 @@ import { auth, db } from "@/lib/firebase";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
 const faqs = [
   {
     question: "What is Fusion Makhana?",
@@ -51,14 +49,12 @@ const faqs = [
 ];
 
 export default function FusionSpicyMakhanaPage() {
-
-    const [images, setImages] = useState([]);
-const [active, setActive] = useState("/product-04.avif");
+  const [images, setImages] = useState([]);
+  const [active, setActive] = useState("/product-04.avif");
   const [openIndex, setOpenIndex] = useState(null);
   const [product, setProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  
 
   const basePrice = selectedVariant?.price || 0;
   const productDiscount = product?.discount || 0;
@@ -76,7 +72,6 @@ const [active, setActive] = useState("/product-04.avif");
   const discountedPrice = Math.round(
     basePrice - (basePrice * totalDiscount) / 100
   );
-  const totalPrice = discountedPrice * quantity;
 
   // Find the next available discount tier based on current active quantity selection
   const nextTier = sortedTiers.find((t) => t.qty > quantity);
@@ -85,88 +80,89 @@ const [active, setActive] = useState("/product-04.avif");
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-const handleAction = async (type) => {
+
+  const handleAction = async (type) => {
     if (!product?.inStock) return;
 
     try {
-        const user = auth.currentUser;
+      const user = auth.currentUser;
 
-        // 1. AUTHENTICATION GUARD: If customer is not logged in, redirect immediately
-        if (!user) {
-            toast.error("Please login first");
-            window.location.href = "/login";
-            return;
+      // 1. AUTHENTICATION GUARD: If customer is not logged in, redirect immediately
+      if (!user) {
+        toast.error("Please login first");
+        window.location.href = "/login";
+        return;
+      }
+
+      const item = {
+        docId: product.docId,
+        name: product.name,
+        mainImage: active || product.images?.[0] || "/placeholder.png",
+        selectedWeight: selectedVariant?.label || "Default",
+        price: Number(basePrice),
+        qty: Number(quantity),
+        tieredDiscounts: product?.tieredDiscounts || [],
+      };
+
+      // ==========================================
+      // WORKFLOW A: ADD TO CART LAYERS (NO REDIRECT)
+      // ==========================================
+      if (type === "cart") {
+        const cartRef = doc(db, "carts", user.uid);
+        const cartSnap = await getDoc(cartRef);
+
+        let existingItems = [];
+        if (cartSnap.exists()) {
+          existingItems = cartSnap.data().items || [];
         }
 
-        const item = {
-            docId: product.docId,
-            name: product.name,
-            mainImage: active || product.images?.[0] || "/placeholder.png",
-            selectedWeight: selectedVariant?.label || "Default",
-            price: Number(basePrice),
-            qty: Number(quantity),
-            tieredDiscounts: product?.tieredDiscounts || [],
+        // FIXED DUPLICATE BUG: Search for an item matching both ID and weight configuration
+        const existingItemIndex = existingItems.findIndex(
+          (cartItem) => cartItem.docId === item.docId && cartItem.selectedWeight === item.selectedWeight
+        );
+
+        let updatedItems;
+        if (existingItemIndex > -1) {
+          // If matched, increment the existing quantity integer value
+          updatedItems = [...existingItems];
+          updatedItems[existingItemIndex].qty += item.qty;
+        } else {
+          // If unique, append cleanly to the layout array
+          updatedItems = [...existingItems, item];
+        }
+
+        // Push exclusively to Firestore Carts collection
+        await setDoc(cartRef, { items: updatedItems }, { merge: true });
+
+        // Notify user of success WITHOUT executing a route redirect
+        toast.success("Added to cart successfully!");
+        return;
+      }
+
+      // ==========================================
+      // WORKFLOW B: BUY NOW EXPRESS (PRODUCTION FIX)
+      // ==========================================
+      if (type === "buyNow") {
+        const checkoutPayload = {
+          items: [item],
+          checkoutSource: "buyNow"
         };
 
-        // ==========================================
-        // WORKFLOW A: ADD TO CART LAYERS (NO REDIRECT)
-        // ==========================================
-        if (type === "cart") {
-            const cartRef = doc(db, "carts", user.uid);
-            const cartSnap = await getDoc(cartRef);
+        // Save object directly into localized Session Memory (Bypasses backend cart array)
+        sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
 
-            let existingItems = [];
-            if (cartSnap.exists()) {
-                existingItems = cartSnap.data().items || [];
-            }
-
-            // FIXED DUPLICATE BUG: Search for an item matching both ID and weight configuration
-            const existingItemIndex = existingItems.findIndex(
-                (cartItem) => cartItem.docId === item.docId && cartItem.selectedWeight === item.selectedWeight
-            );
-
-            let updatedItems;
-            if (existingItemIndex > -1) {
-                // If matched, increment the existing quantity integer value
-                updatedItems = [...existingItems];
-                updatedItems[existingItemIndex].qty += item.qty;
-            } else {
-                // If unique, append cleanly to the layout array
-                updatedItems = [...existingItems, item];
-            }
-
-            // Push exclusively to Firestore Carts collection
-            await setDoc(cartRef, { items: updatedItems }, { merge: true });
-
-            // Notify user of success WITHOUT executing a route redirect
-            toast.success("Added to cart successfully!");
-            return;
-        }
-
-        // ==========================================
-        // WORKFLOW B: BUY NOW EXPRESS (PRODUCTION FIX)
-        // ==========================================
-        if (type === "buyNow") {
-            const checkoutPayload = {
-                items: [item],
-                checkoutSource: "buyNow"
-            };
-
-            // Save object directly into localized Session Memory (Bypasses backend cart array)
-            sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
-
-            toast.success("Redirecting to checkout...");
-            
-            // PRODUCTION CLIENT COMPILATION FIX: Force absolute browser redirect handshake
-            // This prevents Next.js client routing from racing ahead of Firebase auth status
-            window.location.href = "/customer/checkout";
-        }
+        toast.success("Redirecting to checkout...");
+        
+        // PRODUCTION CLIENT COMPILATION FIX: Force absolute browser redirect handshake
+        window.location.href = "/customer/checkout";
+      }
 
     } catch (error) {
-        console.log("Action Execution Failure:", error);
-        toast.error("Something went wrong");
+      console.log("Action Execution Failure:", error);
+      toast.error("Something went wrong");
     }
-};
+  };
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -180,20 +176,20 @@ const handleAction = async (type) => {
           ...doc.data(),
         }));
 
-        // Dynamically tracking 'sweet-makhana' instead of plain
+        // Dynamically tracking 'fusion-makhana' category
         const fusionProduct = data.find(
           (p) => p.category === "fusion-makhana"
         );
 
         if (fusionProduct) {
-        // MULTIPLE IMAGE SUPPORT
-if (fusionProduct?.images?.length > 0) {
-  setImages(fusionProduct.images);
-  setActive(fusionProduct.images?.[0] || fusionProduct.mainImage || "/product-04.avif");
-} else if (fusionProduct?.mainImage) {
-  setImages([fusionProduct.mainImage]);
-  setActive(fusionProduct.mainImage);
-}
+          // MULTIPLE IMAGE SUPPORT
+          if (fusionProduct?.images?.length > 0) {
+            setImages(fusionProduct.images);
+            setActive(fusionProduct.images[0] || fusionProduct.mainImage || "/product-04.avif");
+          } else if (fusionProduct?.mainImage) {
+            setImages([fusionProduct.mainImage]);
+            setActive(fusionProduct.mainImage);
+          }
           setProduct(fusionProduct);
           if (fusionProduct?.variants?.length > 0) {
             setSelectedVariant(fusionProduct.variants[0]);
@@ -209,9 +205,10 @@ if (fusionProduct?.images?.length > 0) {
 
   return (
     <div className="bg-amber-50">
-      <section className="h-80 w-full bg-linear-to-br from-amber-500 to-amber-400 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <h1 className="text-3xl md:text-4xl italic font-semibold mt-38 text-center text-gray-900 leading-tight tracking-tight max-w-7xl">
+      <section className="h-80 w-full bg-gradient-to-br from-amber-500 to-amber-400 border-b border-gray-100 flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+          {/* Fixed arbitrary margin wrapper for safe layout mapping */}
+          <h1 className="text-3xl md:text-4xl italic font-semibold mt-[152px] text-center text-gray-900 leading-tight tracking-tight max-w-7xl mx-auto">
             Fusion Flavored Makhana (Fox Nuts) – Buy Premium Fusion Snacks Online
           </h1>
         </div>
@@ -222,44 +219,48 @@ if (fusionProduct?.images?.length > 0) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
 
-            {/* LEFT SIDE */}
+            {/* LEFT SIDE - IMAGE SYSTEM */}
             <div className="lg:col-span-7 space-y-6">
-
-              {/* MAIN IMAGE */}
-              <div className="relative aspect-[4/3] w-full bg-slate-100 rounded-[32px] overflow-hidden flex items-center justify-center border border-slate-200/40 shadow-xs group/canvas">
+              {/* MAIN IMAGE COMPONENT */}
+              <div className="relative aspect-[4/3] w-full bg-slate-100 rounded-[32px] overflow-hidden flex items-center justify-center border border-slate-200/40 shadow-sm group/canvas">
                 <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full" />
                 <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-orange-100/40 blur-3xl rounded-full" />
 
-                <img
+                <Image
                   src={active || "/product-03.avif"}
                   alt={product?.name || "Fusion Makhana"}
+                  width={500}
+                  height={500}
+                  priority
                   className="relative max-h-[75%] max-w-[75%] w-auto h-auto object-contain transition-all duration-700"
                 />
               </div>
 
-              {/* THUMBNAILS */}
+              {/* THUMBNAILS CONTAINER */}
               <div className="grid grid-cols-4 gap-4">
                 {images.slice(0, 4).map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setActive(img)}
-                    className={`relative aspect-square rounded-2xl bg-white border transition-all duration-300 cursor-pointer ${
+                    className={`relative aspect-square rounded-2xl bg-white border transition-all duration-300 cursor-pointer overflow-hidden ${
                       active === img
                         ? "border-amber-500 ring-4 ring-amber-500/10"
                         : "border-slate-200 hover:border-slate-400"
                     }`}
                   >
-                    <img
+                    <Image
                       src={img}
-                      alt={`Product ${i + 1}`}
-                      className="w-full h-full object-contain p-3"
+                      alt={`Product Thumbnail ${i + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 25vw, 15vw"
+                      className="object-contain p-3"
                     />
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT SIDE */}
+            {/* RIGHT SIDE - CONTENT SYSTEM */}
             <div className="lg:col-span-5 space-y-8 lg:pt-2">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
@@ -295,7 +296,7 @@ if (fusionProduct?.images?.length > 0) {
 
               <hr className="border-slate-200/60" />
 
-              {/* PRICE */}
+              {/* PRICE ARCHITECTURE */}
               <div className="space-y-6">
                 <div className="flex items-end justify-between gap-4 flex-wrap">
                   <div className="space-y-1">
@@ -321,7 +322,7 @@ if (fusionProduct?.images?.length > 0) {
                   )}
                 </div>
 
-                {/* VARIANTS */}
+                {/* VARIANTS PACK SYSTEM */}
                 {product?.variants && product.variants.length > 0 && (
                   <div className="space-y-2.5">
                     <span className="block text-[10px] font-bold tracking-widest uppercase text-slate-400">
@@ -351,7 +352,7 @@ if (fusionProduct?.images?.length > 0) {
                   </div>
                 )}
 
-                {/* QUANTITY */}
+                {/* QUANTITY AND INTERACTIVE SYSTEM */}
                 <div className="grid sm:grid-cols-12 gap-4 items-center">
                   <div className="sm:col-span-4 space-y-2">
                     <span className="block text-[10px] font-bold tracking-widest uppercase text-slate-400">
@@ -376,7 +377,7 @@ if (fusionProduct?.images?.length > 0) {
                     </div>
                   </div>
 
-                  {/* DISCOUNT TIERS */}
+                  {/* DISCOUNT TIERS SYSTEM */}
                   <div className="sm:col-span-8 space-y-2 self-end">
                     {sortedTiers.length > 0 && (
                       <div className="border rounded-xl px-4 h-12 flex items-center gap-2.5 bg-slate-100/60 border-slate-200/80 text-xs">
@@ -404,12 +405,12 @@ if (fusionProduct?.images?.length > 0) {
                   </div>
                 </div>
 
-                {/* BUTTONS */}
+                {/* CALL TO ACTIONS */}
                 <div className="pt-2">
                   {!product?.inStock ? (
                     <button
                       disabled
-                      className="w-full h-14 rounded-2xl bg-slate-100 text-slate-400 font-bold"
+                      className="w-full h-14 rounded-2xl bg-slate-100 text-slate-400 font-bold cursor-not-allowed"
                     >
                       Out Of Stock
                     </button>
@@ -439,15 +440,15 @@ if (fusionProduct?.images?.length > 0) {
 
               <hr className="border-slate-200/60" />
 
-              {/* FEATURES */}
+              {/* CORE TRUST SPECIFICATIONS */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
                 <div className="flex items-center gap-2.5">
                   <ShieldCheck size={16} className="text-amber-600" />
-                  <span>Premium Quality</span>
+                  <span>Premium Quality Certified</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <HelpCircle size={16} className="text-amber-600" />
-                  <span>24/7 Support</span>
+                  <span>24/7 Corporate Support</span>
                 </div>
               </div>
             </div>
@@ -456,8 +457,8 @@ if (fusionProduct?.images?.length > 0) {
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
-      <section className="relative py-20 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+      {/* MARKETING VALUE PROPOSITION */}
+      <section className="relative py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
         <div className="absolute top-0 left-0 w-72 h-72 bg-amber-300/30 blur-[120px] rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-orange-300/30 blur-[120px] rounded-full"></div>
 
@@ -471,34 +472,34 @@ if (fusionProduct?.images?.length > 0) {
 
           <div className="grid md:grid-cols-4 gap-8">
             {[
-  {
-    icon: Leaf,
-    title: "Bold Fusion Flavors",
-    desc: "Unique seasoning combinations inspired by international and Indian taste profiles.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Premium Roasted Quality",
-    desc: "Perfectly roasted fox nuts processed hygienically for maximum freshness and crunch.",
-  },
-  {
-    icon: HeartPulse,
-    title: "Healthy Snacking Option",
-    desc: "Low calorie, high protein and packed with nutrients for guilt-free snacking.",
-  },
-  {
-    icon: Dumbbell,
-    title: "Perfect For Every Mood",
-    desc: "Available in convenient pack sizes ideal for travel, office, gym, and home snacking.",
-  },
-].map((item, i) => (
+              {
+                icon: Leaf,
+                title: "Bold Fusion Flavors",
+                desc: "Unique seasoning combinations inspired by international and Indian taste profiles.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Premium Roasted Quality",
+                desc: "Perfectly roasted fox nuts processed hygienically for maximum freshness and crunch.",
+              },
+              {
+                icon: HeartPulse,
+                title: "Healthy Snacking Option",
+                desc: "Low calorie, high protein and packed with nutrients for guilt-free snacking.",
+              },
+              {
+                icon: Dumbbell,
+                title: "Perfect For Every Mood",
+                desc: "Available in convenient pack sizes ideal for travel, office, gym, and home snacking.",
+              },
+            ].map((item, i) => (
               <div
                 key={i}
                 data-aos="zoom-in"
                 data-aos-delay={i * 100}
                 className="group relative bg-white/60 backdrop-blur-xl border border-white/40 p-7 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
-                <div className="absolute inset-0 rounded-3xl bg-linear-to-tr from-amber-200/20 to-orange-200/20 opacity-0 group-hover:opacity-100 transition"></div>
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-amber-200/20 to-orange-200/20 opacity-0 group-hover:opacity-100 transition"></div>
                 <item.icon className="mx-auto text-amber-600 mb-5 group-hover:scale-110 transition" size={42} />
                 <h3 className="font-semibold text-lg text-amber-700 mb-2">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.desc}</p>
@@ -508,18 +509,18 @@ if (fusionProduct?.images?.length > 0) {
         </div>
       </section>
 
-      {/* PRODUCT DETAILS SPECIFICATIONS */}
-      <section className="relative py-24 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+      {/* TECHNICAL SPECIFICATIONS DOCK */}
+      <section className="relative py-24 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
         <div className="absolute top-0 left-0 w-87.5 h-87.5 bg-amber-300/30 blur-[130px] rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-87.5 h-87.5 bg-orange-300/30 blur-[130px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center relative z-10">
           <div data-aos="zoom-in" className="relative group">
-            <div className="absolute inset-0 rounded-3xl bg-linear-to-tr from-amber-300/40 to-orange-300/40 blur-sm opacity-70 group-hover:opacity-100 transition"></div>
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-amber-300/40 to-orange-300/40 blur-sm opacity-70 group-hover:opacity-100 transition"></div>
             <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl p-4 shadow-xl">
               <Image
                 src="/product-03.avif"
-                alt="Premium Fusion Makhana"
+                alt="Premium Fusion Makhana Showcase"
                 width={600}
                 height={500}
                 className="rounded-2xl object-cover group-hover:scale-105 transition duration-500"
@@ -534,7 +535,7 @@ if (fusionProduct?.images?.length > 0) {
             <span className="text-sm font-semibold text-amber-600 uppercase tracking-wider">Product Details</span>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-amber-800 mt-2 leading-tight">
               Premium Sweet Makhana <br />
-              <span className="bg-linear-to-r from-amber-600 to-orange-500 text-transparent bg-clip-text">
+              <span className="bg-gradient-to-r from-amber-600 to-orange-500 text-transparent bg-clip-text">
                 Specifications & Flavor Fusion
               </span>
             </h2>
@@ -544,11 +545,11 @@ if (fusionProduct?.images?.length > 0) {
 
             <div className="grid grid-cols-2 gap-4 mt-8">
               {[
-  { label: "Flavor Style", value: "Fusion Seasoned" },
-  { label: "Texture", value: "Light & Crunchy" },
-  { label: "Shelf Life", value: "12 Months" },
-  { label: "Storage", value: "Cool & Dry Place" },
-].map((item, i) => (
+                { label: "Flavor Style", value: "Fusion Seasoned" },
+                { label: "Texture", value: "Light & Crunchy" },
+                { label: "Shelf Life", value: "12 Months" },
+                { label: "Storage", value: "Cool & Dry Place" },
+              ].map((item, i) => (
                 <div
                   key={i}
                   data-aos="fade-up"
@@ -563,13 +564,13 @@ if (fusionProduct?.images?.length > 0) {
               ))}
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="300" className="mt-6 p-4 rounded-2xl bg-linear-to-r from-amber-100 to-orange-100 text-sm text-gray-700 shadow-inner">
+            <div data-aos="fade-up" data-aos-delay="300" className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-amber-100 to-orange-100 text-sm text-gray-700 shadow-inner">
               📦 Available in multiple packs: <span className="font-semibold">100g, 200g, 250g, 500g</span>
             </div>
 
             <div data-aos="fade-up" data-aos-delay="400" className="mt-8 flex items-center gap-4">
               <Link href="/customer/cart">
-                <button className="relative cursor-pointer px-7 py-3 rounded-xl text-white font-semibold bg-linear-to-r from-amber-600 to-orange-500 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
+                <button className="relative cursor-pointer px-7 py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-amber-600 to-orange-500 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
                   Shop Now
                 </button>
               </Link>
@@ -579,8 +580,8 @@ if (fusionProduct?.images?.length > 0) {
         </div>
       </section>
 
-      {/* EXPLORE MORE PRODUCTS */}
-      <section className="relative py-28 bg-linear-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
+      {/* CROSS SITE EXPLORATION */}
+      <section className="relative py-28 bg-gradient-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-amber-200/30 blur-[120px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -597,13 +598,13 @@ if (fusionProduct?.images?.length > 0) {
             ].map((item, index) => (
               <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="group">
                 <div className="rounded-3xl bg-white/80 backdrop-blur-xl shadow-sm hover:shadow-xl transition-all duration-500 p-4">
-                  <div className="overflow-hidden rounded-2xl">
+                  <div className="overflow-hidden rounded-2xl relative h-60 w-full">
                     <Image
                       src={item.img}
                       alt={item.name}
-                      width={400}
-                      height={400}
-                      className="w-full h-60 object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
                     />
                   </div>
 
@@ -624,8 +625,8 @@ if (fusionProduct?.images?.length > 0) {
         </div>
       </section>
 
-      {/* FAQ SECTION */}
-      <section className="bg-linear-to-b from-white to-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+      {/* SEO ACCESSIBLE FAQS */}
+      <section className="bg-gradient-to-b from-white to-gray-50 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10">
             Frequently Asked Questions – Fusion Spicy Makhana
@@ -649,8 +650,9 @@ if (fusionProduct?.images?.length > 0) {
           </div>
         </div>
       </section>
-      {/* REVIEWS SECTION */}
-      <section className="relative py-28 bg-linear-to-b from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
+
+      {/* SOCIAL PROOF REVIEWS SYSTEM */}
+      <section className="relative py-28 bg-gradient-to-b from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-62.5 bg-amber-300/40 blur-[120px] rounded-full"></div>
         
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -664,93 +666,61 @@ if (fusionProduct?.images?.length > 0) {
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-  {
-    name: "Ravi Gupta",
-    review:
-      "Amazing flavor combinations and super crunchy texture. Perfect healthy replacement for fried snacks.",
-  },
-  {
-    name: "Soniya Sharma",
-    review:
-      "Fusion Makhana tastes unique and premium. The seasoning balance is honestly excellent.",
-  },
-  {
-    name: "Aditya Mittal",
-    review:
-      "Loved the freshness and modern taste profiles. Definitely ordering again for office snacking.",
-  },
-].map((item, index) => (
-              <div
-                key={index}
-                data-aos="fade-up"
-                data-aos-delay={index * 120}
-                className="group"
-              >
-                {/* Card */}
+              {
+                name: "Ravi Gupta",
+                review: "Amazing flavor combinations and super crunchy texture. Perfect healthy replacement for fried snacks.",
+              },
+              {
+                name: "Soniya Sharma",
+                review: "Fusion Makhana tastes unique and premium. The seasoning balance is honestly excellent.",
+              },
+              {
+                name: "Aditya Mittal",
+                review: "Loved the freshness and modern taste profiles. Definitely ordering again for office snacking.",
+              },
+            ].map((item, index) => (
+              <div key={index} data-aos="fade-up" data-aos-delay={index * 120} className="group">
                 <div className="h-full rounded-3xl bg-white/70 backdrop-blur-xl border border-amber-100 shadow-md hover:shadow-xl transition-all duration-500 p-8 flex flex-col">
-                  {/* Name FIRST */}
-                  <p className="text-sm font-semibold text-amber-800 mb-1">
-                    {item.name}
-                  </p>
-
-                  <p className="text-xs text-amber-600 mb-4">
-                    Verified Buyer
-                  </p>
-
-                  {/* Rating */}
-                  <div className="text-amber-500 text-lg mb-4">
-                    ★★★★★
-                  </div>
-
-                  {/* Review */}
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    “{item.review}”
-                  </p>
+                  <p className="text-sm font-semibold text-amber-800 mb-1">{item.name}</p>
+                  <p className="text-xs text-amber-600 mb-4">Verified Buyer</p>
+                  <div className="text-amber-500 text-lg mb-4">★★★★★</div>
+                  <p className="text-gray-700 text-sm leading-relaxed">“{item.review}”</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Bottom Rating Summary */}
-          <div
-            data-aos="fade-up"
-            data-aos-delay="300"
-            className="mt-16 text-center"
-          >
-            <p className="text-lg font-semibold text-amber-800">
-              ⭐ 4.8/5 Average Rating
-            </p>
-            <p className="text-sm text-amber-700/80 mt-1">
-              Based on 1,200+ verified customer reviews
-            </p>
+          <div data-aos="fade-up" data-aos-delay="300" className="mt-16 text-center">
+            <p className="text-lg font-semibold text-amber-800">⭐ 4.8/5 Average Rating</p>
+            <p className="text-sm text-amber-700/80 mt-1">Based on 1,200+ verified customer reviews</p>
           </div>
         </div>
       </section>
 
-      {/* SCHEMA STRUCTURED DATA */}
+      {/* SCHEMA STRUCTURED DATA (GOOGLE RANK 1 INJECTION LAYER) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org/",
             "@type": "Product",
-            name: product?.name || "Fusion Flavored Makhana",
-            image: images.length > 0 ? images : ["/product-03.avif"],
-            description: product?.description || "Slow-roasted and coated in signature sweet blends.",
-            brand: {
+            "name": product?.name || "Fusion Flavored Makhana",
+            "image": images.length > 0 ? images : ["/product-03.avif"],
+            "description": product?.description || "Slow-roasted and coated in signature sweet blends.",
+            "brand": {
               "@type": "Brand",
-              name: "Nirvana Nuts"
+              "name": "Nirvana Nuts"
             },
-            offers: {
+            "offers": {
               "@type": "Offer",
-              priceCurrency: "INR",
-              price: String(discountedPrice || "199"),
-              availability: product?.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+              "priceCurrency": "INR",
+              "price": String(discountedPrice || "199"),
+              "availability": product?.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
             },
-            aggregateRating: {
+            "aggregateRating": {
               "@type": "AggregateRating",
-              ratingValue: "4.8",
-              reviewCount: "1200"
+              "ratingValue": "4.8",
+              "reviewCount": "1200"
             }
           })
         }}

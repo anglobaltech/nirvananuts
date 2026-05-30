@@ -17,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Nirvana Nuts",
-  description: "Shop premium makhana (fox nuts) and high-quality whey protein at Nirvana Nuts. Healthy snacks, clean nutrition & fast delivery across India.",
+  title: "Nirvana Nuts | Buy Premium Flavored Makhana & Bulk Whey Protein Online",
+  description: "Shop premium flavored makhana (Classic Salted, Savory, Sweet Gourmet, Fusion Spicy) and buy 20kg bulk whey protein online in India at the best prices from Nirvana Nuts.",
+  keywords: "buy makhana online, flavored fox nuts India, bulk whey protein supplier, healthy snacks, gym supplements India, premium makhana brand",
 };
 
 export default function RootLayout({ children }) {

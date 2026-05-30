@@ -8,7 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 
 const ContactClient = () => {
-  const form = useRef(null);
+  const formRef = useRef(null);
+  const recaptchaRef = useRef(null);
 
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ const ContactClient = () => {
       return;
     }
 
-    if (!form.current) {
+    if (!formRef.current) {
       toast.error("Form not found ❌");
       return;
     }
@@ -31,7 +32,7 @@ const ContactClient = () => {
     try {
       setLoading(true);
 
-      // verify captcha on server
+      // 1. Verify captcha on your backend API route
       const res = await fetch("/api/verify-captcha", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -44,15 +45,18 @@ const ContactClient = () => {
         throw new Error("Captcha verification failed");
       }
 
+      // 2. Dispatch data via EmailJS 
       await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        form.current,
+        formRef.current,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
       );
 
-      form.current.reset();
+      // 3. Reset form and security state cleanly
+      formRef.current.reset();
       setCaptchaToken(null);
+      recaptchaRef.current?.reset();
 
       toast.success("Message sent successfully! ✅", {
         position: "top-right",
@@ -60,8 +64,7 @@ const ContactClient = () => {
         theme: "dark",
       });
     } catch (error) {
-      console.error(error);
-
+      console.error("Submission Error:", error);
       toast.error("Failed to send message ❌", {
         theme: "dark",
       });
@@ -71,302 +74,218 @@ const ContactClient = () => {
   };
 
   return (
-    <main className="min-h-screen relative mt-16 sm:mt-20 bg-gradient-to-br from-amber-50 via-orange-100 to-stone-200 overflow-hidden">
+    <main className="min-h-screen relative mt-16 sm:mt-20 bg-gradient-to-br from-amber-50 via-orange-100/70 to-stone-200/50 overflow-hidden selection:bg-amber-200">
       <ToastContainer />
 
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
-        {/* Heading */}
-        <header className="text-center mb-10 sm:mb-12">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold p-2 sm:p-4 tracking-tight text-amber-900 leading-snug">
-            Contact Nirvana Nuts for Orders, Bulk Enquiries & Support
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 max-w-7xl">
+        {/* Header Section */}
+        <header className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-amber-950 leading-tight">
+            Contact Nirvana Nuts
           </h1>
-
-          <p className="mt-3 text-sm sm:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed">
-            We do love to hear from you—questions, collaborations, or
-            feedback. Drop us a message and we will get back soon.
+          <p className="mt-4 text-base sm:text-lg text-stone-600 max-w-2xl mx-auto leading-relaxed">
+            Have questions about bulk wholesale pricing, custom order profiles, or our distribution network? Let's connect.
           </p>
         </header>
 
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start">
-          {/* LEFT FORM */}
-          <div className="w-full flex justify-center">
-            <div className="w-full max-w-2xl rounded-2xl bg-white/60 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-5 sm:p-6 lg:p-8">
+        {/* Content Structure */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Interactive Input Card */}
+          <div className="w-full lg:col-span-7 flex justify-center">
+            <div className="w-full rounded-2xl bg-white/70 backdrop-blur-md shadow-xl shadow-stone-200/40 border border-white/60 p-6 sm:p-8 lg:p-10">
               <form
-                ref={form}
+                ref={formRef}
                 onSubmit={sendEmail}
-                className="space-y-5"
-                aria-label="Contact form"
+                className="space-y-6"
+                aria-label="Corporate contact channel"
               >
-                {/* Name + Phone */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Name */}
-                  <div className="group">
-                    <label
-                      htmlFor="name"
-                      className="block text-base sm:text-lg font-medium text-stone-900"
-                    >
-                      Name
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {/* Full Name */}
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-stone-800 tracking-wide">
+                      Full Name
                     </label>
-
                     <input
                       id="name"
                       name="name"
                       type="text"
                       required
-                      placeholder="Enter your full name"
-                      className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                      focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                      group-focus-within:scale-[1.01] hover:border-stone-400"
+                      placeholder="E.g., Alexander Wright"
+                      className="mt-2 w-full rounded-xl border border-stone-300 bg-white/90 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-inner outline-none transition-all duration-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 hover:border-stone-400"
                     />
                   </div>
 
-                  {/* Phone */}
-                  <div className="group">
-                    <label
-                      htmlFor="phone"
-                      className="block text-base sm:text-lg font-medium text-stone-900"
-                    >
+                  {/* Phone Line */}
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-stone-800 tracking-wide">
                       Phone Number
                     </label>
-
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
                       pattern="[0-9]{10}"
-                      title="Enter 10 digit mobile number"
+                      title="Please enter a valid 10-digit phone number"
                       required
-                      placeholder="Enter your phone number"
-                      className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                      focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                      group-focus-within:scale-[1.01] hover:border-stone-400"
+                      placeholder="10-digit mobile number"
+                      className="mt-2 w-full rounded-xl border border-stone-300 bg-white/90 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-inner outline-none transition-all duration-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 hover:border-stone-400"
                     />
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="group">
-                  <label
-                    htmlFor="email"
-                    className="block text-base sm:text-lg font-medium text-stone-900"
-                  >
-                    Email
+                {/* Email Destination */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-stone-800 tracking-wide">
+                    Corporate Email
                   </label>
-
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
-                    placeholder="you@example.com"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                    focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                    group-focus-within:scale-[1.01] hover:border-stone-400"
-                    aria-describedby="email-desc"
+                    placeholder="name@company.com"
+                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/90 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-inner outline-none transition-all duration-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 hover:border-stone-400"
+                    aria-describedby="email-privacy-notice"
                   />
-
-                  <p
-                    id="email-desc"
-                    className="mt-1 text-xs sm:text-sm text-stone-500"
-                  >
-                    We’ll only use this to reply to your message.
+                  <p id="email-privacy-notice" className="mt-1.5 text-xs text-stone-500">
+                    Your communication is protected under strict privacy protocols.
                   </p>
                 </div>
 
-                {/* Message */}
-                <div className="group">
-                  <label
-                    htmlFor="message"
-                    className="block text-base sm:text-lg font-medium text-stone-900"
-                  >
-                    Message
+                {/* Detailed Enquiry */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-stone-800 tracking-wide">
+                    Enquiry Details
                   </label>
-
                   <textarea
                     id="message"
                     name="message"
                     required
-                    rows={4}
-                    placeholder="Tell us more…"
-                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/80 px-4 py-3 text-sm sm:text-base text-stone-800 placeholder-stone-400 shadow-sm outline-none transition-all duration-200
-                    focus:ring-2 focus:ring-amber-500 focus:border-amber-500
-                    group-focus-within:scale-[1.01] hover:border-stone-400 resize-none"
+                    rows={5}
+                    placeholder="Specify volume requirements, product variant interests, or support context..."
+                    className="mt-2 w-full rounded-xl border border-stone-300 bg-white/90 px-4 py-3 text-stone-800 placeholder-stone-400 shadow-inner outline-none transition-all duration-200 focus:border-amber-600 focus:ring-2 focus:ring-amber-600/20 hover:border-stone-400 resize-none leading-relaxed"
                   />
                 </div>
 
-                {/* Recaptcha */}
-                <div className="overflow-x-auto">
+                {/* Security Gate */}
+                <div className="overflow-x-auto py-1">
                   <div className="min-w-[304px]">
                     <ReCAPTCHA
-                      sitekey={
-                        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-                      }
+                      ref={recaptchaRef}
+                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                       onChange={(token) => setCaptchaToken(token)}
                     />
                   </div>
                 </div>
 
-                {/* Submit */}
+                {/* Submission Action */}
                 <div className="pt-2">
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-gradient-to-r from-amber-600 to-stone-700 text-white px-6 py-3 font-medium shadow-md
-                    transition-transform duration-200 hover:scale-[1.03] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer disabled:opacity-70"
-                    aria-label="Submit contact form"
+                    className="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-gradient-to-r from-amber-700 to-stone-800 text-white px-8 py-3.5 font-medium shadow-md transition-all duration-200 hover:shadow-lg hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer tracking-wide"
                   >
-                    {loading ? "Sending..." : "Send Message"}
+                    {loading ? "Processing Dispatch..." : "Submit"}
                   </button>
                 </div>
               </form>
             </div>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className="w-full flex justify-center">
-            <div className="w-full max-w-3xl rounded-2xl bg-white/50 backdrop-blur-md shadow-lg shadow-stone-300/50 border border-white/40 p-5 sm:p-6 lg:p-8 flex flex-col justify-between lg:min-h-[620px]">
-              {/* Contact Info */}
-              <div className="space-y-6">
-                <h2 className="text-xl sm:text-2xl font-semibold text-stone-800">
-                  Reach us directly
+          {/* Directory / Contact Reference Card */}
+          <div className="w-full lg:col-span-5 flex justify-center">
+            <div className="w-full rounded-2xl bg-white/40 backdrop-blur-md shadow-xl shadow-stone-200/30 border border-white/50 p-6 sm:p-8 lg:p-10 flex flex-col justify-between lg:min-h-[640px]">
+              
+              {/* HQ Channels */}
+              <div className="space-y-8">
+                <h2 className="text-xl sm:text-2xl font-semibold text-stone-900 tracking-tight">
+                  Direct Headquarter Directory
                 </h2>
 
-                {/* Phone */}
-                <div className="flex items-start gap-4">
-                  <a href="tel:917782069184">
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center hover:scale-110 transition">
-                      <Image
-                        src="/dialer-icon.avif"
-                        alt="dialer"
-                        width={200}
-                        height={200}
-                      />
+                <div className="space-y-6">
+                  {/* Phone Line */}
+                  <div className="flex items-center gap-4 group">
+                    <a href="tel:917782069184" className="shrink-0 transition-transform duration-200 group-hover:scale-105" aria-label="Call HQ">
+                      <div className="flex h-12 w-12 items-center justify-center bg-white rounded-xl shadow-sm border border-stone-200/60">
+                        <Image src="/dialer-icon.avif" alt="" width={24} height={24} className="opacity-80" />
+                      </div>
+                    </a>
+                    <div>
+                      <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">Voice Directory</p>
+                      <p className="font-medium text-stone-800 text-sm sm:text-base mt-0.5">+91 778 206 9184</p>
                     </div>
-                  </a>
-
-                  <div className="break-all">
-                    <p className="text-sm text-stone-500">Phone</p>
-                    <p className="font-medium text-stone-800 text-sm sm:text-base">
-                      +91 778 206 9184
-                    </p>
                   </div>
-                </div>
 
-                {/* WhatsApp */}
-                <div className="flex items-start gap-4">
-                  <a href="https://wa.me/917782069184">
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center hover:scale-110 transition">
-                      <Image
-                        src="/whatsapp.avif"
-                        alt="whatsapp"
-                        width={200}
-                        height={200}
-                      />
+                  {/* Message Gateway */}
+                  <div className="flex items-center gap-4 group">
+                    <a href="https://wa.me/917782069184" className="shrink-0 transition-transform duration-200 group-hover:scale-105" aria-label="Message via WhatsApp">
+                      <div className="flex h-12 w-12 items-center justify-center bg-white rounded-xl shadow-sm border border-stone-200/60">
+                        <Image src="/whatsapp.avif" alt="" width={24} height={24} />
+                      </div>
+                    </a>
+                    <div>
+                      <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">Instant Chat</p>
+                      <p className="font-medium text-stone-800 text-sm sm:text-base mt-0.5">+91 778 206 9184</p>
                     </div>
-                  </a>
-
-                  <div className="break-all">
-                    <p className="text-sm text-stone-500">WhatsApp</p>
-                    <p className="font-medium text-stone-800 text-sm sm:text-base">
-                      +91 778 206 9184
-                    </p>
                   </div>
-                </div>
 
-                {/* Email */}
-                <div className="flex items-start gap-4">
-                  <a href="mailto:info.nirvananuts@gmail.com">
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center hover:scale-110 transition">
-                      <Image
-                        src="/email-icon.webp"
-                        alt="email"
-                        width={200}
-                        height={200}
-                        priority
-                      />
+                  {/* Mailbox */}
+                  <div className="flex items-center gap-4 group">
+                    <a href="mailto:info@nirvananuts.in" className="shrink-0 transition-transform duration-200 group-hover:scale-105" aria-label="Email HQ">
+                      <div className="flex h-12 w-12 items-center justify-center bg-white rounded-xl shadow-sm border border-stone-200/60">
+                        <Image src="/email-icon.webp" alt="" width={24} height={24} className="opacity-80" />
+                      </div>
+                    </a>
+                    <div className="break-all">
+                      <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">Corporate Mail</p>
+                      <p className="font-medium text-stone-800 text-sm sm:text-base mt-0.5">info@nirvananuts.in</p>
                     </div>
-                  </a>
-
-                  <div className="break-all">
-                    <p className="text-sm text-stone-500">Email</p>
-                    <p className="font-medium text-stone-800 text-sm sm:text-base">
-                      info@nirvananuts.in
-                    </p>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center">
-                    <Image
-                      src="/location-01.avif"
-                      alt="location"
-                      height={200}
-                      width={200}
-                    />
                   </div>
 
-                  <div>
-                    <p className="text-sm text-stone-500">Location</p>
-
-                    <p className="font-medium text-stone-800 text-sm sm:text-base leading-relaxed">
-                      VILL- SEMRA HAT, THANA-TURKULIYA, Semra (East
-                      Champaran), Banjaria, East Champaran 845435, Bihar
-                    </p>
+                  {/* Global Location */}
+                  <div className="flex items-start gap-4">
+                    <div className="shrink-0 flex h-12 w-12 items-center justify-center bg-white rounded-xl shadow-sm border border-stone-200/60">
+                      <Image src="/location-01.avif" alt="" height={24} width={24} className="opacity-80" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">Physical Infrastructure</p>
+                      <p className="font-medium text-stone-700 text-sm sm:text-base mt-1 leading-relaxed">
+                        Vill- Semra Hat, Thana-Turkuliya,<br />
+                        Semra (East Champaran), Banjaria,<br />
+                        East Champaran, Bihar — 845435
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Social */}
-              <div className="mt-8">
-                <p className="text-sm text-stone-500 mb-3">
-                  Follow us
-                </p>
-
+              {/* Ecosystem Social Links */}
+              <div className="mt-10 pt-6 border-t border-stone-200/40">
+                <p className="text-xs font-medium text-stone-400 uppercase tracking-wider mb-3">Brand Ecosystem</p>
                 <div className="flex items-center gap-3">
-                  <a
-                    href="https://www.instagram.com/nirvana.nuts/"
-                    aria-label="Visit Instagram"
-                    className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm hover:scale-105 transition"
-                  >
-                    <Image
-                      src="/instagram-icon.avif"
-                      alt="instagram"
-                      width={200}
-                      height={200}
-                    />
-                  </a>
-
-                  <a
-                    href="#"
-                    aria-label="Visit Facebook"
-                    className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm hover:scale-105 transition"
-                  >
-                    <Image
-                      src="/facebook-icon.avif"
-                      alt="Facebook"
-                      height={200}
-                      width={200}
-                    />
-                  </a>
-
-                  <a
-                    href="#"
-                    aria-label="Visit LinkedIn"
-                    className="group flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/70 border border-stone-200 shadow-sm hover:scale-105 transition"
-                  >
-                    <Image
-                      src="/linkedin-icon.avif"
-                      alt="Linkedin"
-                      height={200}
-                      width={200}
-                    />
-                  </a>
+                  {["instagram", "facebook", "linkedin"].map((platform) => (
+                    <a
+                      key={platform}
+                      href={platform === "instagram" ? "https://www.instagram.com/nirvana.nuts/" : "#"}
+                      aria-label={`Follow Nirvana Nuts on ${platform}`}
+                      className="flex h-11 w-11 items-center justify-center rounded-xl bg-white border border-stone-200/70 shadow-sm hover:scale-105 active:scale-95 transition-all duration-200"
+                    >
+                      <Image
+                        src={`/${platform}-icon.avif`}
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="opacity-75 hover:opacity-100 transition-opacity"
+                      />
+                    </a>
+                  ))}
                 </div>
               </div>
+
             </div>
           </div>
+
         </div>
       </section>
     </main>

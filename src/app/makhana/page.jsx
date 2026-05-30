@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const products = [
   {
@@ -9,6 +10,7 @@ const products = [
     marketingTitle: "Roasted & Salted Makhana – The Classic Snack",
     description: "Our Classic Salted Makhana is gently roasted and lightly seasoned with pure Sendha Namak to deliver a clean, natural flavor. A wholesome, protein-rich superfood that's perfect for fasting (Vrat) and healthy everyday snacking.",
     image: "/product-05.avif",
+    link: "/plain-makhana",
     features: [
       "Premium quality handpicked fox nuts",
       "Slow-roasted in pure ghee or olive oil",
@@ -25,6 +27,7 @@ const products = [
     marketingTitle: "Modern Savory Makhana Flavors – Peri‑Peri, Cheese, Tomato & Mint",
     description: "Experience a modern twist on traditional makhana. Infused with rich savory profiles including fiery Peri-Peri chili, classic White Cheddar, Tangy Tomato, and fresh Mint Pudina. A clean alternative to fried chips.",
     image: "/product-03.avif",
+    link: "/modern-makhana",
     features: [
       "Infused with exotic, aromatic spice blends",
       "Perfected roasting curve for maximum crunch",
@@ -41,6 +44,7 @@ const products = [
     marketingTitle: "Sweet & Gourmet Makhana – Premium Healthy Snack",
     description: "Indulge in a delightful sweet crunch with our Sweet Gourmet Makhana. Meticulously glazed with premium ingredients like rich caramel, dark chocolate, authentic jaggery, or organic honey for a guilt-free dessert alternative.",
     image: "/product-04.avif",
+    link: "/sweet-makhana",
     features: [
       "Artisanal coatings of caramel, chocolate, or jaggery",
       "Lightly roasted bases keeping an airy texture",
@@ -57,6 +61,7 @@ const products = [
     marketingTitle: "Fusion & Spicy Makhana – Bold & Flavorful Healthy Snack",
     description: "Turn up the heat with Fusion Spicy Makhana, seasoned with a vibrant blend of hand-ground exotic spices for a deep, complex flavor profile. Formulated cleanly for fitness enthusiasts and true spice lovers.",
     image: "/about-image-04.webp",
+    link: "/fusion-makhana",
     features: [
       "Unique collision of traditional Indian and global spices",
       "Consistent fiery kick throughout every bite",
@@ -70,26 +75,26 @@ const products = [
 
 const Page = () => {
   return (
-    <section className="min-h-screen bg-neutral-50 text-neutral-800 antialiased pt-24 pb-20">
+    <section className="min-h-screen bg-[#fcfcfd] text-neutral-800 antialiased pt-24 pb-20">
       
       {/* Editorial Header Section */}
       <div className="max-w-7xl mt-10 mx-auto text-center px-6 mb-20">
-        <span className="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-4 py-1.5 rounded-full border border-amber-200/40">
+        <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-4 py-1.5 rounded-md border border-amber-200/40">
           Nirvana Nuts Premium Range
         </span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-neutral-900 mt-4 leading-tight">
-          Premium Makhana
+          Premium Makhana Portfolio
         </h1>
         <p className="mt-3 text-lg md:text-xl font-medium text-amber-700">
           Healthy, Crunchy & Wholesome Snacking Reimagined
         </p>
         
-        <div className="mt-10 bg-white border border-neutral-200/60 rounded-2xl p-6 md:p-10 shadow-sm text-left relative overflow-hidden">
+        <div className="mt-10 bg-white border border-neutral-200/60 rounded-3xl p-6 md:p-10 shadow-sm text-left relative overflow-hidden">
           <div className="absolute top-0 left-0 h-1.5 w-full bg-amber-500" />
           <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-4">
             What makes makhana a smart snack choice?
           </h2>
-          <p className="text-neutral-600 leading-relaxed text-base md:text-stretch">
+          <p className="text-neutral-600 leading-relaxed text-base">
             Makhana, also known globally as fox nuts or lotus seeds, is naturally light, plant-protein rich, and notably easy on the digestive system. 
             At <span className="font-semibold text-amber-700">Nirvana Nuts</span>, we place strict emphasis on maintaining absolute raw purity and bold flavor architecture. 
             Our targeted roasting processes amplify structural crispness while keeping the foundational nutritional properties fully intact.
@@ -115,32 +120,37 @@ const Page = () => {
               key={product.id}
               className="bg-white border border-neutral-100 rounded-3xl shadow-xl shadow-neutral-200/30 overflow-hidden grid grid-cols-1 md:grid-cols-2 items-stretch min-h-[440px]"
             >
-              {/* Image Frame Wrapper layout order switching natively */}
-              <div className={`w-full min-h-[320px] md:min-h-full relative group overflow-hidden bg-neutral-100 ${isEven ? 'md:order-1' : 'md:order-2'}`}>
+              {/* Image Frame Wrapper with Link capability */}
+              <Link 
+                href={product.link}
+                className={`w-full min-h-[320px] md:min-h-full relative group overflow-hidden bg-neutral-100 cursor-pointer ${isEven ? 'md:order-1' : 'md:order-2'}`}
+              >
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
-                  className="object-cover group-hover:scale-103 transition-transform duration-700 ease-out"
-                  sizes="(max-w-768px) 100vw, 550px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  sizes="(max-width: 768px) 100vw, 600px"
                   priority={index === 0}
                 />
-              </div>
+              </Link>
 
               {/* Text Focus Panel */}
               <div className={`p-8 md:p-12 lg:p-16 flex flex-col justify-center ${isEven ? 'md:order-2' : 'md:order-1'}`}>
                 <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">
                   {product.subtitle}
                 </span>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-neutral-950 mt-2 mb-4">
-                  {product.name}
-                </h3>
+                <Link href={product.link} className="hover:text-amber-700 transition-colors">
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-neutral-950 mt-2 mb-4">
+                    {product.name}
+                  </h3>
+                </Link>
                 <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-6">
                   {product.description}
                 </p>
                 
                 {/* Clean Feature List Component Layout */}
-                <ul className="space-y-2.5 text-sm text-neutral-700 font-medium border-t border-neutral-100 pt-6">
+                <ul className="space-y-2.5 text-sm text-neutral-700 font-medium border-t border-neutral-100 pt-6 mb-6">
                   {product.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="text-amber-600 font-bold mt-0.5 select-none text-xs bg-amber-50 rounded-full w-4 h-4 flex items-center justify-center border border-amber-200">
@@ -150,6 +160,14 @@ const Page = () => {
                     </li>
                   ))}
                 </ul>
+
+                <div>
+                  <Link href={product.link}>
+                    <button className="px-5 py-2.5 bg-neutral-950 text-white font-semibold rounded-xl text-xs hover:bg-neutral-800 transition duration-300 cursor-pointer">
+                      View Premium Details →
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           );
@@ -195,17 +213,18 @@ const Page = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div
+            <Link
+              href={product.link}
               key={`card-${product.id}`}
-              className="group bg-white border border-neutral-200/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
+              className="group bg-white border border-neutral-200/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col cursor-pointer"
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-50 border-b border-neutral-100">
                 <Image
                   src={product.image}
                   alt={product.marketingTitle}
                   fill
-                  className="object-cover group-hover:scale-104 transition-transform duration-500"
-                  sizes="(max-w-640px) 100vw, (max-w-1024px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
               <div className="p-5 flex-grow flex flex-col justify-between bg-white">
@@ -218,7 +237,7 @@ const Page = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -233,12 +252,12 @@ const Page = () => {
           <p className="text-neutral-400 max-w-xl mx-auto mb-8 text-sm md:text-base leading-relaxed">
             Have distinct retail inquiries, institutional sourcing targets, or wholesale custom distribution queries? Get straight to our support table.
           </p>
-          <a 
+          <Link 
             href="/contact" 
-            className="inline-block bg-amber-600 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:bg-amber-500 active:scale-98 transition-all duration-200 text-sm"
+            className="inline-block bg-amber-600 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:bg-amber-500 active:scale-98 transition-all duration-200 text-sm cursor-pointer"
           >
             Contact Distribution Desk
-          </a>
+          </Link>
         </div>
       </div>
 
