@@ -690,7 +690,7 @@ const Hero = () => {
         </div>
       </section>
       
-      <ToastContainer position="bottom-right" theme="minimal" />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnFocusLoss draggable pauseOnHover />
     </div>
   )
 }

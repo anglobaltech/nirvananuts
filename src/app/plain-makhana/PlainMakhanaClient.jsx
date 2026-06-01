@@ -12,8 +12,7 @@ import {
   Dumbbell,
   ChevronDown,
   Star,
-  ShoppingCart,
-  Zap,
+  Heart,
   Gift,
   ShoppingBag,
   ArrowRight,
@@ -28,8 +27,14 @@ import {
   getDoc,
   setDoc
 } from "firebase/firestore";
+
+import {
+  addToWishlist,
+  removeFromWishlist,
+  subscribeWishlist,
+} from "@/customerService/wishlistService";
 import {  auth, db } from "@/lib/firebase";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // const images = [
@@ -60,6 +65,8 @@ export default function PlainMakhanaPage() {
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [images, setImages] = useState([]);
+    const [wish, setWish] = useState(false);
+
 
     const basePrice = selectedVariant?.price || 0;
     const productDiscount = product?.discount || 0;
@@ -170,6 +177,75 @@ const handleAction = async (type) => {
     }
 };
 
+const handleWishlist = async () => {
+  try {
+    // Check current wishlist state from service
+    if (wish) {
+      await removeFromWishlist(product.docId);
+
+      setWish(false);
+      toast.info("Removed from wishlist");
+      return;
+    }
+
+    const wishlistItems = await new Promise((resolve) => {
+      const unsub = subscribeWishlist((items) => {
+        resolve(items);
+        unsub();
+      });
+    });
+
+   const alreadyExists = wishlistItems.some(
+  (item) => String(item.id) === String(product.docId)
+);
+
+    if (alreadyExists) {
+      toast.info("Already in wishlist");
+      setWish(true);
+      return;
+    }
+
+    await addToWishlist({
+      id: product.docId,
+      docId: product.docId,
+      title: product.name,
+      description: product.description,
+      image: active || product.images?.[0],
+      mainImage: active || product.images?.[0],
+      variants: product.variants || [],
+      tieredDiscounts:
+        product.tieredDiscounts ||
+        product.buyMoreSaveMore ||
+        [],
+      stock: product.inStock ?? true,
+      rating: product.rating || 4,
+      price: Number(basePrice || 0),
+    });
+
+    setWish(true);
+    toast.success("Added to wishlist ");
+  } catch (error) {
+    console.log(error);
+    toast.error("Something went wrong");
+  }
+};
+
+useEffect(() => {
+  if (!product?.docId) return;
+
+  const checkWishlist = (items) => {
+    const exists = items.some(
+      (i) => String(i.id) === String(product.docId)
+    );
+    setWish(!!exists);
+  };
+
+  // 1. realtime sync
+  const unsub = subscribeWishlist(checkWishlist);
+
+  return () => unsub && unsub();
+}, [product?.docId]);
+
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
@@ -220,6 +296,15 @@ useEffect(() => {
 
     return (
         <div className="bg-amber-50">
+            <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="light"
+      />
             <section className="h-80 w-full bg-linear-to-br from-amber-500 to-amber-400 border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                     <h1 className="text-3xl md:text-4xl italic font-semibold mt-38 text-center text-gray-900 leading-tight tracking-tight max-w-7xl">
@@ -239,6 +324,19 @@ useEffect(() => {
               {/* MAIN IMAGE */}
               <div className="relative aspect-[4/3] w-full bg-slate-100 rounded-[32px] overflow-hidden flex items-center justify-center border border-slate-200/40 shadow-xs group/canvas">
 
+<button
+  onClick={handleWishlist}
+  className="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center hover:bg-red-50 hover:border-red-200 transition-all duration-300 cursor-pointer"
+>
+<Heart
+  size={22}
+  className={`transition-all duration-300 ${
+    wish
+      ? "fill-red-500 text-red-500"
+      : "text-gray-400"
+  }`}
+/>
+</button>
                 <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full" />
 
                 <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-orange-100/40 blur-3xl rounded-full" />

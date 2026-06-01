@@ -125,11 +125,11 @@ export default function CartPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#F8F9FA] pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mt-10 mx-auto">
         
-        {/* Header */}
-        <div className="flex items-center justify-between mb-10">
+        {/* Header - Page Context Semantic Identity */}
+        <header className="flex items-center justify-between mb-10">
           <div>
             <h1 className="text-4xl font-black text-gray-900 tracking-tight">Cart</h1>
             <p className="text-gray-500 font-medium">Review your selection of Nirvana Nuts</p>
@@ -138,7 +138,7 @@ export default function CartPage() {
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Continue Shopping
           </Link>
-        </div>
+        </header>
 
         {cartItems.length === 0 ? (
           <div className="bg-white rounded-[3rem] p-20 text-center border border-gray-100 shadow-sm">
@@ -155,11 +155,11 @@ export default function CartPage() {
           <div className="grid lg:grid-cols-12 gap-12 items-start">
             
             {/* Left Side: Product List with Discount Badges */}
-            <div className="lg:col-span-7 space-y-6">
+            <section aria-label="Shopping Cart Items" className="lg:col-span-7 space-y-6">
               {cartItems.map((item, index) => {
                 const stats = calculatePricing(item);
                 return (
-                  <div key={index} className="group bg-white rounded-[2rem] p-6 flex flex-col sm:flex-row items-center gap-6 border border-transparent hover:border-orange-100 transition-all shadow-sm hover:shadow-xl relative overflow-hidden">
+                  <article key={index} className="group bg-white rounded-[2rem] p-6 flex flex-col sm:flex-row items-center gap-6 border border-transparent hover:border-orange-100 transition-all shadow-sm hover:shadow-xl relative overflow-hidden">
                     
                     {/* Item Discount Ribbon */}
                     {stats.isDiscounted && (
@@ -169,13 +169,18 @@ export default function CartPage() {
                     )}
 
                     <div className="relative w-32 h-32 bg-[#F3F4F6] rounded-3xl overflow-hidden shrink-0">
-                      <Image src={item.mainImage} fill className="object-cover group-hover:scale-110 transition-transform duration-500" alt={item.name} />
+                      <Image 
+                        src={item.mainImage} 
+                        fill 
+                        className="object-cover group-hover:scale-110 transition-transform duration-500" 
+                        alt={item.name || "Nirvana Nuts Snack Pack Product Image"} 
+                      />
                     </div>
 
                     <div className="flex-grow w-full">
                       <div className="flex justify-between items-start mb-1">
                         <h2 className="text-lg font-black text-gray-900">{item.name}</h2>
-                        <button onClick={() => removeItem(index)} className="w-8 h-8 mt-1 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200">
+                        <button type="button" onClick={() => removeItem(index)} className="w-8 h-8 mt-1 cursor-pointer rounded-xl flex items-center justify-center bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-200">
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -225,9 +230,9 @@ export default function CartPage() {
                       
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center bg-gray-50 rounded-2xl p-1 border border-gray-100">
-                          <button onClick={() => updateQuantity(index, -1)} className="w-10 h-10 text-black cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Minus size={14}/></button>
+                          <button type="button" onClick={() => updateQuantity(index, -1)} className="w-10 h-10 text-black cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Minus size={14}/></button>
                           <span className="w-12 text-center font-black text-gray-900">{item.qty}</span>
-                          <button onClick={() => updateQuantity(index, 1)} className="w-10 text-black h-10 cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Plus size={14}/></button>
+                          <button type="button" onClick={() => updateQuantity(index, 1)} className="w-10 text-black h-10 cursor-pointer flex items-center justify-center hover:bg-white rounded-xl transition-colors"><Plus size={14}/></button>
                         </div>
 
                         <div className="text-right">
@@ -247,16 +252,16 @@ export default function CartPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </article>
                 );
               })}
-            </div>
+            </section>
 
-            {/* Right Side: Enhanced Order Summary */}
-            <div className="lg:col-span-5">
+            {/* Right Side: Enhanced Order Summary Layout block */}
+            <aside aria-label="Order Checkout Summary" className="lg:col-span-5">
               <div className="bg-white rounded-[3rem] p-10 shadow-2xl shadow-orange-100/50 border border-orange-50 sticky top-32">
                 <h3 className="text-xl font-black text-gray-900 mb-8 flex items-center gap-2 uppercase tracking-tight">
-                   Order Summary
+                    Order Summary
                 </h3>
 
                 <div className="space-y-4 mb-8">
@@ -294,6 +299,7 @@ export default function CartPage() {
                 </div>
 
                 <button 
+                  type="button"
                   onClick={handleCheckoutNavigation}
                   className="w-full cursor-pointer bg-black text-white py-6 rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-200 transition-all flex items-center justify-center gap-3 active:scale-95 group"
                 >
@@ -315,11 +321,11 @@ export default function CartPage() {
                    </div>
                 </div>
               </div>
-            </div>
+            </aside>
 
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 }

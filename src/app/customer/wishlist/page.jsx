@@ -82,7 +82,9 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
         
         {/* Absolute Control Triggers */}
         <button
-          onClick={() => handleRemove(item.id)}
+          onClick={() =>
+  handleRemove(item.id || item.docId)
+}
           className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-md rounded-full text-gray-500 hover:text-red-600 shadow-sm hover:shadow transition-all z-10 cursor-pointer"
           title="Delete from wishlist"
         >

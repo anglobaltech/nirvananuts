@@ -78,9 +78,9 @@ export default function ProductCard({ product, addToCart }) {
 
   useEffect(() => {
     const unsub = subscribeWishlist((items) => {
-      const exists = items.find(
-        (i) => i.id === product.docId || i.docId === product.docId
-      );
+      const exists = items.some(
+  (i) => String(i.id) === String(product.docId)
+);
       setWish(!!exists);
     });
     return () => unsub && unsub();
@@ -89,7 +89,7 @@ export default function ProductCard({ product, addToCart }) {
   const handleWishlist = async () => {
     try {
       if (wish) {
-        await removeFromWishlist(product.id || product.docId);
+        await removeFromWishlist(product.docId);
         setWish(false);
         toast.info("Removed from wishlist");
       } else {

@@ -17,18 +17,26 @@ import {
   Plus,
   HelpCircle,
   Gift,
-  ShoppingBag
+  ShoppingBag,
+  Heart
 } from "lucide-react";
 import {
   collection,
   getDocs,
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/customerService/wishlistService";
 
 const faqs = [
   {
@@ -55,11 +63,11 @@ export default function FusionSpicyMakhanaPage() {
   const [product, setProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   const basePrice = selectedVariant?.price || 0;
   const productDiscount = product?.discount || 0;
 
-  // Filter and sort tiers to find current active tier discount
   const sortedTiers = product?.tieredDiscounts ? [...product.tieredDiscounts].sort((a, b) => a.qty - b.qty) : [];
   
   const matchedTier = product?.tieredDiscounts
@@ -73,7 +81,6 @@ export default function FusionSpicyMakhanaPage() {
     basePrice - (basePrice * totalDiscount) / 100
   );
 
-  // Find the next available discount tier based on current active quantity selection
   const nextTier = sortedTiers.find((t) => t.qty > quantity);
   const isMaxDiscount = sortedTiers.length > 0 && !nextTier;
 
@@ -81,13 +88,48 @@ export default function FusionSpicyMakhanaPage() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+const toggleWishlist = async () => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    toast.error("Please login first");
+    window.location.href = "/login";
+    return;
+  }
+
+  try {
+    const wishlistProduct = {
+      id: product.docId,
+      title: product.name,
+      description: product.description || "",
+      image: product.images?.[0] || product.mainImage,
+      variants: product.variants || [],
+      tieredDiscounts: product.tieredDiscounts || [],
+      stock: product.inStock,
+      rating: 5,
+    };
+
+    if (isInWishlist) {
+      await removeFromWishlist(product.docId);
+      setIsInWishlist(false);
+      toast.info("Removed from wishlist");
+    } else {
+      await addToWishlist(wishlistProduct);
+      setIsInWishlist(true);
+      toast.success("Added to wishlist ");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Wishlist update failed");
+  }
+};
+
   const handleAction = async (type) => {
     if (!product?.inStock) return;
 
     try {
       const user = auth.currentUser;
 
-      // 1. AUTHENTICATION GUARD: If customer is not logged in, redirect immediately
       if (!user) {
         toast.error("Please login first");
         window.location.href = "/login";
@@ -104,9 +146,6 @@ export default function FusionSpicyMakhanaPage() {
         tieredDiscounts: product?.tieredDiscounts || [],
       };
 
-      // ==========================================
-      // WORKFLOW A: ADD TO CART LAYERS (NO REDIRECT)
-      // ==========================================
       if (type === "cart") {
         const cartRef = doc(db, "carts", user.uid);
         const cartSnap = await getDoc(cartRef);
@@ -116,44 +155,31 @@ export default function FusionSpicyMakhanaPage() {
           existingItems = cartSnap.data().items || [];
         }
 
-        // FIXED DUPLICATE BUG: Search for an item matching both ID and weight configuration
         const existingItemIndex = existingItems.findIndex(
           (cartItem) => cartItem.docId === item.docId && cartItem.selectedWeight === item.selectedWeight
         );
 
         let updatedItems;
         if (existingItemIndex > -1) {
-          // If matched, increment the existing quantity integer value
           updatedItems = [...existingItems];
           updatedItems[existingItemIndex].qty += item.qty;
         } else {
-          // If unique, append cleanly to the layout array
           updatedItems = [...existingItems, item];
         }
 
-        // Push exclusively to Firestore Carts collection
         await setDoc(cartRef, { items: updatedItems }, { merge: true });
-
-        // Notify user of success WITHOUT executing a route redirect
         toast.success("Added to cart successfully!");
         return;
       }
 
-      // ==========================================
-      // WORKFLOW B: BUY NOW EXPRESS (PRODUCTION FIX)
-      // ==========================================
       if (type === "buyNow") {
         const checkoutPayload = {
           items: [item],
           checkoutSource: "buyNow"
         };
 
-        // Save object directly into localized Session Memory (Bypasses backend cart array)
         sessionStorage.setItem("directCheckoutItem", JSON.stringify(checkoutPayload));
-
         toast.success("Redirecting to checkout...");
-        
-        // PRODUCTION CLIENT COMPILATION FIX: Force absolute browser redirect handshake
         window.location.href = "/customer/checkout";
       }
 
@@ -176,13 +202,11 @@ export default function FusionSpicyMakhanaPage() {
           ...doc.data(),
         }));
 
-        // Dynamically tracking 'fusion-makhana' category
         const fusionProduct = data.find(
           (p) => p.category === "fusion-makhana"
         );
 
         if (fusionProduct) {
-          // MULTIPLE IMAGE SUPPORT
           if (fusionProduct?.images?.length > 0) {
             setImages(fusionProduct.images);
             setActive(fusionProduct.images[0] || fusionProduct.mainImage || "/product-04.avif");
@@ -194,6 +218,17 @@ export default function FusionSpicyMakhanaPage() {
           if (fusionProduct?.variants?.length > 0) {
             setSelectedVariant(fusionProduct.variants[0]);
           }
+
+          auth.onAuthStateChanged(async (user) => {
+            if (user) {
+              const wishlistSnap = await getDoc(doc(db, "wishlists", user.uid));
+              if (wishlistSnap.exists()) {
+                const items = wishlistSnap.data().items || [];
+                const found = items.some((item) => item.id === fusionProduct.docId);
+                setIsInWishlist(found);
+              }
+            }
+          });
         }
       } catch (error) {
         console.error(error);
@@ -205,23 +240,31 @@ export default function FusionSpicyMakhanaPage() {
 
   return (
     <div className="bg-amber-50">
+       <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
+      {/* HEADER TITLE ANCHOR */}
       <section className="h-80 w-full bg-gradient-to-br from-amber-500 to-amber-400 border-b border-gray-100 flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-          {/* Fixed arbitrary margin wrapper for safe layout mapping */}
           <h1 className="text-3xl md:text-4xl italic font-semibold mt-[152px] text-center text-gray-900 leading-tight tracking-tight max-w-7xl mx-auto">
             Fusion Flavored Makhana (Fox Nuts) – Buy Premium Fusion Snacks Online
           </h1>
         </div>
       </section>
 
-      {/* HERO SECTION */}
+      {/* MAIN HERO CONFIGURATION INTERACTIVE DISPLAY */}
       <section className="w-full bg-[#fcfcfd] py-16 lg:py-24 antialiased text-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
 
-            {/* LEFT SIDE - IMAGE SYSTEM */}
+            {/* LEFT COLUMN - CANVAS STAGE AND CONTROL HOVERS */}
             <div className="lg:col-span-7 space-y-6">
-              {/* MAIN IMAGE COMPONENT */}
               <div className="relative aspect-[4/3] w-full bg-slate-100 rounded-[32px] overflow-hidden flex items-center justify-center border border-slate-200/40 shadow-sm group/canvas">
                 <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full" />
                 <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-orange-100/40 blur-3xl rounded-full" />
@@ -234,9 +277,24 @@ export default function FusionSpicyMakhanaPage() {
                   priority
                   className="relative max-h-[75%] max-w-[75%] w-auto h-auto object-contain transition-all duration-700"
                 />
+
+                {/* THE WISHLIST FLOATING ACTIONS CONTAINER */}
+                <button
+                  onClick={toggleWishlist}
+                  className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 shadow-sm flex items-center justify-center cursor-pointer transition hover:scale-110 active:scale-95 group/wishlist z-20"
+                >
+                  <Heart
+                    size={20}
+                    className={`transition-colors ${
+                      isInWishlist 
+                        ? "fill-red-500 text-red-500" 
+                        : "text-slate-600 group-hover/wishlist:text-red-500"
+                    }`}
+                  />
+                </button>
               </div>
 
-              {/* THUMBNAILS CONTAINER */}
+              {/* DYNAMIC VARIATION GALLERY GRID */}
               <div className="grid grid-cols-4 gap-4">
                 {images.slice(0, 4).map((img, i) => (
                   <button
@@ -260,10 +318,10 @@ export default function FusionSpicyMakhanaPage() {
               </div>
             </div>
 
-            {/* RIGHT SIDE - CONTENT SYSTEM */}
+            {/* RIGHT COLUMN - PRICING ENGINE, QUANTITY TIERS & ACTIONS */}
             <div className="lg:col-span-5 space-y-8 lg:pt-2">
               <div className="space-y-3">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between gap-3">
                   <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200/30">
                     Premium Quality
                   </span>
@@ -296,7 +354,7 @@ export default function FusionSpicyMakhanaPage() {
 
               <hr className="border-slate-200/60" />
 
-              {/* PRICE ARCHITECTURE */}
+              {/* BILLING CALCULATION ENGINE */}
               <div className="space-y-6">
                 <div className="flex items-end justify-between gap-4 flex-wrap">
                   <div className="space-y-1">
@@ -322,7 +380,7 @@ export default function FusionSpicyMakhanaPage() {
                   )}
                 </div>
 
-                {/* VARIANTS PACK SYSTEM */}
+                {/* SKU WEIGHT SELECTION BUTTONS */}
                 {product?.variants && product.variants.length > 0 && (
                   <div className="space-y-2.5">
                     <span className="block text-[10px] font-bold tracking-widest uppercase text-slate-400">
@@ -352,7 +410,7 @@ export default function FusionSpicyMakhanaPage() {
                   </div>
                 )}
 
-                {/* QUANTITY AND INTERACTIVE SYSTEM */}
+                {/* INCREMENTAL STEPS AND DISCOUNTS PROMPTING PANEL */}
                 <div className="grid sm:grid-cols-12 gap-4 items-center">
                   <div className="sm:col-span-4 space-y-2">
                     <span className="block text-[10px] font-bold tracking-widest uppercase text-slate-400">
@@ -377,7 +435,6 @@ export default function FusionSpicyMakhanaPage() {
                     </div>
                   </div>
 
-                  {/* DISCOUNT TIERS SYSTEM */}
                   <div className="sm:col-span-8 space-y-2 self-end">
                     {sortedTiers.length > 0 && (
                       <div className="border rounded-xl px-4 h-12 flex items-center gap-2.5 bg-slate-100/60 border-slate-200/80 text-xs">
@@ -405,7 +462,7 @@ export default function FusionSpicyMakhanaPage() {
                   </div>
                 </div>
 
-                {/* CALL TO ACTIONS */}
+                {/* IN STOCK ENGINE TRIGGER PORTS */}
                 <div className="pt-2">
                   {!product?.inStock ? (
                     <button
@@ -440,7 +497,6 @@ export default function FusionSpicyMakhanaPage() {
 
               <hr className="border-slate-200/60" />
 
-              {/* CORE TRUST SPECIFICATIONS */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold text-slate-700">
                 <div className="flex items-center gap-2.5">
                   <ShieldCheck size={16} className="text-amber-600" />
@@ -472,26 +528,10 @@ export default function FusionSpicyMakhanaPage() {
 
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              {
-                icon: Leaf,
-                title: "Bold Fusion Flavors",
-                desc: "Unique seasoning combinations inspired by international and Indian taste profiles.",
-              },
-              {
-                icon: ShieldCheck,
-                title: "Premium Roasted Quality",
-                desc: "Perfectly roasted fox nuts processed hygienically for maximum freshness and crunch.",
-              },
-              {
-                icon: HeartPulse,
-                title: "Healthy Snacking Option",
-                desc: "Low calorie, high protein and packed with nutrients for guilt-free snacking.",
-              },
-              {
-                icon: Dumbbell,
-                title: "Perfect For Every Mood",
-                desc: "Available in convenient pack sizes ideal for travel, office, gym, and home snacking.",
-              },
+              { icon: Leaf, title: "Bold Fusion Flavors", desc: "Unique seasoning combinations inspired by international and Indian taste profiles." },
+              { icon: ShieldCheck, title: "Premium Roasted Quality", desc: "Perfectly roasted fox nuts processed hygienically for maximum freshness and crunch." },
+              { icon: HeartPulse, title: "Healthy Snacking Option", desc: "Low calorie, high protein and packed with nutrients for guilt-free snacking." },
+              { icon: Dumbbell, title: "Perfect For Every Mood", desc: "Available in convenient pack sizes ideal for travel, office, gym, and home snacking." },
             ].map((item, i) => (
               <div
                 key={i}
@@ -511,8 +551,8 @@ export default function FusionSpicyMakhanaPage() {
 
       {/* TECHNICAL SPECIFICATIONS DOCK */}
       <section className="relative py-24 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
-        <div className="absolute top-0 left-0 w-87.5 h-87.5 bg-amber-300/30 blur-[130px] rounded-full"></div>
-        <div className="absolute bottom-0 right-0 w-87.5 h-87.5 bg-orange-300/30 blur-[130px] rounded-full"></div>
+        <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-amber-300/30 blur-[130px] rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-orange-300/30 blur-[130px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center relative z-10">
           <div data-aos="zoom-in" className="relative group">
@@ -582,7 +622,7 @@ export default function FusionSpicyMakhanaPage() {
 
       {/* CROSS SITE EXPLORATION */}
       <section className="relative py-28 bg-gradient-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-amber-200/30 blur-[120px] rounded-full"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-200/30 blur-[120px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 data-aos="fade-up" className="text-4xl md:text-5xl font-semibold text-center text-gray-900 mb-20 tracking-tight">
@@ -625,6 +665,43 @@ export default function FusionSpicyMakhanaPage() {
         </div>
       </section>
 
+      {/* SOCIAL PROOF REVIEWS SYSTEM */}
+      <section className="relative py-28 bg-gradient-to-b from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-amber-300/40 blur-[120px] rounded-full"></div>
+        
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <p data-aos="fade-up" className="text-sm font-semibold tracking-widest text-amber-600 uppercase mb-3">Customer Reviews</p>
+            <h2 data-aos="fade-up" data-aos-delay="100" className="text-4xl md:text-5xl font-bold text-amber-800 tracking-tight">
+              Loved by Healthy Snack Lovers
+            </h2>
+            <p data-aos="fade-up" data-aos-delay="200" className="text-amber-700/80 mt-4">Real feedback from customers who trust our premium makhana</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { name: "Ravi Gupta", review: "Amazing flavor combinations and super crunchy texture. Perfect healthy replacement for fried snacks." },
+              { name: "Soniya Sharma", review: "Fusion Makhana tastes unique and premium. The seasoning balance is honestly excellent." },
+              { name: "Aditya Mittal", review: "Loved the freshness and modern taste profiles. Definitely ordering again for office snacking." },
+            ].map((item, index) => (
+              <div key={index} data-aos="fade-up" data-aos-delay={index * 120} className="group">
+                <div className="h-full rounded-3xl bg-white/70 backdrop-blur-xl border border-amber-100 shadow-md group-hover:shadow-xl transition-all duration-500 p-8 flex flex-col">
+                  <p className="text-sm font-semibold text-amber-800 mb-1">{item.name}</p>
+                  <p className="text-xs text-amber-600 mb-4">Verified Buyer</p>
+                  <div className="text-amber-500 text-lg mb-4">★★★★★</div>
+                  <p className="text-gray-700 text-sm leading-relaxed">“{item.review}”</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="300" className="mt-16 text-center">
+            <p className="text-lg font-semibold text-amber-800">⭐ 4.8/5 Average Rating</p>
+            <p className="text-sm text-amber-700/80 mt-1">Based on 1,200+ verified customer reviews</p>
+          </div>
+        </div>
+      </section>
+
       {/* SEO ACCESSIBLE FAQS */}
       <section className="bg-gradient-to-b from-white to-gray-50 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -651,53 +728,7 @@ export default function FusionSpicyMakhanaPage() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF REVIEWS SYSTEM */}
-      <section className="relative py-28 bg-gradient-to-b from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-62.5 bg-amber-300/40 blur-[120px] rounded-full"></div>
-        
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <p data-aos="fade-up" className="text-sm font-semibold tracking-widest text-amber-600 uppercase mb-3">Customer Reviews</p>
-            <h2 data-aos="fade-up" data-aos-delay="100" className="text-4xl md:text-5xl font-bold text-amber-800 tracking-tight">
-              Loved by Healthy Snack Lovers
-            </h2>
-            <p data-aos="fade-up" data-aos-delay="200" className="text-amber-700/80 mt-4">Real feedback from customers who trust our premium makhana</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Ravi Gupta",
-                review: "Amazing flavor combinations and super crunchy texture. Perfect healthy replacement for fried snacks.",
-              },
-              {
-                name: "Soniya Sharma",
-                review: "Fusion Makhana tastes unique and premium. The seasoning balance is honestly excellent.",
-              },
-              {
-                name: "Aditya Mittal",
-                review: "Loved the freshness and modern taste profiles. Definitely ordering again for office snacking.",
-              },
-            ].map((item, index) => (
-              <div key={index} data-aos="fade-up" data-aos-delay={index * 120} className="group">
-                <div className="h-full rounded-3xl bg-white/70 backdrop-blur-xl border border-amber-100 shadow-md hover:shadow-xl transition-all duration-500 p-8 flex flex-col">
-                  <p className="text-sm font-semibold text-amber-800 mb-1">{item.name}</p>
-                  <p className="text-xs text-amber-600 mb-4">Verified Buyer</p>
-                  <div className="text-amber-500 text-lg mb-4">★★★★★</div>
-                  <p className="text-gray-700 text-sm leading-relaxed">“{item.review}”</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="300" className="mt-16 text-center">
-            <p className="text-lg font-semibold text-amber-800">⭐ 4.8/5 Average Rating</p>
-            <p className="text-sm text-amber-700/80 mt-1">Based on 1,200+ verified customer reviews</p>
-          </div>
-        </div>
-      </section>
-
-      {/* SCHEMA STRUCTURED DATA (GOOGLE RANK 1 INJECTION LAYER) */}
+      {/* SCHEMA STRUCTURED DATA */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

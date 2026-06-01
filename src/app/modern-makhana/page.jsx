@@ -17,11 +17,17 @@ import {
   Plus,
   ShoppingBag,
   HelpCircle,
-  ArrowRight
+  ArrowRight,
+  Heart
 } from "lucide-react";
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  subscribeWishlist,
+} from "@/customerService/wishlistService";
 import { auth, db } from "@/lib/firebase";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const faqs = [
@@ -46,6 +52,7 @@ export default function ModernMakhanaPage() {
   const [product, setProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [wish, setWish] = useState(false);
 
   const basePrice = selectedVariant?.price || 0;
   const productDiscount = product?.discount || 0;
@@ -133,6 +140,52 @@ export default function ModernMakhanaPage() {
     }
   };
 
+  const handleWishlist = async () => {
+  try {
+    const user = auth.currentUser;
+
+    if (!user) {
+      toast.error("Please login first");
+      window.location.href = "/login";
+      return;
+    }
+
+    if (wish) {
+      await removeFromWishlist(product.docId);
+      setWish(false);
+      toast.info("Removed from wishlist");
+    } else {
+      await addToWishlist({
+        id: product.docId,
+        docId: product.docId,
+        title: product.name,
+        image: active || product.images?.[0] || "/placeholder.png",
+        price: Number(basePrice),
+        stock: product.inStock,
+        variants: product.variants || [],
+        tieredDiscounts: product.tieredDiscounts || [],
+      });
+
+      setWish(true);
+      toast.success("Added to wishlist ");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Wishlist action failed");
+  }
+};
+
+useEffect(() => {
+  const unsub = subscribeWishlist((items) => {
+    const exists = items.some(
+      (i) => String(i.id) === String(product?.docId)
+    );
+    setWish(!!exists);
+  });
+
+  return () => unsub && unsub();
+}, [product?.docId]);
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
@@ -171,6 +224,15 @@ export default function ModernMakhanaPage() {
 
   return (
     <div className="bg-amber-50 selection:bg-amber-500 selection:text-white">
+       <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
       {/* Dynamic Structured SEO Schema Data */}
       <script
         type="application/ld+json"
@@ -215,6 +277,15 @@ export default function ModernMakhanaPage() {
             {/* LEFT SIDE: GALLERY STAGE */}
             <div className="lg:col-span-7 space-y-6">
               <div className="relative aspect-[4/3] w-full bg-slate-100 rounded-[32px] overflow-hidden flex items-center justify-center border border-slate-200/40 shadow-xs group/canvas">
+<button
+  onClick={handleWishlist}
+  className="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center hover:bg-red-50 hover:border-red-200 transition-all duration-300 cursor-pointer"
+>
+  <Heart
+  size={22}
+  className={wish ? "text-red-500 fill-red-500" : "text-red-500"}
+/>
+</button>
                 <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full" />
                 <div className="relative w-[75%] h-[75%] transition-transform duration-700 ease-out group-hover/canvas:scale-[1.03]">
                   <Image

@@ -1,14 +1,66 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link"; // PERFORMANCE & BEST PRACTICE: Single Page Routing native support
-import { ShoppingCart, UserRound, ChevronDown, Menu, X } from "lucide-react"; // A11Y FIXED: Replaced string symbols with clean SVG vectors
+import { ShoppingCart, UserRound, ChevronDown, Menu, X, Heart } from "lucide-react"; // Added Heart for Wishlist
+import { subscribeWishlist } from "@/customerService/wishlistService"; // Firebase wishlist subscriber
+import { doc, onSnapshot } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProduct, setMobileProduct] = useState(false);
+
+  // --- NEW STATES FOR REAL-TIME COUNTS ---
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+
+  // --- REAL-TIME LISTENERS FOR WISHLIST & CART ---
+  useEffect(() => {
+    // 1. Wishlist Real-time Subscriber
+    const unsubWishlist = subscribeWishlist((items) => {
+      setWishlistCount(items?.length || 0);
+    });
+
+    // 2. Firebase Cart Quantity Listener
+    let unsubCart = () => {};
+    
+    const setupCartListener = () => {
+      const user = auth.currentUser;
+      if (user) {
+        unsubCart = onSnapshot(doc(db, "carts", user.uid), (docSnap) => {
+          if (docSnap.exists()) {
+            const items = docSnap.data().items || [];
+            // Cart ke saare items ki quantity (+qty) ka total sum nikalna
+            const totalQty = items.reduce((total, item) => total + (Number(item.qty) || 0), 0);
+            setCartCount(totalQty);
+          } else {
+            setCartCount(0);
+          }
+        });
+      } else {
+        setCartCount(0);
+      }
+    };
+
+    // Firebase Auth State Tracker: Login hote hi cart listener activate hoga
+    const unsubAuth = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setupCartListener();
+      } else {
+        setCartCount(0);
+        unsubCart();
+      }
+    });
+
+    return () => {
+      unsubWishlist && unsubWishlist();
+      unsubCart && unsubCart();
+      unsubAuth && unsubAuth();
+    };
+  }, []);
 
   const news = [
     "🔥 Plain Makhana Available",
@@ -62,7 +114,7 @@ const Header = () => {
                 alt="Nirvana Nuts Premium Organic Makhana Logo"
                 height={60}
                 width={75}
-                priority // Performance optimization for Above-The-Fold branding metrics
+                priority 
                 className="object-contain"
               />
             </Link>
@@ -133,8 +185,24 @@ const Header = () => {
               Contact us
             </Link>
 
-            <Link href="/customer/cart" aria-label="Open personal shopping cart container" className="p-2 text-black hover:scale-110 hover:text-amber-600 transition-transform">
+            {/* FIXED: Added Wishlist Icon with Count Badge for Desktop */}
+            <Link href="/customer/wishlist" aria-label="Open wishlist" className="relative p-2 text-black hover:scale-110 hover:text-red-500 transition-all">
+              <Heart size={22} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-black h-4 w-4 rounded-full flex items-center justify-center border border-white shadow-xs">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
+
+            {/* FIXED: Added Count Badge for Cart Icon in Desktop */}
+            <Link href="/customer/cart" aria-label="Open personal shopping cart container" className="relative p-2 text-black hover:scale-110 hover:text-amber-600 transition-all">
               <ShoppingCart size={22} />
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-black text-white text-[10px] font-black h-4 w-4 rounded-full flex items-center justify-center border border-white shadow-xs">
+                  {cartCount}
+                </span>
+              )}
             </Link>
             
             <Link href="/login" aria-label="Navigate to Profile Account Login Gateway" className="p-2.5 rounded-full font-medium text-black hover:scale-110 bg-amber-300 transition-transform flex items-center justify-center">
@@ -147,9 +215,25 @@ const Header = () => {
             <Link href="/login" aria-label="Profile Gateway login interface" className="p-2 rounded-full text-black bg-amber-300 active:scale-95 transition-transform flex items-center justify-center">
               <UserRound size={18} />
             </Link>
+
+            {/* FIXED: Added Wishlist Icon with Count Badge for Mobile */}
+            <Link href="/customer/wishlist" aria-label="Open wishlist" className="relative p-2 text-black active:scale-95 transition-all flex items-center justify-center">
+              <Heart size={20} />
+              {wishlistCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 bg-red-500 text-white text-[9px] font-black h-3.5 w-3.5 rounded-full flex items-center justify-center border border-white shadow-xs">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
             
-            <Link href="/customer/cart" aria-label="Open internal cart" className="p-2 text-black active:scale-95 transition-transform flex items-center justify-center">
+            {/* FIXED: Added Count Badge for Cart Icon in Mobile */}
+            <Link href="/customer/cart" aria-label="Open internal cart" className="relative p-2 text-black active:scale-95 transition-all flex items-center justify-center">
               <ShoppingCart size={20} />
+              {cartCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 bg-black text-white text-[9px] font-black h-3.5 w-3.5 rounded-full flex items-center justify-center border border-white shadow-xs">
+                  {cartCount}
+                </span>
+              )}
             </Link>
             
             <button
@@ -217,6 +301,7 @@ const Header = () => {
                 <ChevronDown size={16} className={`transition-transform duration-200 ${mobileProduct ? "rotate-180 text-amber-700" : ""}`} />
               </button>
 
+              {/* FIXED: Mobile Drawer me bhi explicit links structure built-in hai */}
               {mobileProduct && (
                 <div className="pl-3 py-1 flex flex-col gap-2.5 border-l-2 border-amber-300 text-sm font-medium text-neutral-700 bg-amber-100/40 rounded-r-lg">
                   <Link href="/makhana" onClick={() => setMobileOpen(false)} className="hover:text-amber-700 py-0.5">
@@ -239,6 +324,14 @@ const Header = () => {
                   </Link>
                 </div>
               )}
+
+              {/* FIXED: Added Wishlist Link inside Mobile Drawer for easier access */}
+              <Link href="/customer/wishlist" onClick={() => setMobileOpen(false)} className="flex items-center justify-between hover:text-amber-700 transition-colors">
+                <span>My Wishlist</span>
+                {wishlistCount > 0 && (
+                  <span className="bg-red-500 text-white font-black text-xs px-2 py-0.5 rounded-full">{wishlistCount}</span>
+                )}
+              </Link>
 
               <Link href="/food-ingredients" onClick={() => setMobileOpen(false)} className="hover:text-amber-700 transition-colors">
                 Food Ingredient

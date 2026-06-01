@@ -26,8 +26,9 @@ export const getWishlist = async (userId) => {
 };
 
 export const subscribeWishlist = (callback, errorCallback) => {
+  let unsubscribeSnapshot = null;
 
-  return onAuthStateChanged(auth, (user) => {
+  const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
     if (!user) {
       callback([]);
       return;
@@ -35,7 +36,7 @@ export const subscribeWishlist = (callback, errorCallback) => {
 
     const ref = doc(db, "wishlists", user.uid);
 
-    const unsub = onSnapshot(
+    unsubscribeSnapshot = onSnapshot(
       ref,
       (snap) => {
         if (snap.exists()) {
@@ -49,13 +50,28 @@ export const subscribeWishlist = (callback, errorCallback) => {
         if (errorCallback) errorCallback(error);
       }
     );
-
-    return unsub;
   });
+
+  return () => {
+    unsubscribeAuth();
+
+    if (unsubscribeSnapshot) {
+      unsubscribeSnapshot();
+    }
+  };
 };
 // ❤️ Add to wishlist
 export const addToWishlist = async (product) => {
   const user = auth.currentUser;
+
+  console.log("Current User:", user);
+  console.log("Product Data:", product);
+
+  if (!user) {
+    console.log("User not logged in");
+    alert("Login required");
+    return;
+  }
 
   if (!user) {
     alert("Login required");
@@ -104,8 +120,9 @@ const wishlistItem = {
       });
     }
   } catch (error) {
-    console.log("Wishlist Error:", error);
-  }
+  console.error("Wishlist Error:", error);
+  alert(error.message);
+}
 };
 
 // ❌ Remove
@@ -113,12 +130,26 @@ export const removeFromWishlist = async (id) => {
   const user = auth.currentUser;
   if (!user) return;
 
-  const ref = doc(db, "wishlists", user.uid);
-  const snap = await getDoc(ref);
+  try {
+    const ref = doc(db, "wishlists", user.uid);
+    const snap = await getDoc(ref);
 
-  if (!snap.exists()) return;
+    if (!snap.exists()) return;
 
-  const updated = snap.data().items.filter((i) => i.id !== id);
+    const items = snap.data().items || [];
 
-  await updateDoc(ref, { items: updated });
+    const updated = items.filter(
+      (item) =>
+        item.id !== id &&
+        item.docId !== id
+    );
+
+    await updateDoc(ref, {
+      items: updated,
+    });
+
+    console.log("Removed:", id);
+  } catch (error) {
+    console.error("Wishlist remove error:", error);
+  }
 };

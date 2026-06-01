@@ -17,17 +17,19 @@ import {
   Plus,
   HelpCircle,
   Gift,
-  ShoppingBag
+  ShoppingBag,
+  Heart // Heart Icon ko import kiya gaya
 } from "lucide-react";
 import {
   collection,
   getDocs,
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  onSnapshot // Real-time dependency tracking ke liye
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const faqs = [
@@ -52,6 +54,7 @@ export default function SweetMakhanaPage() {
   const [product, setProduct] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [isWishlisted, setIsWishlisted] = useState(false); // Wishlist UI State
 
   const basePrice = selectedVariant?.price || 0;
   const productDiscount = product?.discount || 0;
@@ -77,6 +80,86 @@ export default function SweetMakhanaPage() {
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  // Real-time Wishlist Status Sync Layer
+  useEffect(() => {
+    if (!product?.docId) return;
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const wishlistRef = doc(db, "wishlists", user.uid);
+        return onSnapshot(wishlistRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const items = docSnap.data().items || [];
+            setIsWishlisted(
+  items.some(
+    (item) =>
+      item.id === product.docId ||
+      item.docId === product.docId
+  )
+);
+          } else {
+            setIsWishlisted(false);
+          }
+        });
+      } else {
+        setIsWishlisted(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [product?.docId]);
+
+  // Wishlist Action Matrix
+  const toggleWishlist = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      toast.error("Please login first to update your wishlist!");
+      return;
+    }
+
+    try {
+      const wishlistRef = doc(db, "wishlists", user.uid);
+      const wishlistSnap = await getDoc(wishlistRef);
+      let currentItems = wishlistSnap.exists() ? wishlistSnap.data().items || [] : [];
+
+      if (isWishlisted) {
+        const updatedItems = currentItems.filter(
+  (item) =>
+    item.id !== product.docId &&
+    item.docId !== product.docId
+);
+        await setDoc(wishlistRef, { items: updatedItems }, { merge: true });
+        toast.info("Removed from wishlist");
+      } else {
+        const newItem = {
+  id: product.docId,
+  title: product.name,
+  description: product.description || "",
+  image: active || product.images?.[0] || "/placeholder.png",
+
+  variants: product.variants || [],
+
+  tieredDiscounts:
+    product.tieredDiscounts ||
+    product.buyMoreSaveMore ||
+    [],
+
+  stock: product.inStock ?? true,
+  rating: product.rating ?? 5,
+
+  // extra fields safe to keep
+  docId: product.docId,
+  name: product.name,
+  mainImage: active || product.images?.[0] || "/placeholder.png",
+  price: Number(basePrice),
+};
+        await setDoc(wishlistRef, { items: [...currentItems, newItem] }, { merge: true });
+        toast.success("Added to wishlist!");
+      }
+    } catch (error) {
+      console.error("Wishlist operation failed:", error);
+      toast.error("Failed to update wishlist");
+    }
   };
 
   const handleAction = async (type) => {
@@ -203,9 +286,18 @@ export default function SweetMakhanaPage() {
 
   return (
     <div className="bg-amber-50">
+       <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
       {/* HEADER TITLE SECTION */}
       <section className="h-80 w-full bg-gradient-to-br from-amber-500 to-amber-400 border-b border-gray-100 flex items-center">
-        <div className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <div className="max-w-7xl mx-auto   px-4 sm:px-6 lg:px-8 py-10 w-full">
           <h1 className="text-3xl md:mt-15 md:text-4xl italic font-semibold text-center text-gray-900 leading-tight tracking-tight max-w-7xl mx-auto">
             Sweet Premium Makhana (Fox Nuts) – Buy Healthy Sweetened Fox Nuts Online
           </h1>
@@ -223,6 +315,21 @@ export default function SweetMakhanaPage() {
               <div className="relative aspect-[4/3] w-full bg-slate-100 rounded-[32px] overflow-hidden flex items-center justify-center border border-slate-200/40 shadow-sm group/canvas">
                 <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-amber-200/30 blur-3xl rounded-full" />
                 <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-80 h-80 bg-orange-100/40 blur-3xl rounded-full" />
+
+                {/* WISHLIST FLOATING BUTTON ENTRY */}
+                <button
+                  onClick={toggleWishlist}
+                  className="absolute top-6 right-6 z-20 p-3.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 cursor-pointer group"
+                >
+                  <Heart
+                    size={20}
+                    className={`transition-colors duration-300 ${
+                      isWishlisted 
+                        ? "fill-red-500 text-red-500" 
+                        : "text-slate-600 group-hover:text-red-500"
+                    }`}
+                  />
+                </button>
 
                 <div className="relative w-[75%] h-[75%] flex items-center justify-center">
                   <Image
