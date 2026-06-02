@@ -112,47 +112,73 @@ useEffect(() => {
 
 if (authLoading) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50">
-      <div className="flex flex-col items-center gap-2">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
-        <p className="text-sm font-medium text-slate-500">Loading...</p>
+    <div className="flex min-h-screen items-center justify-center bg-stone-50">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-6 w-6 animate-spin rounded-full border-[2px] border-stone-900 border-t-transparent"></div>
+        <p className="text-xs font-bold uppercase tracking-widest text-stone-400">Verifying Session</p>
       </div>
     </div>
   )
 }
 
 return (
-  <main className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-8 md:p-24">
+  <main className="relative flex min-h-screen w-full items-center justify-center p-4 sm:p-6 overflow-hidden">
+    
+    {/* High-End Background Layer */}
+    <div className="absolute inset-0 z-0">
+      <Image
+        src="/shoping.png"
+        alt="Premium Storefront Background"
+        fill
+        priority
+        className="object-cover object-center brightness-[0.35]"
+      />
+      {/* Soft overlay pattern for dynamic depth and contrast */}
+      <div className="absolute inset-0 bg-radial from-transparent via-stone-950/40 to-stone-950/80" />
+    </div>
+
     <ToastContainer position="top-right" autoClose={3000} />
     
-    <section className="w-full max-w-md flex flex-col gap-6">
+    {/* Global Back Navigation Button */}
+    <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
+      <Link href="/">
+        <button className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-stone-950/40 backdrop-blur-md border border-white/10 rounded-full hover:bg-white hover:text-stone-900 transition-all cursor-pointer shadow-lg active:scale-95">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-3.5 h-3.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+          Back to Shop
+        </button>
+      </Link>
+    </div>
+
+    <section className="relative z-10 w-full max-w-[420px] flex flex-col gap-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-500">
       
-      {/* Logo Container */}
-      <div className="flex justify-center">
-        <div className="relative overflow-hidden rounded-2xl bg-white p-2 shadow-sm border border-slate-100">
+      {/* Brand Platform Header */}
+      <div className="flex flex-col items-center text-center gap-3">
+        <div className="relative overflow-hidden rounded-2xl bg-white p-2.5 shadow-xl border border-white/20">
           <Image
             src="/nirvana-logo.avif"
-            height={80}
-            width={80}
+            height={68}
+            width={68}
             alt="logo image"
             className="object-contain"
           />
         </div>
       </div>
 
-      {/* Main Login Card */}
-      <div className="w-full rounded-2xl border border-slate-100 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-10">
+      {/* Main Authentication Card */}
+      <div className="w-full rounded-[2rem] border border-white/10 bg-stone-950/60 backdrop-blur-2xl p-6 shadow-2xl shadow-black/50 sm:p-8">
         
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Welcome back</h1>
-          <p className="mt-1.5 text-sm text-slate-500">Login with your email credentials</p>
+          <h1 className="text-xl font-extrabold tracking-tight text-white uppercase tracking-wider">Login</h1>
+          <p className="mt-1 text-xs font-medium text-stone-400">Enter your login details below.</p>
         </div>
 
-        <form onSubmit={loginUser} className="flex flex-col gap-4">
+        <form onSubmit={loginUser} className="space-y-4">
           
           {/* Email Input Group */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 ml-1">
               Email Address
             </label>
             <input
@@ -160,13 +186,14 @@ return (
               placeholder="name@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.06] p-3.5 text-sm font-medium text-white transition-all placeholder:text-stone-500 focus:border-white focus:bg-stone-900 focus:outline-none focus:ring-4 focus:ring-white/[0.03]"
+              required
             />
           </div>
 
           {/* Password Input Group */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400 ml-1">
               Password
             </label>
             <input
@@ -174,59 +201,60 @@ return (
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.06] p-3.5 text-sm font-medium text-white transition-all placeholder:text-stone-500 focus:border-white focus:bg-stone-900 focus:outline-none focus:ring-4 focus:ring-white/[0.03]"
+              required
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Action Submission Trigger */}
           <button
             type="submit"
             disabled={isLoading}
-            className="mt-2 w-full cursor-pointer rounded-xl bg-blue-600 p-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none"
+            className="w-full mt-2 cursor-pointer rounded-xl bg-white p-3.5 text-xs font-bold uppercase tracking-wider text-stone-950 shadow-md transition-all hover:bg-stone-100 active:scale-[0.98] disabled:bg-stone-800 disabled:text-stone-500 disabled:cursor-not-allowed flex items-center justify-center min-h-[48px]"
           >
             {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
-                Logging in...
+              <span className="flex items-center justify-center gap-2.5">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-stone-950 border-t-transparent"></span>
+                <span className="tracking-wide">Verifying Access...</span>
               </span>
             ) : (
-              "Login"
+              "Sign In"
             )}
           </button>
 
         </form>
 
         {/* Action Links */}
-        <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-medium">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 pt-5 text-[11px] font-bold tracking-wide">
           <Link href="/forget-password">
-            <button className="cursor-pointer text-slate-500 hover:text-blue-600 transition-colors">
-              Forgot Password?
+            <button className="cursor-pointer text-stone-400 hover:text-white transition-colors">
+              Forget Password
             </button>
           </Link>
 
-          <div className="flex items-center gap-1 text-slate-500">
-            <span>New here?</span>
+          <div className="flex items-center gap-1 text-stone-400">
+            <span className="font-medium">New customer?</span>
             <Link href="/customerSignup">
-              <button className="cursor-pointer font-semibold text-blue-600 hover:underline">
-                Create Account
+              <button className="cursor-pointer text-white hover:underline underline-offset-4">
+                Sign Up
               </button>
             </Link>
           </div>
         </div>
 
-        {/* Commented out Google button styled to match the new layout */}
+        {/* Commented out Google button section matching design language layout changes */}
         {/* 
-        <div className="relative my-6 flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-slate-100"></span></div>
-          <span className="relative bg-white px-3 text-xs text-slate-400 uppercase tracking-wider">Or continue with</span>
+        <div className="relative my-5 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/10"></span></div>
+          <span className="relative bg-stone-950/80 px-3 text-[9px] font-extrabold uppercase tracking-widest text-stone-500">Or Federation Access</span>
         </div>
 
         <button
           disabled={isLoading}
           onClick={signInWithGoogle}
-          className="w-full flex items-center justify-center gap-2 cursor-pointer rounded-xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 active:scale-[0.99] disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 cursor-pointer rounded-xl border border-white/10 bg-white/5 p-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-white/10 active:scale-[0.98] disabled:opacity-50"
         >
-          {isLoading ? "Signing In..." : "Sign in With Google"}
+          {isLoading ? "Connecting..." : "Sign in With Google"}
         </button> 
         */}
 

@@ -227,19 +227,19 @@ const Hero = () => {
   }, [reviews, cardsPerView, maxIndex]);
 
   return (
-    <div className='min-h-screen w-full overflow-x-hidden bg-stone-50/50 text-neutral-800 antialiased'>
+    <div className='min-h-screen w-full  bg-stone-50/50 text-neutral-800 antialiased'>
       
       {/* PERFECT DOM SEO STRUCTURAL ENTRY */}
       <h1 className="sr-only">Nirvana Nuts - Premium Flavored Makhana & Bulk Whey Protein Supplier India</h1>
 
       {/* 1. Hero Slider Section */}
-      <section className="relative min-h-[85vh] md:mt-10 md:min-h-screen w-full bg-[#faf8f5] flex flex-col justify-center">
+      <section className="relative min-h-screen md:mt-15 lg:mt-8 md:min-h-screen xl:min-h-screen w-full bg-[#faf8f5] flex flex-col justify-center">
         {slides.map((slide, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === slider ? "opacity-100 z-10 translate-x-0" : "opacity-0 pointer-events-none -translate-x-4"}`}
           >
-            <div className="w-full max-w-7xl mx-auto px-6 pt-32 md:pt-20 pb-20 h-full flex flex-col md:flex-row items-center gap-8">
+            <div className="w-full max-w-7xl mx-auto  px-6 pt-32 md:pt-20 md:px-8 lg:pt-1 lg:py-1 lg:pb-2 pb-20 h-full flex flex-col md:flex-row items-center gap-8">
               <div className="md:w-1/2 w-full flex flex-col justify-center" data-aos="fade-right">
                 <span className="text-amber-800 tracking-wider uppercase block w-fit mt-3 text-xs px-3 py-1 mb-6 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
                   Trusted Supplier Since 2020
@@ -247,17 +247,17 @@ const Hero = () => {
 
                 {/* DESKTOP HEADING (Safe Semantic Markup) */}
                 <div className="hidden md:block space-y-3 mb-6">
-                  <h2 className="text-4xl md:text-[54px] tracking-tight leading-tight font-bold text-neutral-900">
+                  <h2 className="text-2xl md:text-[28px] tracking-tight leading-tight font-bold text-neutral-900">
                     {slide.heading}
                   </h2>
-                  <p className="text-xl md:text-[28px] font-medium tracking-wide text-amber-800/90">
+                  <p className="text-xl md:text-[20px] font-medium tracking-wide text-amber-800/90">
                     {slide.title}
                   </p>
                 </div>
 
                 {/* MOBILE HEADING */}
                 <div className="md:hidden block mb-6">
-                  <h2 className="text-3xl mb-4 font-bold tracking-tight text-neutral-900">
+                  <h2 className="text-3xl mb-3 font-bold tracking-tight text-neutral-900">
                     {slide.heading}
                     <span className="text-sm tracking-wide ml-1 font-medium text-amber-800 block mt-1">
                       {slide.title}
@@ -274,34 +274,46 @@ const Hero = () => {
                       className="object-contain"
                     />
                   </div>
+                  <div className='block md:hidden lg:hidden'>
+        <div className="absolute  left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setSlider(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`h-1.5 transition-all duration-300 rounded-full ${index === slider ? "bg-amber-700 w-8" : "bg-neutral-300 w-2 hover:bg-neutral-400"}`}
+            />
+          ))}
+        </div>
+        </div>
                 </div>
 
-                <p className="text-sm lg:text-base lg:leading-7 text-neutral-600 mb-8 md:max-w-xl">
+                <p className="text-sm lg:text-base lg:leading-7 text-neutral-600 mb-4 md:mb-8 lg:mb-8 md:max-w-xl">
                   {slide.description}
                 </p>
 
                 <div className="flex items-center gap-4 mb-8 md:mb-12">
-                  <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-xs lg:text-sm font-medium tracking-wider uppercase text-white px-5 py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
+                  <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-[10px] lg:text-sm font-medium tracking-wider uppercase text-white px-3 py-2 lg:px-5 lg:py-3 md:px-5 md:py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
                     Explore Products
                   </Link>
-                  <Link href="/contact" className="border border-neutral-300 text-xs lg:text-sm font-medium tracking-wider uppercase text-neutral-800 px-5 py-3 rounded-lg transition-all duration-300 hover:bg-neutral-900 hover:text-white">
+                  <Link href="/contact" className="border border-neutral-300 text-[10px] lg:text-sm font-medium tracking-wider uppercase text-neutral-800 px-3 py-2 lg:px-5 lg:py-3 md:px-5 md:py-3 rounded-lg transition-all duration-300 hover:bg-neutral-900 hover:text-white">
                     Contact us
                   </Link>
                 </div>
 
-                <hr className="border-neutral-200/60 mb-8" />
+                <hr className="hidden md:block lg:block border-neutral-200/60 mb-8" />
 
-                <div className="flex gap-12">
+                <div className="flex gap-12 ">
                   <div>
-                    <p className="text-2xl lg:text-3xl font-bold text-neutral-900 tracking-tight">100%</p>
+                    <p className="text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">100%</p>
                     <p className="text-neutral-400 text-[10px] tracking-widest font-semibold mt-1">ORGANIC</p>
                   </div>
                   <div>
-                    <p className="text-2xl lg:text-3xl font-bold text-neutral-900 tracking-tight">70K</p>
+                    <p className="text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">70K</p>
                     <p className="text-neutral-400 text-[10px] tracking-widest font-semibold mt-1">HAPPY CLIENTS</p>
                   </div>
                   <div>
-                    <p className="text-2xl lg:text-3xl font-bold text-neutral-900 tracking-tight">20+</p>
+                    <p className="text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">20+</p>
                     <p className="text-neutral-400 text-[10px] tracking-widest font-semibold mt-1">RECIPES</p>
                   </div>
                 </div>
@@ -320,7 +332,7 @@ const Hero = () => {
             </div>
           </div>
         ))}
-
+        <div className='hidden md:block lg:block'>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
           {slides.map((_, index) => (
             <button
@@ -331,10 +343,11 @@ const Hero = () => {
             />
           ))}
         </div>
+        </div>
       </section>
 
       {/* 2. Category Breakdown Section */}
-      <section data-aos="fade-up" className="bg-white py-20 border-y border-neutral-100">
+      <section data-aos="fade-up" className="bg-[#faf8f5] pt-40  md:py-25 lg:py-20 border-y border-neutral-100">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-3">
             Shop by Makhana Variety

@@ -47,7 +47,6 @@ const Sidebar = () => {
     <>
       {/* MOBILE & TABLET HEADER */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40   px-5 py-3 flex items-center justify-between">
-
         <button 
           onClick={() => setOpen(true)} 
           className="text-[#2D1B0D] p-2 hover:bg-white/50 rounded-full cursor-pointer transition-colors"
@@ -60,7 +59,7 @@ const Sidebar = () => {
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0  backdrop-blur-sm z-40 lg:hidden transition-opacity duration-500"
+          className="fixed inset-0   backdrop-blur-sm z-40 lg:hidden transition-opacity duration-500"
         />
       )}
 
@@ -135,18 +134,9 @@ const Sidebar = () => {
               hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-500
               shadow-sm group active:scale-95 cursor-pointer"
           >
-            <LogOut size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform r" />
+            <LogOut size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
             End Session
           </button>
-          
-          <div className="mt-6 text-center space-y-1">
-            <p className="text-[8px] font-bold text-[#A68966]/40 tracking-[0.2em] uppercase">
-              Secure Interface v2.4
-            </p>
-            <p className="text-[8px] text-[#A68966]/30 font-mono">
-              Logged in: {auth.currentUser?.email?.split('@')[0]}
-            </p>
-          </div>
         </div>
       </aside>
     </>

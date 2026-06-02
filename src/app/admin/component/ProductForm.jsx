@@ -46,7 +46,7 @@ export default function ProductForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!category || images.length === 0) {
-      toast.error("Required fields missing");
+      toast.error("Please fill all required fields");
       return;
     }
     setLoading(true);
@@ -71,10 +71,10 @@ export default function ProductForm() {
         createdAt: new Date()
       });
 
-      toast.success("Catalog Updated");
+      toast.success("Product Added Successfully✅");
       setName(""); setImages([]);
     } catch (err) {
-      toast.error("Sync Failed");
+      toast.error("Failed to Add Product");
     } finally {
       setLoading(false);
     }
@@ -83,11 +83,11 @@ export default function ProductForm() {
   return (
     <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-xl border border-white p-8 md:p-12 rounded-[3rem] shadow-2xl shadow-black/[0.03] space-y-12">
       <div className="flex flex-col md:flex-row justify-between gap-6 border-b border-[#D2C1B0]/30 pb-10">
-        <h2 className="text-2xl font-serif italic text-[#2D1B0D]">Creation Module</h2>
+        <h2 className="text-2xl font-serif italic text-[#2D1B0D]">Add Product</h2>
         <div className="flex items-center gap-2">
            <div className={`w-2 h-2 rounded-full ${loading ? 'bg-amber-400 animate-pulse' : 'bg-green-500'}`} />
            <span className="text-[10px] font-black uppercase tracking-widest opacity-60">
-             {loading ? "Uploading to Cloud" : "System Ready"}
+             {loading ? "Uploading Images..." : " Ready"}
            </span>
         </div>
       </div>
@@ -95,16 +95,16 @@ export default function ProductForm() {
       {/* Inputs */}
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Label</label>
+          <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Product Name</label>
           <input
             value={name} onChange={(e) => setName(e.target.value)}
-            placeholder="e.g., Roasted Himalayan Salt Makhana"
+            placeholder="e.g., Classic Roasted Makhana"
             className="w-full bg-white/50 border border-white/60 p-5 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic"
             required
           />
         </div>
         <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Collection</label>
+          <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Category</label>
           <select
             value={category} onChange={(e) => setCategory(e.target.value)}
             className="w-full bg-white/50 border border-white/60 p-5 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic appearance-none"
@@ -121,10 +121,10 @@ export default function ProductForm() {
       </div>
 
       <div className="space-y-2">
-        <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Narrative</label>
+        <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Product Description</label>
         <textarea
           value={description} onChange={(e) => setDescription(e.target.value)}
-          placeholder="Describe the texture, aromatic notes, and nutritional benefits..."
+          placeholder="Write a description of the product..."
           className="w-full bg-white/50 border border-white/60 p-5 rounded-2xl min-h-[120px] text-sm outline-none focus:bg-white transition-all shadow-sm italic"
         />
       </div>
@@ -132,7 +132,7 @@ export default function ProductForm() {
       {/* Image Gallery */}
       <div className="bg-[#F4EDE4]/50 p-8 rounded-[2rem] border border-white">
         <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B5E3C] mb-6 flex items-center gap-2">
-          <ImageIcon size={14} /> Visual Assets
+          <ImageIcon size={14} /> Product Images
         </h3>
         <div className="flex flex-wrap gap-4">
           <label className="w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-[#D2C1B0] rounded-2xl cursor-pointer hover:bg-white transition-all text-[#A68966] group">
@@ -155,9 +155,9 @@ export default function ProductForm() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B5E3C] flex items-center gap-2">
-              <Layers size={14} /> Configurations
+              <Layers size={14} /> Product Size & Pricing
             </h3>
-            <button type="button" onClick={addVariant} className="text-[9px] font-bold uppercase cursor-pointer tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Variant</button>
+            <button type="button" onClick={addVariant} className="text-[9px] font-bold uppercase cursor-pointer tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Size</button>
           </div>
           <div className="space-y-3">
             {variants.map((v, i) => (
@@ -174,20 +174,20 @@ export default function ProductForm() {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B5E3C] flex items-center gap-2">
-              <Tag size={14} /> Loyalty Incentives
+              <Tag size={14} /> Discount Offers
             </h3>
-            <button type="button" onClick={addOffer} className="text-[9px] font-bold uppercase cursor-pointer tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Tier</button>
+            <button type="button" onClick={addOffer} className="text-[9px] font-bold uppercase cursor-pointer tracking-widest text-[#2D1B0D] underline underline-offset-4">Add Offer</button>
           </div>
           <div className="space-y-3">
             {offers.map((o, i) => (
               <div key={i} className="flex gap-3 items-center bg-[#F4EDE4]/30 p-2 rounded-2xl border border-white">
                 <div className="flex items-center gap-2 flex-1 pl-2">
-                  <span className="text-[9px] font-black text-[#A68966]">BUY</span>
+                  <span className="text-[9px] font-black text-[#A68966]">Buy Quantity</span>
                   <input type="number" value={o.qty} onChange={(e) => updateOffer(i, "qty", e.target.value)} className="w-full bg-transparent outline-none text-xs font-bold" />
                 </div>
                 <div className="flex items-center gap-2 flex-1 border-l pl-4">
                   <input type="number" value={o.discount} onChange={(e) => updateOffer(i, "discount", e.target.value)} className="w-full bg-transparent outline-none text-xs font-bold text-[#8B5E3C]" />
-                  <span className="text-[9px] font-black text-[#8B5E3C]">% OFF</span>
+                  <span className="text-[9px] font-black text-[#8B5E3C]">Discount %</span>
                 </div>
                 <button type="button" onClick={() => removeOffer(i)} className="p-2 text-[#A68966] cursor-pointer hover:text-red-600"><Trash2 size={14} /></button>
               </div>
@@ -198,9 +198,9 @@ export default function ProductForm() {
 
       <button
         type="submit" disabled={loading}
-        className="w-full bg-[#2D1B0D] cursor-pointer hover:bg-amber-500 hover:text-amber-900 duration-500 text-[#F4EDE4] py-6 rounded-[2rem] text-[11px] font-black uppercase tracking-[0.5em] transition-all shadow-xl hover:shadow-black/20 flex items-center justify-center gap-4 group"
+        className="w-100 bg-[#2D1B0D] cursor-pointer hover:bg-amber-500 hover:text-amber-900 duration-500 text-[#F4EDE4] py-4 rounded-4xl text-sm font-serif font-black uppercase tracking-[0.5em] transition-all shadow-xl hover:shadow-black/20 flex items-center justify-center gap-4"
       >
-        {loading ? "Establishing Product Records..." : <>Finalize Catalog Entry <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" /></>}
+        {loading ? "Saving Product..." : <>Add Product <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" /></>}
       </button>
     </form>
   );

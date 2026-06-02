@@ -6,8 +6,8 @@ export default function DashboardCards({ title, value, icon }) {
     <motion.div
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       className="relative overflow-hidden bg-white/70 backdrop-blur-md border border-white 
-                 p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl shadow-black/[0.03] 
-                 flex flex-col justify-between min-h-[160px] sm:h-44 group transition-all"
+                p-6 sm:p-8 rounded-4xl sm:rounded-[2.5rem] shadow-xl shadow-black/3 
+                flex flex-col justify-between min-h-40 sm:h-44 group transition-all"
     >
       <div className="flex justify-between items-start">
         <div className="p-2.5 sm:p-3 bg-[#F4EDE4] rounded-xl sm:rounded-2xl text-[#2D1B0D] 

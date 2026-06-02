@@ -10,7 +10,7 @@ export default function SalesChart({ data = [] }) {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12 gap-6">
         <div>
           <h2 className="text-2xl sm:text-3xl font-extralight text-[#2D1B0D] tracking-tight italic">
-            Revenue Analytics
+            Sales Report
           </h2>
           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.5em] text-[#A68966] mt-2 font-black opacity-70">
             Market Performance Visualization
