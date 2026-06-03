@@ -16,7 +16,7 @@ export default function CustomerTable({ customers, loading, onDelete }) {
   if (customers.length === 0) {
     return (
       <div className="text-center py-32 rounded-[3rem] bg-white/20 border border-dashed border-[#D2C1B0]">
-        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#A68966]">No Entries Found</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#A68966]">No Customers Found</p>
       </div>
     );
   }
@@ -28,10 +28,10 @@ export default function CustomerTable({ customers, loading, onDelete }) {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-[#D2C1B0]/30">
-              <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Profile Identity</th>
-              <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Communication</th>
-              <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Residence</th>
-              <th className="p-8 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Remove</th>
+              <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Customer</th>
+              <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Contact Details</th>
+              <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Address</th>
+              <th className="p-8 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Delete</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#D2C1B0]/20">
@@ -53,7 +53,7 @@ export default function CustomerTable({ customers, loading, onDelete }) {
 }
 
 function TableRow({ user, onDelete, isMobile }) {
-  const name = user.fullName || user.name || user.displayName || "Anonymous Client";
+  const name = user.fullName || user.name || user.displayName || "Unknown Customer";
   const addressParts = [user.street, user.city, user.state, user.pincode].filter(Boolean).join(", ");
 
   if (isMobile) {
@@ -72,7 +72,7 @@ function TableRow({ user, onDelete, isMobile }) {
           </div>
           <div>
             <h3 className="font-bold text-[#2D1B0D] tracking-tight text-lg leading-tight">{name}</h3>
-            <p className="text-[8px] font-black uppercase tracking-widest text-[#A68966]">Verified Member</p>
+            <p className="text-[8px] font-black uppercase tracking-widest text-[#A68966]">Registered Customer</p>
           </div>
           <button 
             onClick={() => onDelete(user.id)}
@@ -93,7 +93,7 @@ function TableRow({ user, onDelete, isMobile }) {
           </div>
           <div className="flex items-start gap-3 text-xs text-[#2D1B0D]/70 italic font-serif">
             <MapPin size={14} className="text-[#8B5E3C] mt-0.5" />
-            <span className="leading-tight">{addressParts || "Private Residence"}</span>
+            <span className="leading-tight">{addressParts || "Address Not Available"}</span>
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@ function TableRow({ user, onDelete, isMobile }) {
           </div>
           <div>
             <p className="font-bold text-[#2D1B0D] tracking-tight text-lg">{name}</p>
-            <p className="text-[9px] font-black uppercase tracking-widest text-[#A68966] opacity-60">Verified Member</p>
+            <p className="text-[9px] font-black uppercase tracking-widest text-[#A68966] opacity-60">Registered Customer</p>
           </div>
         </div>
       </td>
@@ -135,7 +135,7 @@ function TableRow({ user, onDelete, isMobile }) {
         <div className="flex items-start gap-2 max-w-[240px]">
           <MapPin size={12} className="text-[#8B5E3C] mt-1 shrink-0" />
           <p className="text-xs text-[#2D1B0D]/70 leading-relaxed italic font-serif">
-            {addressParts || "Private Residence"}
+            {addressParts || "Address Not Available"}
           </p>
         </div>
       </td>

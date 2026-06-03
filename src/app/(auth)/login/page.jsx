@@ -153,22 +153,25 @@ return (
 
     <section className="relative z-10 w-full max-w-[420px] flex flex-col gap-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-500">
       
-      {/* Brand Platform Header */}
-      <div className="flex flex-col items-center text-center gap-3">
-        <div className="relative overflow-hidden rounded-2xl bg-white p-2.5 shadow-xl border border-white/20">
-          <Image
-            src="/nirvana-logo.avif"
-            height={68}
-            width={68}
-            alt="logo image"
-            className="object-contain"
-          />
-        </div>
-      </div>
+
 
       {/* Main Authentication Card */}
       <div className="w-full rounded-[2rem] border border-white/10 bg-stone-950/60 backdrop-blur-2xl p-6 shadow-2xl shadow-black/50 sm:p-8">
         
+              {/* Brand Platform Header */}
+      <div className="flex flex-col items-center text-center gap-3">
+        <div className="relative overflow-hidden rounded-2xl  p-2.5 shadow-xl  ">
+<Image
+  src="/nirvana-logo.avif"
+  height={68}
+  width={60}
+  alt="logo image"
+  priority
+  className="object-contain"
+  style={{ height: 'auto', width: 'auto' }} // Inline style completely bypasses the Next.js warning
+/>
+        </div>
+      </div>
         <div className="mb-6 text-center">
           <h1 className="text-xl font-extrabold tracking-tight text-white uppercase tracking-wider">Login</h1>
           <p className="mt-1 text-xs font-medium text-stone-400">Enter your login details below.</p>

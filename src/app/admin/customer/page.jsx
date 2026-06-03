@@ -107,10 +107,6 @@ export default function CustomersPage() {
           onDelete={handleDelete}
         />
 
-        <footer className="mt-20 pt-10 border-t border-[#D2C1B0]/30 flex flex-col items-center opacity-20">
-          <Sparkles className="mb-4 text-[#8B5E3C]" size={24} />
-          <div className="text-3xl md:text-4xl font-black tracking-[0.5em] italic">NIRVANA NUTS</div>
-        </footer>
       </div>
     </div>
   );

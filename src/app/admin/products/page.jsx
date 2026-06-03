@@ -27,14 +27,14 @@ export default function ProductsPage() {
               <Sparkles size={14} />
             </div>
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">
-              Curation Suite
+              Product Management
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-extralight tracking-tighter italic leading-tight">
-            Inventory <span className="text-[#A68966] font-serif">& Assets.</span>
+            Product <span className="text-[#A68966] font-serif">Inventory</span>
           </h1>
           <p className="max-w-md text-sm text-[#2D1B0D]/60 leading-relaxed font-light">
-            Manage your high-resolution product catalog, variants, and promotional logic from a centralized control center.
+            Manage your products, Product Options, and Discounts & Offers from a One Place.
           </p>
         </header>
 

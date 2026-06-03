@@ -305,13 +305,28 @@ useEffect(() => {
         pauseOnHover
         theme="light"
       />
-            <section className="h-80 w-full bg-linear-to-br from-amber-500 to-amber-400 border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 className="text-3xl md:text-4xl italic font-semibold mt-38 text-center text-gray-900 leading-tight tracking-tight max-w-7xl">
-                        Plain Classic Makhana (Fox Nuts) – Buy Premium Roasted Makhana
-                    </h1>
-                </div>
-            </section>
+<section className="relative overflow-hidden md:mt-30 bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 md:py-5">
+            {/* Subtle background decorative blobs for a premium feel */}
+            <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
+            <div className="absolute bottom-0 left-0 -z-10 h-56 w-56 rounded-full bg-orange-200/20 blur-3xl" />
+
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                {/* Small Tag/Badge */}
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-800 mb-2 uppercase tracking-wider border border-amber-500/20">
+                    ✨ Premium Quality
+                </span>
+
+                {/* Main Heading */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
+                    Plain Classic Makhana 
+                </h1>
+
+                {/* Subheading / Description */}
+                <p className="mt-2 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                    Sourced from nature, perfectly roasted for maximum crunch. Discover the ultimate guilt-free, nutrient-rich snack.
+                </p>
+            </div>
+        </section>
 
             {/* HERO SECTION */}
                  <section className="w-full bg-[#fcfcfd] py-16 lg:py-24 antialiased text-slate-900">
@@ -664,7 +679,7 @@ useEffect(() => {
 
                         <div className="grid grid-cols-2 gap-4 mt-8">
                             {[
-                                { label: "Size", value: "18–24 mm" },
+                                { label: "Size", value: "250g, 500g, 1kg " },
                                 { label: "Moisture", value: "< 5%" },
                                 { label: "Shelf Life", value: "12 Months" },
                                 { label: "Storage", value: "Cool & Dry" },
@@ -685,15 +700,6 @@ useEffect(() => {
 
                         <div data-aos="fade-up" data-aos-delay="300" className="mt-6 p-4 rounded-2xl bg-linear-to-r from-amber-100 to-orange-100 text-sm text-gray-700 shadow-inner">
                             📦 Available in multiple packs: <span className="font-semibold">100g, 200g, 250g, 500g</span>
-                        </div>
-
-                        <div data-aos="fade-up" data-aos-delay="400" className="mt-8 flex items-center gap-4">
-                            <Link href="/customer/cart">
-                                <button className="relative cursor-pointer px-7 py-3 rounded-xl text-white font-semibold bg-linear-to-r from-amber-600 to-orange-500 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
-                                    Shop Now
-                                </button>
-                            </Link>
-                            <span className="text-sm text-gray-500">🚚 Fast Delivery Across India</span>
                         </div>
                     </div>
                 </div>

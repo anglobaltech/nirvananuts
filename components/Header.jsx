@@ -107,18 +107,21 @@ const Header = () => {
         <div className="flex justify-between items-center px-4 py-3">
           
           {/* LOGO WRAPPER */}
-          <div className="flex items-center">
-            <Link href="/" aria-label="Nirvana Nuts Home Interface">
-              <Image
-                src="/nirvana-logo.avif"
-                alt="Nirvana Nuts Premium Organic Makhana Logo"
-                height={60}
-                width={75}
-                priority 
-                className="object-contain"
-              />
-            </Link>
-          </div>
+ <div className="flex items-center">
+  <Link href="/" aria-label="Nirvana Nuts Home Interface">
+    <Image
+      src="/nirvana-logo.avif"
+      alt="Nirvana Nuts Premium Organic Makhana Logo"
+      width={70}
+      height={60}
+      priority
+      style={{
+        width: "70px",
+        height: "60px",
+      }}
+    />
+  </Link>
+</div>
 
           {/* ================= DESKTOP MENU ENGINE ================= */}
           <div className="hidden md:flex items-center gap-6">
@@ -155,9 +158,6 @@ const Header = () => {
                 transition-all duration-200 z-50`}
               >
                 <div className="flex flex-col gap-3">
-                  <Link href="/makhana" className="text-black text-base font-medium hover:text-amber-600 p-1 rounded-md transition-colors">
-                    Makhana
-                  </Link>
                   <Link href="/plain-makhana" className="text-black text-base font-medium hover:text-amber-600 p-1 rounded-md transition-colors">
                     Classic Plain Makhana
                   </Link>
@@ -304,9 +304,6 @@ const Header = () => {
               {/* FIXED: Mobile Drawer me bhi explicit links structure built-in hai */}
               {mobileProduct && (
                 <div className="pl-3 py-1 flex flex-col gap-2.5 border-l-2 border-amber-300 text-sm font-medium text-neutral-700 bg-amber-100/40 rounded-r-lg">
-                  <Link href="/makhana" onClick={() => setMobileOpen(false)} className="hover:text-amber-700 py-0.5">
-                    Makhana
-                  </Link>
                   <Link href="/plain-makhana" onClick={() => setMobileOpen(false)} className="hover:text-amber-700 py-0.5">
                     Classic Plain Makhana
                   </Link>
@@ -343,16 +340,6 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Drawer Corporate Footer Identity */}
-          <div className="p-6 border-t border-amber-200/40 flex justify-center bg-white/40">
-            <Image 
-              src="/nirvana-logo.avif" 
-              alt="Nirvana Nuts Identity Seal"  
-              height={50} 
-              width={65} 
-              className="object-contain opacity-80"
-            />
-          </div>
         </div>
       </div>
     </header>

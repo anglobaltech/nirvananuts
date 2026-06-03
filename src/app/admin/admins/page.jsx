@@ -66,7 +66,7 @@ export default function AdminPage() {
       });
       resetForm();
       fetchAdmins();
-      toast.success("Security Clearance Granted");
+      toast.success("Admin Added Successfully✅");
     } catch (error) {
       toast.error(error.message);
     }
@@ -77,7 +77,7 @@ export default function AdminPage() {
       toast.error("UID missing ❌");
       return;
     }
-    if (!confirm("Revoke admin access?")) return;
+    if (!confirm("Remove this admin?")) return;
 
     try {
       const res = await fetch("/apiAdmin/deleteAdmin", {
@@ -91,7 +91,7 @@ export default function AdminPage() {
         return;
       }
       fetchAdmins();
-      toast.success("Access Revoked");
+      toast.success("Admin Removed Successfully✅");
     } catch (error) {
       toast.error("System Error");
     }
@@ -105,7 +105,7 @@ export default function AdminPage() {
     await updateDoc(doc(db, "users", id), { name, email });
     resetForm();
     fetchAdmins();
-    toast.success("Credentials Updated");
+    toast.success("Admin Updated Successfully✅");
   };
 
   const resetForm = () => {
@@ -136,19 +136,19 @@ export default function AdminPage() {
               <div className="p-2 bg-black text-white rounded-full">
                 <ShieldCheck size={14} fill="white" />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">Security Protocol</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">Admin Management</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-extralight tracking-tighter italic leading-tight">
-              Admin<span className="text-[#A68966] font-serif"> Access.</span>
+              Manage<span className="text-[#A68966] font-serif"> Admin</span>
             </h1>
           </div>
 
           {!isFormOpen && (
             <button 
               onClick={() => setIsFormOpen(true)}
-              className="flex items-center gap-4 group bg-white/40 hover:bg-white px-8 py-4 rounded-full border border-white/60 transition-all text-[10px] font-black uppercase tracking-widest shadow-sm"
+              className="flex items-center cursor-pointer gap-4 group bg-white/40 hover:bg-white px-8 py-4 rounded-full border border-white/60 transition-all text-[10px] font-black uppercase tracking-widest shadow-sm"
             >
-              Add Personnel <Plus size={14} className="group-hover:rotate-90 transition-transform" />
+              Add Admin <Plus size={14} className="group-hover:rotate-90 transition-transform" />
             </button>
           )}
         </header>
@@ -161,9 +161,9 @@ export default function AdminPage() {
               <div className="bg-white/70 backdrop-blur-xl border border-white p-8 rounded-[2.5rem] shadow-2xl shadow-black/[0.03] sticky top-32">
                 <div className="flex justify-between items-center mb-8">
                   <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">
-                    {editId ? "Modify Credentials" : "Initialize Personnel"}
+                    {editId ? "Edit Admin Details" : "Add New Admin"}
                   </h2>
-                  <button onClick={resetForm} className="text-[#A68966] hover:text-[#2D1B0D]">
+                  <button onClick={resetForm} className="text-[#A68966] cursor-pointer hover:text-[#2D1B0D]">
                     <X size={18} />
                   </button>
                 </div>
@@ -173,7 +173,7 @@ export default function AdminPage() {
                     <User size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A68966]" />
                     <input
                       className="w-full bg-white/50 border border-white/60 pl-11 pr-4 py-4 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic placeholder:opacity-50"
-                      placeholder="Legal Name"
+                      placeholder="Full Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -183,7 +183,7 @@ export default function AdminPage() {
                     <Mail size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A68966]" />
                     <input
                       className="w-full bg-white/50 border border-white/60 pl-11 pr-4 py-4 rounded-2xl text-sm outline-none focus:bg-white transition-all shadow-sm italic placeholder:opacity-50"
-                      placeholder="Email Address"
+                      placeholder="Email "
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -204,16 +204,16 @@ export default function AdminPage() {
 
                   <button
                     onClick={editId ? () => handleEditAdmin(editId) : handleAddAdmin}
-                    className="w-full bg-[#2D1B0D] hover:bg-black text-white py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg hover:shadow-black/20"
+                    className="w-full cursor-pointer bg-[#2D1B0D] hover:bg-black text-white py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg hover:shadow-black/20"
                   >
-                    {editId ? "Update Clearances" : "Authorize Admin"}
+                    {editId ? "Update Admin" : "Create Admin"}
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Directory Section */}
+          {/* Admin List */}
           <div className={`${isFormOpen ? 'lg:col-span-8' : 'lg:col-span-12'} space-y-6`}>
             
             <div className="overflow-hidden bg-white/40 backdrop-blur-xl rounded-[3rem] border border-white shadow-2xl shadow-black/[0.02]">
@@ -221,9 +221,9 @@ export default function AdminPage() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-[#D2C1B0]/30">
-                      <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Admin Identity</th>
-                      <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966] hidden sm:table-cell">Communication</th>
-                      <th className="p-8 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Control</th>
+                      <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Admin Name</th>
+                      <th className="p-8 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966] hidden sm:table-cell">Contact Information</th>
+                      <th className="p-8 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#D2C1B0]/20">
@@ -236,7 +236,7 @@ export default function AdminPage() {
                             </div>
                             <div>
                               <p className="font-bold text-[#2D1B0D] tracking-tight text-lg leading-none">{admin.name}</p>
-                              <p className="text-[9px] font-black uppercase tracking-widest text-[#A68966] opacity-60 mt-2">Level 4 Access</p>
+                              <p className="text-[9px] font-black uppercase tracking-widest text-[#A68966] opacity-60 mt-2">Administrator</p>
                             </div>
                           </div>
                         </td>
@@ -250,13 +250,13 @@ export default function AdminPage() {
                           <div className="flex justify-end gap-3">
                             <button 
                               onClick={() => startEdit(admin)}
-                              className="p-3 bg-white text-[#2D1B0D] rounded-full border border-[#D2C1B0]/30 hover:bg-[#2D1B0D] hover:text-white transition-all shadow-sm"
+                              className="p-3 bg-white cursor-pointer text-[#2D1B0D] rounded-full border border-[#D2C1B0]/30 hover:bg-[#2D1B0D] hover:text-white transition-all shadow-sm"
                             >
                               <Edit3 size={14} />
                             </button>
                             <button
                               onClick={() => deleteAdmin(admin.id, admin.uid)}
-                              className="p-3 bg-red-50 text-red-400 rounded-full border border-red-100 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                              className="p-3 bg-red-50 cursor-pointer text-red-400 rounded-full border border-red-100 hover:bg-red-500 hover:text-white transition-all shadow-sm"
                             >
                               <Trash2 size={14} />
                             </button>
@@ -272,15 +272,6 @@ export default function AdminPage() {
 
         </div>
 
-        {/* Brand Footer */}
-        <footer className="mt-32 pt-12 border-t border-[#D2C1B0]/30 flex flex-col items-center opacity-20">
-          <div className="text-[50px] font-black tracking-[0.6em] text-[#2D1B0D] italic select-none">
-            NIRVANA NUTS
-          </div>
-          <p className="text-[9px] uppercase tracking-widest text-[#A68966] font-bold mt-4">
-            Internal Access Logs • Est. 2026
-          </p>
-        </footer>
       </div>
     </div>
   );

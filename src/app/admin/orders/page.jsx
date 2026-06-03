@@ -14,15 +14,17 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Saare available statuses ki list dropdown ke liye
+  const allStatuses = ["Order Received", "Confirmed", "Packed", "Shipped", "Out for Delivery", "Delivered"];
+
   const getNextStatus = (status) => {
     switch (status) {
-      case "Placed": return "Accepted";
-      case "Accepted": return "Packed";
+      case "Order Received": return "Confirmed";
+      case "Confirmed": return "Packed";
       case "Packed": return "Shipped";
       case "Shipped": return "Out for Delivery";
       case "Out for Delivery": return "Delivered";
@@ -44,62 +46,79 @@ export default function OrdersPage() {
 
   useEffect(() => { fetchOrders(); }, []);
 
-const handleStatusChange = async (id, status) => {
-  try {
-    await updateOrder(id, { status });
+  const handleStatusChange = async (id, status) => {
+    try {
+      await updateOrder(id, { status });
+      toast.success(`Order status updated to ${status}`);
+      fetchOrders();
+    } catch (error) {
+      toast.error("Failed to update order status");
+    }
+  };
 
-    toast.success(`Order status updated to ${status}`);
+  const handleDelete = async (id) => {
+    try {
+      await deleteOrder(id);
+      toast.success("Shipment record deleted successfully", { theme: "colored" });
+      fetchOrders();
+    } catch (error) {
+      toast.error("Failed to delete shipment record", { theme: "colored" });
+    }
+  };
 
-    fetchOrders();
-  } catch (error) {
-    toast.error("Failed to update order status");
-  }
-};
-
-const handleDelete = async (id) => {
-  // window.confirm hata diya gaya hai
-  try {
-    await deleteOrder(id);
-
-    // Success notification
-    toast.success("Shipment record deleted successfully", {
-      theme: "colored"
-    });
-
-    // Refresh the list
-    fetchOrders();
-  } catch (error) {
-    toast.error("Failed to delete shipment record", {
-      theme: "colored"
-    });
-  }
-};
-  const StatusBadge = ({ status }) => {
+  // Status Badge and Selector Section
+  const StatusSelector = ({ currentStatus, orderId, isMobile = false }) => {
     const colors = {
-      Delivered: "bg-[#2D1B0D] text-white",
-      Placed: "bg-[#F4EDE4] text-[#8B5E3C] border border-[#8B5E3C]/20",
-      Shipped: "bg-[#8B5E3C]/10 text-[#8B5E3C]",
+      Delivered: "bg-[#2D1B0D] text-white border-[#2D1B0D]",
+      Placed: "bg-[#F4EDE4] text-[#8B5E3C] border-[#8B5E3C]/20",
+      Shipped: "bg-[#8B5E3C]/10 text-[#8B5E3C] border-[#8B5E3C]/20",
+      Accepted: "bg-blue-50 text-blue-700 border-blue-200",
+      Packed: "bg-amber-50 text-amber-700 border-amber-200",
+      "Out for Delivery": "bg-purple-50 text-purple-700 border-purple-200",
     };
+
     return (
-      <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${colors[status] || "bg-gray-100 text-gray-600"}`}>
-        {status}
-      </span>
+      <div className={`flex flex-col gap-1.5 ${isMobile ? "w-full" : "w-36"}`}>
+        {!isMobile && (
+          <span className="text-[8px] font-black uppercase tracking-wider text-[#A68966]">
+            Change Status
+          </span>
+        )}
+        <div className="relative inline-block w-full">
+          <select
+            value={currentStatus}
+            onChange={(e) => handleStatusChange(orderId, e.target.value)}
+            className={`w-full cursor-pointer appearance-none rounded-xl border px-3 py-2 pr-8 text-[10px] font-black uppercase tracking-widest transition-all focus:outline-none focus:ring-1 focus:ring-[#8B5E3C] ${
+              colors[currentStatus] || "bg-gray-50 text-gray-700 border-gray-200"
+            }`}
+          >
+            {allStatuses.map((status) => (
+              <option key={status} value={status} className="bg-white text-[#2D1B0D] font-sans">
+                {status}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2.5 opacity-60">
+            <ChevronRight size={12} className="rotate-90 transform" />
+          </div>
+        </div>
+      </div>
     );
   };
 
   return (
     <div className="min-h-screen bg-[#F4EDE4] text-[#2D1B0D] pt-24 pb-20 px-4 lg:px-12">
       <ToastContainer
-  position="top-right"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop={true}
-  closeOnClick
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="colored"
-/>
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
@@ -107,22 +126,22 @@ const handleDelete = async (id) => {
           <div>
             <div className="flex items-center gap-2 text-[#8B5E3C] mb-2">
               <Package size={16} />
-              <span className="text-[10px] font-black uppercase tracking-[0.4em]">Logistics Portal</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em]">Order Management</span>
             </div>
             <h1 className="text-5xl font-extralight tracking-tighter italic">
               Order <span className="font-serif">Registry</span>
             </h1>
           </div>
           <div className="hidden lg:block text-right">
-            <p className="text-[10px] font-black uppercase tracking-widest text-[#A68966]">Total Volume</p>
-            <p className="text-2xl font-light italic">{orders.length} Shipments</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-[#A68966]">Total Orders</p>
+            <p className="text-2xl font-light italic">{orders.length} Orders</p>
           </div>
         </header>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center h-64 space-y-4">
             <div className="w-8 h-8 border-t-2 border-[#2D1B0D] rounded-full animate-spin" />
-            <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Syncing Records...</p>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Loading Orders...</p>
           </div>
         ) : (
           <>
@@ -131,19 +150,19 @@ const handleDelete = async (id) => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-[#D2C1B0]/30">
-                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Reference</th>
-                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Client</th>
-                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Contact</th>
-                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Destination</th>
-                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Manifest</th>
-                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Valuation</th>
+                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Order ID</th>
+                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Customer</th>
+                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Phone Number</th>
+                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Delivery Address</th>
+                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Products</th>
+                    <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Total Amount</th>
                     <th className="p-6 text-[10px] font-black uppercase tracking-widest text-[#A68966]">Status</th>
-                    <th className="p-6 text-right text-[10px] font-black uppercase tracking-widest text-[#A68966]">Action</th>
+                    <th className="p-6 text-right text-[10px] font-black uppercase tracking-widest text-[#A68966]">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#D2C1B0]/20">
                   {orders.length === 0 ? (
-                    <tr><td colSpan="8" className="p-20 text-center italic opacity-40">Registry is empty</td></tr>
+                    <tr><td colSpan="8" className="p-20 text-center italic opacity-40">No Orders Found</td></tr>
                   ) : (
                     orders.map((order) => (
                       <tr key={order.id} className="hover:bg-white/50 transition-colors group">
@@ -179,17 +198,8 @@ const handleDelete = async (id) => {
                         </td>
                         <td className="p-6 font-light italic text-lg text-[#2D1B0D]">₹{order.totalAmount}</td>
                         <td className="p-6">
-                          <div className="space-y-2">
-                            <StatusBadge status={order.status} />
-                            {getNextStatus(order.status) && (
-                              <button
-                                onClick={() => handleStatusChange(order.id, getNextStatus(order.status))}
-                                className=" cursor-pointer flex items-center gap-1 text-[8px] font-black uppercase tracking-tighter text-[#8B5E3C] hover:text-[#2D1B0D] transition-colors"
-                              >
-                                Advance <ChevronRight size={10} />
-                              </button>
-                            )}
-                          </div>
+                          {/* Naya Status Selector Component Desktop ke liye */}
+                          <StatusSelector currentStatus={order.status} orderId={order.id} />
                         </td>
                         <td className="p-6 text-right">
                           <button 
@@ -215,7 +225,6 @@ const handleDelete = async (id) => {
                       <p className="text-[9px] font-black text-[#A68966] uppercase tracking-[0.2em] mb-1">Ref #{order.orderId || order.id.slice(0, 5)}</p>
                       <h3 className="text-2xl font-extralight italic leading-tight">{order.customerName}</h3>
                     </div>
-                    <StatusBadge status={order.status} />
                   </div>
 
                   <div className="space-y-4 border-y border-[#D2C1B0]/30 py-6 my-6">
@@ -224,11 +233,11 @@ const handleDelete = async (id) => {
                     </div>
                     <div className="flex items-start gap-3 text-xs opacity-70">
                       <MapPin size={14} className="text-[#A68966] mt-1 shrink-0" />
-<span className="italic font-serif leading-relaxed">
-  {order.address
-    ? `${order.address.address || ""}, ${order.address.city || ""}`
-    : "No Address"}
-</span>
+                      <span className="italic font-serif leading-relaxed">
+                        {order.address
+                          ? `${order.address.address || ""}, ${order.address.city || ""}`
+                          : "Address Not Available"}
+                      </span>
                     </div>
                   </div>
 
@@ -239,7 +248,7 @@ const handleDelete = async (id) => {
                           <img src={prod.mainImage} className="w-12 h-12 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" />
                           <div>
                             <p className="text-xs font-bold tracking-tight">{prod.name}</p>
-                            <p className="text-[10px] opacity-40 uppercase tracking-widest">{prod.qty} Units</p>
+                            <p className="text-[10px] opacity-40 uppercase tracking-widest">{prod.qty} Quantity</p>
                           </div>
                         </div>
                         <p className="text-sm font-medium italic">₹{prod.price}</p>
@@ -247,9 +256,9 @@ const handleDelete = async (id) => {
                     ))}
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-[#D2C1B0]/30 flex justify-between items-center">
+                  <div className="mt-8 pt-6 border-t border-[#D2C1B0]/30 flex justify-between items-center mb-6">
                     <div>
-                      <p className="text-[10px] font-black uppercase text-[#A68966] tracking-widest mb-1">Total Valuation</p>
+                      <p className="text-[10px] font-black uppercase text-[#A68966] tracking-widest mb-1">Total Amount</p>
                       <p className="text-2xl font-light italic">₹{order.totalAmount}</p>
                     </div>
                     <button 
@@ -260,14 +269,11 @@ const handleDelete = async (id) => {
                     </button>
                   </div>
 
-                  {getNextStatus(order.status) && (
-                    <button
-                      onClick={() => handleStatusChange(order.id, getNextStatus(order.status))}
-                      className="w-full mt-6 bg-[#2D1B0D] text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] shadow-lg shadow-[#2D1B0D]/20 hover:bg-[#8B5E3C] transition-all flex items-center justify-center gap-2"
-                    >
-                      Advance: {getNextStatus(order.status)} <CheckCircle2 size={14} />
-                    </button>
-                  )}
+                  {/* Naya Status Selector Component Mobile Bottom ke liye */}
+                  <div className="mt-4">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-[#A68966] mb-2">Change Order Status</p>
+                    <StatusSelector currentStatus={order.status} orderId={order.id} isMobile={true} />
+                  </div>
                 </div>
               ))}
             </div>

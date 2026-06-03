@@ -22,7 +22,7 @@ const handleDelete = async (id) => {
     ({ closeToast }) => (
       <div className="space-y-4">
         <p className="text-sm font-semibold">
-          Delete this product permanently?
+          Are you sure you want to delete this product permanently?
         </p>
 
         <div className="flex gap-3">
@@ -35,7 +35,7 @@ const handleDelete = async (id) => {
 
                 fetchProducts();
               } catch (error) {
-                toast.error("Delete failed");
+                toast.error("Failed to Delete Product");
               }
 
               closeToast();
@@ -66,7 +66,7 @@ const handleDelete = async (id) => {
       const snapshot = await getDocs(collection(db, "products"));
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setProducts(data);
-    } catch (error) { toast.error("Database unavailable"); }
+    } catch (error) { toast.error("Unable to Load Products"); }
   };
 
   useEffect(() => { fetchProducts(); }, []);
@@ -106,13 +106,13 @@ const saveChanges = async () => {
       inStock: totalStock > 0,
     });
 
-    toast.success("Asset Updated");
+    toast.success("Product Updated Successfully ✅");
     fetchProducts();
     closeManageModal();
     setNewImages([]);
 
   } catch (err) {
-    toast.error("Sync Failure");
+    toast.error("Failed to Save Changes");
   } finally {
     setLoading(false);
   }
@@ -133,8 +133,8 @@ const saveChanges = async () => {
 />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-2">
-          <h2 className="text-3xl font-serif italic text-[#2D1B0D]">Asset Registry</h2>
-          <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">Live Archive</p>
+          <h2 className="text-3xl font-serif italic text-[#2D1B0D]">Product List</h2>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">All Products</p>
         </div>
       </div>
       
@@ -143,9 +143,9 @@ const saveChanges = async () => {
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-[#D2C1B0]/30">
-              <th className="p-10 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Asset Identity</th>
+              <th className="p-10 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Product Details</th>
               <th className="p-10 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Status</th>
-              <th className="p-10 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Control</th>
+              <th className="p-10 text-right text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966]">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#D2C1B0]/20">
@@ -163,7 +163,7 @@ const saveChanges = async () => {
                 <td className="p-10">
                   <span className={`inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest ${p.inStock ? 'text-green-600' : 'text-red-400'}`}>
                     <div className={`w-1.5 h-1.5 rounded-full ${p.inStock ? 'bg-green-500' : 'bg-red-400'}`} />
-                    {p.inStock ? 'In Circulation' : 'Depleted'}
+                    {p.inStock ? 'In Stock' : 'Out of Stock'}
                   </span>
                 </td>
                 <td className="p-10">
@@ -208,7 +208,7 @@ const saveChanges = async () => {
     onClick={() => openManageModal(p)}
     className="flex-1 bg-[#2D1B0D] text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest"
   >
-    Manage
+    Edit
   </button>
 
   <button
@@ -223,7 +223,6 @@ const saveChanges = async () => {
         ))}
       </div>
 
-      {/* Edit Modal (Redesigned) */}
      {/* Edit Modal (Redesigned) */}
 {isModalOpen && currentProduct && (
   <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
@@ -237,7 +236,7 @@ const saveChanges = async () => {
       {/* HEADER */}
       <div className="flex justify-between items-center mb-10">
         <h3 className="text-2xl font-serif italic">
-          Modify Asset
+          Edit Product
         </h3>
 
         <button
@@ -285,7 +284,7 @@ const saveChanges = async () => {
     className="w-full p-6 border-2 border-dashed border-[#D2C1B0] rounded-2xl bg-white"
   >
     <label className="cursor-pointer text-xs font-bold text-[#A68966]">
-      Click or Drag & Drop Images Here
+      Upload Product Images
       <input
         type="file"
         multiple
@@ -390,7 +389,7 @@ const saveChanges = async () => {
         {/* VARIANTS */}
         <div className="space-y-4">
           <h4 className="text-[10px] font-black uppercase tracking-widest text-[#A68966]">
-            Unit Adjustments
+            Product Variants
           </h4>
 
           {currentProduct.variants.map((v, i) => (
@@ -441,7 +440,7 @@ const saveChanges = async () => {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <h4 className="text-[10px] font-black uppercase tracking-widest text-[#A68966]">
-              Tier Offers
+              Discounts
             </h4>
 
             <button
@@ -457,7 +456,7 @@ const saveChanges = async () => {
               }}
               className="text-xs font-bold text-[#2D1B0D]"
             >
-              + Add Offer
+              + Add Discount
             </button>
           </div>
 
@@ -469,7 +468,7 @@ const saveChanges = async () => {
               <input
                 type="number"
                 value={offer.qty}
-                placeholder="Qty"
+                placeholder="Quantity"
                 onChange={(e) => {
                   const upd = [...currentProduct.tieredDiscounts];
                   upd[i].qty = Number(e.target.value);
@@ -526,8 +525,8 @@ const saveChanges = async () => {
           className="w-full bg-[#2D1B0D] text-white py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.4em] shadow-xl"
         >
           {loading
-            ? "Synchronizing..."
-            : "Overwrite and Save"}
+            ? "Saving Changes..."
+            : "Save Changes"}
         </button>
       </div>
     </div>

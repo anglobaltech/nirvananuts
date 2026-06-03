@@ -261,13 +261,28 @@ useEffect(() => {
       />
 
       {/* TOP HEADER SECTION */}
-      <header className="h-80  w-full md:mt-10 bg-linear-to-br from-amber-500 to-amber-400 border-b border-gray-100 flex items-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
-          <h1 className="text-3xl md:text-4xl italic text-center items-center font-semibold text-gray-900 leading-tight tracking-tight max-w-5xl mx-auto">
-            Modern Flavored Makhana (Fox Nuts) – Gourmet Roasted Healthy Snacks
-          </h1>
-        </div>
-      </header>
+ <section className="relative overflow-hidden md:mt-30 bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 md:py-5">
+            {/* Subtle background decorative blobs for a premium feel */}
+            <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
+            <div className="absolute bottom-0 left-0 -z-10 h-56 w-56 rounded-full bg-orange-200/20 blur-3xl" />
+
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                {/* Small Tag/Badge */}
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-800 mb-2 uppercase tracking-wider border border-amber-500/20">
+                    ✨ Gourmet Roasted
+                </span>
+
+                {/* Main Heading */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
+                    Modern Flavored Makhana
+                </h1>
+
+                {/* Subheading / Description */}
+                <p className="mt-2 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                    Bold, exciting flavors meets the classic crunch. Elevate your snacking experience with our healthy, nutrient-rich gourmet treats.
+                </p>
+            </div>
+        </section>
 
       {/* HERO SECTION */}
       <section className="w-full bg-[#fcfcfd] py-16 lg:py-24 antialiased text-slate-900">
@@ -495,7 +510,7 @@ useEffect(() => {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-amber-800 mt-2">Modern Flavored Makhana Specifications</h2>
             <div className="grid grid-cols-2 gap-4 mt-8">
               {[
-                { label: "Size Profile", value: "18–24 mm Premium" },
+                { label: "Size Profile", value: "250g, 500g, 1kg " },
                 { label: "Style", value: "Roasted & Seasoned" },
                 { label: "Shelf Life", value: "12 Months" },
                 { label: "Allergens", value: "Gluten-Free" },
