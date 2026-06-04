@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { getUserOrders } from "@/customerService/orderServiceCustomer";
-import OrderCard from "../components/OrderCard"; // 🔥 Checked file name casing
-import EmptyOrders from "../components/EmptyOrders"; // 🔥 Checked file name casing
+import OrderCard from "../components/OrderCards"; // 🔥 Checked file name casing
+import EmptyOrders from "../components/EmptyOrder"; // 🔥 Checked file name casing
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);

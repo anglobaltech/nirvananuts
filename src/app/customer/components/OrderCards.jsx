@@ -1,5 +1,5 @@
 import OrderItem from "./OrderItem"; // 🔥 Fixed path casing
-import OrderTracker from "./OrderTracker"; // 🔥 Fixed path casing
+import OrderTracker from "./orderTracker"; // 🔥 Fixed path casing
 import { generateInvoice } from "@/utils/generateInvoice";
 
 export default function OrderCard({ order }) {
