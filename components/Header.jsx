@@ -85,7 +85,7 @@ const Header = () => {
           {/* First Copy */}
           <div className="flex py-1.5">
             {news.map((item, index) => (
-              <span key={index} className="mx-8 font-medium text-xs md:text-sm tracking-wide">
+              <span key={index} className="mx-8 font-medium text-xs lg:text-sm tracking-wide">
                 {item}
               </span>
             ))}
@@ -94,7 +94,7 @@ const Header = () => {
           {/* Duplicate Copy */}
           <div className="flex py-1.5" aria-hidden="true">
             {news.map((item, index) => (
-              <span key={`dup-${index}`} className="mx-8 font-medium text-xs md:text-sm tracking-wide">
+              <span key={`dup-${index}`} className="mx-8 font-medium text-xs lg:text-sm tracking-wide">
                 {item}
               </span>
             ))}
@@ -107,24 +107,25 @@ const Header = () => {
         <div className="flex justify-between items-center px-4 py-3">
           
           {/* LOGO WRAPPER */}
- <div className="flex items-center">
-  <Link href="/" aria-label="Nirvana Nuts Home Interface">
-    <Image
-      src="/nirvana-logo.avif"
-      alt="Nirvana Nuts Premium Organic Makhana Logo"
-      width={70}
-      height={60}
-      priority
-      style={{
-        width: "70px",
-        height: "60px",
-      }}
-    />
-  </Link>
-</div>
+          <div className="flex items-center">
+            <Link href="/" aria-label="Nirvana Nuts Home Interface">
+              <Image
+                src="/nirvana-logo.avif"
+                alt="Nirvana Nuts Premium Organic Makhana Logo"
+                width={70}
+                height={60}
+                priority
+                style={{
+                  width: "70px",
+                  height: "60px",
+                }}
+              />
+            </Link>
+          </div>
 
           {/* ================= DESKTOP MENU ENGINE ================= */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Updated break-points from md: to xl: (1024px) for perfect screen fit */}
+          <div className="hidden xl:flex items-center gap-6">
             <Link href="/" className="px-3 py-2 text-lg font-medium text-black hover:scale-105 hover:text-amber-600 rounded-2xl transition-all duration-200">
               Home
             </Link>
@@ -211,7 +212,8 @@ const Header = () => {
           </div>
 
           {/* ================= MOBILE BUTTON UTILITY PANEL ================= */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Changed hide target from md:hidden to xl:hidden to respect custom breakpoints */}
+          <div className="xl:hidden flex items-center gap-2">
             <Link href="/login" aria-label="Profile Gateway login interface" className="p-2 rounded-full text-black bg-amber-300 active:scale-95 transition-transform flex items-center justify-center">
               <UserRound size={18} />
             </Link>
@@ -252,7 +254,8 @@ const Header = () => {
       </nav>
 
       {/* ================= MOBILE DRAWER INTERFACE MATRIX ================= */}
-      <div className="md:hidden" id="mobile-navigation-drawer">
+      {/* Changed display control from md:hidden to xl:hidden */}
+      <div className="xl:hidden" id="mobile-navigation-drawer">
         {/* Backdrop Overlay */}
         <div
           onClick={() => setMobileOpen(false)}

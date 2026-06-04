@@ -4,57 +4,50 @@ import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { getUserOrders } from "@/customerService/orderServiceCustomer";
-import OrderCard from "../components/OrderCards"; // 🔥 Checked file name casing
-import EmptyOrders from "../components/EmptyOrder"; // 🔥 Checked file name casing
+import OrderCard from "../components/OrderCards";
+import EmptyOrders from "../components/EmptyOrder";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // 🔥 important
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        setOrders([]);
         setLoading(false);
         return;
       }
 
       try {
         const data = await getUserOrders(user.uid);
-        setOrders(data || []);
+        setOrders(data);
       } catch (err) {
-        console.error("Error fetching production orders:", err);
-      } finally {
-        setLoading(false);
+        console.error(err);
       }
+
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-gray-500 font-light text-sm animate-pulse">Loading orders...</p>
-      </div>
-    );
+    return <p className="p-6">Loading orders...</p>;
   }
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen antialiased">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-light tracking-tight text-gray-900 mb-8">My Orders</h1>
+    <div className="p-6  bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+      <h1 className="text-3xl mt-30 text-black font-bold mb-8">My Orders</h1>
 
-        {orders.length > 0 ? (
-          <div className="space-y-6">
-            {orders.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
-          </div>
-        ) : (
-          <EmptyOrders />
-        )}
-      </div>
+      {orders.length > 0 ? (
+        <div className="space-y-6">
+          {orders.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
+        </div>
+      ) : (
+        <EmptyOrders />
+      )}
     </div>
   );
 }

@@ -6,7 +6,8 @@ import Link from "next/link"; // PERFORMANCE FIXED: Instant routes navigation tr
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white pt-10 pb-8 px-6 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 p-5 gap-10">
+      {/* Updated responsive grid mapping to your custom screen breakpoints */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 p-5 gap-10">
         
         {/* COLUMN 1: WHO ARE WE */}
         <div className="flex flex-col gap-3">
@@ -107,7 +108,8 @@ const Footer = () => {
           </ul>
 
           {/* SOCIAL PROFILE LINKS GATEWAY */}
-          <div className="flex justify-start md:justify-end mt-8 gap-4">
+          {/* Alignment responds to the updated multi-column structure */}
+          <div className="flex justify-start xl:justify-end mt-8 gap-4">
             <a 
               href="https://www.instagram.com/nirvana.nuts/" 
               target="_blank" 

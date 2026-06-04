@@ -345,7 +345,7 @@ export default function Checkout() {
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                           <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 relative rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-[#E8DFD5] shrink-0">
-                            <Image src={item.mainImage || "/placeholder.png"} fill className="object-cover" alt="product" priority={idx < 3} />
+                            <Image src={item.mainImage || "/placeholder.png"} sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 80px" fill className="object-cover" alt="product" priority={idx < 3} />
                           </div>
                           <div className="min-w-0 flex-1">
                             <h4 className="text-xs sm:text-sm font-bold text-[#2D1B0D] tracking-tight truncate">{item.name}</h4>

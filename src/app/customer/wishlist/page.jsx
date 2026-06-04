@@ -11,7 +11,9 @@ import { subscribeWishlist, removeFromWishlist } from "@/customerService/wishlis
 import { auth, db } from "@/lib/firebase";
 import { sortProducts, searchProducts } from "@/utils/wishlist";
 import { onAuthStateChanged } from "firebase/auth";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {  Trash2 } from "lucide-react";
 
 // Extracted Pricing Matrix Strategy for lightning-fast item lookups
 const calculatePricing = (basePrice, quantity, tiers) => {
@@ -75,7 +77,7 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
           src={item.image || item.mainImage || "/placeholder.png"}
           alt={item.title}
           fill
-          priority={false}
+          priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
@@ -88,9 +90,7 @@ function WishlistCard({ item, handleRemove, handleBuyNow }) {
           className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-md rounded-full text-gray-500 hover:text-red-600 shadow-sm hover:shadow transition-all z-10 cursor-pointer"
           title="Delete from wishlist"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.34 6m-4.72 0L9 9m12 3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+        <Trash2 />
         </button>
 
         <span className={`absolute bottom-3 left-3 text-[11px] font-bold tracking-wide uppercase px-2 py-1 rounded-md shadow-sm backdrop-blur-md ${
@@ -251,13 +251,17 @@ export default function WishlistPage() {
     return sortProducts(data, sort);
   }, [wishlist, search, sort]);
 
-  const handleRemove = useCallback(async (id) => {
-    try {
-      await removeFromWishlist(id);
-    } catch (err) {
-      console.error("Error removing item:", err);
-    }
-  }, []);
+const handleRemove = useCallback(async (id) => {
+  try {
+    await removeFromWishlist(id);
+
+    toast.info("Product removed from wishlist");
+  } catch (err) {
+    console.error("Error removing item:", err);
+
+    toast.error("Failed to remove product");
+  }
+}, []);
 
   const handleBuyNow = useCallback(async (item) => {
     const user = auth.currentUser;
@@ -292,7 +296,11 @@ export default function WishlistPage() {
         localStorage.setItem("cart", JSON.stringify(localCart));
       }
 
-      router.push("/customer/checkout");
+      toast.success("Redirecting to checkout...");
+
+setTimeout(() => {
+  router.push("/customer/checkout");
+}, 1000);
     } catch (error) {
       console.error("Checkout redirection failed:", error);
     }
@@ -431,6 +439,10 @@ export default function WishlistPage() {
           )}
         </AnimatePresence>
       </div>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+/>
     </main>
   );
 }

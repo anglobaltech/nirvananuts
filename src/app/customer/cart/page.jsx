@@ -169,12 +169,14 @@ export default function CartPage() {
                     )}
 
                     <div className="relative w-32 h-32 bg-[#F3F4F6] rounded-3xl overflow-hidden shrink-0">
-                      <Image 
-                        src={item.mainImage} 
-                        fill 
-                        className="object-cover group-hover:scale-110 transition-transform duration-500" 
-                        alt={item.name || "Nirvana Nuts Snack Pack Product Image"} 
-                      />
+                     <Image
+  src={item.mainImage}
+  fill
+  priority
+  sizes="(max-width: 768px) 100vw, 128px"
+  className="object-cover group-hover:scale-110 transition-transform duration-500"
+  alt={item.name || "Nirvana Nuts Snack Pack Product Image"}
+/>
                     </div>
 
                     <div className="flex-grow w-full">

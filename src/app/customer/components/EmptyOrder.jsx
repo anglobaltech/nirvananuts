@@ -7,7 +7,7 @@ import { ShoppingBag, ArrowRight } from "lucide-react";
 export default function EmptyOrders() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 bg-transparent antialiased">
-      <div className="w-full max-w-md text-center flex flex-col items-center">
+      <div className="w-full  max-w-md text-center flex flex-col items-center">
         
         {/* Animated Icon Container */}
         <motion.div 
