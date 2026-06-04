@@ -136,7 +136,6 @@ const Hero = () => {
   const [cardsPerView, setCardsPerView] = useState(1);
   const router = useRouter();
 
-  // Initialize AOS safely on client
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -167,7 +166,6 @@ const Hero = () => {
     router.push(`/product/${product.docId}`);
   };
 
-  // Fetch Firestore Products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -188,7 +186,6 @@ const Hero = () => {
     fetchProducts();
   }, []);
 
-  // Slider Automatic Ticking
   useEffect(() => {
     const timer = setInterval(() => {
       setSlider((prev) => (prev + 1) % slides.length);
@@ -200,7 +197,6 @@ const Hero = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  // Setup Responsive Review Cards Calculation
   useEffect(() => {
     setReviews(initialReviews);
     
@@ -227,154 +223,154 @@ const Hero = () => {
   }, [reviews, cardsPerView, maxIndex]);
 
   return (
-    <div className='min-h-screen w-full  bg-stone-50/50 text-neutral-800 antialiased'>
+    <div className='min-h-screen w-full bg-stone-50/50 text-neutral-800 antialiased mt-20'>
       
-      {/* PERFECT DOM SEO STRUCTURAL ENTRY */}
       <h1 className="sr-only">Nirvana Nuts - Premium Flavored Makhana & Bulk Whey Protein Supplier India</h1>
 
       {/* 1. Hero Slider Section */}
-      <section className="relative min-h-screen md:mt-15 lg:mt-8 md:min-h-screen xl:min-h-screen w-full bg-[#faf8f5] flex flex-col justify-center">
+      <section className="relative min-h-[calc(100vh-5rem)] w-full bg-[#faf8f5] flex flex-col justify-center overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === slider ? "opacity-100 z-10 translate-x-0" : "opacity-0 pointer-events-none -translate-x-4"}`}
           >
-            <div className="w-full max-w-7xl mx-auto  px-6 pt-32 md:pt-20 md:px-8 lg:pt-1 lg:py-1 lg:pb-2 pb-20 h-full flex flex-col md:flex-row items-center gap-8">
-              <div className="md:w-1/2 w-full flex flex-col justify-center" data-aos="fade-right">
-                <span className="text-amber-800 tracking-wider uppercase block w-fit mt-3 text-xs px-3 py-1 mb-6 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
+            <div className="w-full max-w-7xl mx-auto px-4 xs:px-6 sm:px-8 py-6 sm:py-10 md:py-12 lg:py-16 h-full flex flex-col md:flex-row items-center gap-6 md:gap-8">
+              <div className="w-full md:w-1/2 flex flex-col justify-center" data-aos="fade-right">
+                <span className="text-amber-800 tracking-wider uppercase block w-fit mt-1 text-[10px] sm:text-xs px-2.5 py-0.5 sm:py-1 mb-3 sm:mb-4 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
                   Trusted Supplier Since 2020
                 </span>
 
-                {/* DESKTOP HEADING (Safe Semantic Markup) */}
-                <div className="hidden md:block space-y-3 mb-6">
-                  <h2 className="text-2xl md:text-[28px] tracking-tight leading-tight font-bold text-neutral-900">
+                {/* DESKTOP HEADING */}
+                <div className="hidden md:block space-y-2 mb-4">
+                  <h2 className="text-xl sm:text-2xl md:text-[26px] lg:text-[32px] xl:text-[40px] tracking-tight leading-tight font-bold text-neutral-900">
                     {slide.heading}
                   </h2>
-                  <p className="text-xl md:text-[20px] font-medium tracking-wide text-amber-800/90">
+                  <p className="text-base sm:text-lg md:text-[18px] lg:text-[22px] font-medium tracking-wide text-amber-800/90">
                     {slide.title}
                   </p>
                 </div>
 
                 {/* MOBILE HEADING */}
-                <div className="md:hidden block mb-6">
-                  <h2 className="text-3xl mb-3 font-bold tracking-tight text-neutral-900">
+                <div className="md:hidden block mb-4">
+                  <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 leading-tight">
                     {slide.heading}
-                    <span className="text-sm tracking-wide ml-1 font-medium text-amber-800 block mt-1">
+                    <span className="text-xs xs:text-sm tracking-wide font-medium text-amber-800 block mt-1">
                       {slide.title}
                     </span>
-                  </h2>
+                  </h2> 
 
-                  <div className="relative w-full h-48 my-4">
+                  <div className="relative w-full h-40 xs:h-48 sm:h-56 my-3">
                     <Image
                       src={slide.image}
                       alt={slide.alt}
                       fill
                       priority={index === 0}
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-contain"
+                      sizes="(max-width: 320px) 280px, (max-width: 375px) 330px, (max-width: 425px) 380px, (max-width: 768px) 700px, 50vw"
+                      className="object-contain object-center"
                     />
                   </div>
-                  <div className='block md:hidden lg:hidden'>
-        <div className="absolute  left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setSlider(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              className={`h-1.5 transition-all duration-300 rounded-full ${index === slider ? "bg-amber-700 w-8" : "bg-neutral-300 w-2 hover:bg-neutral-400"}`}
-            />
-          ))}
-        </div>
-        </div>
+                  
+                  <div className='flex justify-center my-2'>
+                    <div className="flex gap-1.5 z-30">
+                      {slides.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setSlider(idx)}
+                          aria-label={`Go to slide ${idx + 1}`}
+                          className={`h-1 transition-all duration-300 rounded-full ${idx === slider ? "bg-amber-700 w-6" : "bg-neutral-300 w-1.5 hover:bg-neutral-400"}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <p className="text-sm lg:text-base lg:leading-7 text-neutral-600 mb-4 md:mb-8 lg:mb-8 md:max-w-xl">
+                <p className="text-xs xs:text-sm lg:text-base lg:leading-7 text-neutral-600 mb-4 sm:mb-6 md:max-w-xl">
                   {slide.description}
                 </p>
 
-                <div className="flex items-center gap-4 mb-8 md:mb-12">
-                  <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-[10px] lg:text-sm font-medium tracking-wider uppercase text-white px-3 py-2 lg:px-5 lg:py-3 md:px-5 md:py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 md:mb-8">
+                  <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-[9px] xs:text-[10px] sm:text-xs lg:text-sm font-medium tracking-wider uppercase text-white px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
                     Explore Products
                   </Link>
-                  <Link href="/contact" className="border border-neutral-300 text-[10px] lg:text-sm font-medium tracking-wider uppercase text-neutral-800 px-3 py-2 lg:px-5 lg:py-3 md:px-5 md:py-3 rounded-lg transition-all duration-300 hover:bg-neutral-900 hover:text-white">
+                  <Link href="/contact" className="border border-neutral-300 text-[9px] xs:text-[10px] sm:text-xs lg:text-sm font-medium tracking-wider uppercase text-neutral-800 px-3 py-2 sm:px-4 sm:py-2.5 lg:px-5 lg:py-3 rounded-lg transition-all duration-300 hover:bg-neutral-900 hover:text-white">
                     Contact us
                   </Link>
                 </div>
 
-                <hr className="hidden md:block lg:block border-neutral-200/60 mb-8" />
+                <hr className="hidden md:block border-neutral-200/60 mb-6" />
 
-                <div className="flex gap-12 ">
+                <div className="flex gap-6 xs:gap-8 sm:gap-12">
                   <div>
-                    <p className="text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">100%</p>
-                    <p className="text-neutral-400 text-[10px] tracking-widest font-semibold mt-1">ORGANIC</p>
+                    <p className="text-lg xs:text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">100%</p>
+                    <p className="text-neutral-400 text-[8px] xs:text-[9px] sm:text-[10px] tracking-widest font-semibold mt-0.5">ORGANIC</p>
                   </div>
                   <div>
-                    <p className="text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">70K</p>
-                    <p className="text-neutral-400 text-[10px] tracking-widest font-semibold mt-1">HAPPY CLIENTS</p>
+                    <p className="text-lg xs:text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">70K</p>
+                    <p className="text-neutral-400 text-[8px] xs:text-[9px] sm:text-[10px] tracking-widest font-semibold mt-0.5">HAPPY CLIENTS</p>
                   </div>
                   <div>
-                    <p className="text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">20+</p>
-                    <p className="text-neutral-400 text-[10px] tracking-widest font-semibold mt-1">RECIPES</p>
+                    <p className="text-lg xs:text-xl lg:text-3xl font-bold text-neutral-900 tracking-tight">20+</p>
+                    <p className="text-neutral-400 text-[8px] xs:text-[9px] sm:text-[10px] tracking-widest font-semibold mt-0.5">RECIPES</p>
                   </div>
                 </div>
               </div>
 
-              <div className="hidden md:flex md:w-1/2 justify-center relative h-[520px]" data-aos="fade-left" data-aos-delay="200">
+              <div className="hidden md:flex md:w-1/2 justify-center relative h-[350px] lg:h-[450px] xl:h-[520px]" data-aos="fade-left" data-aos-delay="200">
                 <Image
                   src={slide.image}
                   alt={slide.alt}
                   fill
-                  priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-contain drop-shadow-xl"
+                  sizes="(max-width: 1024px) 45vw, 50vw"
+                  className="object-contain object-center drop-shadow-xl"
                 />
               </div>
             </div>
           </div>
         ))}
-        <div className='hidden md:block lg:block'>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setSlider(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              className={`h-1.5 transition-all duration-300 rounded-full ${index === slider ? "bg-amber-700 w-8" : "bg-neutral-300 w-2 hover:bg-neutral-400"}`}
-            />
-          ))}
-        </div>
+        
+        <div className='hidden md:block'>
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-30">
+            {slides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSlider(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-1.5 transition-all duration-300 rounded-full ${idx === slider ? "bg-amber-700 w-8" : "bg-neutral-300 w-2 hover:bg-neutral-400"}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
       {/* 2. Category Breakdown Section */}
-      <section data-aos="fade-up" className="bg-[#faf8f5] pt-40  md:py-25 lg:py-20 border-y border-neutral-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-3">
+      <section data-aos="fade-up" className="bg-[#faf8f5] py-8 xs:py-10 sm:py-12 md:py-16 lg:py-20 border-y border-neutral-100">
+        <div className="max-w-7xl mx-auto px-4 xs:px-6">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-2">
             Shop by Makhana Variety
           </h2>
-          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-16 text-sm lg:text-base">
+          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-8 sm:mb-12 text-xs xs:text-sm lg:text-base">
             Explore a wide range of flavored makhana including salted, spicy, and sweet fox nuts. Healthy, crunchy, and perfect for guilt-free snacking.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-12 text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-6 sm:gap-8 lg:gap-12 text-center">
             {dryfruits.map((item, index) => (
               <Link
                 key={index}
                 href={item.link}
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
-                className="group flex flex-col items-center transition-all duration-300 bg-stone-50/50 p-6 rounded-2xl border border-transparent hover:border-neutral-200/60 hover:bg-white hover:shadow-xs"
+                className="group flex flex-col items-center transition-all duration-300 bg-stone-50/50 p-4 xs:p-6 rounded-2xl border border-transparent hover:border-neutral-200/60 hover:bg-white hover:shadow-xs"
               >
-                <div className="relative w-28 h-28 md:w-32 md:h-32 mb-6 transition-transform duration-500 group-hover:scale-105">
+                <div className="relative w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 mb-4 transition-transform duration-500 group-hover:scale-105">
                   <Image
                     src={item.image}
                     alt={item.alt}
                     fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-contain rounded-2xl"
+                    sizes="(max-width: 425px) 45vw, (max-width: 1024px) 22vw, 25vw"
+                    className="object-contain object-center rounded-2xl"
                   />
                 </div>
-                <h3 className={`text-base font-semibold tracking-wide ${item.color} group-hover:opacity-80 transition-all`}>
+                <h3 className={`text-xs xs:text-sm sm:text-base font-semibold tracking-wide ${item.color} group-hover:opacity-80 transition-all`}>
                   {item.name}
                 </h3>
               </Link>
@@ -384,16 +380,16 @@ const Hero = () => {
       </section>
 
       {/* 3. Product Display Matrix */}
-      <section data-aos="fade-up" className="py-24 px-6 bg-gradient-to-b from-[#faf8f5] to-white">
+      <section data-aos="fade-up" className="py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 px-4 xs:px-6 bg-gradient-to-b from-[#faf8f5] to-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-3">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-2">
             Buy Premium Makhana at Best Price
           </h2>
-          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-16 text-sm">
+          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-8 sm:mb-12 text-xs xs:text-sm">
             Nirvana Nuts offers high-quality fox nuts snacks rich in protein and fiber. Crafted for premium lifestyles.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xs:gap-6 lg:gap-10">
             {Array.isArray(products) && products.filter(Boolean).map((product, index) => {
               const { finalPrice, discount } = calculateDiscount(product.buyMoreSaveMore || [], 1, Number(product.price) || 0);
               return (
@@ -419,162 +415,162 @@ const Hero = () => {
       </section>
 
       {/* 4. Bulk Whey Protein Section */}
-      <section data-aos="fade-up" className="relative bg-[#11261f] text-stone-100 py-24 px-6 md:px-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <section data-aos="fade-up" className="relative bg-[#11261f] text-stone-100 py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 px-4 xs:px-6 md:px-12 lg:px-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           <div data-aos="fade-right">
-            <span className="text-emerald-400 font-semibold uppercase tracking-widest text-xs block mb-4">Commercial Tier</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-6">
+            <span className="text-emerald-400 font-semibold uppercase tracking-widest text-[10px] xs:text-xs block mb-2">Commercial Tier</span>
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-4">
               Bulk Whey Protein Supplier <span className="text-emerald-400">(20kg)</span>
             </h2>
-            <p className="text-base text-stone-300 mb-8 leading-relaxed max-w-xl">
+            <p className="text-xs xs:text-sm lg:text-base text-stone-300 mb-6 leading-relaxed max-w-xl">
               Buy bulk whey protein in India with high protein content. Ideal for gyms, supplement brands, and fitness businesses looking for reliable whey protein suppliers.
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-stone-300 mb-10 text-sm">
-              <li className="flex items-center gap-3">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 text-stone-300 mb-6 sm:mb-8 text-xs xs:text-sm">
+              <li className="flex items-center gap-2 xs:gap-3">
                 <span className="text-emerald-400 font-bold">✔</span> High Protein Content
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-2 xs:gap-3">
                 <span className="text-emerald-400 font-bold">✔</span> Fast Absorption Formula
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-2 xs:gap-3">
                 <span className="text-emerald-400 font-bold">✔</span> Ideal for Bulk & Private Label
               </li>
-              <li className="flex items-center gap-3">
+              <li className="flex items-center gap-2 xs:gap-3">
                 <span className="text-emerald-400 font-bold">✔</span> 20kg Commercial Packaging
               </li>
             </ul>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="bg-emerald-500 hover:bg-emerald-600 text-neutral-950 font-semibold px-8 py-3.5 rounded-lg transition-all duration-300 text-sm tracking-wide uppercase">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+              <Link href="/contact" className="bg-emerald-500 hover:bg-emerald-600 text-neutral-950 font-semibold px-4 py-2.5 xs:px-6 xs:py-3 lg:px-8 lg:py-3.5 rounded-lg transition-all duration-300 text-xs tracking-wide uppercase">
                 Request Bulk Quote
               </Link>
-              <Link href="/products" className="border border-stone-500 hover:border-stone-100 text-stone-200 hover:text-white font-semibold px-8 py-3.5 rounded-lg transition-all duration-300 text-sm tracking-wide uppercase">
+              <Link href="/products" className="border border-stone-500 hover:border-stone-100 text-stone-200 hover:text-white font-semibold px-4 py-2.5 xs:px-6 xs:py-3 lg:px-8 lg:py-3.5 rounded-lg transition-all duration-300 text-xs tracking-wide uppercase">
                 View All Products
               </Link>
             </div>
           </div>
-          <div className="relative h-[420px] w-full flex justify-center" data-aos="fade-left" data-aos-delay="200">
+          <div className="relative h-[260px] xs:h-[320px] sm:h-[380px] md:h-[420px] w-full flex justify-center" data-aos="fade-left" data-aos-delay="200">
             <Image
               src="/whey-protein-05.avif"
               alt="Bulk whey protein 20kg India high protein powder muscle growth gym supplement Nirvana Nuts"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-contain hover:scale-102 transition-transform duration-500 drop-shadow-2xl"
+              sizes="(max-width: 425px) 90vw, (max-width: 768px) 45vw, 50vw"
+              className="object-contain object-center hover:scale-102 transition-transform duration-500 drop-shadow-2xl"
             />
           </div>
         </div>
       </section>
 
       {/* 5. Corporate Heritage Section */}
-      <section data-aos="fade-up" className="bg-white py-24 px-6 lg:px-20 border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative h-[520px] w-full" data-aos="fade-right">
+      <section data-aos="fade-up" className="bg-white py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 px-4 xs:px-6 lg:px-20 border-b border-neutral-100">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          <div className="relative h-[280px] xs:h-[350px] sm:h-[420px] md:h-[480px] lg:h-[520px] w-full" data-aos="fade-right">
             <div className="rounded-2xl overflow-hidden shadow-xs h-full w-full relative">
               <Image
                 src="/product-welcome.avif"
                 alt="Premium makhana fox nuts healthy snacks India natural roasted Nirvana Nuts"
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
+                sizes="(max-width: 1024px) 95vw, 50vw"
+                className="object-fill object-center"
               />
             </div>
-            <div className="absolute -right-2 top-16 bg-white/90 backdrop-blur-md shadow-lg rounded-xl px-5 py-4 text-center z-20 border border-neutral-100" data-aos="zoom-in" data-aos-delay="400">
-              <p className="text-3xl font-bold text-amber-800">6+</p>
-              <p className="text-[9px] tracking-widest text-neutral-500 mt-1 font-bold uppercase">
+            <div className="absolute -right-1 top-8 xs:top-12 sm:top-16 bg-white/90 backdrop-blur-md shadow-lg rounded-xl px-3 py-2.5 xs:px-5 xs:py-4 text-center z-20 border border-neutral-100" data-aos="zoom-in" data-aos-delay="400">
+              <p className="text-xl xs:text-2xl sm:text-3xl font-bold text-amber-800">6+</p>
+              <p className="text-[7px] xs:text-[9px] tracking-widest text-neutral-500 mt-0.5 font-bold uppercase">
                 Years of Purity
               </p>
             </div>
           </div>
 
           <div data-aos="fade-left" data-aos-delay="200">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 tracking-tight leading-tight">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-900 tracking-tight leading-tight">
               Bridging the Gap Between <span className="italic font-normal text-amber-800">Traditional Nutrition</span> & Modern Performance
             </h2>
-            <div className="w-20 h-0.5 bg-amber-200 my-6"></div>
-            <p className="text-neutral-600 leading-relaxed text-sm lg:text-base mb-6">
+            <div className="w-16 sm:w-20 h-0.5 bg-amber-200 my-4 sm:my-6"></div>
+            <p className="text-neutral-600 leading-relaxed text-xs xs:text-sm lg:text-base mb-4 sm:mb-6">
               Nirvana Nuts was built on a simple belief — healthy snacking and performance nutrition should never compromise on quality. Rooted in India’s rich tradition of makhana and plant-based superfoods, we craft carefully roasted, protein-rich snacks for modern lifestyles.
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-6 mb-8 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8 text-xs xs:text-sm">
               <div data-aos="fade-up" data-aos-delay="100">
                 <h3 className="font-semibold text-neutral-900">Ethical Makhana Sourcing</h3>
-                <p className="text-neutral-500 text-xs mt-1.5 leading-relaxed">Our makhana is sourced directly from trusted farmers to ensure premium quality, freshness, and sustainability.</p>
+                <p className="text-neutral-500 text-[11px] xs:text-xs mt-1 leading-relaxed">Our makhana is sourced directly from trusted farmers to ensure premium quality, freshness, and sustainability.</p>
               </div>
               <div data-aos="fade-up" data-aos-delay="200">
                 <h3 className="font-semibold text-neutral-900">20kg Bulk Protein Supply</h3>
-                <p className="text-neutral-500 text-xs mt-1.5 leading-relaxed">We provide lab-tested whey protein in 20kg bulk quantities, suitable for fitness brands and distributors.</p>
+                <p className="text-neutral-500 text-[11px] xs:text-xs mt-1 leading-relaxed">We provide lab-tested whey protein in 20kg bulk quantities, suitable for fitness brands and distributors.</p>
               </div>
               <div data-aos="fade-up" data-aos-delay="300">
                 <h3 className="font-semibold text-neutral-900">Purity Promise</h3>
-                <p className="text-neutral-500 text-xs mt-1.5 leading-relaxed">Zero artificial preservatives, fillers, or harmful additives — only clean, nutrition.</p>
+                <p className="text-neutral-500 text-[11px] xs:text-xs mt-1 leading-relaxed">Zero artificial preservatives, fillers, or harmful additives — only clean, nutrition.</p>
               </div>
               <div data-aos="fade-up" data-aos-delay="400">
                 <h3 className="font-semibold text-neutral-900">Quality Assurance</h3>
-                <p className="text-neutral-500 text-xs mt-1.5 leading-relaxed">Every batch undergoes strict quality testing to ensure safety, consistency, and nutritional accuracy.</p>
+                <p className="text-neutral-500 text-[11px] xs:text-xs mt-1 leading-relaxed">Every batch undergoes strict quality testing to ensure safety, consistency, and nutritional accuracy.</p>
               </div>
             </div>
 
-            <Link href="/about" className="inline-flex items-center gap-2 text-amber-800 font-semibold hover:opacity-80 transition text-sm">
-              Discover Our Journey <ArrowRight size={16} />
+            <Link href="/about" className="inline-flex items-center gap-1.5 text-amber-800 font-semibold hover:opacity-80 transition text-xs xs:text-sm">
+              Discover Our Journey <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
 
       {/* 6. Brand Value Propositions */}
-      <section data-aos="fade-up" className="bg-neutral-950 text-neutral-100 py-24 px-6 lg:px-20">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <section data-aos="fade-up" className="bg-neutral-950 text-neutral-100 py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 px-4 xs:px-6 lg:px-20">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           <div data-aos="fade-right">
-            <span className="text-xs tracking-widest uppercase text-amber-400 mb-4 font-semibold block">Our Commitment</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-6">
+            <span className="text-[10px] xs:text-xs tracking-widest uppercase text-amber-400 mb-2 font-semibold block">Our Commitment</span>
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight mb-4">
               The Gold Standard of <span className="italic font-normal text-amber-400">Clean Nutrition Excellence</span>
             </h2>
-            <p className="text-neutral-400 text-sm leading-relaxed mb-6">
+            <p className="text-neutral-400 text-xs xs:text-sm leading-relaxed mb-4 sm:mb-6">
               At Nirvana Nuts, we are committed to delivering premium makhana snacks and high-quality bulk whey protein that support modern, health-conscious lifestyles. Our philosophy blends traditional plant-based nutrition with advanced processing standards.
             </p>
-            <div className="flex gap-16 mt-8">
+            <div className="flex gap-8 sm:gap-16 mt-4">
               <div>
-                <p className="text-3xl font-bold text-amber-400">6+</p>
-                <p className="text-[10px] tracking-widest text-neutral-500 mt-1 font-semibold">YEARS OF TRUST</p>
+                <p className="text-xl xs:text-2xl sm:text-3xl font-bold text-amber-400">6+</p>
+                <p className="text-[8px] xs:text-[9px] sm:text-[10px] tracking-widest text-neutral-500 mt-0.5 font-semibold">YEARS OF TRUST</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-amber-400">100%</p>
-                <p className="text-[10px] tracking-widest text-neutral-500 mt-1 font-semibold">NATURAL & LAB TESTED</p>
+                <p className="text-xl xs:text-2xl sm:text-3xl font-bold text-amber-400">100%</p>
+                <p className="text-[8px] xs:text-[9px] sm:text-[10px] tracking-widest text-neutral-500 mt-0.5 font-semibold">NATURAL & LAB TESTED</p>
               </div>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-6" data-aos="fade-left" data-aos-delay="200">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-amber-400/40 transition duration-300">
-              <Leaf className="text-amber-400 mb-4" size={28} />
-              <h3 className="text-lg font-semibold mb-2">Premium Makhana</h3>
-              <p className="text-neutral-400 text-xs leading-relaxed">We source fox nuts directly from trusted farmers to ensure superior quality, freshness, and authentic nutrition.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6" data-aos="fade-left" data-aos-delay="200">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 xs:p-6 hover:border-amber-400/40 transition duration-300">
+              <Leaf className="text-amber-400 mb-3" size={24} />
+              <h3 className="text-sm xs:text-base sm:text-lg font-semibold mb-1.5">Premium Makhana</h3>
+              <p className="text-neutral-400 text-[11px] xs:text-xs leading-relaxed">We source fox nuts directly from trusted farmers to ensure superior quality, freshness, and authentic nutrition.</p>
             </div>
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-amber-400/40 transition duration-300">
-              <Dumbbell className="text-amber-400 mb-4" size={28} />
-              <h3 className="text-lg font-semibold mb-2">20kg Bulk Protein</h3>
-              <p className="text-neutral-400 text-xs leading-relaxed">High-quality whey protein available in 20kg bulk packaging, ideal for gyms, supplement brands, and fitness entities.</p>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 xs:p-6 hover:border-amber-400/40 transition duration-300">
+              <Dumbbell className="text-amber-400 mb-3" size={24} />
+              <h3 className="text-sm xs:text-base sm:text-lg font-semibold mb-1.5">20kg Bulk Protein</h3>
+              <p className="text-neutral-400 text-[11px] xs:text-xs leading-relaxed">High-quality whey protein available in 20kg bulk packaging, ideal for gyms, supplement brands, and fitness entities.</p>
             </div>
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-amber-400/40 transition duration-300">
-              <Heart className="text-amber-400 mb-4" size={28} />
-              <h3 className="text-lg font-semibold mb-2">Quality & Trust</h3>
-              <p className="text-neutral-400 text-xs leading-relaxed">Every batch undergoes strict quality checks to ensure purity, consistency, and nutritional accuracy.</p>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 xs:p-6 hover:border-amber-400/40 transition duration-300">
+              <Heart className="text-amber-400 mb-3" size={24} />
+              <h3 className="text-sm xs:text-base sm:text-lg font-semibold mb-1.5">Quality & Trust</h3>
+              <p className="text-neutral-400 text-[11px] xs:text-xs leading-relaxed">Every batch undergoes strict quality checks to ensure purity, consistency, and nutritional accuracy.</p>
             </div>
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 hover:border-amber-400/40 transition duration-300">
-              <ShieldCheck className="text-amber-400 mb-4" size={28} />
-              <h3 className="text-lg font-semibold mb-2">No Harmful Additives</h3>
-              <p className="text-neutral-400 text-xs leading-relaxed">No artificial preservatives, no unnecessary fillers — just clean, performance-driven nutrition.</p>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 xs:p-6 hover:border-amber-400/40 transition duration-300">
+              <ShieldCheck className="text-amber-400 mb-3" size={24} />
+              <h3 className="text-sm xs:text-base sm:text-lg font-semibold mb-1.5">No Harmful Additives</h3>
+              <p className="text-neutral-400 text-[11px] xs:text-xs leading-relaxed">No artificial preservatives, no unnecessary fillers — just clean, performance-driven nutrition.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* 7. FAQ Engine */}
-      <section data-aos="fade-up" className="bg-[#f4f7f5] py-24 px-6 md:px-20 border-b border-neutral-200/50">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 text-center mb-12">
+      <section data-aos="fade-up" className="bg-[#f4f7f5] py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 px-4 xs:px-6 md:px-12 lg:px-20 border-b border-neutral-200/50">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 text-center mb-6 sm:mb-12">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {faqs.map((faq, index) => (
               <div 
                 key={index} 
@@ -584,14 +580,14 @@ const Hero = () => {
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full flex justify-between items-center text-left px-6 py-4.5 focus:outline-hidden"
+                  className="w-full flex justify-between items-center text-left px-4 py-3.5 xs:px-6 xs:py-4.5 focus:outline-hidden"
                   aria-expanded={activeIndex === index}
                 >
-                  <span className="text-base font-semibold text-neutral-900">{faq.question}</span>
-                  <span className="text-xl text-neutral-500 font-light">{activeIndex === index ? "−" : "+"}</span>
+                  <span className="text-xs xs:text-sm sm:text-base font-semibold text-neutral-900 pr-4">{faq.question}</span>
+                  <span className="text-lg sm:text-xl text-neutral-500 font-light">{activeIndex === index ? "−" : "+"}</span>
                 </button>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeIndex === index ? "max-h-40 border-t border-neutral-100" : "max-h-0"}`}>
-                  <p className="text-neutral-600 text-sm p-6 leading-relaxed bg-stone-50/40">{faq.answer}</p>
+                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeIndex === index ? "max-h-[200px] border-t border-neutral-100" : "max-h-0"}`}>
+                  <p className="text-neutral-600 text-[11px] xs:text-xs sm:text-sm p-4 xs:p-6 leading-relaxed bg-stone-50/40">{faq.answer}</p>
                 </div>
               </div>
             ))}
@@ -600,40 +596,42 @@ const Hero = () => {
       </section>
 
       {/* 8. CTA Conversion Matrix */}
-      <section data-aos="fade-up" className="relative h-[45vh] text-center flex items-center justify-center">
-        <div className='absolute inset-0 z-0'>
+      <section data-aos="fade-up" className="relative h-[50vh] sm:h-[60vh] lg:h-[65vh] text-center flex items-center justify-center overflow-hidden">
+        <div className='absolute inset-0 z-0 w-full h-full'>
           <Image
             src="/image-slider-07.avif"
             alt="Healthy makhana fox nuts background India Nirvana Nuts"
             fill
             sizes="100vw"
-            className='object-cover'
+            className='object-cover object-center'
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-neutral-950/60 z-10"></div>
-        <div className="relative z-20 py-8 px-6 max-w-2xl mx-auto text-center" data-aos="zoom-in">
-          <h2 className="text-3xl font-bold tracking-tight text-white">For Any Query, Get in Touch with Nirvana Nuts</h2>
-          <p className="text-neutral-200 text-sm mt-3 max-w-lg mx-auto">
+        <div className="absolute inset-0 bg-neutral-950/65 z-10"></div>
+        <div className="relative z-20 py-6 px-4 xs:px-6 max-w-2xl mx-auto text-center" data-aos="zoom-in">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+            For Any Query, Get in Touch with Nirvana Nuts
+          </h2>
+          <p className="text-neutral-200 text-xs xs:text-sm mt-3 max-w-lg mx-auto leading-relaxed">
             Have questions about our products or bulk requirements? We’d love to hear from you!
           </p>
-          <Link href="/contact" className="bg-white hover:bg-neutral-100 text-neutral-900 text-xs font-semibold tracking-wider uppercase mt-8 px-6 py-3.5 rounded-lg shadow-sm transition-all inline-block">
+          <Link href="/contact" className="bg-white hover:bg-neutral-100 text-neutral-900 text-[10px] xs:text-xs font-semibold tracking-wider uppercase mt-6 sm:mt-8 px-5 py-3 xs:px-6 xs:py-3.5 rounded-lg shadow-sm transition-all inline-block hover:scale-102">
             Contact Us
           </Link>
         </div>
       </section>
 
       {/* 9. Customer Reviews Slider Section */}
-      <section data-aos="fade-up" className="bg-stone-50 py-24 flex flex-col items-center border-t border-neutral-200/40">
-        <div className="max-w-7xl w-full px-6 flex flex-col items-center">
-          <h2 className="text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2">
+      <section data-aos="fade-up" className="bg-amber-50 py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 flex flex-col items-center border-t border-neutral-200/40 overflow-hidden">
+        <div className="max-w-7xl w-full px-4 xs:px-6 flex flex-col items-center">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2 leading-tight">
             Best Makhana Brand in India – Customer Reviews
           </h2>
-          <p className="text-center text-neutral-500 text-sm mb-16">See why thousands of clients trust our premium grade items.</p>
+          <p className="text-center text-neutral-500 text-xs xs:text-sm mb-8 sm:mb-16">See why thousands of clients trust our premium grade items.</p>
 
           {reviews.length > 0 && (
-            <div className="w-full relative overflow-hidden perspective-distant min-h-[340px] flex items-center justify-center" data-aos="zoom-in-up" data-aos-delay="100">
-              <div className="relative w-full max-w-4xl h-72 flex justify-center items-center">
+            <div className="w-full relative overflow-hidden perspective-distant min-h-[360px] xs:min-h-[340px] flex items-center justify-center" data-aos="zoom-in-up" data-aos-delay="100">
+              <div className="relative w-full max-w-4xl h-80 xs:h-72 flex justify-center items-center">
                 {reviews.map((rev, index) => {
                   let position = index - current;
                   if (position < -1 || position > 1) return null;
@@ -641,29 +639,29 @@ const Hero = () => {
                   return (
                     <article
                       key={rev.id}
-                      className="absolute w-[310px] sm:w-[420px] md:w-[480px] bg-white border border-neutral-200/60 shadow-xs rounded-2xl p-6 sm:p-8 transition-all duration-700 ease-in-out flex flex-col justify-between"
+                      className="absolute bg-gray-50 w-[260px] xs:w-[310px] sm:w-[420px] md:w-[480px] border border-neutral-200/60 shadow-xs rounded-2xl p-4 xs:p-6 sm:p-8 transition-all duration-700 ease-in-out flex flex-col justify-between"
                       style={{
                         transform: `
-                          translateX(${position * 360}px)
-                          scale(${position === 0 ? 1 : 0.88})
-                          rotateY(${position * -20}deg)
+                          translateX(${position * (window.innerWidth < 375 ? 280 : window.innerWidth < 640 ? 330 : 360)}px)
+                          scale(${position === 0 ? 1 : 0.85})
+                          rotateY(${position * -15}deg)
                         `,
                         zIndex: position === 0 ? 20 : 10,
-                        opacity: position === 0 ? 1 : 0.4,
+                        opacity: position === 0 ? 1 : 0.35,
                       }}
                     >
                       <div>
-                        <header className="flex justify-between items-start gap-4">
+                        <header className="flex flex-col xs:flex-row justify-between items-start gap-2 xs:gap-4">
                           <div>
-                            <h3 className="text-lg font-bold text-neutral-900 tracking-tight">{rev.name}</h3>
-                            <p className="text-xs text-neutral-400 mt-0.5">{rev.location}</p>
+                            <h3 className="text-sm xs:text-base sm:text-lg font-bold text-neutral-900 tracking-tight">{rev.name}</h3>
+                            <p className="text-[10px] xs:text-xs text-neutral-400 mt-0.5">{rev.location}</p>
                           </div>
-                          <div className="text-amber-500 text-sm tracking-xs" aria-label={`Rated ${rev.rating} out of 5 stars`}>
+                          <div className="text-amber-500 text-xs sm:text-sm tracking-xs" aria-label={`Rated ${rev.rating} out of 5 stars`}>
                             {"★".repeat(rev.rating)}
                             {"☆".repeat(5 - rev.rating)}
                           </div>
                         </header>
-                        <p className="text-neutral-600 text-sm leading-relaxed mt-5 italic">"{rev.text}"</p>
+                        <p className="text-neutral-600 text-[11px] xs:text-xs sm:text-sm leading-relaxed mt-3 xs:mt-5 italic">"{rev.text}"</p>
                       </div>
                     </article>
                   );
@@ -673,7 +671,7 @@ const Hero = () => {
               <button
                 onClick={() => setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))}
                 aria-label="Previous review"
-                className="absolute left-4 bg-white border border-neutral-200 hover:bg-neutral-50 top-1/2 -translate-y-1/2 text-neutral-800 shadow-xs w-9 h-9 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
+                className=" absolute left-1 xs:left-4 bg-white border border-neutral-200 hover:bg-neutral-50 top-1/2 -translate-y-1/2 text-neutral-800 shadow-xs w-8 h-8 xs:w-9 xs:h-9 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
               >
                 ❮
               </button>
@@ -681,21 +679,21 @@ const Hero = () => {
               <button
                 onClick={() => setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1))}
                 aria-label="Next review"
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-800 shadow-xs w-9 h-9 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
+                className="absolute right-1 xs:right-3 top-1/2 -translate-y-1/2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-800 shadow-xs w-8 h-8 xs:w-9 xs:h-9 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
               >
                 ❯
               </button>
             </div>
           )}
 
-          <div className="flex gap-2 mt-12">
+          <div className="flex gap-1.5 xs:gap-2 mt-8 sm:mt-12">
             {Array.from({ length: totalDots }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrent(index * cardsPerView)}
                 aria-label={`Go to reviews page ${index + 1}`}
-                className={`h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
-                  current >= index * cardsPerView && current < (index + 1) * cardsPerView ? "bg-amber-800 w-6" : "bg-neutral-300 w-1.5"
+                className={`h-1 xs:h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
+                  current >= index * cardsPerView && current < (index + 1) * cardsPerView ? "bg-amber-800 w-5 xs:w-6" : "bg-neutral-300 w-1.5"
                 }`}
               />
             ))}

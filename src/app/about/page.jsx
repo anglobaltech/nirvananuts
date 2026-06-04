@@ -141,7 +141,7 @@ const AboutPage = () => {
               <p className="text-gray-700 text-lg leading-relaxed">
                 To become a trusted global brand in healthy snacking and performance nutrition by delivering premium quality <strong>makhana (fox nuts)</strong> and <strong>bulk whey protein (20kg packaging)</strong> to fitness brands, gyms, distributors, and modern consumers.
               </p>
-              <p className="text-gray-600 text-md leading-relaxed mt-3">
+              <p className="text-gray-600 text-lg leading-relaxed mt-3">
                 We aim to provide clean-label, nutrient-rich products sourced responsibly and processed under strict quality standards.
               </p>
             </div>

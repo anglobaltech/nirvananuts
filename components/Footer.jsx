@@ -44,6 +44,9 @@ const Footer = () => {
             <li>
               <Link href="/contact" className="hover:text-amber-500 transition-colors duration-200 block py-0.5">Contact us</Link>
             </li>
+            <li>
+              <Link href="/TermsAndConditions" className="hover:text-amber-500 transition-colors duration-200 block py-0.5">Terms & Conditions</Link>
+            </li>
           </ul>
         </div>
 
