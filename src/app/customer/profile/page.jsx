@@ -92,22 +92,20 @@ export default function ProfilePage() {
   return (
     <main className="min-h-screen bg-[#F6F5F2] text-[#111111] selection:bg-black selection:text-white pb-24 antialiased">
       {/* Top Header Navigation */}
-      <nav className=" mt-30 border-b border-gray-100 transition-all">
-        <div className="max-w-6xl mx-auto px-6 h-24 flex items-center justify-between">
+      <nav className=" mt-25  border-b border-gray-100 transition-all">
+        <div className="max-w-6xl mx-auto xs:pt-22 px-6 h-24 flex items-center justify-between">
           <Link href="/customer" className="group flex items-center gap-3 font-semibold text-xs tracking-[0.2em] uppercase text-gray-500 hover:text-black transition-colors">
             <div className="p-2 rounded-full border border-gray-100 bg-white group-hover:border-black/20 transition-colors shadow-sm">
               <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform"/>
             </div>
             Back
           </Link>
-          <div className="hidden md:flex items-center gap-2 text-[10px] font-black tracking-[0.35em] uppercase opacity-40">
-            <ShieldCheck size={12} className="text-black" />
-            Verified Account Workspace
-          </div>
+
           <Link href="/customer/edit-profile">
-            <button className="flex items-center gap-2 cursor-pointer bg-[#111111] text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all active:scale-[0.98] shadow-md shadow-black/5 hover:shadow-xl hover:shadow-black/10">
-              <Edit3 size={13} /> Edit Profile
-            </button>
+<button className="w-full lg:w-auto flex items-center justify-center gap-2 cursor-pointer bg-[#111111] text-white px-4 py-2.5 sm:px-5 sm:py-3 lg:px-6 lg:py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black transition-all active:scale-[0.98] shadow-md shadow-black/5 hover:shadow-xl hover:shadow-black/10">
+  <Edit3 size={13} /> 
+  <span>Edit Profile</span>
+</button>
           </Link>
         </div>
       </nav>
@@ -152,19 +150,6 @@ export default function ProfilePage() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* Premium Dynamic Graphic Accent */}
-            <div className="hidden lg:block bg-gradient-to-br from-[#1c1c1c] to-black p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-xl shadow-black/5">
-              <div className="relative z-10">
-                <h4 className="text-lg font-light tracking-wide mb-1">Executive Access</h4>
-                <p className="text-[10px] text-gray-400 tracking-[0.2em] uppercase mb-8">Nirvana Network tier</p>
-                <div className="h-px w-full bg-white/10 mb-6" />
-                <p className="text-xs leading-relaxed text-gray-400 font-light">
-                  Your profile parameter architecture is structured securely within private clouds. Modify core nodes dynamically using standard access permissions.
-                </p>
-              </div>
-              <div className="absolute -bottom-12 -right-12 w-36 h-36 bg-neutral-800 rounded-full blur-3xl opacity-40" />
             </div>
           </aside>
 

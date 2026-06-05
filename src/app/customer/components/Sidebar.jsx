@@ -48,18 +48,18 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* MOBILE TOGGLE BUTTON - Positioned below header */}
-      <div className="lg:hidden fixed mt-5 top-24 left-2 z-50">
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-3 bg-[#2D1B0D] text-[#FAF9F6] px-2 py-0.5 rounded-full shadow-2xl shadow-black/20"
-        >
-          {isOpen ? <X size={18} /> : <LayoutGrid size={18} />}
-          <span className="text-[8px] font-medium uppercase tracking-[0.2em]">
-            {isOpen ? "Close" : "Menu"}
-          </span>
-        </button>
-      </div>
+{/* MOBILE TOGGLE BUTTON - Dynamic, safe tracking below header */}
+<div className="lg:hidden fixed top-[110px] mt-2 left-3 sm:left-5 z-50 transition-all duration-300">
+  <button 
+    onClick={() => setIsOpen(!isOpen)}
+    className="flex items-center gap-2 sm:gap-3 bg-[#2D1B0D] text-[#FAF9F6] px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-xl shadow-black/30 hover:opacity-90 active:scale-95 transition-all"
+  >
+    {isOpen ? <X size={15} className="sm:w-[17px] sm:h-[17px]" /> : <LayoutGrid size={15} className="sm:w-[17px] sm:h-[17px]" />}
+    <span className="text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] select-none">
+      {isOpen ? "Close" : "Menu"}
+    </span>
+  </button>
+</div>
 
       {/* OVERLAY (Mobile only) */}
       <AnimatePresence>
@@ -80,7 +80,7 @@ export default function Sidebar() {
         h-screen lg:h-auto lg:min-h-[calc(100vh-120px)]
         bg-[#F4EDE4] border-r border-[#D2C1B0] 
         transition-transform duration-500 ease-in-out z-[42]
-        w-[80%] md:w-[40%] lg:w-80
+        w-[80%] md:w-[60%] lg:w-80
         ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}>
         <div className="flex flex-col h-full p-8 pt-32 lg:pt-8">
@@ -88,7 +88,7 @@ export default function Sidebar() {
  
 
           {/* NAVIGATION LINKS */}
-          <nav className="flex-1 space-y-3 mt-25 overflow-y-auto custom-scrollbar">
+          <nav className="flex-1 space-y-3 mt-8 lg:mt-25 overflow-y-auto custom-scrollbar">
             {links.map((link) => {
               const Icon = link.icon;
               const isActive = path === link.href;

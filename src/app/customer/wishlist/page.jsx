@@ -338,9 +338,9 @@ setTimeout(() => {
 
   return (
     <main className="bg-gray-50/60 min-h-screen pt-24 pb-16 text-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="flex flex-col gap-5 border-b mt-10 border-gray-200 pb-6 mb-8">
+        <div className="flex flex-col gap-5 border-b mt-15 border-gray-200 pb-6 mb-8">
           <div>
             <Link href="/" className="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-black uppercase tracking-wider mb-4 transition">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3">

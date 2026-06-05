@@ -152,34 +152,13 @@ export default function EditProfilePage() {
           <Link href="/customer/profile" className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#A68966] hover:text-[#2D1B0D] transition-all">
             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Cancel
           </Link>
-          <div className="text-[10px] font-black tracking-[0.5em] text-[#8B5E3C] italic hidden md:block">NIRVANA EDITORIAL</div>
           <div className="w-20 md:hidden" /> {/* Spacer */}
         </div>
       </nav>
 
       <div className="max-w-7xl mx-auto pt-10 pb-20 px-6 lg:px-12 grid lg:grid-cols-12 gap-16">
         
-        {/* Left Branding Side */}
-        <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit space-y-6">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-            <h1 className="text-5xl font-extralight text-[#2D1B0D] tracking-tighter italic leading-tight">
-              Refine Your <br />
-              <span className="ml-12 font-serif tracking-normal text-6xl">Essence.</span>
-            </h1>
-            <p className="mt-6 text-[#8B5E3C] font-medium leading-relaxed opacity-80 max-w-xs">
-              Personalize your account details and secure your digital presence in our private sanctuary.
-            </p>
-          </motion.div>
-          
-          <div className="hidden lg:block pt-10">
-            <div className="p-8 rounded-[2rem] bg-[#2D1B0D] text-white space-y-4 relative overflow-hidden">
-               <ShieldCheck className="text-[#8B5E3C] mb-2" size={32} />
-               <h3 className="text-sm font-bold tracking-widest uppercase">Privacy Vault</h3>
-               <p className="text-xs opacity-60 leading-relaxed">Your data is encrypted using 256-bit industrial standards. Changes take effect across all synced devices immediately.</p>
-               <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-[#8B5E3C]/20 rounded-full blur-2xl" />
-            </div>
-          </div>
-        </div>
+
 
         {/* Right Form Side */}
         <div className="lg:col-span-8">

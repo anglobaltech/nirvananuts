@@ -64,7 +64,7 @@ export default function Dashboard() {
       <div className="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-6 mt-24 md:mt-20 lg:mt-16 xl:mt-12 4xl:mt-20 mb-10 lg:mb-16 4xl:mb-24">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="w-full xl:w-auto">
           <div className="flex items-center gap-2 mb-2 lg:mb-3">
-            <span className="text-[9px] sm:text-[10px] 4xl:text-sm uppercase tracking-[0.3em] text-[#A68966] font-black">
+            <span className="text-[9px] mt-15 sm:text-[10px] 4xl:text-sm uppercase tracking-[0.3em] text-[#A68966] font-black">
               Nirvana Private Portal
             </span>
           </div>
@@ -84,7 +84,7 @@ export default function Dashboard() {
       </div>
 
       {/* STATS GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 4xl:gap-12 mb-10 lg:mb-16 4xl:mb-24">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 4xl:gap-12 mb-10 lg:mb-16 4xl:mb-24">
         <DashboardCard 
           title="Total Orders" 
           value={totalOrders} 

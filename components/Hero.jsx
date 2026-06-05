@@ -223,116 +223,120 @@ const Hero = () => {
   }, [reviews, cardsPerView, maxIndex]);
 
   return (
-    <div className='min-h-screen w-full bg-stone-50/50 text-neutral-800 antialiased mt-16 xs:mt-20'>
+ <div className='min-h-screen w-full  bg-stone-50/50 text-neutral-800 antialiased mt-16 xs:mt-20 overflow-hidden'>
       
       <h1 className="sr-only">Nirvana Nuts - Premium Flavored Makhana & Bulk Whey Protein Supplier India</h1>
 
       {/* 1. Hero Slider Section */}
-      <section className="relative min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] w-full bg-[#faf8f5] flex flex-col justify-center overflow-hidden">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === slider ? "opacity-100 z-10 translate-x-0" : "opacity-0 pointer-events-none -translate-x-4"}`}
-          >
-            <div className="w-full max-w-7xl mx-auto px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20 h-full flex flex-col lg:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
-              <div className="w-full lg:w-1/2 flex flex-col justify-center" data-aos="fade-right">
-                <span className="text-amber-800 tracking-wider uppercase block w-fit mt-1 text-[9px] xs:text-[10px] sm:text-xs px-2.5 py-0.5 sm:py-1 mb-3 sm:mb-4 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
-                  Trusted Supplier Since 2020
-                </span>
+      <section className="relative min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh]  w-full bg-[#faf8f5] flex flex-col justify-center overflow-x-hidden">
+        <div className="relative w-full h-full min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh] ">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === slider ? "opacity-100 z-10 translate-x-0" : "opacity-0 pointer-events-none -translate-x-4"}`}
+            >
+              <div className="w-full max-w-7xl  mx-auto px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-1 py-6 xs:py-8 sm:py-10  lg:py-12 xl:py-16 2xl:py-2 h-full flex flex-col lg:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
+                <div className="w-full lg:w-1/2 flex flex-col justify-center" data-aos="fade-right">
+                  <span className="text-amber-800 xs:mt-5 tracking-wider uppercase block w-fit text-[9px] xs:text-[10px] sm:text-xs px-2.5 py-0.5 sm:py-1 mb-3 sm:mb-4 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
+                    Trusted Supplier Since 2020
+                  </span>
 
-                {/* DESKTOP HEADING */}
-                <div className="hidden lg:block space-y-2 mb-4">
-                  <h2 className="text-[24px] xl:text-[32px] 2xl:text-[40px] tracking-tight leading-tight font-bold text-neutral-900">
-                    {slide.heading}
-                  </h2>
-                  <p className="text-[16px] xl:text-[20px] 2xl:text-[22px] font-medium tracking-wide text-amber-800/90">
-                    {slide.title}
-                  </p>
-                </div>
-
-                {/* MOBILE HEADING */}
-                <div className="lg:hidden block mb-4">
-                  <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 leading-tight">
-                    {slide.heading}
-                    <span className="text-[11px] xs:text-xs sm:text-sm tracking-wide font-medium text-amber-800 block mt-1">
+                  {/* DESKTOP HEADING */}
+                  <div className="hidden lg:block space-y-2 mb-4">
+                    <h2 className="text-xl xl:text-2xl 2xl:text-3xl tracking-tight leading-tight font-bold text-neutral-900">
+                      {slide.heading}
+                    </h2>
+                    <p className="text-base xl:text-lg 2xl:text-xl font-medium tracking-wide text-amber-800/90">
                       {slide.title}
-                    </span>
-                  </h2> 
-
-                  <div className="relative w-full h-36 xs:h-40 sm:h-48 md:h-56 my-3">
-                    <Image
-                      src={slide.image}
-                      alt={slide.alt}
-                      fill
-                      priority={index === 0}
-                      sizes="(max-width: 320px) 280px, (max-width: 375px) 330px, (max-width: 425px) 380px, (max-width: 768px) 700px, 50vw"
-                      className="object-contain object-center"
-                    />
+                    </p>
                   </div>
-                  
-                  <div className='flex justify-center my-2'>
-                    <div className="flex gap-1.5 z-30">
-                      {slides.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setSlider(idx)}
-                          aria-label={`Go to slide ${idx + 1}`}
-                          className={`h-1 transition-all duration-300 rounded-full ${idx === slider ? "bg-amber-700 w-5 xs:w-6" : "bg-neutral-300 w-1.5 hover:bg-neutral-400"}`}
-                        />
-                      ))}
+
+                  {/* MOBILE HEADING */}
+                  <div className="lg:hidden block w-full mb-4 md:mb-2">
+                    <h2 className="text-sm xs:text-base sm:text-lg md:text-xl font-bold tracking-tight text-neutral-900 leading-tight">
+                      {slide.heading}
+                      <span className="text-[11px] xs:text-xs sm:text-sm tracking-wide font-medium text-amber-800 block mt-1">
+                        {slide.title}
+                      </span>
+                    </h2> 
+
+                    <div className="relative w-full h-32 xs:h-36 sm:h-40 md:h-48 my-3">
+                      <Image
+                        src={slide.image}
+                        alt={slide.alt}
+                        fill
+                        priority={index === 0}
+                        sizes="(max-width: 320px) 280px, (max-width: 375px) 330px, (max-width: 425px) 380px, (max-width: 768px) 700px, 50vw"
+                        className="object-contain object-center"
+                      />
+                    </div>
+                    
+                    <div className='flex justify-center my-2'>
+                      <div className="flex gap-1.5 z-30">
+                        {slides.map((_, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setSlider(idx)}
+                            aria-label={`Go to slide ${idx + 1}`}
+                            className={`h-1 transition-all duration-300 rounded-full ${idx === slider ? "bg-amber-700 w-5 xs:w-6" : "bg-neutral-300 w-1.5 hover:bg-neutral-400"}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] xs:text-xs sm:text-sm xl:text-base text-neutral-600 mb-4 md:mb-2 sm:mb-6 lg:max-w-xl">
+                    {slide.description}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-2 xs:gap-2.5 sm:gap-4 mb-6 sm:mb-2 md:mb-2 xl:mb-9">
+                    <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-[9px] xs:text-[10px] sm:text-xs font-medium tracking-wider uppercase text-white px-3 py-2 xs:px-4 xs:py-2.5 sm:px-5 sm:py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
+                      Explore Products
+                    </Link>
+                    <Link href="/contact" className="border border-neutral-300 text-[9px] xs:text-[10px] sm:text-xs font-medium tracking-wider uppercase text-neutral-800 px-3 py-2 xs:px-4 xs:py-2.5 sm:px-5 sm:py-3 rounded-lg transition-all duration-300 hover:bg-neutral-900 hover:text-white">
+                      Contact us
+                    </Link>
+                  </div>
+
+                  <hr className="hidden lg:block border-neutral-200/60 mb-6" />
+
+                  <div className="flex gap-4 xs:gap-6 sm:gap-8 md:gap-12">
+                    <div>
+                      <p className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-neutral-900 tracking-tight">100%</p>
+                      <p className="text-neutral-400 text-[7px] xs:text-[8px] sm:text-[9px] tracking-widest font-semibold mt-0.5">ORGANIC</p>
+                    </div>
+                    <div>
+                      <p className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-neutral-900 tracking-tight">70K</p>
+                      <p className="text-neutral-400 text-[7px] xs:text-[8px] sm:text-[9px] tracking-widest font-semibold mt-0.5">HAPPY CLIENTS</p>
+                    </div>
+                    <div>
+                      <p className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-neutral-900 tracking-tight">20+</p>
+                      <p className="text-neutral-400 text-[7px] xs:text-[8px] sm:text-[9px] tracking-widest font-semibold mt-0.5">RECIPES</p>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-[11px] xs:text-xs sm:text-sm xl:text-base xl:leading-7 text-neutral-600 mb-4 sm:mb-6 lg:max-w-xl">
-                  {slide.description}
-                </p>
-
-                <div className="flex items-center gap-2.5 xs:gap-3 sm:gap-4 mb-6 md:mb-8">
-                  <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs xl:text-sm font-medium tracking-wider uppercase text-white px-2.5 py-2 xs:px-3 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
-                    Explore Products
-                  </Link>
-                  <Link href="/contact" className="border border-neutral-300 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs xl:text-sm font-medium tracking-wider uppercase text-neutral-800 px-2.5 py-2 xs:px-3 sm:px-4 sm:py-2.5 xl:px-5 xl:py-3 rounded-lg transition-all duration-300 hover:bg-neutral-900 hover:text-white">
-                    Contact us
-                  </Link>
+                <div className="hidden lg:flex lg:w-1/2 xl:mt-10 justify-center relative h-[250px] xl:h-[350px] 2xl:h-[450px]" data-aos="fade-left" data-aos-delay="200">
+                  <Image
+                    src={slide.image}
+                    alt={slide.alt}
+                    fill
+                    sizes="(max-width: 1024px) 45vw, 50vw"
+                    className="object-contain object-center drop-shadow-xl"
+                  />
                 </div>
-
-                <hr className="hidden lg:block border-neutral-200/60 mb-6" />
-
-                <div className="flex gap-4 xs:gap-6 sm:gap-8 md:gap-12">
-                  <div>
-                    <p className="text-base xs:text-lg sm:text-xl xl:text-3xl font-bold text-neutral-900 tracking-tight">100%</p>
-                    <p className="text-neutral-400 text-[7px] xs:text-[8px] sm:text-[9px] md:text-[10px] tracking-widest font-semibold mt-0.5">ORGANIC</p>
-                  </div>
-                  <div>
-                    <p className="text-base xs:text-lg sm:text-xl xl:text-3xl font-bold text-neutral-900 tracking-tight">70K</p>
-                    <p className="text-neutral-400 text-[7px] xs:text-[8px] sm:text-[9px] md:text-[10px] tracking-widest font-semibold mt-0.5">HAPPY CLIENTS</p>
-                  </div>
-                  <div>
-                    <p className="text-base xs:text-lg sm:text-xl xl:text-3xl font-bold text-neutral-900 tracking-tight">20+</p>
-                    <p className="text-neutral-400 text-[7px] xs:text-[8px] sm:text-[9px] md:text-[10px] tracking-widest font-semibold mt-0.5">RECIPES</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="hidden lg:flex lg:w-1/2 justify-center relative h-[300px] xl:h-[450px] 2xl:h-[520px]" data-aos="fade-left" data-aos-delay="200">
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  fill
-                  sizes="(max-width: 1024px) 45vw, 50vw"
-                  className="object-contain object-center drop-shadow-xl"
-                />
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
         
         <div className='hidden lg:block'>
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-30">
             {slides.map((_, idx) => (
               <button
                 key={idx}
+                type="button"
                 onClick={() => setSlider(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
                 className={`h-1.5 transition-all duration-300 rounded-full ${idx === slider ? "bg-amber-700 w-8" : "bg-neutral-300 w-2 hover:bg-neutral-400"}`}
@@ -343,25 +347,25 @@ const Hero = () => {
       </section>
 
       {/* 2. Category Breakdown Section */}
-      <section data-aos="fade-up" className="bg-[#faf8f5] py-6 xs:py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20 border-y border-neutral-100">
-        <div className="max-w-7xl mx-auto px-4 xs:px-6">
-          <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl xl:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-2">
+      <section data-aos="fade-up" className="bg-[#faf8f5] py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 border-y border-neutral-100">
+        <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6">
+          <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2">
             Shop by Makhana Variety
           </h2>
-          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-6 xs:mb-8 sm:mb-12 text-[11px] xs:text-xs sm:text-sm xl:text-base">
+          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-6 xs:mb-8 sm:mb-10 text-[11px] xs:text-xs sm:text-sm">
             Explore a wide range of flavored makhana including salted, spicy, and sweet fox nuts. Healthy, crunchy, and perfect for guilt-free snacking.
           </p>
 
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 xs:gap-4 sm:gap-6 md:gap-8 xl:gap-12 text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 sm:gap-5 lg:gap-8 xl:gap-12 text-center">
             {dryfruits.map((item, index) => (
               <Link
                 key={index}
                 href={item.link}
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
-                className="group flex flex-col items-center transition-all duration-300 bg-stone-50/50 p-3 xs:p-4 sm:p-6 rounded-2xl border border-transparent hover:border-neutral-200/60 hover:bg-white hover:shadow-xs"
+                className="group flex flex-col items-center transition-all duration-300 bg-stone-50/50 p-3 xs:p-4 sm:p-5 rounded-2xl border border-transparent hover:border-neutral-200/60 hover:bg-white hover:shadow-xs"
               >
-                <div className="relative w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 xl:w-32 xl:h-32 mb-3 xs:mb-4 transition-transform duration-500 group-hover:scale-105">
+                <div className="relative w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 xl:w-28 xl:h-28 mb-3 transition-transform duration-500 group-hover:scale-105">
                   <Image
                     src={item.image}
                     alt={item.alt}
@@ -370,7 +374,7 @@ const Hero = () => {
                     className="object-contain object-center rounded-2xl"
                   />
                 </div>
-                <h3 className={`text-[11px] xs:text-xs sm:text-sm xl:text-base font-semibold tracking-wide ${item.color} group-hover:opacity-80 transition-all`}>
+                <h3 className={`text-[11px] xs:text-xs sm:text-sm font-semibold tracking-wide ${item.color} group-hover:opacity-80 transition-all`}>
                   {item.name}
                 </h3>
               </Link>
@@ -380,16 +384,16 @@ const Hero = () => {
       </section>
 
       {/* 3. Product Display Matrix */}
-      <section data-aos="fade-up" className="py-6 xs:py-8 sm:py-12 md:py-16 xl:py-20 2xl:py-24 px-4 xs:px-6 bg-gradient-to-b from-[#faf8f5] to-white">
+      <section data-aos="fade-up" className="py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 bg-gradient-to-b from-[#faf8f5] to-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl xl:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-2">
+          <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2">
             Buy Premium Makhana at Best Price
           </h2>
-          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-6 xs:mb-8 sm:mb-12 text-[11px] xs:text-xs sm:text-sm">
+          <p className="text-center text-neutral-500 max-w-xl mx-auto mb-6 xs:mb-8 sm:mb-10 text-[11px] xs:text-xs sm:text-sm">
             Nirvana Nuts offers high-quality fox nuts snacks rich in protein and fiber. Crafted for premium lifestyles.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 xs:gap-6 xl:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 xs:gap-5 lg:gap-8 xl:gap-10">
             {Array.isArray(products) && products.filter(Boolean).map((product, index) => {
               const { finalPrice, discount } = calculateDiscount(product.buyMoreSaveMore || [], 1, Number(product.price) || 0);
               return (
@@ -415,40 +419,40 @@ const Hero = () => {
       </section>
 
       {/* 4. Bulk Whey Protein Section */}
-      <section data-aos="fade-up" className="relative bg-[#11261f] text-stone-100 py-6 xs:py-8 sm:py-12 md:py-16 xl:py-20 2xl:py-24 px-4 xs:px-6 md:px-8 lg:px-12 xl:px-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 xs:gap-8 md:gap-12 xl:gap-16 items-center">
+      <section data-aos="fade-up" className="relative bg-[#11261f] text-stone-100 py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 xl:gap-16 items-center">
           <div data-aos="fade-right">
             <span className="text-emerald-400 font-semibold uppercase tracking-widest text-[9px] xs:text-[10px] sm:text-xs block mb-1 xs:mb-2">Commercial Tier</span>
-            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold tracking-tight leading-tight mb-3 xs:mb-4">
+            <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold tracking-tight leading-tight mb-3 xs:mb-4">
               Bulk Whey Protein Supplier <span className="text-emerald-400">(20kg)</span>
             </h2>
-            <p className="text-[11px] xs:text-xs sm:text-sm xl:text-base text-stone-300 mb-4 xs:mb-6 leading-relaxed max-w-xl">
+            <p className="text-[11px] xs:text-xs sm:text-sm text-stone-300 mb-4 xs:mb-6 leading-relaxed max-w-xl">
               Buy bulk whey protein in India with high protein content. Ideal for gyms, supplement brands, and fitness businesses looking for reliable whey protein suppliers.
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 xs:gap-2.5 sm:gap-4 text-stone-300 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs sm:text-sm">
-              <li className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-2.5 sm:gap-3 text-stone-300 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs sm:text-sm">
+              <li className="flex items-center gap-1.5 xs:gap-2">
                 <span className="text-emerald-400 font-bold">✔</span> High Protein Content
               </li>
-              <li className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
+              <li className="flex items-center gap-1.5 xs:gap-2">
                 <span className="text-emerald-400 font-bold">✔</span> Fast Absorption Formula
               </li>
-              <li className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
+              <li className="flex items-center gap-1.5 xs:gap-2">
                 <span className="text-emerald-400 font-bold">✔</span> Ideal for Bulk & Private Label
               </li>
-              <li className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
+              <li className="flex items-center gap-1.5 xs:gap-2">
                 <span className="text-emerald-400 font-bold">✔</span> 20kg Commercial Packaging
               </li>
             </ul>
-            <div className="flex flex-wrap gap-2.5 xs:gap-3 sm:gap-4">
-              <Link href="/contact" className="bg-emerald-500 hover:bg-emerald-600 text-neutral-950 font-semibold px-3 py-2 xs:px-4 xs:py-2.5 sm:px-6 sm:py-3 xl:px-8 xl:py-3.5 rounded-lg transition-all duration-300 text-[10px] xs:text-xs tracking-wide uppercase">
+            <div className="flex flex-wrap gap-2 xs:gap-3 sm:gap-4">
+              <Link href="/contact" className="bg-emerald-500 hover:bg-emerald-600 text-neutral-950 font-semibold px-3 py-2 xs:px-4 xs:py-2.5 sm:px-5 sm:py-3 rounded-lg transition-all duration-300 text-[10px] xs:text-xs tracking-wide uppercase">
                 Request Bulk Quote
               </Link>
-              <Link href="/products" className="border border-stone-500 hover:border-stone-100 text-stone-200 hover:text-white font-semibold px-3 py-2 xs:px-4 xs:py-2.5 sm:px-6 sm:py-3 xl:px-8 xl:py-3.5 rounded-lg transition-all duration-300 text-[10px] xs:text-xs tracking-wide uppercase">
+              <Link href="/products" className="border border-stone-500 hover:border-stone-100 text-stone-200 hover:text-white font-semibold px-3 py-2 xs:px-4 xs:py-2.5 sm:px-5 sm:py-3 rounded-lg transition-all duration-300 text-[10px] xs:text-xs tracking-wide uppercase">
                 View All Products
               </Link>
             </div>
           </div>
-          <div className="relative h-[200px] xs:h-[240px] sm:h-[300px] md:h-[360px] xl:h-[420px] w-full flex justify-center" data-aos="fade-left" data-aos-delay="200">
+          <div className="relative h-[180px] xs:h-[220px] sm:h-[260px] lg:h-[340px] xl:h-[400px] w-full flex justify-center" data-aos="fade-left" data-aos-delay="200">
             <Image
               src="/whey-protein-05.avif"
               alt="Bulk whey protein 20kg India high protein powder muscle growth gym supplement Nirvana Nuts"
@@ -461,9 +465,9 @@ const Hero = () => {
       </section>
 
       {/* 5. Corporate Heritage Section */}
-      <section data-aos="fade-up" className="bg-white py-6 xs:py-8 sm:py-12 md:py-16 xl:py-20 2xl:py-24 px-4 xs:px-6 lg:px-12 xl:px-20 border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 xs:gap-8 md:gap-12 xl:gap-16 items-center">
-          <div className="relative h-[220px] xs:h-[260px] sm:h-[320px] md:h-[400px] lg:h-[480px] xl:h-[520px] w-full" data-aos="fade-right">
+      <section data-aos="fade-up" className="bg-white py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 lg:px-10 xl:px-12 2xl:px-20 border-b border-neutral-100">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 xl:gap-16 items-center">
+          <div className="relative h-[200px] xs:h-[240px] sm:h-[280px] lg:h-[400px] xl:h-[460px] 2xl:h-[500px] w-full" data-aos="fade-right">
             <div className="rounded-2xl overflow-hidden shadow-xs h-full w-full relative">
               <Image
                 src="/product-welcome.avif"
@@ -473,39 +477,39 @@ const Hero = () => {
                 className="object-fill object-center"
               />
             </div>
-            <div className="absolute -right-1 top-6 xs:top-10 sm:top-12 md:top-16 bg-white/90 backdrop-blur-md shadow-lg rounded-xl px-2.5 py-2 xs:px-4 xs:py-3 sm:px-5 sm:py-4 text-center z-20 border border-neutral-100" data-aos="zoom-in" data-aos-delay="400">
-              <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold text-amber-800">6+</p>
-              <p className="text-[6px] xs:text-[7px] sm:text-[8px] md:text-[9px] tracking-widest text-neutral-500 mt-0.5 font-bold uppercase">
+            <div className="absolute -right-1 top-6 xs:top-8 sm:top-10 lg:top-12 bg-white/90 backdrop-blur-md shadow-lg rounded-xl px-2.5 py-2 xs:px-3 xs:py-2.5 sm:px-4 sm:py-3 text-center z-20 border border-neutral-100" data-aos="zoom-in" data-aos-delay="400">
+              <p className="text-base xs:text-lg sm:text-xl lg:text-2xl font-bold text-amber-800">6+</p>
+              <p className="text-[6px] xs:text-[7px] sm:text-[8px] tracking-widest text-neutral-500 mt-0.5 font-bold uppercase">
                 Years of Purity
               </p>
             </div>
           </div>
 
           <div data-aos="fade-left" data-aos-delay="200">
-            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl xl:text-4xl font-bold text-neutral-900 tracking-tight leading-tight">
+            <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-neutral-900 tracking-tight leading-tight">
               Bridging the Gap Between <span className="italic font-normal text-amber-800">Traditional Nutrition</span> & Modern Performance
             </h2>
-            <div className="w-12 xs:w-16 sm:w-20 h-0.5 bg-amber-200 my-3 xs:my-4 sm:my-6"></div>
-            <p className="text-neutral-600 leading-relaxed text-[11px] xs:text-xs sm:text-sm xl:text-base mb-4 sm:mb-6">
+            <div className="w-12 xs:w-16 h-0.5 bg-amber-200 my-3 xs:my-4 sm:my-5"></div>
+            <p className="text-neutral-600 leading-relaxed text-[11px] xs:text-xs sm:text-sm mb-4 sm:mb-6">
               Nirvana Nuts was built on a simple belief — healthy snacking and performance nutrition should never compromise on quality. Rooted in India’s rich tradition of makhana and plant-based superfoods, we craft carefully roasted, protein-rich snacks for modern lifestyles.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4 sm:gap-6 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs sm:text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 xs:gap-4 text-[11px] xs:text-xs sm:text-sm mb-5">
               <div data-aos="fade-up" data-aos-delay="100">
                 <h3 className="font-semibold text-neutral-900">Ethical Makhana Sourcing</h3>
-                <p className="text-neutral-500 text-[10px] xs:text-[11px] sm:text-xs mt-1 leading-relaxed">Our makhana is sourced directly from trusted farmers to ensure premium quality, freshness, and sustainability.</p>
+                <p className="text-neutral-500 text-[10px] xs:text-[11px] mt-1 leading-relaxed">Our makhana is sourced directly from trusted farmers to ensure premium quality, freshness, and sustainability.</p>
               </div>
               <div data-aos="fade-up" data-aos-delay="200">
                 <h3 className="font-semibold text-neutral-900">20kg Bulk Protein Supply</h3>
-                <p className="text-neutral-500 text-[10px] xs:text-[11px] sm:text-xs mt-1 leading-relaxed">We provide lab-tested whey protein in 20kg bulk quantities, suitable for fitness brands and distributors.</p>
+                <p className="text-neutral-500 text-[10px] xs:text-[11px] mt-1 leading-relaxed">We provide lab-tested whey protein in 20kg bulk quantities, suitable for fitness brands and distributors.</p>
               </div>
               <div data-aos="fade-up" data-aos-delay="300">
                 <h3 className="font-semibold text-neutral-900">Purity Promise</h3>
-                <p className="text-neutral-500 text-[10px] xs:text-[11px] sm:text-xs mt-1 leading-relaxed">Zero artificial preservatives, fillers, or harmful additives — only clean, nutrition.</p>
+                <p className="text-neutral-500 text-[10px] xs:text-[11px] mt-1 leading-relaxed">Zero artificial preservatives, fillers, or harmful additives — only clean, nutrition.</p>
               </div>
               <div data-aos="fade-up" data-aos-delay="400">
                 <h3 className="font-semibold text-neutral-900">Quality Assurance</h3>
-                <p className="text-neutral-500 text-[10px] xs:text-[11px] sm:text-xs mt-1 leading-relaxed">Every batch undergoes strict quality testing to ensure safety, consistency, and nutritional accuracy.</p>
+                <p className="text-neutral-500 text-[10px] xs:text-[11px] mt-1 leading-relaxed">Every batch undergoes strict quality testing to ensure safety, consistency, and nutritional accuracy.</p>
               </div>
             </div>
 
@@ -517,59 +521,60 @@ const Hero = () => {
       </section>
 
       {/* 6. Brand Value Propositions */}
-      <section data-aos="fade-up" className="bg-neutral-950 text-neutral-100 py-6 xs:py-8 sm:py-12 md:py-16 xl:py-20 2xl:py-24 px-4 xs:px-6 lg:px-12 xl:px-20">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 xs:gap-8 md:gap-12 xl:gap-16 items-center">
+      <section data-aos="fade-up" className="bg-neutral-950 text-neutral-100 py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 lg:px-10 xl:px-12 2xl:px-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 xl:gap-16 items-center">
           <div data-aos="fade-right">
-            <span className="text-[9px] xs:text-[10px] sm:text-xs tracking-widest uppercase text-amber-400 mb-1.5 xs:mb-2 font-semibold block">Our Commitment</span>
-            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold tracking-tight leading-tight mb-3 xs:mb-4">
+            <span className="text-[9px] xs:text-[10px] sm:text-xs tracking-widest uppercase text-amber-400 mb-1.5 font-semibold block">Our Commitment</span>
+            <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold tracking-tight leading-tight mb-3 xs:mb-4">
               The Gold Standard of <span className="italic font-normal text-amber-400">Clean Nutrition Excellence</span>
             </h2>
             <p className="text-neutral-400 text-[11px] xs:text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
               At Nirvana Nuts, we are committed to delivering premium makhana snacks and high-quality bulk whey protein that support modern, health-conscious lifestyles. Our philosophy blends traditional plant-based nutrition with advanced processing standards.
             </p>
-            <div className="flex gap-6 xs:gap-8 sm:gap-16 mt-3 xs:mt-4">
+            <div className="flex gap-6 xs:gap-8 sm:gap-12 mt-3">
               <div>
-                <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold text-amber-400">6+</p>
-                <p className="text-[7px] xs:text-[8px] sm:text-[9px] md:text-[10px] tracking-widest text-neutral-500 mt-0.5 font-semibold">YEARS OF TRUST</p>
+                <p className="text-base xs:text-lg sm:text-xl lg:text-2xl font-bold text-amber-400">6+</p>
+                <p className="text-[7px] xs:text-[8px] tracking-widest text-neutral-500 mt-0.5 font-semibold">YEARS OF TRUST</p>
               </div>
               <div>
-                <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold text-amber-400">100%</p>
-                <p className="text-[7px] xs:text-[8px] sm:text-[9px] md:text-[10px] tracking-widest text-neutral-500 mt-0.5 font-semibold">NATURAL & LAB TESTED</p>
+                <p className="text-base xs:text-lg sm:text-xl lg:text-2xl font-bold text-amber-400">100%</p>
+                <p className="text-[7px] xs:text-[8px] tracking-widest text-neutral-500 mt-0.5 font-semibold">NATURAL & LAB TESTED</p>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4 sm:gap-6" data-aos="fade-left" data-aos-delay="200">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-6 hover:border-amber-400/40 transition duration-300">
-              <Leaf className="text-amber-400 mb-2.5 xs:mb-3" size={24} />
-              <h3 className="text-xs xs:text-sm sm:text-base xl:text-lg font-semibold mb-1 xs:mb-1.5">Premium Makhana</h3>
-              <p className="text-neutral-400 text-[10px] xs:text-[11px] sm:text-xs leading-relaxed">We source fox nuts directly from trusted farmers to ensure superior quality, freshness, and authentic nutrition.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 xs:gap-4" data-aos="fade-left" data-aos-delay="200">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-5 hover:border-amber-400/40 transition duration-300">
+              <Leaf className="text-amber-400 mb-2" size={20} />
+              <h3 className="text-xs xs:text-sm sm:text-base font-semibold mb-1">Premium Makhana</h3>
+              <p className="text-neutral-400 text-[10px] xs:text-[11px] leading-relaxed">We source fox nuts directly from trusted farmers to ensure superior quality, freshness, and authentic nutrition.</p>
             </div>
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-6 hover:border-amber-400/40 transition duration-300">
-              <Dumbbell className="text-amber-400 mb-2.5 xs:mb-3" size={24} />
-              <h3 className="text-xs xs:text-sm sm:text-base xl:text-lg font-semibold mb-1 xs:mb-1.5">20kg Bulk Protein</h3>
-              <p className="text-neutral-400 text-[10px] xs:text-[11px] sm:text-xs leading-relaxed">High-quality whey protein available in 20kg bulk packaging, ideal for gyms, supplement brands, and fitness entities.</p>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-5 hover:border-amber-400/40 transition duration-300">
+              <Dumbbell className="text-amber-400 mb-2" size={20} />
+              <h3 className="text-xs xs:text-sm sm:text-base font-semibold mb-1">20kg Bulk Protein</h3>
+              <p className="text-neutral-400 text-[10px] xs:text-[11px] leading-relaxed">High-quality whey protein available in 20kg bulk packaging, ideal for gyms, supplement brands, and fitness entities.</p>
             </div>
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-6 hover:border-amber-400/40 transition duration-300">
-              <Heart className="text-amber-400 mb-2.5 xs:mb-3" size={24} />
-              <h3 className="text-xs xs:text-sm sm:text-base xl:text-lg font-semibold mb-1 xs:mb-1.5">Quality & Trust</h3>
-              <p className="text-neutral-400 text-[10px] xs:text-[11px] sm:text-xs leading-relaxed">Every batch undergoes strict quality checks to ensure purity, consistency, and nutritional accuracy.</p>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-5 hover:border-amber-400/40 transition duration-300">
+              <Heart className="text-amber-400 mb-2" size={20} />
+              <h3 className="text-xs xs:text-sm sm:text-base font-semibold mb-1">Quality & Trust</h3>
+              <p className="text-neutral-400 text-[10px] xs:text-[11px] leading-relaxed">Every batch undergoes strict quality checks to ensure purity, consistency, and nutritional accuracy.</p>
             </div>
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-6 hover:border-amber-400/40 transition duration-300">
-              <ShieldCheck className="text-amber-400 mb-2.5 xs:mb-3" size={24} />
-              <h3 className="text-xs xs:text-sm sm:text-base xl:text-lg font-semibold mb-1 xs:mb-1.5">No Harmful Additives</h3>
-              <p className="text-neutral-400 text-[10px] xs:text-[11px] sm:text-xs leading-relaxed">No artificial preservatives, no unnecessary fillers — just clean, performance-driven nutrition.</p>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-3 xs:p-4 sm:p-5 hover:border-amber-400/40 transition duration-300">
+              <ShieldCheck className="text-amber-400 mb-2" size={20} />
+              <h3 className="text-xs xs:text-sm sm:text-base font-semibold mb-1">No Harmful Additives</h3>
+              <p className="text-neutral-400 text-[10px] xs:text-[11px] leading-relaxed">No artificial preservatives, no unnecessary fillers — just clean, performance-driven nutrition.</p>
             </div>
           </div>
         </div>
       </section>
+
       {/* 7. Frequently Asked Questions Section */}
-      <section data-aos="fade-up" className="bg-[#f4f7f5] py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 px-4 xs:px-6 md:px-12 lg:px-20 border-b border-neutral-200/50">
+      <section data-aos="fade-up" className="bg-[#f4f7f5] py-6 xs:py-8 sm:py-12 lg:py-16 xl:py-20 px-4 xs:px-5 sm:px-6 md:px-12 lg:px-20 border-b border-neutral-200/50">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 text-center mb-6 sm:mb-12">
+          <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-bold tracking-tight text-neutral-900 text-center mb-6 sm:mb-10">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-3 sm:space-y-4">
+          <div className="space-y-3">
             {faqs.map((faq, index) => (
               <div 
                 key={index} 
@@ -578,15 +583,16 @@ const Hero = () => {
                 className="bg-white rounded-xl border border-neutral-200/60 overflow-hidden transition-all duration-300"
               >
                 <button
+                  type="button"
                   onClick={() => toggleFAQ(index)}
-                  className="w-full flex justify-between items-center text-left px-4 py-3.5 xs:px-6 xs:py-4.5 focus:outline-hidden"
+                  className="w-full flex justify-between items-center text-left px-4 py-3 xs:px-5 focus:outline-hidden"
                   aria-expanded={activeIndex === index}
                 >
-                  <span className="text-xs xs:text-sm sm:text-base font-semibold text-neutral-900 pr-4">{faq.question}</span>
-                  <span className="text-lg sm:text-xl text-neutral-500 font-light">{activeIndex === index ? "−" : "+"}</span>
+                  <span className="text-xs xs:text-sm font-semibold text-neutral-900 pr-4">{faq.question}</span>
+                  <span className="text-base sm:text-lg text-neutral-500 font-light">{activeIndex === index ? "−" : "+"}</span>
                 </button>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeIndex === index ? "max-h-[200px] border-t border-neutral-100" : "max-h-0"}`}>
-                  <p className="text-neutral-600 text-[11px] xs:text-xs sm:text-sm p-4 xs:p-6 leading-relaxed bg-stone-50/40">{faq.answer}</p>
+                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeIndex === index ? "max-h-[300px] border-t border-neutral-100" : "max-h-0"}`}>
+                  <p className="text-neutral-600 text-[11px] xs:text-xs sm:text-sm p-4 leading-relaxed bg-stone-50/40">{faq.answer}</p>
                 </div>
               </div>
             ))}
@@ -595,7 +601,7 @@ const Hero = () => {
       </section>
 
       {/* 8. CTA Conversion Matrix */}
-      <section data-aos="fade-up" className="relative h-[50vh] sm:h-[60vh] lg:h-[65vh] text-center flex items-center justify-center overflow-hidden">
+      <section data-aos="fade-up" className="relative h-[45vh] sm:h-[50vh] lg:h-[55vh] text-center flex items-center justify-center overflow-hidden">
         <div className='absolute inset-0 z-0 w-full h-full'>
           <Image
             src="/image-slider-07.avif"
@@ -607,20 +613,20 @@ const Hero = () => {
           />
         </div>
         <div className="absolute inset-0 bg-neutral-950/65 z-10"></div>
-        <div className="relative z-20 py-6 px-4 xs:px-6 max-w-2xl mx-auto text-center" data-aos="zoom-in">
-          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+        <div className="relative z-20 py-6 px-4 xs:px-5 sm:px-6 max-w-2xl mx-auto text-center" data-aos="zoom-in">
+          <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold tracking-tight text-white leading-tight">
             For Any Query, Get in Touch with Nirvana Nuts
           </h2>
-          <p className="text-neutral-200 text-xs xs:text-sm mt-3 max-w-lg mx-auto leading-relaxed">
+          <p className="text-neutral-200 text-[11px] xs:text-xs mt-3 max-w-lg mx-auto leading-relaxed">
             Have questions about our products or bulk requirements? We’d love to hear from you!
           </p>
-          <Link href="/contact" className="bg-white hover:bg-neutral-100 text-neutral-900 text-[10px] xs:text-xs font-semibold tracking-wider uppercase mt-6 sm:mt-8 px-5 py-3 xs:px-6 xs:py-3.5 rounded-lg shadow-sm transition-all inline-block hover:scale-102">
+          <Link href="/contact" className="bg-white hover:bg-neutral-100 text-neutral-900 text-[10px] xs:text-xs font-semibold tracking-wider uppercase mt-6 px-5 py-3 rounded-lg shadow-sm transition-all inline-block hover:scale-102">
             Contact Us
           </Link>
         </div>
       </section>
 
-      {/* 9. Customer Reviews Slider Section */}
+      {/* 9. Customer Reviews Section */}
       <section data-aos="fade-up" className="bg-amber-50 py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 flex flex-col items-center border-t border-neutral-200/40 overflow-hidden">
         <div className="max-w-7xl w-full px-4 xs:px-6 flex flex-col items-center">
           <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2 leading-tight">
@@ -711,7 +717,7 @@ const Hero = () => {
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnFocusLoss draggable pauseOnHover />
     
     </div>
-  )
+  );
 }
 
-export default Hero
+export default Hero;
