@@ -43,6 +43,9 @@ const Sidebar = () => {
     }
   };
 
+
+  
+
   return (
     <>
       {/* MOBILE & TABLET HEADER */}
@@ -59,7 +62,7 @@ const Sidebar = () => {
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0   backdrop-blur-sm z-40 lg:hidden transition-opacity duration-500"
+          className="fixed inset-0   backdrop-blur-sm z-40  lg:hidden transition-opacity duration-500"
         />
       )}
 

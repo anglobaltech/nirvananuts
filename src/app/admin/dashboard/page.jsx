@@ -39,7 +39,7 @@ export default function DashboardPage() {
 
       <main className="px-6 lg:px-16 max-w-screen-2xl mx-auto space-y-8 sm:space-y-12">
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-8">
           <DashboardCards 
             title="Total Sales" 
             value={`₹${totalSales?.toLocaleString()}`} 

@@ -89,7 +89,7 @@ const ContactClient = () => {
         </header>
 
         {/* Content Structure */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Interactive Input Card */}
           <div className="w-full lg:col-span-7 flex justify-center">
@@ -100,7 +100,7 @@ const ContactClient = () => {
                 className="space-y-6"
                 aria-label="Corporate contact channel"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 gap-5">
                   {/* Full Name */}
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-stone-800 tracking-wide">

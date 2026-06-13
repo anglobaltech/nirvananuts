@@ -296,7 +296,7 @@ export default function SweetMakhanaPage() {
           theme="light"
         />
       {/* HEADER TITLE SECTION */}
-<section className="relative overflow-hidden md:mt-30 bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 md:py-5">
+<section className="relative overflow-hidden md:mt-25 md:py-15 xs:mt-20 xs:py-15 bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 md:py-5">
             {/* Subtle background decorative blobs for a premium feel */}
             <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
             <div className="absolute bottom-0 left-0 -z-10 h-56 w-56 rounded-full bg-orange-200/20 blur-3xl" />
@@ -308,12 +308,12 @@ export default function SweetMakhanaPage() {
                 </span>
 
                 {/* Main Heading */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
+                <h1 className="xs:text-xl text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
                     Sweet Premium Makhana
                 </h1>
 
                 {/* Subheading / Description */}
-                <p className="mt-2 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                <p className="mt-2 xs:text-sm text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
                     A perfectly balanced hint of sweetness meets the ultimate crunch. Satisfy your sweet cravings with a wholesome, nutrient-rich treat.
                 </p>
             </div>
@@ -322,7 +322,7 @@ export default function SweetMakhanaPage() {
       {/* HERO SECTION */}
       <section className="w-full bg-[#fcfcfd] py-16 lg:py-24 antialiased text-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          <div className="grid xl:grid-cols-12 gap-12 lg:gap-20 items-start">
 
             {/* LEFT SIDE: IMAGES CONTAINER */}
             <div className="lg:col-span-7 space-y-6">
@@ -582,7 +582,7 @@ export default function SweetMakhanaPage() {
       </section>
 
       {/* WHY CHOOSE US FEATURES SECTION */}
-      <section className="relative py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+      <section className="relative py-20 xs:py-8 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
         <div className="absolute top-0 left-0 w-72 h-72 bg-amber-300/30 blur-[120px] rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-orange-300/30 blur-[120px] rounded-full"></div>
 
@@ -594,7 +594,7 @@ export default function SweetMakhanaPage() {
             Discover the ideal sweet twist to <span className="font-semibold text-amber-600">Makhana fox nuts</span> in India. Balanced with clean health profiles, directly supplied, and delivering <span className="font-semibold">guaranteed gourmet satisfaction</span> to power your day without the sugar crashes.
           </p>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid lg:grid-cols-4  gap-8">
             {[
               { icon: Leaf, title: "Natural Sweeteners", desc: "No harmful chemical sugars or toxic syrups. Crafted cleanly for genuine guilt-free tracking." },
               { icon: ShieldCheck, title: "Hygienic Coating Process", desc: "Evenly distributed flavor profile meticulously processed to retain optimal crunch." },
@@ -618,11 +618,11 @@ export default function SweetMakhanaPage() {
       </section>
 
       {/* PRODUCT DETAILS SPECIFICATIONS SECTION */}
-      <section className="relative py-24 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+      <section className="relative py-24 xs:py-8 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
         <div className="absolute top-0 left-0 w-80 h-80 bg-amber-300/30 blur-[130px] rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-orange-300/30 blur-[130px] rounded-full"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div data-aos="zoom-in" className="relative group">
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-amber-300/40 to-orange-300/40 blur-sm opacity-70 group-hover:opacity-100 transition"></div>
             <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl p-4 shadow-xl flex items-center justify-center overflow-hidden">
@@ -683,15 +683,15 @@ export default function SweetMakhanaPage() {
       </section>
 
       {/* EXPLORE MORE PRODUCTS HIGHLIGHT SECTION */}
-      <section className="relative py-28 bg-gradient-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
+      <section className="relative py-28 md:py-8 xs:py-8 bg-gradient-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-200/30 blur-[120px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 data-aos="fade-up" className="text-4xl md:text-5xl font-semibold text-center text-gray-900 mb-20 tracking-tight">
+          <h2 data-aos="fade-up" className="text-3xl md:text-4xl font-semibold text-center text-gray-900 mb-20 tracking-tight">
             Explore More Products
           </h2>
 
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-12">
             {[
               { name: "Plain Makhana", desc: "Premium quality roasted fox nuts for daily healthy snacking.", img: "/plain-makhana-nirvana-nuts.avif", link: "/plain-makhana" },
               { name: "Modern Makhana", desc: "Light, crunchy and perfectly roasted for daily healthy snacking.", img: "/product-02.avif", link: "/modern-makhana" },
@@ -706,7 +706,7 @@ export default function SweetMakhanaPage() {
                       alt={item.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
+                      className="object-fill transition duration-700 ease-out group-hover:scale-[1.05]"
                     />
                   </div>
 
@@ -760,13 +760,13 @@ export default function SweetMakhanaPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <p data-aos="fade-up" className="text-sm font-semibold tracking-widest text-amber-600 uppercase mb-3">Customer Reviews</p>
-            <h2 data-aos="fade-up" data-aos-delay="100" className="text-4xl md:text-5xl font-bold text-amber-800 tracking-tight">
+            <h2 data-aos="fade-up" data-aos-delay="100" className="text-2xl md:text-4xl font-bold text-amber-800 tracking-tight">
               Loved by Healthy Snack Lovers
             </h2>
             <p data-aos="fade-up" data-aos-delay="200" className="text-amber-700/80 mt-4">Real feedback from customers who trust our premium makhana</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             {[
               { name: "Vikram Joshi", review: "Absolutely delicious! Light, crunchy, and perfectly sweet. My new favorite healthy snack." },
               { name: "Ankit Gupta", review: "Loved the taste and freshness. Great alternative to junk snacks, especially during evening cravings." },

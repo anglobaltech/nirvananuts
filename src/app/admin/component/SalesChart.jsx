@@ -16,9 +16,7 @@ export default function SalesChart({ data = [] }) {
             Market Performance Visualization
           </p>
         </div>
-        <div className="px-5 py-2 bg-[#2D1B0D] rounded-full shrink-0">
-          <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-white">Live Data Stream</span>
-        </div>
+
       </div>
 
       {/* Dynamic height based on device */}

@@ -48,14 +48,14 @@ const AdminLayout = ({ children }) => {
       {/* MOBILE SIDEBAR */}
       <div
         ref={sidebarRef}
-        className={`fixed md:hidden z-50 transition-transform duration-300
+        className={`fixed lg:hidden z-50 transition-transform duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <Sidebar />
       </div>
 
       {/* CONTENT */}
-      <section className="ml-0 md:ml-64 w-full min-h-screen bg-gray-50">
+      <section className="ml-0 lg:ml-64 w-full min-h-screen bg-gray-50">
 
        
 

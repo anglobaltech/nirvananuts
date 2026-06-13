@@ -250,7 +250,7 @@ const toggleWishlist = async () => {
           theme="light"
         />
       {/* HEADER TITLE ANCHOR */}
-<section className="relative overflow-hidden md:mt-30 bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 md:py-5">
+<section className="relative overflow-hidden md:mt-25 md:py-10 bg-linear-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 xs:mt-25 xs:py-10 ">
             {/* Subtle background decorative blobs for a premium feel */}
             <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
             <div className="absolute bottom-0 left-0 -z-10 h-56 w-56 rounded-full bg-orange-200/20 blur-3xl" />
@@ -262,21 +262,21 @@ const toggleWishlist = async () => {
                 </span>
 
                 {/* Main Heading */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
+                <h1 className=" xs:text-xl  text-4xl md:text-4xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
                     Fusion Flavored Makhana
                 </h1>
 
                 {/* Subheading / Description */}
-                <p className="mt-2 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                <p className="xs:text-sm mt-2 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
                     Where global culinary trends meet the traditional crunch. Experience an exciting blend of unique, bold seasonings crafted for the mindful snacker.
                 </p>
             </div>
         </section>
 
       {/* MAIN HERO CONFIGURATION INTERACTIVE DISPLAY */}
-      <section className="w-full bg-[#fcfcfd] py-16 lg:py-24 antialiased text-slate-900">
+      <section className="w-full bg-[#fcfcfd] py-16 xs:py-8 lg:py-24 antialiased text-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          <div className="grid xl:grid-cols-12 gap-12 lg:gap-20 items-start">
 
             {/* LEFT COLUMN - CANVAS STAGE AND CONTROL HOVERS */}
             <div className="lg:col-span-7 space-y-6">
@@ -529,7 +529,7 @@ const toggleWishlist = async () => {
       </section>
 
       {/* MARKETING VALUE PROPOSITION */}
-      <section className="relative py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+      <section className="relative py-20 xs:py-8 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
         <div className="absolute top-0 left-0 w-72 h-72 bg-amber-300/30 blur-[120px] rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-72 h-72 bg-orange-300/30 blur-[120px] rounded-full"></div>
 
@@ -541,7 +541,7 @@ const toggleWishlist = async () => {
             Discover the ideal sweet twist to <span className="font-semibold text-amber-600">Makhana fox nuts</span> in India. Balanced with clean health profiles, directly supplied, and delivering <span className="font-semibold">guaranteed gourmet satisfaction</span> to power your day without the sugar crashes.
           </p>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-8">
             {[
               { icon: Leaf, title: "Bold Fusion Flavors", desc: "Unique seasoning combinations inspired by international and Indian taste profiles." },
               { icon: ShieldCheck, title: "Premium Roasted Quality", desc: "Perfectly roasted fox nuts processed hygienically for maximum freshness and crunch." },
@@ -565,11 +565,11 @@ const toggleWishlist = async () => {
       </section>
 
       {/* TECHNICAL SPECIFICATIONS DOCK */}
-      <section className="relative py-24 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
-        <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-amber-300/30 blur-[130px] rounded-full"></div>
-        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-orange-300/30 blur-[130px] rounded-full"></div>
+      <section className="relative py-24 xs:py-8 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+        <div className="absolute top-0 left-0 w-87.5 h-87.5 bg-amber-300/30 blur-[130px] rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-87.5 h-87.5 bg-orange-300/30 blur-[130px] rounded-full"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid xl:grid-cols-2 gap-16 items-center relative z-10">
           <div data-aos="zoom-in" className="relative group">
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-amber-300/40 to-orange-300/40 blur-sm opacity-70 group-hover:opacity-100 transition"></div>
             <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl p-4 shadow-xl">
@@ -580,9 +580,6 @@ const toggleWishlist = async () => {
                 height={500}
                 className="rounded-2xl object-cover group-hover:scale-105 transition duration-500"
               />
-              <div className="absolute top-5 left-5 bg-white/80 backdrop-blur-md px-4 py-1 text-sm font-semibold rounded-full shadow text-amber-700">
-                🌶️ Fusion Flavors
-              </div>
             </div>
           </div>
 
@@ -628,15 +625,15 @@ const toggleWishlist = async () => {
       </section>
 
       {/* CROSS SITE EXPLORATION */}
-      <section className="relative py-28 bg-gradient-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-200/30 blur-[120px] rounded-full"></div>
+      <section className="relative py-28 xs:py-8 bg-linear-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7] overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-amber-200/30 blur-[120px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <h2 data-aos="fade-up" className="text-4xl md:text-5xl font-semibold text-center text-gray-900 mb-20 tracking-tight">
+          <h2 data-aos="fade-up" className="text-4xl xs:text-2xl md:text-4xl font-semibold text-center text-gray-900 mb-20 xs:mb-10 tracking-tight">
             Explore More Products
           </h2>
 
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid lg:grid-cols-2 xl:grid-cols-4  gap-12">
             {[
               { name: "Plain Classic Makhana", desc: "Premium quality roasted fox nuts for daily healthy snapping.", img: "/plain-makhana-nirvana-nuts.avif", link: "/plain-makhana" },
               { name: "Modern Spicy Makhana", desc: "Light, crunchy and perfectly roasted for daily healthy snacking.", img: "/product-02.avif", link: "/modern-makhana" },
@@ -651,7 +648,7 @@ const toggleWishlist = async () => {
                       alt={item.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
+                      className="object-fill transition duration-700 ease-out group-hover:scale-[1.05]"
                     />
                   </div>
 
@@ -672,20 +669,46 @@ const toggleWishlist = async () => {
         </div>
       </section>
 
-      {/* SOCIAL PROOF REVIEWS SYSTEM */}
-      <section className="relative py-28 bg-gradient-to-b from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-amber-300/40 blur-[120px] rounded-full"></div>
+      {/* SEO ACCESSIBLE FAQS */}
+      <section className="bg-linear-to-b from-white to-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="xs:text-2xl text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10">
+            Frequently Asked Questions – Fusion Spicy Makhana
+          </h2>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="border border-gray-200 rounded-2xl shadow-sm bg-white transition hover:shadow-md">
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full flex justify-between items-center text-left p-5 cursor-pointer"
+                >
+                  <span className="font-semibold text-gray-800">{faq.question}</span>
+                  <ChevronDown className={`transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`} />
+                </button>
+                <div className={`px-5 overflow-hidden transition-all duration-300 ${openIndex === index ? "max-h-40 pb-5" : "max-h-0"}`}>
+                  <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+            {/* SOCIAL PROOF REVIEWS SYSTEM */}
+      <section className="relative py-28 xs:py-8 bg-linear-to-b from-amber-50 via-orange-50 to-yellow-50 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-62.5 bg-amber-300/40 blur-[120px] rounded-full"></div>
         
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <p data-aos="fade-up" className="text-sm font-semibold tracking-widest text-amber-600 uppercase mb-3">Customer Reviews</p>
-            <h2 data-aos="fade-up" data-aos-delay="100" className="text-4xl md:text-5xl font-bold text-amber-800 tracking-tight">
+            <h2 data-aos="fade-up" data-aos-delay="100" className="xs:text-xl text-4xl md:text-4xl font-bold text-amber-800 tracking-tight">
               Loved by Healthy Snack Lovers
             </h2>
             <p data-aos="fade-up" data-aos-delay="200" className="text-amber-700/80 mt-4">Real feedback from customers who trust our premium makhana</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             {[
               { name: "Ravi Gupta", review: "Amazing flavor combinations and super crunchy texture. Perfect healthy replacement for fried snacks." },
               { name: "Soniya Sharma", review: "Fusion Makhana tastes unique and premium. The seasoning balance is honestly excellent." },
@@ -705,32 +728,6 @@ const toggleWishlist = async () => {
           <div data-aos="fade-up" data-aos-delay="300" className="mt-16 text-center">
             <p className="text-lg font-semibold text-amber-800">⭐ 4.8/5 Average Rating</p>
             <p className="text-sm text-amber-700/80 mt-1">Based on 1,200+ verified customer reviews</p>
-          </div>
-        </div>
-      </section>
-
-      {/* SEO ACCESSIBLE FAQS */}
-      <section className="bg-gradient-to-b from-white to-gray-50 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-10">
-            Frequently Asked Questions – Fusion Spicy Makhana
-          </h2>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div key={index} className="border border-gray-200 rounded-2xl shadow-sm bg-white transition hover:shadow-md">
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full flex justify-between items-center text-left p-5 cursor-pointer"
-                >
-                  <span className="font-semibold text-gray-800">{faq.question}</span>
-                  <ChevronDown className={`transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`} />
-                </button>
-                <div className={`px-5 overflow-hidden transition-all duration-300 ${openIndex === index ? "max-h-40 pb-5" : "max-h-0"}`}>
-                  <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

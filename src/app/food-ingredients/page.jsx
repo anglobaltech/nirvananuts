@@ -161,10 +161,10 @@ export default function CatalogPage() {
       
       {/* --- HEADER --- */}
       <header className="max-w-4xl mt-25 mx-auto text-center mb-20 space-y-5">
-        <span className="text-amber-700  font-bold text-xs uppercase tracking-[0.3em] bg-amber-50 px-4 py-1.5 rounded-full border border-amber-100">
+        <span className="text-amber-700  font-bold text-xs uppercase xs:text-[8px] tracking-[0.3em] bg-amber-50 px-4 py-1.5 rounded-full border border-amber-100">
           Food Ingredients & Bulk Supply
         </span>
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-stone-900">
+        <h1 className="text-4xl xs:mt-5 md:text-5xl font-extrabold tracking-tight text-stone-900">
           Bulk Food Ingredients & <span className="text-amber-700 font-serif italic font-normal">Nutritional Solutions</span>
         </h1>
         <p className="text-stone-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
@@ -172,7 +172,7 @@ export default function CatalogPage() {
         </p>
         
         {/* Value Props Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4 text-left">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4 text-left">
           <div className="flex items-center gap-2 text-sm font-semibold text-stone-700 bg-white p-3 rounded-xl shadow-2xs border border-stone-100">
             <span className="text-amber-600 font-bold">✔</span> Food Grade Certified
           </div>
@@ -198,7 +198,7 @@ export default function CatalogPage() {
           <div key={i} className="bg-white rounded-3xl border border-stone-100 shadow-xs flex flex-col lg:flex-row items-stretch overflow-hidden hover:shadow-md transition-all duration-300">
             
             {/* IMAGE PANEL */}
-            <div className="w-full lg:w-80 bg-stone-50/60 flex-shrink-0 flex flex-col items-center justify-between p-8 border-b lg:border-b-0 lg:border-r border-stone-100">
+            <div className="w-full lg:w-80 bg-stone-50/60 shrink-0 flex flex-col items-center justify-between p-8 border-b lg:border-b-0 lg:border-r border-stone-100">
               <div className="text-center w-full">
                 <span className="text-[10px] font-extrabold tracking-widest text-amber-800 bg-amber-100/60 px-2.5 py-1 rounded-md uppercase">
                   {item.category}
@@ -238,7 +238,7 @@ export default function CatalogPage() {
                   <p className="text-stone-600 text-sm md:text-base leading-relaxed">{item.desc}</p>
                 </div>
                 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid xl:grid-cols-2 gap-8">
                   {/* HIGHLIGHTS & APPS */}
                   <div className="space-y-6">
                     <div>
@@ -284,7 +284,7 @@ export default function CatalogPage() {
                     </div>
                     
                     {/* TRADE INFO BOXES */}
-                    <div className="mt-6 grid grid-cols-3 gap-2.5">
+                    <div className="mt-6 grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
                        <div className="text-center p-2.5 bg-white rounded-xl border border-stone-200/40 shadow-2xs">
                           <Package size={14} className="mx-auto mb-1 text-amber-700" />
                           <p className="text-[8px] text-stone-400 uppercase font-bold">Pack Size</p>

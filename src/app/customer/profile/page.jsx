@@ -112,11 +112,11 @@ export default function ProfilePage() {
 
       {/* Main Structural Body */}
       <div className="max-w-6xl mx-auto px-6 mt-6">
-        <div className="grid lg:grid-cols-12 gap-10 items-start">
+        <div className="grid xl:grid-cols-12 gap-10 items-start">
           
           {/* LEFT SIDE PANEL */}
           <aside className="lg:col-span-4 space-y-6">
-            <div className="bg-white p-8 rounded-[2.5rem] border border-gray-200/60 shadow-sm shadow-black/[0.01]">
+            <div className="bg-white  p-8 rounded-[2.5rem] border border-gray-200/60 shadow-sm shadow-black/[0.01]">
               {/* Profile Avatar Cluster */}
               <div className="relative w-20 h-20 bg-[#F6F5F2] rounded-2xl mb-6 flex items-center justify-center text-3xl font-extralight text-gray-400 border border-gray-200/80 uppercase tracking-tighter">
                 {userData.fullName.charAt(0)}

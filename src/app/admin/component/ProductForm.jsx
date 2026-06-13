@@ -81,19 +81,24 @@ export default function ProductForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-xl border border-white p-8 md:p-12 rounded-[3rem] shadow-2xl shadow-black/[0.03] space-y-12">
-      <div className="flex flex-col md:flex-row justify-between gap-6 border-b border-[#D2C1B0]/30 pb-10">
-        <h2 className="text-2xl font-serif italic text-[#2D1B0D]">Add Product</h2>
-        <div className="flex items-center gap-2">
-           <div className={`w-2 h-2 rounded-full ${loading ? 'bg-amber-400 animate-pulse' : 'bg-green-500'}`} />
-           <span className="text-[10px] font-black uppercase tracking-widest opacity-60">
-             {loading ? "Uploading Images..." : " Ready"}
-           </span>
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className="w-full mx-auto bg-white/70 backdrop-blur-xl border border-white shadow-2xl shadow-black/[0.03]
+  p-4 xs:p-6 sm:p-8 lg:p-12 2xl:p-16 4xl:p-20 
+  rounded-2xl xs:rounded-[2rem] lg:rounded-[3rem] 4xl:rounded-[4rem]
+  space-y-6 sm:space-y-8 lg:space-y-12 4xl:space-y-16">
+<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#D2C1B0]/30 pb-6 lg:pb-10">
+  <h2 className="text-xl xs:text-2xl 2xl:text-3xl 4xl:text-5xl font-serif italic text-[#2D1B0D]">
+    Add Product
+  </h2>
+  <div className="flex items-center gap-2">
+    <div className={`w-2 h-2 4xl:w-4 4xl:h-4 rounded-full ${loading ? 'bg-amber-400 animate-pulse' : 'bg-green-500'}`} />
+    <span className="text-[9px] xs:text-[10px] 2xl:text-xs 4xl:text-lg font-black uppercase tracking-widest opacity-60">
+      {loading ? "Uploading Images..." : "Ready"}
+    </span>
+  </div>
+</div>
 
       {/* Inputs */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 4xl:gap-12">
         <div className="space-y-2">
           <label className="text-[10px] font-black uppercase tracking-widest text-[#A68966] ml-2">Product Name</label>
           <input
@@ -134,15 +139,15 @@ export default function ProductForm() {
         <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8B5E3C] mb-6 flex items-center gap-2">
           <ImageIcon size={14} /> Product Images
         </h3>
-        <div className="flex flex-wrap gap-4">
-          <label className="w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-[#D2C1B0] rounded-2xl cursor-pointer hover:bg-white transition-all text-[#A68966] group">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 4xl:grid-cols-12 gap-3 xs:gap-4">
+          <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-[#D2C1B0] rounded-2xl cursor-pointer hover:bg-white transition-all text-[#A68966] group">
             <Plus size={20} className="group-hover:rotate-90 transition-transform" />
             <input type="file" multiple className="hidden" onChange={(e) => setImages([...images, ...Array.from(e.target.files)])} />
           </label>
           {images.map((img, i) => (
-            <div key={i} className="relative w-24 h-24 group">
+            <div key={i} className="relative aspect-square group">
               <img src={URL.createObjectURL(img)} className="w-full h-full object-cover rounded-2xl shadow-md" />
-              <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} className="cursor-pointer absolute -top-2 -right-2 bg-[#2D1B0D]  hover:text-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+              <button onClick={() => setImages(images.filter((_, idx) => idx !== i))} className="cursor-pointer absolute -top-2 -right-2 bg-[#2D1B0D]  hover:text-red-600 text-white p-1 rounded-full opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
                 <Trash2 size={12} />
               </button>
             </div>
@@ -180,7 +185,7 @@ export default function ProductForm() {
           </div>
           <div className="space-y-3">
             {offers.map((o, i) => (
-              <div key={i} className="flex gap-3 items-center bg-[#F4EDE4]/30 p-2 rounded-2xl border border-white">
+              <div key={i} className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-stretch sm:items-center bg-[#F4EDE4]/30 border border-white p-2 xs:p-3 rounded-xl xs:rounded-2xl">
                 <div className="flex items-center gap-2 flex-1 pl-2">
                   <span className="text-[9px] font-black text-[#A68966]">Buy Quantity</span>
                   <input type="number" value={o.qty} onChange={(e) => updateOffer(i, "qty", e.target.value)} className="w-full bg-transparent outline-none text-xs font-bold" />
@@ -198,9 +203,12 @@ export default function ProductForm() {
 
       <button
         type="submit" disabled={loading}
-        className="w-100 bg-[#2D1B0D] cursor-pointer hover:bg-amber-500 hover:text-amber-900 duration-500 text-[#F4EDE4] py-4 rounded-4xl text-sm font-serif font-black uppercase tracking-[0.5em] transition-all shadow-xl hover:shadow-black/20 flex items-center justify-center gap-4"
+        className="w-full sm:w-auto bg-[#2D1B0D] cursor-pointer hover:bg-amber-500 hover:text-amber-900 duration-500 text-[#F4EDE4] px-6 xs:px-10 py-4 4xl:px-16 4xl:py-6
+  rounded-2xl xs:rounded-4xl 4xl:rounded-[3rem]
+  text-xs xs:text-[10px] 2xl:text-base 4xl:text-2xl 
+  tracking-[0.3em] xs:tracking-[0.5em]"
       >
-        {loading ? "Saving Product..." : <>Add Product <ChevronRight size={16} className="group-hover:translate-x-2 transition-transform" /></>}
+        {loading ? "Saving Product..." : <>Add Product </>}
       </button>
     </form>
   );

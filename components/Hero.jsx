@@ -228,16 +228,16 @@ const Hero = () => {
       <h1 className="sr-only">Nirvana Nuts - Premium Flavored Makhana & Bulk Whey Protein Supplier India</h1>
 
       {/* 1. Hero Slider Section */}
-      <section className="relative min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh]  w-full bg-[#faf8f5] flex flex-col justify-center overflow-x-hidden">
-        <div className="relative w-full h-full min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh] ">
+      <section className="relative min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh] xl:min-h-[60vh] 2xl:min-h-[80vh]  w-full bg-[#faf8f5] flex flex-col justify-center overflow-x-hidden">
+        <div className="relative w-full h-full min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh] xl:min-h-[60vh] 2xl:[80vh] ">
           {slides.map((slide, index) => (
             <div
               key={index}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === slider ? "opacity-100 z-10 translate-x-0" : "opacity-0 pointer-events-none -translate-x-4"}`}
             >
-              <div className="w-full max-w-7xl  mx-auto px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-1 py-6 xs:py-8 sm:py-10  lg:py-12 xl:py-16 2xl:py-2 h-full flex flex-col lg:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
+              <div className="w-full max-w-7xl  mx-auto px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-1 py-6 xs:py-8 sm:py-10  lg:py-12 xl:py-2 2xl:py-2 h-full flex flex-col lg:flex-row items-center gap-6 lg:gap-8 xl:gap-12">
                 <div className="w-full lg:w-1/2 flex flex-col justify-center" data-aos="fade-right">
-                  <span className="text-amber-800 xs:mt-5 tracking-wider uppercase block w-fit text-[9px] xs:text-[10px] sm:text-xs px-2.5 py-0.5 sm:py-1 mb-3 sm:mb-4 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
+                  <span className=" text-amber-800 xs:mt-5 tracking-wider uppercase block w-fit text-[9px] xs:text-[10px] sm:text-xs px-2.5 py-0.5 sm:py-1 mb-3 sm:mb-4 rounded-full bg-amber-100/60 font-semibold backdrop-blur-xs">
                     Trusted Supplier Since 2020
                   </span>
 
@@ -286,11 +286,11 @@ const Hero = () => {
                     </div>
                   </div>
 
-                  <p className="text-[11px] xs:text-xs sm:text-sm xl:text-base text-neutral-600 mb-4 md:mb-2 sm:mb-6 lg:max-w-xl">
+                  <p className="text-[11px] xs:text-xs sm:text-sm xl:text-base text-neutral-600 mb-4 2xl:mb-9 md:mb-2 xl:mb-5 sm:mb-6 lg:max-w-xl">
                     {slide.description}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-2 xs:gap-2.5 sm:gap-4 mb-6 sm:mb-2 md:mb-2 xl:mb-9">
+                  <div className="flex flex-wrap items-center gap-2 xs:gap-2.5 sm:gap-4 mb-6 sm:mb-2 md:mb-2 2xl:mb-9">
                     <Link href="/products" className="bg-neutral-900 hover:bg-neutral-800 text-[9px] xs:text-[10px] sm:text-xs font-medium tracking-wider uppercase text-white px-3 py-2 xs:px-4 xs:py-2.5 sm:px-5 sm:py-3 rounded-lg transition-all duration-300 shadow-xs hover:shadow-md">
                       Explore Products
                     </Link>
@@ -299,7 +299,7 @@ const Hero = () => {
                     </Link>
                   </div>
 
-                  <hr className="hidden lg:block border-neutral-200/60 mb-6" />
+                  <hr className="hidden lg:block border-neutral-200/60 mb-6 xl:mt-5 2xl:mb-10" />
 
                   <div className="flex gap-4 xs:gap-6 sm:gap-8 md:gap-12">
                     <div>
@@ -627,91 +627,101 @@ const Hero = () => {
       </section>
 
       {/* 9. Customer Reviews Section */}
-      <section data-aos="fade-up" className="bg-amber-50 py-8 xs:py-12 sm:py-16 md:py-20 lg:py-24 flex flex-col items-center border-t border-neutral-200/40 overflow-hidden">
-        <div className="max-w-7xl w-full px-4 xs:px-6 flex flex-col items-center">
-          <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2 leading-tight">
-            Best Makhana Brand in India – Customer Reviews
-          </h2>
-          <p className="text-center text-neutral-500 text-xs xs:text-sm mb-8 sm:mb-16">See why thousands of clients trust our premium grade items.</p>
+<section data-aos="fade-up" className="bg-amber-50 py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 2xl:py-24 flex flex-col items-center border-t border-neutral-200/40 overflow-hidden">
+  <div className="max-w-7xl w-full px-4 xs:px-5 sm:px-6 flex flex-col items-center">
+    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-2 leading-tight">
+      Best Makhana Brand in India – Customer Reviews
+    </h2>
+    <p className="text-center text-neutral-500 text-[11px] xs:text-xs sm:text-sm mb-6 xs:mb-8 sm:mb-12 md:mb-16">See why thousands of clients trust our premium grade items.</p>
 
-          {reviews.length > 0 && (
-            <div className="w-full relative overflow-hidden perspective-distant min-h-[360px] xs:min-h-[340px] flex items-center justify-center" data-aos="zoom-in-up" data-aos-delay="100">
-              <div className="relative w-full max-w-4xl h-80 xs:h-72 flex justify-center items-center">
-                {reviews.map((rev, index) => {
-                  let position = index - current;
-                  if (position < -1 || position > 1) return null;
+    {reviews.length > 0 && (
+      <div className="w-full relative overflow-hidden perspective-distant min-h-[380px] xs:min-h-[360px] sm:min-h-[340px] md:min-h-[320px] flex items-center justify-center" data-aos="zoom-in-up" data-aos-delay="100">
+        <div className="relative w-full max-w-4xl h-80 xs:h-76 sm:h-72 flex justify-center items-center">
+          {reviews.map((rev, index) => {
+            let position = index - current;
+            if (position < -1 || position > 1) return null;
 
-                  // Dynamic slide positioning based on standard client viewport sizing
-                  const offsetWidth = typeof window !== 'undefined' 
-                    ? (window.innerWidth < 375 ? 280 : window.innerWidth < 640 ? 330 : 360) 
-                    : 360;
+            // Dynamic slide positioning precisely mapped to your custom configuration
+            const offsetWidth = typeof window !== 'undefined' 
+              ? (window.innerWidth < 320 
+                  ? 240 
+                  : window.innerWidth < 375 
+                    ? 280 
+                    : window.innerWidth < 425 
+                      ? 330 
+                      : window.innerWidth < 768 
+                        ? 380 
+                        : 440) 
+              : 440;
 
-                  return (
-                    <article
-                      key={rev.id}
-                      className="absolute bg-gray-50 w-[260px] xs:w-[310px] sm:w-[420px] md:w-[480px] border border-neutral-200/60 shadow-xs rounded-2xl p-4 xs:p-6 sm:p-8 transition-all duration-700 ease-in-out flex flex-col justify-between"
-                      style={{
-                        transform: `
-                          translateX(${position * offsetWidth}px)
-                          scale(${position === 0 ? 1 : 0.85})
-                          rotateY(${position * -15}deg)
-                        `,
-                        zIndex: position === 0 ? 20 : 10,
-                        opacity: position === 0 ? 1 : 0.35,
-                      }}
-                    >
-                      <div>
-                        <header className="flex flex-col xs:flex-row justify-between items-start gap-2 xs:gap-4">
-                          <div>
-                            <h3 className="text-sm xs:text-base sm:text-lg font-bold text-neutral-900 tracking-tight">{rev.name}</h3>
-                            <p className="text-[10px] xs:text-xs text-neutral-400 mt-0.5">{rev.location}</p>
-                          </div>
-                          <div className="text-amber-500 text-xs sm:text-sm tracking-xs" aria-label={`Rated ${rev.rating} out of 5 stars`}>
-                            {"★".repeat(rev.rating)}
-                            {"☆".repeat(5 - rev.rating)}
-                          </div>
-                        </header>
-                        <p className="text-neutral-600 text-[11px] xs:text-xs sm:text-sm leading-relaxed mt-3 xs:mt-5 italic">"{rev.text}"</p>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-
-              {/* Slider Navigation Controls */}
-              <button
-                onClick={() => setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))}
-                aria-label="Previous review"
-                className="absolute left-1 xs:left-4 bg-white border border-neutral-200 hover:bg-neutral-50 top-1/2 -translate-y-1/2 text-neutral-800 shadow-xs w-8 h-8 xs:w-9 xs:h-9 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
+            return (
+              <article
+                key={rev.id}
+                className="absolute bg-gray-50 w-[240px] xs:w-[270px] sm:w-[320px] md:w-[380px] lg:w-[440px] xl:w-[480px] border border-neutral-200/60 shadow-xs rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 transition-all duration-700 ease-in-out flex flex-col justify-between"
+                style={{
+                  transform: `
+                    translateX(${position * offsetWidth}px)
+                    scale(${position === 0 ? 1 : 0.82})
+                    rotateY(${position * -12}deg)
+                  `,
+                  zIndex: position === 0 ? 20 : 10,
+                  opacity: position === 0 ? 1 : 0.3,
+                }}
               >
-                ❮
-              </button>
-
-              <button
-                onClick={() => setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1))}
-                aria-label="Next review"
-                className="absolute right-1 xs:right-3 top-1/2 -translate-y-1/2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-800 shadow-xs w-8 h-8 xs:w-9 xs:h-9 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
-              >
-                ❯
-              </button>
-            </div>
-          )}
-
-          {/* Pagination Indicators */}
-          <div className="flex gap-1.5 xs:gap-2 mt-8 sm:mt-12">
-            {Array.from({ length: totalDots }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrent(index * cardsPerView)}
-                aria-label={`Go to reviews page ${index + 1}`}
-                className={`h-1 xs:h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
-                  current >= index * cardsPerView && current < (index + 1) * cardsPerView ? "bg-amber-800 w-5 xs:w-6" : "bg-neutral-300 w-1.5"
-                }`}
-              />
-            ))}
-          </div>
+                <div>
+                  <header className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-4">
+                    <div>
+                      <h3 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold text-neutral-900 tracking-tight">{rev.name}</h3>
+                      <p className="text-[9px] xs:text-[10px] sm:text-xs text-neutral-400 mt-0.5">{rev.location}</p>
+                    </div>
+                    <div className="text-amber-500 text-[11px] xs:text-xs sm:text-sm tracking-xs flex" aria-label={`Rated ${rev.rating} out of 5 stars`}>
+                      {"★".repeat(rev.rating)}
+                      {"☆".repeat(5 - rev.rating)}
+                    </div>
+                  </header>
+                  <p className="text-neutral-600 text-[10px] xs:text-[11px] sm:text-xs md:text-sm leading-relaxed mt-2 xs:mt-3 sm:mt-5 italic">"{rev.text}"</p>
+                </div>
+              </article>
+            );
+          })}
         </div>
-      </section>
+
+        {/* Slider Navigation Controls */}
+        <button
+          onClick={() => setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))}
+          aria-label="Previous review"
+          className="absolute left-0 xs:left-1 sm:left- bg-white border border-neutral-200 hover:bg-neutral-50 top-1/2 -translate-y-1/2 text-neutral-800 shadow-xs w-7 h-7 xs:w-4 xs:h-7 sm:w-4 sm:h-7 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
+        >
+          ❮
+        </button>
+
+        <button
+          onClick={() => setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1))}
+          aria-label="Next review"
+          className="absolute right-0 xs:right-1  top-1/2 -translate-y-1/2 bg-white border border-neutral-200 hover:bg-neutral-50 text-neutral-800 shadow-xs w-7 h-7 xs:w-4 xs:h-7 sm:w-4 sm:h-7 flex items-center justify-center rounded-full cursor-pointer z-30 transition"
+        >
+          ❯
+        </button>
+      </div>
+    )}
+
+    {/* Pagination Indicators */}
+    <div className="flex gap-1 xs:gap-1.5 sm:gap-2 mt-6 xs:mt-8 sm:mt-12">
+      {Array.from({ length: totalDots }).map((_, index) => (
+        <button
+          key={index}
+          onClick={() => setCurrent(index * cardsPerView)}
+          aria-label={`Go to reviews page ${index + 1}`}
+          className={`h-1 sm:h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
+            current >= index * cardsPerView && current < (index + 1) * cardsPerView 
+              ? "bg-amber-800 w-4 xs:w-5 sm:w-6" 
+              : "bg-neutral-300 w-1 xs:w-1.5"
+          }`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
       
       {/* Toast Alert Provider Component Context */}
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnFocusLoss draggable pauseOnHover />

@@ -261,7 +261,7 @@ useEffect(() => {
       />
 
       {/* TOP HEADER SECTION */}
- <section className="relative overflow-hidden md:mt-30 bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 md:py-5">
+ <section className="relative overflow-hidden md:mt-20  bg-gradient-to-b from-amber-50 to-orange-100/60 border-b border-orange-200/40 py-16 xs:mt-20 md:py-20">
             {/* Subtle background decorative blobs for a premium feel */}
             <div className="absolute top-0 right-0 -z-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
             <div className="absolute bottom-0 left-0 -z-10 h-56 w-56 rounded-full bg-orange-200/20 blur-3xl" />
@@ -273,12 +273,12 @@ useEffect(() => {
                 </span>
 
                 {/* Main Heading */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
+                <h1 className="xs:text-xl text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-gray-900 leading-tight tracking-tight">
                     Modern Flavored Makhana
                 </h1>
 
                 {/* Subheading / Description */}
-                <p className="mt-2 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                <p className="mt-2 text-lg xs:text-sm md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
                     Bold, exciting flavors meets the classic crunch. Elevate your snacking experience with our healthy, nutrient-rich gourmet treats.
                 </p>
             </div>
@@ -287,7 +287,7 @@ useEffect(() => {
       {/* HERO SECTION */}
       <section className="w-full bg-[#fcfcfd] py-16 lg:py-24 antialiased text-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          <div className="grid xl:grid-cols-12 gap-12 lg:gap-20 items-start">
             
             {/* LEFT SIDE: GALLERY STAGE */}
             <div className="lg:col-span-7 space-y-6">
@@ -476,13 +476,13 @@ useEffect(() => {
       </section>
 
       {/* VALUES SECTION */}
-      <section className="relative py-20 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+      <section className="relative py-20 xs:py-8 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-amber-700 mb-4 tracking-tight">Why Choose Premium Modern Makhana?</h2>
           <p className="text-gray-700 max-w-3xl mx-auto mb-14 text-lg leading-relaxed">
             Step up your health routine with <span className="font-semibold text-amber-600">Modern Makhana</span>.
           </p>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
             {[
               { icon: Leaf, title: "Gourmet Spiced Blends", desc: "Crafted beautifully with top-tier spices for an unmatched signature crunch." },
               { icon: ShieldCheck, title: "Strict Quality Control", desc: "Evenly popped, beautifully sorted, and packed defensively to seal peak freshness." },
@@ -500,8 +500,8 @@ useEffect(() => {
       </section>
 
       {/* SPECIFICATIONS */}
-      <section className="relative py-24 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 items-center relative z-10">
+      <section className="relative py-24 xs:py-8 bg-linear-to-br from-orange-50 via-amber-50 to-yellow-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
           <div data-aos="zoom-in" className="relative bg-white/60 backdrop-blur-xl rounded-3xl p-4 shadow-xl aspect-square w-full max-w-[600px]">
             <Image src="/product-02.avif" alt="Premium Modern Flavored Makhana" fill className="rounded-2xl object-cover p-4" />
           </div>
@@ -526,10 +526,10 @@ useEffect(() => {
       </section>
 
       {/* COLLECTION */}
-      <section className="relative py-28 bg-linear-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7]">
+      <section className="relative py-28 xs:py-8 bg-linear-to-b from-[#f9fafb] via-[#fdfcfb] to-[#f7f7f7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 data-aos="fade-up" className="text-4xl font-semibold text-center text-gray-900 mb-20">Explore Our Full Range</h2>
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-12">
             {[
               { name: "Plain Classic Makhana", desc: "Light, crunchy and perfectly roasted.", img: "/plain-makhana-nirvana-nuts.avif", link: "/plain-makhana" },
               { name: "Sweet Makhana", desc: "Crunchy, lightly sweet quality fox nuts.", img: "/product-03.avif", link: "/sweet-makhana" },
@@ -538,7 +538,7 @@ useEffect(() => {
             ].map((item, index) => (
               <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="bg-white/80 backdrop-blur-xl shadow-sm rounded-3xl p-4 flex flex-col justify-between">
                 <div className="relative w-full h-60 overflow-hidden rounded-2xl">
-                  <Image src={item.img} alt={item.name} fill className="object-cover transition duration-700 hover:scale-[1.05]" />
+                  <Image src={item.img} alt={item.name} fill className="object-fill transition duration-700 hover:scale-[1.05]" />
                 </div>
                 <div className="mt-6 px-2">
                   <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
@@ -556,7 +556,7 @@ useEffect(() => {
       </section>
 
       {/* FAQ ACCORDION */}
-      <section className="bg-linear-to-b from-white to-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+      <section className="bg-linear-to-b from-white to-gray-50 py-16 md:py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Frequently Asked Questions – Modern Variants</h2>
           <div className="space-y-4">
@@ -576,12 +576,12 @@ useEffect(() => {
       </section>
 
       {/* REVIEWS */}
-      <section className="relative py-28 bg-linear-to-b from-amber-50 via-orange-50 to-yellow-50">
+      <section className="relative py-28 md:py-10 bg-linear-to-b from-amber-50 via-orange-50 to-yellow-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-amber-800">Loved by Healthy Snack Lovers</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {[
               { name: "Rohit Sharma", review: "Incredibly innovative flavors! The crunch matches up perfectly with the spice blends." },
               { name: "Neha Verma", review: "It's so hard to find flavored fox nuts that don't taste artificial or overly oily. Nirvana Nuts nailed this." },
