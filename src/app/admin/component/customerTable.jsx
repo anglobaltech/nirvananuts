@@ -24,7 +24,7 @@ export default function CustomerTable({ customers, loading, onDelete }) {
   return (
     <div className="space-y-4 md:space-y-0">
       {/* Desktop Table View (Visible on MD screens and up) */}
-      <div className="hidden md:block overflow-hidden bg-white/40 backdrop-blur-xl rounded-[3rem] border border-white shadow-2xl shadow-black/[0.02]">
+      <div className="hidden xl:block overflow-hidden bg-white/40 backdrop-blur-xl rounded-[3rem] border border-white shadow-2xl shadow-black/[0.02]">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-[#D2C1B0]/30">
@@ -43,7 +43,7 @@ export default function CustomerTable({ customers, loading, onDelete }) {
       </div>
 
       {/* Mobile Card View (Visible only on small screens) */}
-      <div className="md:hidden space-y-4">
+      <div className="xl:hidden space-y-4">
         {customers.map((user) => (
           <TableRow key={user.id} user={user} onDelete={onDelete} isMobile={true} />
         ))}

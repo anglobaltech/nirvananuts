@@ -146,7 +146,7 @@ export default function OrdersPage() {
         ) : (
           <>
             {/* DESKTOP TABLE */}
-            <div className="hidden lg:block overflow-hidden bg-white/40 backdrop-blur-md rounded-[2.5rem] border border-white shadow-2xl shadow-black/[0.03]">
+            <div className="hidden xl:block overflow-hidden bg-white/40 backdrop-blur-md rounded-[2.5rem] border border-white shadow-2xl shadow-black/[0.03]">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-[#D2C1B0]/30">
@@ -217,7 +217,7 @@ export default function OrdersPage() {
             </div>
 
             {/* MOBILE CARDS */}
-            <div className="grid gap-6 lg:hidden">
+            <div className="grid gap-6 xl:hidden">
               {orders.map((order) => (
                 <div key={order.id} className="bg-white/70 backdrop-blur-md rounded-[2.5rem] p-8 border border-white shadow-xl shadow-black/[0.02]">
                   <div className="flex justify-between items-start mb-6">

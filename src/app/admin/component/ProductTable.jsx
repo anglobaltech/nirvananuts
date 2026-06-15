@@ -6,7 +6,7 @@ import { db } from "@/lib/firebase";
 import { updateProduct, deleteProduct } from "@/services/productService";
 import { toast, ToastContainer } from "react-toastify";
 import { Settings, X, Package, Tag, Save, Zap, Edit3, Trash2 } from "lucide-react";
-import "react-toastify/dist/ReactToastify.css";
+
 
 
 export default function ProductTable() {
@@ -121,16 +121,7 @@ const saveChanges = async () => {
   return (
     
     <div className="space-y-10">
-      <ToastContainer
-  position="top-right"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop
-  closeOnClick
-  pauseOnHover
-  draggable
-  theme="colored"
-/>
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-2">
           <h2 className="text-3xl font-serif italic text-[#2D1B0D]">Product List</h2>

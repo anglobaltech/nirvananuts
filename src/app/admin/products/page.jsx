@@ -6,6 +6,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import { Package, Sparkles } from "lucide-react";
+import {ToastContainer } from "react-toastify";
+
 
 export default function ProductsPage() {
   useEffect(() => {
@@ -18,6 +20,15 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-[#F4EDE4] text-[#2D1B0D] pb-24 selection:bg-[#2D1B0D] selection:text-white">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
       <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-20 pt-16">
         
         {/* Header Section */}
