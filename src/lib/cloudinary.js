@@ -6,8 +6,9 @@ export const uploadImage = async (file) => {
   data.append("file", file);
   data.append("upload_preset", "nirvana-nuts");
 
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   const res = await axios.post(
-    "https://api.cloudinary.com/v1_1/dchorkbwb/image/upload",
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     data
   );
 

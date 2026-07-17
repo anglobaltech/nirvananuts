@@ -82,13 +82,12 @@ const AboutPage = () => {
 
           {/* RIGHT IMAGE */}
           <div className="relative flex justify-center" data-aos="fade-left">
-            {/* FIXED ASPECT RATIO: Set proper bounding box container dimensions */}
             <Image
               src="/new-image-04.avif"
               alt="Nirvana Nuts Premium Makhana and Bulk Whey Protein Showcase"
               height={500}
               width={600}
-              priority // Correctly prioritized as first fold graphic asset
+              priority 
               className="rounded-2xl shadow-2xl object-cover w-full h-auto max-h-[450px]"
             />
             {/* Floating Badge */}
@@ -244,9 +243,9 @@ const AboutPage = () => {
             <Image
               src={img.src}
               alt={img.alt}
-              fill // Responsive scaling strategy
+              fill 
               sizes="(max-w-768px) 100vw, 33vw"
-              loading="lazy" // FIXED PERFORMANCE: Lazy loaded below-the-fold assets
+              loading="lazy" 
               className="object-fill hover:scale-105 transition-transform duration-500 ease-out"
             />
           </div>

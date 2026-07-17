@@ -18,7 +18,6 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Saare available statuses ki list dropdown ke liye
   const allStatuses = ["Order Received", "Confirmed", "Packed", "Shipped", "Out for Delivery", "Delivered"];
 
   const getNextStatus = (status) => {

@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link"; // PERFORMANCE & BEST PRACTICE: Single Page Routing native support
-import { ShoppingCart, UserRound, ChevronDown, Menu, X, Heart } from "lucide-react"; // Added Heart for Wishlist
-import { subscribeWishlist } from "@/customerService/wishlistService"; // Firebase wishlist subscriber
+import Link from "next/link";
+import { ShoppingCart, UserRound, ChevronDown, Menu, X, Heart } from "lucide-react";
+import { subscribeWishlist } from "@/customerService/wishlistService";
 import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
@@ -13,27 +13,22 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProduct, setMobileProduct] = useState(false);
 
-  // --- NEW STATES FOR REAL-TIME COUNTS ---
   const [wishlistCount, setWishlistCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
 
-  // --- REAL-TIME LISTENERS FOR WISHLIST & CART ---
   useEffect(() => {
-    // 1. Wishlist Real-time Subscriber
     const unsubWishlist = subscribeWishlist((items) => {
       setWishlistCount(items?.length || 0);
     });
 
-    // 2. Firebase Cart Quantity Listener
     let unsubCart = () => {};
-    
+
     const setupCartListener = () => {
       const user = auth.currentUser;
       if (user) {
         unsubCart = onSnapshot(doc(db, "carts", user.uid), (docSnap) => {
           if (docSnap.exists()) {
             const items = docSnap.data().items || [];
-            // Cart ke saare items ki quantity (+qty) ka total sum nikalna
             const totalQty = items.reduce((total, item) => total + (Number(item.qty) || 0), 0);
             setCartCount(totalQty);
           } else {
@@ -45,7 +40,6 @@ const Header = () => {
       }
     };
 
-    // Firebase Auth State Tracker: Login hote hi cart listener activate hoga
     const unsubAuth = auth.onAuthStateChanged((user) => {
       if (user) {
         setupCartListener();
@@ -75,14 +69,12 @@ const Header = () => {
 
   return (
     <header className="fixed w-full top-0 left-0 z-50 bg-white shadow-sm">
-      {/* 1. ANNOUNCEMENT BAR (MARQUEE ENGINE) */}
-      <div 
+      <div
         className="w-full bg-yellow-900 text-white overflow-hidden"
         role="region"
         aria-label="Latest Announcements"
       >
         <div className="flex whitespace-nowrap animate-marquee">
-          {/* First Copy */}
           <div className="flex py-1.5">
             {news.map((item, index) => (
               <span key={index} className="mx-8 font-medium text-xs lg:text-sm tracking-wide">
@@ -91,7 +83,6 @@ const Header = () => {
             ))}
           </div>
 
-          {/* Duplicate Copy */}
           <div className="flex py-1.5" aria-hidden="true">
             {news.map((item, index) => (
               <span key={`dup-${index}`} className="mx-8 font-medium text-xs lg:text-sm tracking-wide">
@@ -102,11 +93,9 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 2. MAIN CORE NAVIGATION BRAND BAR */}
       <nav className="max-w-7xl px-3 mx-auto" aria-label="Main Brand Navigation">
         <div className="flex justify-between items-center px-4 py-3">
-          
-          {/* LOGO WRAPPER */}
+
           <div className="flex items-center">
             <Link href="/" aria-label="Nirvana Nuts Home Interface">
               <Image
@@ -123,8 +112,6 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* ================= DESKTOP MENU ENGINE ================= */}
-          {/* Updated break-points from md: to xl: (1024px) for perfect screen fit */}
           <div className="hidden xl:flex items-center gap-6">
             <Link href="/" className="px-3 py-2 text-lg font-medium text-black hover:scale-105 hover:text-amber-600 rounded-2xl transition-all duration-200">
               Home
@@ -134,13 +121,12 @@ const Header = () => {
               About us
             </Link>
 
-            {/* PRODUCT DROPDOWN CONTAINER */}
             <div
               className="relative"
               onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}
             >
-              <button 
+              <button
                 type="button"
                 aria-haspopup="true"
                 aria-expanded={open}
@@ -150,7 +136,6 @@ const Header = () => {
                 <ChevronDown size={16} className={`transition-transform duration-200 ${open ? "rotate-180 text-amber-600" : ""}`} />
               </button>
 
-              {/* Safety Hover Bridge */}
               <div className="absolute left-0 top-full h-4 w-full"></div>
 
               <div
@@ -186,7 +171,6 @@ const Header = () => {
               Contact us
             </Link>
 
-            {/* FIXED: Added Wishlist Icon with Count Badge for Desktop */}
             <Link href="/customer/wishlist" aria-label="Open wishlist" className="relative p-2 text-black hover:scale-110 hover:text-red-500 transition-all">
               <Heart size={22} />
               {wishlistCount > 0 && (
@@ -196,7 +180,6 @@ const Header = () => {
               )}
             </Link>
 
-            {/* FIXED: Added Count Badge for Cart Icon in Desktop */}
             <Link href="/customer/cart" aria-label="Open personal shopping cart container" className="relative p-2 text-black hover:scale-110 hover:text-amber-600 transition-all">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
@@ -205,20 +188,17 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            
+
             <Link href="/login" aria-label="Navigate to Profile Account Login Gateway" className="p-2.5 rounded-full font-medium text-black hover:scale-110 bg-amber-300 transition-transform flex items-center justify-center">
               <UserRound size={20} />
             </Link>
           </div>
 
-          {/* ================= MOBILE BUTTON UTILITY PANEL ================= */}
-          {/* Changed hide target from md:hidden to xl:hidden to respect custom breakpoints */}
           <div className="xl:hidden flex items-center gap-2">
             <Link href="/login" aria-label="Profile Gateway login interface" className="p-2 rounded-full text-black bg-amber-300 active:scale-95 transition-transform flex items-center justify-center">
               <UserRound size={18} />
             </Link>
 
-            {/* FIXED: Added Wishlist Icon with Count Badge for Mobile */}
             <Link href="/customer/wishlist" aria-label="Open wishlist" className="relative p-2 text-black active:scale-95 transition-all flex items-center justify-center">
               <Heart size={20} />
               {wishlistCount > 0 && (
@@ -227,8 +207,7 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            
-            {/* FIXED: Added Count Badge for Cart Icon in Mobile */}
+
             <Link href="/customer/cart" aria-label="Open internal cart" className="relative p-2 text-black active:scale-95 transition-all flex items-center justify-center">
               <ShoppingCart size={20} />
               {cartCount > 0 && (
@@ -237,7 +216,7 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            
+
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
@@ -253,29 +232,24 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* ================= MOBILE DRAWER INTERFACE MATRIX ================= */}
-      {/* Changed display control from md:hidden to xl:hidden */}
       <div className="xl:hidden" id="mobile-navigation-drawer">
-        {/* Backdrop Overlay */}
         <div
           onClick={() => setMobileOpen(false)}
           className={`fixed inset-0 bg-black/50 backdrop-blur-xs z-40 transition-opacity duration-300
           ${mobileOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
         ></div>
 
-        {/* Sliding Panel Layer */}
         <div
           className={`fixed top-0 right-0 h-screen w-64 bg-amber-50 text-black z-50 shadow-2xl
           transform transition-transform duration-300 ease-in-out flex flex-col justify-between
           ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}
         >
           <div>
-            {/* Drawer Header Layout */}
             <div className="flex justify-between items-center p-4 border-b border-amber-200/60 bg-white/80">
               <span className="font-bold tracking-wider text-neutral-800 text-sm">NAVIGATION</span>
-              <button 
+              <button
                 type="button"
-                onClick={() => setMobileOpen(false)} 
+                onClick={() => setMobileOpen(false)}
                 aria-label="Close navigation system panel layout drawer"
                 className="p-1.5 text-neutral-700 hover:text-black active:scale-90 transition-transform cursor-pointer"
               >
@@ -283,7 +257,6 @@ const Header = () => {
               </button>
             </div>
 
-            {/* Links Collection Core */}
             <div className="flex flex-col p-5 gap-4 text-base font-semibold text-neutral-900">
               <Link href="/" onClick={() => setMobileOpen(false)} className="hover:text-amber-700 transition-colors">
                 Home
@@ -293,7 +266,6 @@ const Header = () => {
                 About Us
               </Link>
 
-              {/* Mobile Submenu Dropdown Trigger */}
               <button
                 type="button"
                 onClick={() => setMobileProduct(!mobileProduct)}
@@ -304,7 +276,6 @@ const Header = () => {
                 <ChevronDown size={16} className={`transition-transform duration-200 ${mobileProduct ? "rotate-180 text-amber-700" : ""}`} />
               </button>
 
-              {/* FIXED: Mobile Drawer me bhi explicit links structure built-in hai */}
               {mobileProduct && (
                 <div className="pl-3 py-1 flex flex-col gap-2.5 border-l-2 border-amber-300 text-sm font-medium text-neutral-700 bg-amber-100/40 rounded-r-lg">
                   <Link href="/plain-makhana" onClick={() => setMobileOpen(false)} className="hover:text-amber-700 py-0.5">
@@ -325,7 +296,6 @@ const Header = () => {
                 </div>
               )}
 
-              {/* FIXED: Added Wishlist Link inside Mobile Drawer for easier access */}
               <Link href="/customer/wishlist" onClick={() => setMobileOpen(false)} className="flex items-center justify-between hover:text-amber-700 transition-colors">
                 <span>My Wishlist</span>
                 {wishlistCount > 0 && (

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { updateProduct, deleteProduct } from "@/services/productService";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Settings, X, Package, Tag, Save, Zap, Edit3, Trash2 } from "lucide-react";
 
 

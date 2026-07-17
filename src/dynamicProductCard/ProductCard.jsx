@@ -11,9 +11,9 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
-import { toast } from "react-toastify"; // Keep this to trigger alerts!
+import { toast } from "react-toastify";
 
-export default function ProductCard({ product, addToCart }) {
+export default function ProductCard({ product }) {
   if (!product) return null;
   const router = useRouter();
   const [wish, setWish] = useState(false);
@@ -110,7 +110,7 @@ export default function ProductCard({ product, addToCart }) {
         toast.success("Added to wishlist!");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Wishlist error:", error);
     }
   };
 
@@ -170,15 +170,14 @@ export default function ProductCard({ product, addToCart }) {
         window.location.href = "/customer/checkout";
       }
     } catch (error) {
-      console.log("Action Error:", error);
+      console.error("Action Error:", error);
       toast.error("Something went wrong");
     }
   };
 
   return (
     <div className="group relative bg-white rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 flex flex-col w-full max-w-[340px] mx-auto h-[550px]">
-      {/* FIXED: Removed the multiple conflicting ToastContainers from here */}
-      
+
       <div className="relative h-55 w-full overflow-hidden shrink-0">
         <Image
           src={product?.mainImage || "/placeholder.png"}

@@ -5,8 +5,7 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { createOrder } from "@/customerService/orderService";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, ArrowLeft, Plus, Minus, Tag, Zap, 
@@ -17,14 +16,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { generateOrderId } from "@/services/generateOrderId";
 
-// 1. ISOLATED PURE FUNCTION WITH NEXT OFF TRACKER ENGINE
 const computeItemCosting = (item) => {
   const basePrice = Number(item.price) || 0;
   const qty = Number(item.qty || item.quantity || 1);
   let discountPercent = 0;
   const discounts = item.tieredDiscounts || [];
 
-  // Sort discounts ascending to calculate next tier achievements
   const sortedDiscounts = [...discounts].sort((a, b) => Number(a.qty) - Number(b.qty));
 
   if (sortedDiscounts.length > 0) {
@@ -34,7 +31,6 @@ const computeItemCosting = (item) => {
     if (applicableOffer) discountPercent = Number(applicableOffer.discount);
   }
 
-  // Find the upcoming tier for the item
   const nextOffer = sortedDiscounts.find((offer) => Number(offer.qty) > qty);
   const itemsNeededForNextOffer = nextOffer ? Number(nextOffer.qty) - qty : 0;
   const nextDiscountPercent = nextOffer ? Number(nextOffer.discount) : 0;
@@ -140,7 +136,6 @@ export default function Checkout() {
       { subtotal: 0, savings: 0, final: 0 }
     );
 
-    // If cart has items and none of them have pending higher discount offers, then maxed out is true
     const allDiscountsMaxed = cart.length > 0 && !hasPendingOffers;
 
     return { totals, computedCartItems, allDiscountsMaxed };
@@ -237,7 +232,6 @@ export default function Checkout() {
     <div className="bg-[#F4EDE4] min-h-screen text-[#4A3728] pt-16 md:pt-24 lg:pt-32 pb-16 px-4 sm:px-6 md:px-8 lg:px-12 transition-all duration-300">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16">
         
-        {/* LEFT COLUMN: Checkout Details */}
         <div className="order-1 lg:order-1 lg:col-span-7 space-y-8 md:space-y-12">
           <header>
              <Link href="/customer/cart" className="inline-flex mt-25 md:mt-2 items-center gap-2 text-[10px] font-bold text-[#A68966] hover:text-[#8B5E3C] transition-all mb-4 uppercase tracking-[0.3em]">
@@ -253,7 +247,6 @@ export default function Checkout() {
              </motion.div>
           </header>
 
-          {/* FREE SHIPPING TRACKER */}
           {shipping > 0 && cart.length > 0 && (
              <div className="bg-white/40 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-white/60 shadow-sm">
                 <div className="flex justify-between items-center mb-3">
@@ -272,7 +265,6 @@ export default function Checkout() {
              </div>
           )}
 
-          {/* SHIPPING FORM */}
           <section className="space-y-6 md:space-y-10">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C] flex items-center gap-3">
                01 Delivery Details
@@ -307,12 +299,10 @@ export default function Checkout() {
             </div>
           </section>
 
-          {/* ITEM REVIEW SECTION */}
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#8B5E3C]">02 Review Selection</h2>
               
-              {/* GLOBAL CONGRATS MESSAGE WHEN ALL DISCOUNTS ARE MAXED OUT */}
               {allDiscountsMaxed && (
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -377,7 +367,6 @@ export default function Checkout() {
                             </button>
                           </div>
                           
-                          {/* Price block */}
                           <div className="text-right min-w-[80px] sm:min-w-[100px] flex flex-col justify-center">
                             {item.stats.isDiscounted && (
                               <span className="text-[11px] text-gray-400 line-through font-medium tracking-tighter">
@@ -391,7 +380,6 @@ export default function Checkout() {
                         </div>
                       </div>
 
-                      {/* ITEM TIERED DISCOUNT TRACKER MSG */}
                       {item.stats.itemsNeededForNextOffer > 0 && (
                         <div className="bg-[#8B5E3C]/5 border border-[#8B5E3C]/10 rounded-xl px-3 py-2 flex items-center gap-2 text-[#8B5E3C] mt-1 self-start sm:self-auto w-full">
                           <Zap size={12} className="fill-[#8B5E3C] text-[#8B5E3C] animate-bounce shrink-0" />
@@ -408,7 +396,6 @@ export default function Checkout() {
           </section>
         </div>
 
-        {/* RIGHT COLUMN: Sticky Summary Card */}
         <div className="order-2 lg:order-1 lg:col-span-5">
           <div className="mt-10 lg:sticky lg:top-24 xl:top-32">
             <div className="backdrop-blur-xl bg-white/40 border border-white/80 rounded-[2rem] md:rounded-[2.5rem] lg:rounded-[3rem] p-5 sm:p-8 md:p-10 shadow-xl shadow-[#2D1B0D]/5 relative overflow-hidden">
@@ -455,19 +442,18 @@ export default function Checkout() {
 
               <div className="mt-8 flex justify-center gap-4 opacity-30 grayscale">
                 <CreditCard size={18}/>
-                <span className="text-[10px] font-black tracking-tighter uppercase italic border border-current px-1 rounded">Visa</span>
-                <span className="text-[10px] font-black tracking-tighter uppercase border border-current px-1 rounded">Amex</span>
+                <span className="text-[10px] font-black tracking-tighter uppercase italic border border-current px-1 rounded">COD</span>
+                <span className="text-[10px] font-black tracking-tighter uppercase border border-current px-1 rounded">UPI</span>
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-3 text-[#A68966] opacity-60">
+              <div className="mt-6 flex items-center justify-center gap-3 text-[#A68966] opacity-60">
               <ShieldCheck size={14}/>
-              <span className="text-[8px] font-black uppercase tracking-[0.2em]">Vault Secure 256-bit Encryption</span>
+              <span className="text-[8px] font-black uppercase tracking-[0.2em]">Secure & Trusted Checkout</span>
             </div>
           </div>
         </div>
       </div>
-      <ToastContainer position="top-right" />
     </div>
   );
 }

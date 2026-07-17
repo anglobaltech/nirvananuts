@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-// ✅ GET WISHLIST (FOR DASHBOARD)
+// Get wishlist items for a user
 export const getWishlist = async (userId) => {
   try {
     const ref = doc(db, "wishlists", userId);
@@ -60,47 +60,37 @@ export const subscribeWishlist = (callback, errorCallback) => {
     }
   };
 };
-// ❤️ Add to wishlist
+
+// Add to wishlist
 export const addToWishlist = async (product) => {
   const user = auth.currentUser;
 
-  console.log("Current User:", user);
-  console.log("Product Data:", product);
-
   if (!user) {
-    console.log("User not logged in");
-    alert("Login required");
-    return;
-  }
-
-  if (!user) {
-    alert("Login required");
     return;
   }
 
   try {
     const ref = doc(db, "wishlists", user.uid);
-
     const snap = await getDoc(ref);
 
-const wishlistItem = {
-  id: product.id,
-  title: product.title,
-  description: product.description || "",
-  image: product.image,
+    const wishlistItem = {
+      id: product.id,
+      title: product.title,
+      description: product.description || "",
+      image: product.image,
 
-  // ✅ full variants
-  variants: product.variants || [],
+      // full variants
+      variants: product.variants || [],
 
-  // ✅ backend discounts
-  tieredDiscounts:
-    product.tieredDiscounts ||
-    product.buyMoreSaveMore ||
-    [],
+      // backend discounts
+      tieredDiscounts:
+        product.tieredDiscounts ||
+        product.buyMoreSaveMore ||
+        [],
 
-  stock: product.stock ?? true,
-  rating: product.rating ?? 4,
-};
+      stock: product.stock ?? true,
+      rating: product.rating ?? 4,
+    };
 
     if (snap.exists()) {
       const items = snap.data().items || [];
@@ -120,12 +110,11 @@ const wishlistItem = {
       });
     }
   } catch (error) {
-  console.error("Wishlist Error:", error);
-  alert(error.message);
-}
+    console.error("Wishlist Error:", error);
+  }
 };
 
-// ❌ Remove
+// Remove
 export const removeFromWishlist = async (id) => {
   const user = auth.currentUser;
   if (!user) return;
@@ -147,9 +136,7 @@ export const removeFromWishlist = async (id) => {
     await updateDoc(ref, {
       items: updated,
     });
-
-    console.log("Removed:", id);
   } catch (error) {
     console.error("Wishlist remove error:", error);
   }
-};
+};

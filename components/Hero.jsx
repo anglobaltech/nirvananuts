@@ -8,10 +8,8 @@ import "aos/dist/aos.css";
 import ProductCard from "@/dynamicProductCard/ProductCard"
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation"
-import { calculateDiscount } from "@/utils/discount";
+import { toast } from "react-toastify";
+
 
 const slides = [
   {
@@ -115,16 +113,17 @@ const faqs = [
 
 const initialReviews = [
   { id: 1, name: "Shivam Sharma", location: "Delhi, India", rating: 5, text: "Excellent customer service and top-notch products. Nirvana Nuts has become my go-to brand for healthy snacking." },
-  { id: 2, name: "Soniya Verma", location: "Meerut, India", rating: 4, text: "The hazelnuts were delicious and fresh. I appreciate the eco-friendly packaging. A little more discount on bulk orders would make it perfect." },
-  { id: 3, name: "Sandeep Singh", location: "Ghaziabad, India", rating: 5, text: "Nirvana nuts is the best for all item I buy almonds and really the almond is very delicious" },
+  { id: 2, name: "Soniya Verma", location: "Meerut, India", rating: 4, text: "The Classic Salted Makhana were delicious and fresh. A little more discount on bulk orders would make it perfect." },
+  { id: 3, name: "Sandeep Singh", location: "Ghaziabad, India", rating: 5, text: "Nirvana Nuts is the best! I buy their makhana regularly and the quality is always top-notch — very delicious." },
   { id: 4, name: "Priya Mehta", location: "Noida, India", rating: 5, text: "Fusion Spicy makhana were fresh and crunchy. Nirvana Nuts never disappoints!" },
-  { id: 5, name: "Arjun Malhotra", location: "Bengaluru, India", rating: 5, text: "The Modern Flavors makhana were perfectly crunchy and fresh. Nirvana Nuts is my trusted brand for healthy office snacks." },
-  { id: 6, name: "Neha Kapoor", location: "Pune, India", rating: 4, text: "I loved the organic walnuts. The eco-friendly packaging is a big plus. Great choice for guilt-free snacking." },
+  { id: 5, name: "Arjun Malhotra", location: "Bengaluru, India", rating: 5, text: "The Modern Savory Flavors makhana were perfectly crunchy and fresh. Nirvana Nuts is my trusted brand for healthy office snacks." },
+  { id: 6, name: "Neha Kapoor", location: "Pune, India", rating: 4, text: "I loved the Sweet Gourmet Makhana. Great flavors and guilt-free snacking — will definitely order again!" },
   { id: 7, name: "Rohit Agarwal", location: "Jaipur, India", rating: 5, text: "Premium makhana with amazing taste and quality. Nirvana Nuts delivers farm-fresh products every single time." },
   { id: 8, name: "Meera Joshi", location: "Chennai, India", rating: 5, text: "The makhana was light, crunchy, and delicious. Perfect for evening snacks and family get-togethers." },
-  { id: 9, name: "Karan Singh", location: "Hyderabad, India", rating: 4, text: "Hazelnuts were fresh and packed with flavor. Nirvana Nuts is reliable for premium quality dry fruits." },
-  { id: 10, name: "Ananya Desai", location: "Ahmedabad, India", rating: 5, text: "I ordered salt makhana and they were simply amazing. Healthy, tasty, and delivered on time — highly recommended!" },
+  { id: 9, name: "Karan Singh", location: "Hyderabad, India", rating: 4, text: "Fusion Spicy Makhana were fresh and packed with flavor. Nirvana Nuts is reliable for premium quality healthy snacks." },
+  { id: 10, name: "Ananya Desai", location: "Ahmedabad, India", rating: 5, text: "I ordered Classic Salted makhana and they were simply amazing. Healthy, tasty, and delivered on time — highly recommended!" },
 ];
+
 
 const Hero = () => {
   const [slider, setSlider] = useState(0);
@@ -134,7 +133,7 @@ const Hero = () => {
   const [reviews, setReviews] = useState([]);
   const [current, setCurrent] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(1);
-  const router = useRouter();
+
 
   useEffect(() => {
     AOS.init({
@@ -144,27 +143,6 @@ const Hero = () => {
     });
   }, []);
 
-  const buyNow = (product) => {
-    const quantity = 1;
-    const basePrice = Number(product?.price) || 0;
-    const { finalPrice } = calculateDiscount(product.buyMoreSaveMore || [], quantity, basePrice);
-    router.push(`/checkout?productId=${product.docId}&price=${finalPrice}&qty=${quantity}`);
-  };
-
-  const addToCart = (item) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingIndex = cart.findIndex((i) => i.docId === item.docId && i.selectedWeight === item.selectedWeight);
-    if (existingIndex > -1) {
-      cart[existingIndex].qty += item.qty;
-    } else {
-      cart.push(item);
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
-  };
-
-  const shopproduct = (product) => {
-    router.push(`/product/${product.docId}`);
-  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -224,10 +202,8 @@ const Hero = () => {
 
   return (
  <div className='min-h-screen w-full  bg-stone-50/50 text-neutral-800 antialiased mt-16 xs:mt-20 overflow-hidden'>
-      
       <h1 className="sr-only">Nirvana Nuts - Premium Flavored Makhana & Bulk Whey Protein Supplier India</h1>
 
-      {/* 1. Hero Slider Section */}
       <section className="relative min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh] xl:min-h-[60vh] 2xl:min-h-[80vh]  w-full bg-[#faf8f5] flex flex-col justify-center overflow-x-hidden">
         <div className="relative w-full h-full min-h-[calc(100vh-4rem)] xs:min-h-[calc(100vh-5rem)] lg:min-h-[80vh] xl:min-h-[60vh] 2xl:[80vh] ">
           {slides.map((slide, index) => (
@@ -241,7 +217,6 @@ const Hero = () => {
                     Trusted Supplier Since 2020
                   </span>
 
-                  {/* DESKTOP HEADING */}
                   <div className="hidden lg:block space-y-2 mb-4">
                     <h2 className="text-xl xl:text-2xl 2xl:text-3xl tracking-tight leading-tight font-bold text-neutral-900">
                       {slide.heading}
@@ -251,7 +226,6 @@ const Hero = () => {
                     </p>
                   </div>
 
-                  {/* MOBILE HEADING */}
                   <div className="lg:hidden block w-full mb-4 md:mb-2">
                     <h2 className="text-sm xs:text-base sm:text-lg md:text-xl font-bold tracking-tight text-neutral-900 leading-tight">
                       {slide.heading}
@@ -346,7 +320,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 2. Category Breakdown Section */}
       <section data-aos="fade-up" className="bg-[#faf8f5] py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 border-y border-neutral-100">
         <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6">
           <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2">
@@ -383,7 +356,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 3. Product Display Matrix */}
       <section data-aos="fade-up" className="py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 bg-gradient-to-b from-[#faf8f5] to-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold tracking-tight text-center text-neutral-900 mb-2">
@@ -394,31 +366,20 @@ const Hero = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 xs:gap-5 lg:gap-8 xl:gap-10">
-            {Array.isArray(products) && products.filter(Boolean).map((product, index) => {
-              const { finalPrice, discount } = calculateDiscount(product.buyMoreSaveMore || [], 1, Number(product.price) || 0);
-              return (
-                <div 
-                  key={product.docId} 
-                  data-aos="fade-up" 
-                  data-aos-delay={index * 100}
-                  className="transition-all duration-300 hover:-translate-y-1"
-                >
-                  <ProductCard
-                    product={product}
-                    displayPrice={finalPrice}
-                    displayDiscount={discount}
-                    addToCart={addToCart}
-                    buyNow={() => buyNow(product)}
-                    shopproduct={() => shopproduct(product)}
-                  />
-                </div>
-              );
-            })}
+            {Array.isArray(products) && products.filter(Boolean).map((product, index) => (
+              <div 
+                key={product.docId} 
+                data-aos="fade-up" 
+                data-aos-delay={index * 100}
+                className="transition-all duration-300 hover:-translate-y-1"
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 4. Bulk Whey Protein Section */}
       <section data-aos="fade-up" className="relative bg-[#11261f] text-stone-100 py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-20 overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 xl:gap-16 items-center">
           <div data-aos="fade-right">
@@ -464,7 +425,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 5. Corporate Heritage Section */}
       <section data-aos="fade-up" className="bg-white py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 lg:px-10 xl:px-12 2xl:px-20 border-b border-neutral-100">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 xl:gap-16 items-center">
           <div className="relative h-[200px] xs:h-[240px] sm:h-[280px] lg:h-[400px] xl:h-[460px] 2xl:h-[500px] w-full" data-aos="fade-right">
@@ -520,7 +480,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 6. Brand Value Propositions */}
       <section data-aos="fade-up" className="bg-neutral-950 text-neutral-100 py-6 xs:py-8 sm:py-10 lg:py-12 xl:py-16 2xl:py-20 px-4 xs:px-5 sm:px-6 lg:px-10 xl:px-12 2xl:px-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 xl:gap-16 items-center">
           <div data-aos="fade-right">
@@ -568,7 +527,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 7. Frequently Asked Questions Section */}
       <section data-aos="fade-up" className="bg-[#f4f7f5] py-6 xs:py-8 sm:py-12 lg:py-16 xl:py-20 px-4 xs:px-5 sm:px-6 md:px-12 lg:px-20 border-b border-neutral-200/50">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-base xs:text-lg sm:text-xl lg:text-2xl font-bold tracking-tight text-neutral-900 text-center mb-6 sm:mb-10">
@@ -600,7 +558,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 8. CTA Conversion Matrix */}
       <section data-aos="fade-up" className="relative h-[45vh] sm:h-[50vh] lg:h-[55vh] text-center flex items-center justify-center overflow-hidden">
         <div className='absolute inset-0 z-0 w-full h-full'>
           <Image
@@ -626,7 +583,6 @@ const Hero = () => {
         </div>
       </section>
 
-      {/* 9. Customer Reviews Section */}
 <section data-aos="fade-up" className="bg-amber-50 py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 2xl:py-24 flex flex-col items-center border-t border-neutral-200/40 overflow-hidden">
   <div className="max-w-7xl w-full px-4 xs:px-5 sm:px-6 flex flex-col items-center">
     <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-center text-neutral-900 mb-2 leading-tight">
@@ -641,17 +597,16 @@ const Hero = () => {
             let position = index - current;
             if (position < -1 || position > 1) return null;
 
-            // Dynamic slide positioning precisely mapped to your custom configuration
-            const offsetWidth = typeof window !== 'undefined' 
-              ? (window.innerWidth < 320 
-                  ? 240 
-                  : window.innerWidth < 375 
-                    ? 280 
-                    : window.innerWidth < 425 
-                      ? 330 
-                      : window.innerWidth < 768 
-                        ? 380 
-                        : 440) 
+            const offsetWidth = typeof window !== 'undefined'
+              ? (window.innerWidth < 320
+                  ? 240
+                  : window.innerWidth < 375
+                    ? 280
+                    : window.innerWidth < 425
+                      ? 330
+                      : window.innerWidth < 768
+                        ? 380
+                        : 440)
               : 440;
 
             return (
@@ -686,7 +641,6 @@ const Hero = () => {
           })}
         </div>
 
-        {/* Slider Navigation Controls */}
         <button
           onClick={() => setCurrent((prev) => (prev === 0 ? maxIndex : prev - 1))}
           aria-label="Previous review"
@@ -705,7 +659,6 @@ const Hero = () => {
       </div>
     )}
 
-    {/* Pagination Indicators */}
     <div className="flex gap-1 xs:gap-1.5 sm:gap-2 mt-6 xs:mt-8 sm:mt-12">
       {Array.from({ length: totalDots }).map((_, index) => (
         <button
@@ -723,8 +676,6 @@ const Hero = () => {
   </div>
 </section>
       
-      {/* Toast Alert Provider Component Context */}
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnFocusLoss draggable pauseOnHover />
     
     </div>
   );

@@ -8,12 +8,12 @@ export const createOrder = async (order) => {
 
   if (!user) return;
 
-  const customOrderId = await generateOrderId(); // ✅ generate ID
+  const customOrderId = await generateOrderId(); 
 
   await addDoc(collection(db, "orders"), {
     ...order,
 
-    orderId: customOrderId,      // ✅ SAVE THIS
+    orderId: customOrderId,      
     userId: user.uid,
     createdAt: serverTimestamp(),
 
@@ -27,7 +27,7 @@ export const getOrders = async()=>{
 const snapshot = await getDocs(collection(db,"orders"));
 
 return snapshot.docs.map((doc) => ({
-  id: doc.data().orderId || doc.id, // 🔥 MAIN FIX
+  id: doc.data().orderId || doc.id, 
   ...doc.data(),
 }));
 

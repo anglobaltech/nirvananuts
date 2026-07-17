@@ -46,7 +46,6 @@ const loginUser = async (e) => {
 
   } else if (error.code === "auth/invalid-credential") {
 
-    // 🔍 Check if email exists in Firestore
     const q = query(
       collection(db, "users"),
       where("email", "==", email.trim())
@@ -55,10 +54,8 @@ const loginUser = async (e) => {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      // ❌ user not found
       toast.error("User not found. Please create account ❌");
     } else {
-      // ❌ wrong password
       toast.error("Incorrect password ❌");
     }
 

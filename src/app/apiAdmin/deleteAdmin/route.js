@@ -12,18 +12,14 @@ export async function POST(req) {
       );
     }
 
-    // 🔥 STEP 1: Delete from Firebase Auth
     try {
       await adminAuth.getUser(uid); // check exists
       await adminAuth.deleteUser(uid);
-      console.log("Deleted from Auth");
-    } catch (error) {
-      console.log("User not found in Auth, skipping...");
+    } catch {
+      // User not found in Auth, skip
     }
 
-    // 🔥 STEP 2: Delete from Firestore
     await adminDb.collection("users").doc(uid).delete();
-    console.log("Deleted from Firestore");
 
     return NextResponse.json({
       success: true,

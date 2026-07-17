@@ -14,7 +14,7 @@ export default function CartPage() {
   const router = useRouter();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [authChecking, setAuthChecking] = useState(true); // PRODUCTION FIX
+  const [authChecking, setAuthChecking] = useState(true);
   const [user, setUser] = useState(null);
 
   const normalize = (item) => ({
@@ -53,15 +53,13 @@ export default function CartPage() {
           setLoading(false);
         }
       } else {
-        // PRODUCTION INTERCEPT: Explicit unauthenticated status returned from Firebase
         toast.error("Please login to view your cart");
-        window.location.href = "/login"; // Absolute relocation for production stability
+        window.location.href = "/login";
       }
     });
     return () => unsubscribe();
   }, []);
 
-  // --- ENHANCED PRICING ENGINE ---
   const calculatePricing = (item) => {
     const basePrice = Number(item.price) || 0;
     const qty = Number(item.qty) || 1;
@@ -105,9 +103,7 @@ export default function CartPage() {
     toast.info("Item removed from cart");
   };
 
-  // CLEAN SEPARATION ACTION FOR CHECKOUT
   const handleCheckoutNavigation = () => {
-    // Remove single instant buy items so checkout defaults to fetching the database cart
     sessionStorage.removeItem("directCheckoutItem");
     router.push("/customer/checkout");
   };
@@ -117,7 +113,6 @@ export default function CartPage() {
   const shipping = subtotal > 500 || cartItems.length === 0 ? 0 : 80;
   const finalTotal = subtotal + shipping;
 
-  // BLOCK RENDERING IN PRODUCTION UNTIL FIRESTORE AND AUTH HANDSHAKE COMPLETES
   if (authChecking || loading) return (
     <div className="h-screen flex items-center justify-center bg-white">
       <div className="w-10 h-10 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
@@ -128,7 +123,6 @@ export default function CartPage() {
     <main className="min-h-screen bg-[#F8F9FA] pt-24 pb-12 px-3 sm:px-6 lg:px-8">
       <div className="max-w-6xl mt-6 lg:mt-12 mx-auto">
         
-        {/* Header - Scaled down text sizing for small devices */}
         <header className="flex items-center mt-15 justify-between mb-6 lg:mb-10">
           <div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 tracking-tight">Cart</h1>
@@ -154,21 +148,18 @@ export default function CartPage() {
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-12  gap-6 xl:gap-10 items-start">
             
-            {/* Left Side: Product List */}
             <section aria-label="Shopping Cart Items" className="lg:col-span-7 space-y-4 lg:space-y-6">
               {cartItems.map((item, index) => {
                 const stats = calculatePricing(item);
                 return (
                   <article key={index} className="group bg-white rounded-2xl lg:rounded-[2rem] p-4 sm:p-6 flex flex-col lg:flex-row items-center gap-4 sm:gap-6 border border-transparent hover:border-orange-100 transition-all shadow-sm hover:shadow-xl relative overflow-hidden">
                     
-                    {/* Item Discount Ribbon */}
                     {stats.isDiscounted && (
                       <div className="absolute top-0 right-0 bg-green-600 text-white text-[9px] sm:text-[10px] font-black px-3 py-1 rounded-bl-xl flex items-center gap-1 z-10">
                         <Sparkles size={10} /> {stats.discountPercent}% OFF
                       </div>
                     )}
 
-                    {/* Responsive Image Container: Full width on mobile, static on desktop */}
                     <div className="relative w-full lg:w-32 h-44 xs:h-52 sm:h-64 lg:h-32 bg-[#F3F4F6] rounded-xl lg:rounded-3xl overflow-hidden shrink-0">
                       <Image
                         src={item.mainImage}
@@ -180,7 +171,6 @@ export default function CartPage() {
                       />
                     </div>
 
-                    {/* Product Content Details Wrapper */}
                     <div className="flex-grow w-full flex flex-col min-w-0">
                       <div className="flex justify-between items-start gap-2 mb-1.5">
                         <h2 className="text-base sm:text-lg font-black text-gray-900 break-words line-clamp-2 pr-2">{item.name}</h2>
@@ -196,7 +186,6 @@ export default function CartPage() {
                         <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Pack size</span>
                       </div>
 
-                      {/* Dynamic Discount Message Notification */}
                       {item.tieredDiscounts?.length > 0 && (() => {
                         const sortedOffers = [...item.tieredDiscounts].sort(
                           (a, b) => Number(a.qty) - Number(b.qty)
@@ -232,7 +221,6 @@ export default function CartPage() {
                         );
                       })()}
                       
-                      {/* Price Action Strip - Keeps Toggles & Totals Aligned */}
                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-50 lg:border-none">
                         <div className="flex items-center bg-gray-50 rounded-xl p-0.5 border border-gray-100">
                           <button type="button" onClick={() => updateQuantity(index, -1)} className="w-8 h-8 text-black cursor-pointer flex items-center justify-center hover:bg-white rounded-lg transition-colors"><Minus size={12}/></button>
@@ -262,7 +250,6 @@ export default function CartPage() {
               })}
             </section>
 
-            {/* Right Side: Enhanced Summary Sidebar Block */}
             <aside aria-label="Order Checkout Summary" className="lg:col-span-5 w-full">
               <div className="bg-white rounded-2xl lg:rounded-[3rem] p-4 sm:p-8 lg:p-10 shadow-lg shadow-orange-100/40 border border-orange-50 lg:sticky lg:top-32">
                 <h3 className="text-base sm:text-lg lg:text-xl font-black text-gray-900 mb-4 lg:mb-8 flex items-center gap-2 uppercase tracking-tight">
@@ -311,7 +298,6 @@ export default function CartPage() {
                   Checkout <Zap size={15} className="fill-yellow-400 text-yellow-400 border-none group-hover:scale-125 transition-transform" />
                 </button>
 
-                {/* Trust Badges Footer Grid */}
                 <div className="mt-6 pt-5 border-t border-gray-100 grid grid-cols-3 gap-1 px-1">
                    <div className="flex flex-col items-center gap-1">
                      <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center text-green-600 shadow-sm"><ShieldCheck size={16}/></div>
@@ -319,7 +305,7 @@ export default function CartPage() {
                    </div>
                    <div className="flex flex-col items-center gap-1">
                      <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shadow-sm"><Truck size={16}/></div>
-                     <span className="text-[8px] font-black uppercase text-gray-400 tracking-wider text-center leading-tight">Express<br/>Shipping</span>
+                     <span className="text-[8px] font-black uppercase text-gray-400 tracking-wider text-center leading-tight">Fast<br/>Shipping</span>
                    </div>
                    <div className="flex flex-col items-center gap-1">
                      <div className="w-8 h-8 bg-orange-50 rounded-full flex items-center justify-center text-orange-600 shadow-sm"><Leaf size={16}/></div>
