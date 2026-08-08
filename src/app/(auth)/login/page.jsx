@@ -183,7 +183,7 @@ return (
             </label>
             <input
               type="email"
-              placeholder="name@company.com"
+              placeholder="name@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-xl border border-white/10 bg-white/[0.06] p-3.5 text-sm font-medium text-white transition-all placeholder:text-stone-500 focus:border-white focus:bg-stone-900 focus:outline-none focus:ring-4 focus:ring-white/[0.03]"

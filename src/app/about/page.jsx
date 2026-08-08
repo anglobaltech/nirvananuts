@@ -9,269 +9,332 @@ import "aos/dist/aos.css";
 const makhanaProcess = [
   {
     title: "1. Raw Material Sourcing",
-    description: "We begin with sourcing the finest Makhana (fox nuts), handpicked at peak freshness from trusted farms. Each batch is checked for size, color, and moisture to ensure only premium-quality seeds enter our process.",
+    description: "Finest Makhana (fox nuts) handpicked at peak freshness from trusted farms. Checked for size, color, and moisture.",
   },
   {
     title: "2. Cleaning & Sorting",
-    description: "Raw Makhana is thoroughly cleaned to remove dust, stones, and other foreign particles. It is then sorted and calibrated by size to ensure uniform roasting and consistent texture in every pack.",
+    description: "Thoroughly cleaned to remove foreign particles, then sorted by size for uniform roasting.",
   },
   {
     title: "3. Roasting & Puffing",
-    description: "The cleaned seeds are gently roasted under controlled heat. This stage helps puff the seeds, develop their signature light crunch, and enhance flavor while preserving nutritional value.",
+    description: "Gently roasted under controlled heat to puff the seeds, develop crunch, and preserve nutrition.",
   },
   {
     title: "4. Shelling & Sieving",
-    description: "After roasting, the outer shells are carefully removed. The puffed Makhana kernels are then sieved to separate any broken or undersized pieces, ensuring a uniform, premium-grade final product.",
+    description: "Outer shells removed and kernels sieved to ensure a premium-grade final product.",
   },
   {
     title: "5. Drying & Conditioning",
-    description: "The kernels are dried to an optimal moisture level to extend shelf life and maintain crispness. This step is crucial to prevent microbial growth and preserve the natural taste and texture.",
+    description: "Dried to optimal moisture levels to extend shelf life and maintain crispness.",
   },
   {
     title: "6. Flavoring & Blending",
-    description: "Depending on the variant, Makhana is lightly seasoned with carefully selected ingredients—such as classic salted, Cheese Masti, or fasting-friendly flavors—while maintaining a clean-label, health-focused profile.",
+    description: "Lightly seasoned with clean-label, health-focused ingredients for classic and bold flavors.",
   },
   {
     title: "7. Quality Control",
-    description: "Every batch undergoes strict quality checks for appearance, crunch, taste, and hygiene. Only the lots that meet our internal standards move forward to packaging.",
+    description: "Strict checks for appearance, crunch, and hygiene. Only the best lots move forward.",
   },
   {
     title: "8. Packaging & Dispatch",
-    description: "Makhana is packed in high-barrier, food-grade pouches and bulk bags designed to protect against moisture, oxygen, and light. Clear labeling ensures traceability, and products are then dispatched through our D2C and bulk channels.",
+    description: "Packed in high-barrier pouches and bulk bags to protect against moisture and oxygen.",
   },
 ];
 
 const AboutPage = () => {
   useEffect(() => {
     AOS.init({
-      duration: 1200,
+      duration: 1000,
       once: true,
+      easing: 'ease-out-cubic',
     });
   }, []);
 
   return (
-    <main className="min-h-screen w-full bg-linear-to-r overflow-hidden from-white via-gray-50 to-white pt-16">
-
-      {/* SECTION 1: HERO HERITAGE */}
-      <section className="bg-amber-50/60 py-20 px-6  xs:pt-20 xs:py-10 md:px-5 text-amber-900">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
-          {/* LEFT CONTENT */}
-          <div data-aos="fade-right">
-            <span className="text-amber-600 uppercase tracking-widest text-sm font-bold">
-              Our Heritage
-            </span>
-            <h1 className="xs:text-xl text-4xl md:text-2xl font-extrabold leading-tight mt-4 mb-6 text-gray-900">
-              A Journey of <span className="italic text-amber-600 font-serif">Pure Nutrition & Strength</span>
+    <main className="min-h-screen w-full bg-warm-gradient-subtle overflow-hidden pt-16 selection:bg-amber-200 selection:text-amber-900">
+      
+      {/* SECTION 1: IMMERSIVE HERO */}
+      <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden py-20 px-6 lg:px-12">
+        {/* Background elements */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none">
+           <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-amber-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+           <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-amber-400/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div data-aos="fade-right" className="space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/50 backdrop-blur-md border border-amber-200">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <span className="text-amber-800 text-xs font-bold uppercase tracking-widest">Our Heritage</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1]">
+              Pure <span className="text-gradient-amber">Nutrition</span> <br />
+              <span className="font-serif italic font-light text-amber-700">& Strength.</span>
             </h1>
-            <p className="text-gray-700 xs:text-sm text-lg leading-relaxed mb-6">
-              Nirvana Nuts was founded with a simple mission — to deliver premium quality makhana and clean nutrition products sourced from nature. Our roasted fox nuts are carefully selected, hygienically processed, and crafted for healthy living.
+            
+            <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-xl">
+              From premium gourmet Makhana to high-performance Bulk Whey Protein. Nirvana Nuts delivers clean, responsibly sourced nutrition for modern living.
             </p>
-            <p className="text-gray-700 xs:text-sm text-lg leading-relaxed mb-8">
-              Alongside our gourmet makhana range, we also supply <strong className="text-amber-600 font-semibold">Bulk Whey Protein in 20kg packaging</strong> — trusted by gyms, fitness brands, and distributors looking for high-quality protein solutions for muscle growth and recovery.
-            </p>
-            <Link
-              href="/products"
-              className="inline-block bg-amber-600 hover:bg-amber-700 text-white xs:px-3 xs:py-3 xs:text-[20px]  px-10 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition duration-300"
-              data-aos="zoom-in"
-              data-aos-delay="200"
-            >
-              Explore Collection
-            </Link>
+            
+            <div className="pt-4 flex flex-wrap gap-4">
+              <Link
+                href="/products"
+                className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-amber-600 border border-transparent rounded-full hover:bg-amber-700 hover:shadow-[0_0_20px_4px_rgba(245,158,11,0.2)]"
+              >
+                Explore Collection
+              </Link>
+            </div>
           </div>
-
-          {/* RIGHT IMAGE */}
-          <div className="relative flex justify-center" data-aos="fade-left">
-            <Image
-              src="/new-image-04.avif"
-              alt="Nirvana Nuts Premium Makhana and Bulk Whey Protein Showcase"
-              height={500}
-              width={600}
-              priority 
-              className="rounded-2xl shadow-2xl object-cover w-full h-auto max-h-[450px]"
-            />
+          
+          <div className="relative flex justify-center items-center" data-aos="zoom-in" data-aos-delay="200">
+            {/* Main Hero Image */}
+            <div className="relative w-full max-w-lg aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl animate-float">
+               <Image
+                  src="/new-image-04.avif"
+                  alt="Nirvana Nuts Premium Range"
+                  fill
+                  priority
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+               <div className="absolute bottom-6 left-6 right-6">
+                 <p className="text-white font-medium text-lg drop-shadow-md">Premium quality, crafted for healthy living.</p>
+               </div>
+            </div>
+            
             {/* Floating Badge */}
-            <div 
-              className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl px-5 py-4 xs:px-3 xs:py-3 border border-amber-100"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <span className="text-3xl xs:text-lg font-extrabold text-amber-600 block">6+</span>
-              <p className="text-[10px] xs:text-[7px] text-gray-500 uppercase tracking-wider font-bold">
-                Years of Excellence
-              </p>
+            <div className="absolute -bottom-8 -left-4 lg:-left-12 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-5 border border-white animate-float-delay z-20">
+              <div className="flex items-center gap-4">
+                <div className="flex -space-x-3">
+                  <div className="w-12 h-12 rounded-full border-2 border-white bg-amber-100 flex items-center justify-center font-bold text-amber-700">6+</div>
+                </div>
+                <div>
+                  <p className="text-gray-900 font-bold leading-tight">Years of<br/>Excellence</p>
+                </div>
+              </div>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* SECTION 2: LEADERSHIP VISION & MISSION */}
-      <section className="bg-linear-to-br from-amber-50 via-white to-amber-100/50 py-20 px-6 md:px-5 xs:py-5  border-y border-amber-100">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-          {/* LEFT IMAGE */}
-          <div data-aos="fade-right" className=" xs:order-2 lg:order-1 relative group">
-            <Image
-              src="/founder of nirvana nuts.avif"
-              alt="Nirvana Nuts Leadership Team"
-              width={600}
-              height={650}
-              loading="lazy"
-              className="rounded-t-2xl shadow-2xl object-cover w-full h-auto max-h-[500px]"
-            />
-            {/* Overlay Card */}
-            <div className="w-full bg-amber-900/95 backdrop-blur-xs text-white p-6 rounded-b-2xl shadow-lg">
-              <h3 className="xs:text-lg text-2xl font-bold tracking-wide">
-                Nirvana Nuts Leadership
-              </h3>
-              <p className="text-amber-200/90 text-sm mt-1">
-                Committed to Purity, Performance & Global Standards
-              </p>
-            </div>
-          </div>
-
-          {/* RIGHT CONTENT */}
-          <div className=" xs:order-1 lg:order-2 space-y-12">
-            {/* Vision */}
-            <div data-aos="fade-left">
-              <h2 className="xs:text-xl text-3xl font-bold text-gray-900 mb-3">Our Vision</h2>
-              <div className="w-16 h-1 bg-amber-600 mb-6 rounded-full"></div>
-              <p className="text-gray-700 text-lg xs:text-sm leading-relaxed">
-                To become a trusted global brand in healthy snacking and performance nutrition by delivering premium quality <strong>makhana (fox nuts)</strong> and <strong>bulk whey protein (20kg packaging)</strong> to fitness brands, gyms, distributors, and modern consumers.
-              </p>
-              <p className="text-gray-600 xs:text-sm text-lg leading-relaxed mt-3">
-                We aim to provide clean-label, nutrient-rich products sourced responsibly and processed under strict quality standards.
-              </p>
-            </div>
-
-            {/* Mission */}
-            <div data-aos="fade-left" data-aos-delay="150">
-              <h2 className="xs:text-xl text-3xl font-bold text-gray-900 mb-3">Our Mission</h2>
-              <div className="w-16 h-1 bg-amber-600 mb-6 rounded-full"></div>
-              <p className="text-gray-700 xs:text-sm text-lg leading-relaxed">
-                Our mission is to maintain excellence from sourcing to packaging by following international food safety and nutritional standards.
-              </p>
-              <ul className="mt-6 space-y-3 text-gray-600 xs:text-sm text-md font-medium">
-                <li className="flex items-center gap-2 text-gray-700">✔ Premium farm-sourced makhana with hygienic processing</li>
-                <li className="flex items-center gap-2 text-gray-700">✔ High-quality 20kg bulk whey protein solutions</li>
-                <li className="flex items-center gap-2 text-gray-700">✔ Reliable supply for fitness brands & manufacturers</li>
-                <li className="flex items-center gap-2 text-gray-700">✔ Transparent quality testing & global compliance</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* SECTION 3: PROCESSING ENGINE METRICS */}
-      <section className="bg-white py-20 md:py-10 xs:py-5 px-6 md:px-5">
+      {/* SECTION 2: BENTO GRID - VISION, MISSION, LEADERSHIP */}
+      <section className="py-24 px-6 lg:px-12 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="xs:text-xl text-3xl md:text-2xl font-bold text-center text-gray-900 mb-4" data-aos="fade-up">
-            Premium Makhana Processing – Nirvana Nuts
-          </h2>
-          <p className="xs:text-sm text-center text-gray-600 max-w-3xl mx-auto mb-14 text-base" data-aos="fade-up">
-            From farm-sourced fox nuts to perfectly roasted healthy snacks, Nirvana Nuts follows a strict quality-controlled manufacturing process ensuring purity, crunch, and nutrition.
-          </p>
+           <div className="text-center mb-16" data-aos="fade-up">
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Our Core Identity</h2>
+              <p className="text-gray-500 max-w-2xl mx-auto text-lg">Committed to Purity, Performance & Global Standards.</p>
+           </div>
 
-          {/* Grid Layout Map */}
-          <div className="grid  md:grid-cols-1 lg:grid-cols-3 gap-8">
+           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 auto-rows-[minmax(300px,auto)]">
+              {/* Leadership Card (Large) */}
+              <div className="lg:col-span-7 relative rounded-3xl overflow-hidden group card-hover-lift" data-aos="fade-up" data-aos-delay="100">
+                 <Image
+                    src="/founder of nirvana nuts.avif"
+                    alt="Leadership Team"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
+                 <div className="absolute bottom-0 left-0 p-8">
+                    <span className="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 backdrop-blur-md rounded-full text-sm font-semibold mb-3">Leadership</span>
+                    <h3 className="text-3xl font-bold text-white mb-2">Nirvana Nuts Leadership</h3>
+                    <p className="text-gray-200">Guiding the journey from farm-sourced fox nuts to global nutritional excellence.</p>
+                 </div>
+              </div>
+
+              {/* Vision Card */}
+              <div className="lg:col-span-5 bg-warm-gradient rounded-3xl p-8 lg:p-10 flex flex-col justify-center border border-amber-100 card-hover-lift shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                 <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center mb-6 text-2xl">👁️</div>
+                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
+                 <p className="text-gray-700 leading-relaxed">
+                   To become a trusted global brand in healthy snacking and performance nutrition by delivering premium quality makhana and bulk whey protein to modern consumers, gyms, and distributors.
+                 </p>
+              </div>
+
+              {/* Mission Card (Full width on bottom) */}
+              <div className="lg:col-span-12 bg-gray-50 rounded-3xl p-8 lg:p-12 border border-gray-100 flex flex-col lg:flex-row gap-8 items-center card-hover-lift" data-aos="fade-up" data-aos-delay="300">
+                 <div className="lg:w-1/3">
+                    <h3 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h3>
+                    <p className="text-gray-600">Maintaining excellence from sourcing to packaging by following international food safety and nutritional standards.</p>
+                 </div>
+                 <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                    {[
+                      "Premium farm-sourced makhana",
+                      "High-quality 20kg bulk whey protein",
+                      "Reliable B2B & distributor supply",
+                      "Transparent quality testing"
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 bg-white p-4 rounded-2xl shadow-xs border border-gray-100">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">✓</div>
+                        <span className="text-gray-800 font-medium">{item}</span>
+                      </div>
+                    ))}
+                 </div>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: DARK THEME WHEY PROTEIN - HIGH CONTRAST */}
+      <section className="py-24 px-6 lg:px-12 bg-gray-900 text-white relative overflow-hidden">
+        {/* Subtle dot pattern in dark mode */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+              <span className="text-emerald-400 font-bold tracking-widest uppercase text-sm mb-4 block">B2B & Wholesale</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+                20kg Bulk <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-300">Whey Protein</span>
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed mb-8">
+                Engineered for performance. We supply premium bulk whey protein for fitness brands, manufacturers, and private label businesses demanding absolute purity.
+              </p>
+              
+              <div className="space-y-4">
+                {[
+                  { title: "High Protein Content", desc: "Maximized biological value for muscle recovery." },
+                  { title: "Lab Tested Quality", desc: "Rigorous third-party testing for purity." },
+                  { title: "Ideal for Private Label", desc: "Ready for your brand's specific formulations." }
+                ].map((feature, i) => (
+                   <div key={i} className="flex gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center shrink-0 border border-gray-700">
+                         <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-100">{feature.title}</h4>
+                        <p className="text-gray-400 text-sm">{feature.desc}</p>
+                      </div>
+                   </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative aspect-square md:aspect-video lg:aspect-square rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.15)] group" data-aos="fade-left">
+              <Image
+                src="/about-image-05.webp" 
+                alt="Bulk Packaging Unit"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gray-900/40 group-hover:bg-gray-900/20 transition-colors duration-500"></div>
+              {/* Overlay stats */}
+              <div className="absolute bottom-6 left-6 right-6 flex gap-4">
+                 <div className="bg-gray-900/80 backdrop-blur-md px-6 py-4 rounded-2xl border border-gray-700/50 flex-1">
+                   <div className="text-emerald-400 font-bold text-2xl">20kg</div>
+                   <div className="text-gray-300 text-xs font-medium uppercase tracking-wider">Bulk Bags</div>
+                 </div>
+                 <div className="bg-gray-900/80 backdrop-blur-md px-6 py-4 rounded-2xl border border-gray-700/50 flex-1">
+                   <div className="text-emerald-400 font-bold text-2xl">100%</div>
+                   <div className="text-gray-300 text-xs font-medium uppercase tracking-wider">Verified</div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: THE PROCESS TIMELINE */}
+      <section className="py-24 px-6 lg:px-12 bg-white dot-pattern relative">
+        <div className="absolute inset-0 bg-white/80"></div>
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="text-center mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">The Nirvana Process</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto text-lg">A strict, quality-controlled journey from farm to your healthy snack bowl.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {makhanaProcess.map((step, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 border border-gray-100 p-6 rounded-xl shadow-xs hover:shadow-md hover:bg-white transition-all duration-300"
-                data-aos="zoom-in"
+              <div 
+                key={index} 
+                className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-amber-200 transition-all duration-300 group"
+                data-aos="fade-up" 
                 data-aos-delay={index * 50}
               >
-                <h3 className="text-lg font-bold text-emerald-700 mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {step.description}
-                </p>
+                <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-500 transition-colors duration-300">
+                  <span className="text-amber-600 font-bold text-xl group-hover:text-white">{index + 1}</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{step.title.substring(3)}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{step.description}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Bulk Whey Protein Unit Display */}
-          <div className="mt-20 bg-emerald-50/70 border border-emerald-100 p-8 md:p-5 rounded-2xl shadow-xs" data-aos="fade-up">
-            <h2 className="xs:text-xl text-2xl md:text-xl font-bold text-gray-900 mb-4">
-              20kg Bulk Whey Protein Solutions
-            </h2>
-            <p className="xs:text-sm text-gray-700 mb-4 leading-relaxed">
-              Nirvana Nuts also supplies premium 20kg bulk whey protein for fitness brands, manufacturers, and private label businesses. Our protein solutions reflect our commitment to purity, performance, and transparency.
-            </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-1 gap-3 text-gray-700 font-medium text-sm pl-2 mt-4">
-              <li className="flex items-center gap-2">🔹 High Protein Content</li>
-              <li className="flex items-center gap-2">🔹 Lab Tested Quality</li>
-              <li className="flex items-center gap-2">🔹 Bulk Packaging – 20kg Bags</li>
-              <li className="flex items-center gap-2">🔹 Ideal for Private Label & Manufacturing</li>
-            </ul>
+      {/* SECTION 5: HEALTH BENEFITS (DYNAMIC CARDS) */}
+      <section className="py-24 px-6 lg:px-12 bg-warm-gradient-subtle">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12" data-aos="fade-right">
+             <div className="max-w-2xl">
+               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Why Choose Makhana?</h2>
+               <p className="text-gray-600 text-lg">A powerhouse of nutrients, perfect for mindful snacking.</p>
+             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Nutrient-Rich", text: "Packed with protein, fiber, and essential minerals.", icon: "💪" },
+              { title: "Low-Calorie", text: "Ideal for weight management and extremely low in saturated fat.", icon: "🥗" },
+              { title: "Antioxidant-Rich", text: "Helps reduce oxidative stress and lower overall cell risks.", icon: "✨" },
+              { title: "Heart Health", text: "High in cardiovascular-friendly magnesium and low in sodium.", icon: "❤️" },
+              { title: "Digestive Aid", text: "Promotes smooth internal digestion and healthy gut response.", icon: "🌿" }
+            ].map((benefit, i) => (
+              <div 
+                key={i} 
+                className="bg-white/60 backdrop-blur-md border border-white/50 rounded-3xl p-8 hover:bg-white transition-all duration-300 animate-slide-up"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                <div className="text-4xl mb-4">{benefit.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{benefit.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 4: DIETARY BENEFITS */}
-      <section className="max-w-6xl mx-auto mb-20 px-6 md:px-5 md:mb-10 xs:mb-10">
-        <h2 className="xs:text-xl md:text-2xl text-3xl font-bold text-gray-900 mb-8 text-center">
-          Health Benefits of Nirvana Nuts Makhana
-        </h2>
-        <div className="grid grid-cols-1  md:grid-cols-1 lg:grid-cols-3 gap-5">
-          {[
-            { title: "Nutrient-Rich", text: "Packed with protein, fiber, and essential minerals." },
-            { title: "Low-Calorie", text: "Ideal for weight management and extremely low in saturated fat." },
-            { title: "Antioxidant-Rich", text: "Helps reduce oxidative stress and lower overall cell risks." },
-            { title: "Heart Health", text: "High in cardiovascular-friendly magnesium and low in sodium." },
-            { title: "Digestive Aid", text: "Promotes smooth internal digestion and healthy gut response." }
-          ].map((benefit, i) => (
-            <div key={i} className="bg-white border border-gray-100 rounded-xl shadow-xs p-5 hover:scale-[1.02] hover:border-amber-200 transition-all duration-300">
-              <strong className="text-amber-700 text-lg block mb-1">{benefit.title}:</strong>
-              <p className="text-gray-600 text-sm leading-relaxed">{benefit.text}</p>
+      {/* SECTION 6: PREMIUM CTA & GALLERY */}
+      <section className="py-24 px-6 lg:px-12 bg-white">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Gallery */}
+            <div className="grid grid-cols-2 gap-4" data-aos="fade-right">
+              <div className="space-y-4">
+                <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-lg card-hover-lift">
+                  <Image src="/about-image-04.webp" alt="Makhana Preparation" fill className="object-cover hover:scale-110 transition-transform duration-700"/>
+                </div>
+              </div>
+              <div className="space-y-4 pt-12">
+                <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-lg card-hover-lift">
+                  <Image src="/product-03.avif" alt="Roasted Makhana" fill className="object-cover hover:scale-110 transition-transform duration-700"/>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* SECTION 5: VISUAL ASSET DISPLAY GALLERY */}
-      <section className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8 px-6 py-4 max-w-6xl mx-auto mb-20 md:mb-10">
-        {[
-          { src: "/about-image-04.webp", alt: "Fresh Makhana Bowl Preparation" },
-          { src: "/about-image-05.webp", alt: "Nirvana Nuts Secured Packet Unit" },
-          { src: "/product-03.avif", alt: "Crispy Roasted Premium Makhana kernels" },
-        ].map((img, i) => (
-          <div key={i} className="relative w-full h-64 overflow-hidden rounded-xl shadow-lg border border-gray-100">
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill 
-              sizes="(max-w-768px) 100vw, 33vw"
-              loading="lazy" 
-              className="object-fill hover:scale-105 transition-transform duration-500 ease-out"
-            />
+            {/* CTA */}
+            <div className="bg-amber-900 rounded-[2.5rem] p-10 lg:p-14 text-center lg:text-left relative overflow-hidden shadow-2xl" data-aos="zoom-in">
+              <div className="absolute inset-0 bg-[url('/dot-pattern.svg')] opacity-10 mix-blend-overlay"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500 rounded-full blur-[100px] opacity-30 -translate-y-1/2 translate-x-1/2"></div>
+              
+              <div className="relative z-10">
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Partner With Excellence</h2>
+                <p className="text-amber-100/80 text-lg mb-10 max-w-md mx-auto lg:mx-0">
+                  Whether you are looking for premium retail snacks or bulk raw materials, our team is ready to deliver.
+                </p>
+                <Link 
+                  href="/contact"
+                  className="inline-flex items-center justify-center px-10 py-5 font-bold text-amber-900 bg-white rounded-full hover:bg-amber-50 hover:scale-105 transition-all duration-300 shadow-xl"
+                >
+                  Contact Our Team
+                </Link>
+              </div>
+            </div>
           </div>
-        ))}
-      </section>
 
-      {/* SECTION 6: CULTURAL HERITAGE NARRATIVE */}
-      <section className="max-w-4xl mx-auto mb-24 md:mb-10 text-center px-6 space-y-4">
-        <h2 className="xs:text-xl text-2xl font-bold text-gray-900">Cultural Heritage of Makhana</h2>
-        <p className="xs:text-sm text-gray-600 leading-relaxed text-base">
-          Makhana, also known as fox nuts, originates from the holy Mithila region of Bihar. It has been a core pillar of traditional Indian wellness systems for centuries, revered in Ayurveda for its timeless healing properties. Rich in pure nutrients, makhana stands as a proud daily staple in Indian households, symbolizing pure regional legacy and holistic nutritional excellence.
-        </p>
-      </section>
-
-      {/* SECTION 7: INTERACTIVE CALL-TO-ACTION TERMINAL */}
-      <section className="2xl:max-w-8xl  max-w-5xl mx-auto mb-16 bg-linear-to-r from-amber-600 to-amber-700 text-white p-10 2xl:py-10 2xl:p-2 2xl:ml-50 xs:p-4 xs:mx-5 md:mx-5 text-center rounded-2xl shadow-xl border border-amber-500/20 ">
-        <h2 className="text-3xl font-bold mb-3 text-white">Get in Touch</h2>
-        <p className="text-amber-100 mb-8 max-w-xl mx-auto text-sm md:text-base">
-          Have queries about our nutritional products, wholesale packaging specifications, or dealerships? We would love to assist you!
-        </p>
-        <Link 
-          href="/contact"
-          className="inline-block bg-white hover:bg-gray-100 text-amber-700 px-8 py-3 rounded-xl font-bold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-        >
-          Contact Us Securely
-        </Link>
+        </div>
       </section>
 
     </main>

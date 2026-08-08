@@ -32,14 +32,16 @@ const Sidebar = () => {
   ];
 
   const handleLogout = async () => {
-    try {
-      await toast.promise(signOut(auth), {
-        loading: "Terminating session...",
-        success: "Logged out successfully",
-        error: (e) => e.message,
-      });
-    } catch (error) {
-      toast.error(error.message);
+    if (window.confirm("Are you sure you want to end your session?")) {
+      try {
+        await toast.promise(signOut(auth), {
+          loading: "Terminating session...",
+          success: "Logged out successfully",
+          error: (e) => e.message,
+        });
+      } catch (error) {
+        toast.error(error.message);
+      }
     }
   };
 
